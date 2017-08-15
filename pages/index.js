@@ -1,5 +1,5 @@
 import Layout from 'components/Layout';
-import Home from 'layout/Home';
+import Home from 'containers/Home';
 
 export default ({ url }) => (
     <Layout pathname={url.pathname}>

@@ -16,7 +16,7 @@ app.prepare().then(() => {
 
     server.use(express.static('frontend/_assets'));
 
-    // server.use('/', routes); // handle non-standart requests
+    server.use('/api', routes); // handle non-standart requests
 
     server.get('*', (req, res) => {
         return handle(req, res);

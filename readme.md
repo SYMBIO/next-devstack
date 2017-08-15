@@ -6,9 +6,12 @@
 ### Description
 Full-stack next devstack including:
 
-* [next.js](https://github.com/zeit/next.js/)
+* [Next.js](https://github.com/zeit/next.js/)
 * custom [Express](http://expressjs.com/) server
 * [Styled components](https://styled-components.com/) for styling
+
+[Next.js tutorial](https://learnnextjs.com/)
+[Next.js config examples](https://github.com/zeit/next.js/tree/master/examples)
 
 ### Installation
 ```sh
