@@ -1,22 +1,28 @@
 require('dotenv').config({ path: 'variables.env' });
 const next = require('next');
 const express = require('express');
-const routes = require('./backend/routes');
+const routes = require('./routes');
 
 const dev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 8000;
+const ROOT = __dirname + '/..';
 
-const app = next({ dev });
+const app = next({ dev, dir: ROOT });
 const handle = app.getRequestHandler();
-
 const server = express();
 
 app.prepare().then(() => {
     const server = express();
 
-    server.use(express.static('frontend/_assets'));
+    server.use('/api', routes);
 
-    server.use('/api', routes); // handle non-standart requests
+    server.get('/products', (req, res) => {
+        return app.render(req, res, '/error', req.query);
+    });
+
+    server.get('/products/:slug', (req, res) => {
+        return app.render(req, res, '/product', Object.assign({}, req.query, req.params));
+    });
 
     server.get('*', (req, res) => {
         return handle(req, res);

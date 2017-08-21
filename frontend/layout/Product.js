@@ -1,8 +1,8 @@
 import React from 'react';
 import Container from 'components/Container';
 
-export default () => (
+export default ({ slug }) => (
     <Container>
-        <h1>About</h1>
+        <h1>{slug}</h1>
     </Container>
 );

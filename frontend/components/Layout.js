@@ -39,6 +39,5 @@ export default ({ pathname, children, title = 'This is the default title' }) => 
         <Footer>
             <p>Footer</p>
         </Footer>
-
     </div>
 )
