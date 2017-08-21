@@ -1,5 +1,5 @@
-/.next
-/node_modules
-/variables.env
+.next/
+node_modules/
+variables.env
 
 .DS_Store
