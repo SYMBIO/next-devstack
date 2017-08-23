@@ -19,7 +19,7 @@ $ git clone https://github.com/symbio/next-devstack.git
 $ yarn
 ```
 
-##### copy and rename .env.default -> to .env & .env.production and set credentials for various enviroments
+#### copy and rename .env.default -> to .env & .env.production and set credentials for various enviroments
 
 ### Development
 ```sh

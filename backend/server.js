@@ -1,13 +1,13 @@
 require('dotenv').config({ path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env' });
 
+const { NODE_ENV, PORT, FRONTEND } = process.env;
 const next = require('next');
 const express = require('express');
 const routes = require('./routes');
+const path = require('path');
 
-const dev = process.env.NODE_ENV !== 'production';
-const PORT = process.env.PORT || 8000;
-const ROOT = __dirname + '/..';
-
+const dev = NODE_ENV !== 'production';
+const ROOT = path.join(__dirname, `/../${FRONTEND}`);
 const app = next({ dev, dir: ROOT });
 const handle = app.getRequestHandler();
 const server = express();
