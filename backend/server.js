@@ -7,8 +7,8 @@ const routes = require('./routes');
 const path = require('path');
 
 const dev = NODE_ENV !== 'production';
-const ROOT = path.join(__dirname, `/../${FRONTEND}`);
-const app = next({ dev, dir: ROOT });
+const root = path.join(__dirname, `/../${FRONTEND}`);
+const app = next({ dev, dir: root });
 const handle = app.getRequestHandler();
 const server = express();
 
