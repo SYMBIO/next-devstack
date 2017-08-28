@@ -3422,8 +3422,8 @@ stylis@3.2.8:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.2.8.tgz#9b23a3e06597f7944a3d9ae880d5796248b8784f"
 
 stylis@^3.2.1:
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.2.10.tgz#564614acfbc5460f899b7e1b58fc6a947e49fdb1"
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.2.11.tgz#8e9b99ed5e3b9b1b959c455f004c6effb7cf7331"
 
 supports-color@^2.0.0:
   version "2.0.0"
