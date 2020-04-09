@@ -1,63 +1,26 @@
 import React from 'react';
-import { Environment, ReactRelayContext } from 'react-relay';
-import { Record } from 'relay-runtime/lib/store/RelayStoreTypes';
-import { isRelayModernEnvironment } from 'relay-runtime';
-import { NextComponentType } from 'next';
 import { AppInitialProps } from 'next/dist/next-server/lib/utils';
-import App, { AppContext, AppProps } from 'next/app';
+import App, { AppContext } from 'next/app';
 import Head from 'next/head';
 
 import { Logger } from '../services';
 import { basicAuth } from '../lib/auth/basicAuth';
-import { createRelayEnvironment } from '../lib/relay/createRelayEnvironment';
 import symbio from '../../symbio.config';
-import { MyPageContext } from '../types/page';
 
-interface MyAppInitialProps extends AppInitialProps {
-    environment: Environment;
-    relayRecords?: { [key: string]: Record };
-}
-
-interface MyAppContext extends AppContext {
-    Component: NextComponentType<MyPageContext>;
-    ctx: MyPageContext;
-    environment?: Environment;
-}
-
-type MyAppProps = AppProps & MyAppInitialProps;
-
-export default class MyApp extends App<MyAppProps> {
-    public static async getInitialProps({ Component, ctx }: MyAppContext): Promise<MyAppInitialProps> {
+export default class MyApp extends App {
+    public static async getInitialProps(ctx: AppContext): Promise<AppInitialProps> {
         Logger.log('_app getInitialProps');
 
-        const environment = createRelayEnvironment({}, true);
+        symbio.auth.basic && !basicAuth(ctx.ctx.req, ctx.ctx.res);
 
-        symbio.auth.basic && !basicAuth(ctx.req, ctx.res);
-
-        if (Component.getInitialProps) {
-            return {
-                pageProps: Component.getInitialProps({ ...ctx, environment }),
-                environment,
-            };
-        }
-
-        return {
-            pageProps: {},
-            environment,
-        };
+        return await super.getInitialProps(ctx);
     }
 
     public render(): JSX.Element {
-        const { Component, pageProps, environment, relayRecords } = this.props;
+        const { Component, pageProps } = this.props;
 
         return (
-            <ReactRelayContext.Provider
-                value={{
-                    environment: isRelayModernEnvironment(environment)
-                        ? environment
-                        : createRelayEnvironment(relayRecords, false),
-                }}
-            >
+            <>
                 <Head>
                     <title>SYMBIO devstack</title>
                     <script
@@ -81,7 +44,7 @@ export default class MyApp extends App<MyAppProps> {
                     }}
                 />
                 <Component {...pageProps} />
-            </ReactRelayContext.Provider>
+            </>
         );
     }
 }

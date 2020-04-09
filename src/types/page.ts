@@ -1,20 +1,9 @@
 import { NextPageContext } from 'next/types';
+import { Record } from 'relay-runtime/lib/store/RelayStoreTypes';
+import { Maybe, PageModelContentField, PageRecord, SiteLocale } from './graphql';
 import { WebSettings } from './web-settings';
 import { Site } from './site';
 import { Environment } from 'relay-runtime';
-
-export interface Page {
-    id: string;
-    url: string;
-    url2?: string;
-    title: string;
-    parent?: {
-        url?: string;
-        parent?: {
-            url?: string;
-        };
-    };
-}
 
 export interface Redirect {
     to: string;
@@ -26,13 +15,14 @@ export interface MyPageContext extends NextPageContext {
 }
 
 export interface MyPageProps extends WebSettings {
-    locale: 'cs' | 'en';
-    site: Site;
-    settings: WebSettings;
+    locale: SiteLocale;
+    site?: Site;
+    settings?: WebSettings;
     redirect?: Redirect;
-    page: Page;
+    page?: PageRecord;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    blocks?: any[];
+    blocksData?: Maybe<Array<Maybe<PageModelContentField>>>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     relayData?: any;
+    relayRecords?: { [key: string]: Record };
 }

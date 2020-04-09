@@ -23,8 +23,6 @@ export function basicAuth(req: IncomingMessage | undefined, res: ServerResponse 
     const b64auth = (req?.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = new Buffer(b64auth, 'base64').toString().split(':');
 
-    console.log(login, password);
-
     if (!login || !password || !isValidAuth(login, password)) {
         if (res) {
             res.statusCode = 401;

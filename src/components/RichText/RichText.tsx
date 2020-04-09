@@ -7,5 +7,6 @@ export interface RichTextProps {
 }
 
 export const RichText = ({ content }: RichTextProps): ReactElement<RichTextProps, 'div'> | null => {
+    console.log(content);
     return <>{parse(content, parserOptions)}</>;
 };

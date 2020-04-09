@@ -1,7 +1,7 @@
 import { graphql } from 'react-relay';
 
 export const AppQuery = graphql`
-    query appQuery($locale: SiteLocale, $filter: PageModelFilter, $redirectFilter: RedirectModelFilter) {
+    query SlugAppQuery($locale: SiteLocale, $pattern: String!, $redirectFilter: RedirectModelFilter) {
         site: _site(locale: $locale) {
             globalSeo {
                 siteName
@@ -54,10 +54,21 @@ export const AppQuery = graphql`
                 }
             }
         }
-        page(locale: $locale, filter: $filter) {
+        page(locale: $locale, filter: { url: { matches: { caseSensitive: false, pattern: $pattern } } }) {
             id
             url
             title
+            metaTags {
+                title
+                image {
+                    url
+                }
+                description
+                twitterCard
+            }
+            content {
+                __typename
+            }
         }
         redirect(filter: $redirectFilter) {
             to
@@ -67,11 +78,13 @@ export const AppQuery = graphql`
 `;
 
 export const ContentQuery = graphql`
-    query appContentQuery($locale: SiteLocale, $filter: PageModelFilter) {
-        contentPage: page(locale: $locale, filter: $filter) {
+    query SlugContentQuery($locale: SiteLocale, $pattern: String!) {
+        contentPage: page(locale: $locale, filter: { url: { matches: { caseSensitive: false, pattern: $pattern } } }) {
             content {
                 __typename
-                ...RichTextBlock_content
+                ... on RichTextRecord {
+                    ...RichTextBlock_content
+                }
             }
         }
     }

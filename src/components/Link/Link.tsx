@@ -1,12 +1,12 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, ReactNode, useContext } from 'react';
+import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../lib/routing/getLinkParamsFromPage';
-import { SiteLocale } from '../../types/graphql';
+import { PageRecord, SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './Link.module.scss';
 
 interface Props extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
-    page?: { url: string | null; title?: string };
+    page?: PageRecord;
     params?: Record<string, string | number> | ParsedUrlQuery;
     locale?: SiteLocale;
     plain?: boolean;

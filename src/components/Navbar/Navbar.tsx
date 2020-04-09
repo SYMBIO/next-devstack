@@ -1,6 +1,5 @@
 import React, { ReactElement, useContext, useState } from 'react';
-import { SiteLocale } from '../../types/graphql';
-import { Page } from '../../types/page';
+import { PageRecord, SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
 import { Link } from '../Link/Link';
 import styles from './Navbar.module.scss';
@@ -22,13 +21,13 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
             <div className={styles.logo}>
                 <svg>Logo</svg>
             </div>
-            <ul className={styles.menu}>
-                {mainMenu?.links.map((link: Page, i: number) => (
+            {/*<ul className={styles.menu}>
+                {mainMenu?.links.map((link: PageRecord, i: number) => (
                     <li key={`Mainmenu_${i}`}>
                         <Link page={link} />
                     </li>
                 ))}
-            </ul>
+            </ul>*/}
             <div className={styles.languageSelector}>
                 {locale}
                 <span className={styles.opener} onClick={(): void => setLanguageSelectorOpen(!languageSelectorOpen)} />

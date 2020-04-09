@@ -4,7 +4,7 @@ import capitalize from '../../utils/capitalize';
 export function getSiteLocale(strLocale?: string): SiteLocale {
     if (strLocale) {
         for (const locale in SiteLocale) {
-            if (locale === capitalize(strLocale)) {
+            if (locale === strLocale) {
                 return (SiteLocale as any)[locale];
             }
         }

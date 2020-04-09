@@ -1,7 +1,8 @@
 import { ParsedUrlQuery } from 'querystring';
+import { PageRecord } from '../../types/graphql';
 
 export function getUrlFromPage(
-    page: { url: string | null },
+    page: PageRecord,
     locale: string,
     params: Record<string, string | number> | ParsedUrlQuery | undefined,
 ): string {

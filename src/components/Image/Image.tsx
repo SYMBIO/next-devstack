@@ -18,8 +18,8 @@ function buildUrlWithImgixParams(url: string, params: ImgixParams): string {
     let key: ImgixParamsKeys;
     const imgixUrlParams = [];
     for (key in params) {
-        if (Object.prototype.hasOwnProperty.call(params, key) && params[key]) {
-            imgixUrlParams.push(key + '=' + encodeURIComponent(params[key]));
+        if (Object.prototype.hasOwnProperty.call(params, key) && params[key] !== undefined) {
+            imgixUrlParams.push(key + '=' + encodeURIComponent(String(params[key])));
         }
     }
 
@@ -59,7 +59,7 @@ export const Image = ({
     }
 
     imgixParams = imgixParams || {};
-    imgixParams.auto = imgixParams.auto || [ImgixParamsAuto.Compress, ImgixParamsAuto.Format];
+    imgixParams.auto = imgixParams.auto || [ImgixParamsAuto.compress, ImgixParamsAuto.format];
 
     // if no alt property defined, let it empty
     alt = alt || '';
@@ -95,12 +95,12 @@ export const Image = ({
     }
 
     if (useAmp()) {
-        const webpUrl = buildUrl(src, { ...imgixParams, fm: ImgixParamsFm.Webp });
+        const webpUrl = buildUrl(src, { ...imgixParams, fm: ImgixParamsFm.webp });
         let webpSrcSet = srcSet;
 
         // if srcset not provided but we have width, generate default for dpi
         if (!webpSrcSet && imgixParams.w) {
-            webpSrcSet = [webpUrl + ' 1x', buildUrl(src, { ...imgixParams2x, fm: ImgixParamsFm.Webp }) + ' 2x'].join(
+            webpSrcSet = [webpUrl + ' 1x', buildUrl(src, { ...imgixParams2x, fm: ImgixParamsFm.webp }) + ' 2x'].join(
                 ',',
             );
         }
@@ -110,14 +110,14 @@ export const Image = ({
             webpOptionalAttrs.srcSet = webpSrcSet;
         }
 
-        const origUrl = buildUrl(src, { ...imgixParams, fm: isJpg ? ImgixParamsFm.Jpg : ImgixParamsFm.Png });
+        const origUrl = buildUrl(src, { ...imgixParams, fm: isJpg ? ImgixParamsFm.jpg : ImgixParamsFm.png });
         let origSrcSet = srcSet;
 
         // if srcset not provided but we have width, generate default for dpi
         if (!origSrcSet && imgixParams.w) {
             origSrcSet = [
                 origUrl + ' 1x',
-                buildUrl(src, { ...imgixParams2x, fm: isJpg ? ImgixParamsFm.Jpg : ImgixParamsFm.Png }) + ' 2x',
+                buildUrl(src, { ...imgixParams2x, fm: isJpg ? ImgixParamsFm.jpg : ImgixParamsFm.png }) + ' 2x',
             ].join(',');
         }
 

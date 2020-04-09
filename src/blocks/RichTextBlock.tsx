@@ -1,30 +1,31 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { useFragment } from 'react-relay/hooks';
-import { BaseBlock, BaseBlockProps } from '../components/BaseBlock/BaseBlock';
+import { useFragment } from 'relay-hooks/lib';
+import { BlockWrapper } from '../components/BlockWrapper/BlockWrapper';
 import { RichText } from '../components/RichText/RichText';
+import { BaseBlockProps } from '../types/block';
 
 interface RichTextBlockProps extends BaseBlockProps {
     text: string;
 }
 
-export const RichTextBlock = ({
-    text,
-    ...baseBlockProps
-}: RichTextBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> => {
-    useFragment(
+export default function RichTextBlock({
+    content,
+    ...rest
+}: RichTextBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+    const { text } = useFragment(
         graphql`
-            fragment RichTextBlock_content on RichtextRecord {
+            fragment RichTextBlock_content on RichTextRecord {
                 id
                 text
             }
         `,
-        baseBlockProps.content,
+        content,
     );
 
     return (
-        <BaseBlock {...baseBlockProps}>
+        <BlockWrapper {...rest}>
             <RichText content={text} />
-        </BaseBlock>
+        </BlockWrapper>
     );
-};
+}

@@ -1,4 +1,4 @@
-interface FormErrors {
+export interface FormErrors {
     readonly typeEmail: string;
     readonly required: string;
 }
