@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+}
+
+.menu {
+    li {
+        list-style-type: none;
+    }
+}
+
+.languageSelector {
+    position: relative;
+
+    .opener {
+        width: 30px;
+        height: 30px;
+        border-bottom: 6px gray;
+        border-right: 6px gray;
+        transform: rotate(4deg);
+    }
+
+    .list {
+        position: absolute;
+
+        li {
+            list-style-type: none;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+overwrite: true
+schema:
+    - https://graphql.datocms.com/preview:
+        headers:
+            Authorization: ${DATOCMS_API_TOKEN_FULL}
+#documents: ./src/**/*.{ts,tsx}
+generates:
+    ./src/types/graphql.ts:
+        plugins:
+            - typescript:
+            - typescript-operations
+        config:
+            scalars:
+                DateTime: Date
+                JSON: { [key: string]: any }
+                BooleanType: boolean
+                ItemId: string
+                IntType: number
+                UploadId: number
+                FloatType: number
+            namingConvention:
+                typeNames: pascal-case#pascalCase
+                enumValues: keep
+                transformUnderscore: false
+            skipTypename: true
+#    ./src/schema/graphql.schema.json:
+#        plugins:
+#            - introspection
+    ./src/schema/schema.graphql:
+        plugins:
+            - schema-ast

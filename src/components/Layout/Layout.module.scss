@@ -1,0 +1,26 @@
+@import "src/styles/responsive";
+
+.grid {
+    display: grid;
+    margin: 8px auto;
+    grid-template-columns:  repeat(6, 1fr);
+    grid-column-gap: 2.22222222vw;
+
+    @include tablet {
+        margin: 16px auto;
+        grid-template-columns: repeat(12, 1fr);
+        grid-column-gap: 2.22222222vw;
+    }
+
+    @include desktop {
+        margin: 24px auto;
+        grid-template-columns: repeat(16, 1fr);
+        grid-column-gap: 2.22222222vw;
+    }
+
+    @include large-desktop {
+        margin: 24px auto;
+        grid-template-columns: repeat(16, 1fr);
+        grid-column-gap: 2.22222222vw;
+    }
+}
