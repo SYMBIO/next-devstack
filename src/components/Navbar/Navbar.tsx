@@ -36,11 +36,14 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
                     />
                     {languageSelectorOpen && (
                         <ul className={styles.list}>
-                            {locales.map((locale, i) => (
-                                <li key={`LanguageSelector_${i}`}>
-                                    <Link href={`/${locale}`}>{locale}</Link>
-                                </li>
-                            ))}
+                            {locales.map(
+                                (loc: string, i: number) =>
+                                    loc !== locale && (
+                                        <li key={`LanguageSelector_${i}`}>
+                                            <Link href={`/${loc}`}>{loc}</Link>
+                                        </li>
+                                    ),
+                            )}
                         </ul>
                     )}
                 </div>

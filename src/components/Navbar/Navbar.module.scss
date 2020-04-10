@@ -27,17 +27,30 @@ $navbarPadding: 24px;
 
 .languageSelector {
     position: relative;
+    font-size: 1.1rem;
+    text-transform: uppercase;
 
     .opener {
-        width: 30px;
-        height: 30px;
-        border-bottom: 6px gray;
-        border-right: 6px gray;
-        transform: rotate(4deg);
+        margin-left: 8px;
+        width: 12px;
+        height: 12px;
+        border-bottom: solid 2px #ffffff;
+        border-right: solid 2px #ffffff;
+        transform: rotate(45deg);
+        display: inline-block;
+        background-color: transparent;
+        cursor: pointer;
     }
 
     .list {
         position: absolute;
+        background-color: black;
+        display: flex;
+        flex-flow: column;
+        justify-items: center;
+        margin: 0;
+        padding: 16px;
+        border: solid 2px #ffffff;
 
         li {
             list-style-type: none;
