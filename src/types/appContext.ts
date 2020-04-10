@@ -1,14 +1,14 @@
-import { FormErrors } from './forms';
-import { MenuRecord, PageRecord } from './graphql';
-import { MyPageProps } from './page';
-import { Environment } from 'relay-runtime';
+import { SlugAppQueryResponse } from '../relay/api/__generated__/SlugAppQuery.graphql';
+import { RedirectRecord, Site, SiteLocale, WebSettingRecord } from './graphql';
 
-export interface AppContextProps extends MyPageProps {
-    readonly mainMenu?: MenuRecord;
-    readonly formErrors?: FormErrors;
-    readonly environment?: Environment;
-    readonly currentUri?: string;
-    readonly currentUrl?: string;
-    readonly absoluteLinks?: boolean;
-    readonly newsPage?: PageRecord;
-}
+export type WebSetting = SlugAppQueryResponse['webSetting'];
+
+export type AppContextProps = WebSetting & {
+    locale: SiteLocale;
+    absoluteLinks: boolean;
+    hostname?: string;
+    currentUrl?: string;
+    site?: Site;
+    redirect?: RedirectRecord;
+    page?: SlugAppQueryResponse['page'];
+};

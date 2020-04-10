@@ -1,7 +1,8 @@
 import React, { ReactElement, useContext, useState } from 'react';
-import { PageRecord, SiteLocale } from '../../types/graphql';
+import { SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
 import { Link } from '../Link/Link';
+import { MainMenu } from '../MainMenu/MainMenu';
 import styles from './Navbar.module.scss';
 
 export const Navbar = (): ReactElement<null, 'div'> | null => {
@@ -13,7 +14,6 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
     }
 
     const { locale, mainMenu } = useContext(AppContext);
-
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
     return (
@@ -21,24 +21,25 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
             <div className={styles.logo}>
                 <svg>Logo</svg>
             </div>
-            {/*<ul className={styles.menu}>
-                {mainMenu?.links.map((link: PageRecord, i: number) => (
-                    <li key={`Mainmenu_${i}`}>
-                        <Link page={link} />
-                    </li>
-                ))}
-            </ul>*/}
-            <div className={styles.languageSelector}>
-                {locale}
-                <span className={styles.opener} onClick={(): void => setLanguageSelectorOpen(!languageSelectorOpen)} />
-                {languageSelectorOpen && (
-                    <ul className={styles.list}>
-                        {locales.map((locale, i) => (
-                            <li key={`LanguageSelector_${i}`}>{locale}</li>
-                        ))}
-                    </ul>
-                )}
-            </div>
+            {mainMenu && <MainMenu menu={mainMenu} />}
+            {locales.length > 1 && (
+                <div className={styles.languageSelector}>
+                    {locale}
+                    <span
+                        className={styles.opener}
+                        onClick={(): void => setLanguageSelectorOpen(!languageSelectorOpen)}
+                    />
+                    {languageSelectorOpen && (
+                        <ul className={styles.list}>
+                            {locales.map((locale, i) => (
+                                <li key={`LanguageSelector_${i}`}>
+                                    <Link href={`/${locale}`}>{locale}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

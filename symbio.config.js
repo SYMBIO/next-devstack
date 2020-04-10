@@ -7,6 +7,15 @@ export default {
             },
         ],
     },
+    cache: {
+        maxAge: 10,
+    },
+    i18n: {
+        useLocaleInPath: true,
+    },
+    gtm: {
+        code: 'GTM-KRM3STK',
+    },
     mailer: {
         from: 'no-reply@example.com',
         name: 'SYMBIO',

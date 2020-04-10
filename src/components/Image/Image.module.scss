@@ -1,29 +1,29 @@
-@import 'node_modules/object-fit-images/preprocessors/mixin.scss';
+@import '../../styles/object-fit';
 
 .img {
 
 }
 
 .cover {
-    @include object-fit('cover');
+    @include object-fit(cover);
 }
 
 .contain {
-    @include object-fit('contain');
+    @include object-fit(contain);
 }
 
 .bottomCover {
-    @include object-fit('cover', 'bottom');
+    @include object-fit(cover, bottom);
 }
 
 .bottomContain {
-    @include object-fit('contain', 'bottom');
+    @include object-fit(contain, bottom);
 }
 
 .topCover {
-    @include object-fit('cover', 'top');
+    @include object-fit(cover, top);
 }
 
 .topContain {
-    @include object-fit('contain', 'top');
+    @include object-fit(contain, top);
 }

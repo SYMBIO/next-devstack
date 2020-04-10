@@ -1,7 +1,6 @@
-import React from 'react';
-import { PageRecord } from '../../types/graphql';
+import React, { ReactElement } from 'react';
 
-export const EditPage = ({ page }: { page: PageRecord }) => (
+export const EditPage = ({ page }: { page: { id: unknown } }): ReactElement => (
     <a
         href={
             'https://narodni-divadlo-cz.admin.datocms.com/editor/item_types/' +
@@ -12,15 +11,15 @@ export const EditPage = ({ page }: { page: PageRecord }) => (
         style={{
             display: 'block',
             position: 'fixed',
-            left: 0,
-            top: 0,
+            right: 0,
+            bottom: 0,
             width: '50px',
             height: '50px',
             zIndex: 1000,
-            padding: '10px 20px 20px 10px',
+            padding: '20px 10px 10px 20px',
             backgroundColor: '#000',
             color: '#fff',
-            borderBottomRightRadius: '50px',
+            borderTopLeftRadius: '50px',
         }}
     >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.947 383.947">

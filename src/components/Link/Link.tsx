@@ -1,12 +1,13 @@
 import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../lib/routing/getLinkParamsFromPage';
-import { PageRecord, SiteLocale } from '../../types/graphql';
+import { Page } from '../../types/app';
+import { SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './Link.module.scss';
 
 interface Props extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
-    page?: PageRecord;
+    page?: Page;
     params?: Record<string, string | number> | ParsedUrlQuery;
     locale?: SiteLocale;
     plain?: boolean;
@@ -23,12 +24,11 @@ export const Link = ({
     plain,
     ...rest
 }: Props): JSX.Element => {
-    const { absoluteLinks, currentUri, locale: ctxLocale } = useContext(AppContext);
-    const host = currentUri?.substr(0, currentUri.substr(8).indexOf('/') + 8);
+    const { absoluteLinks, hostname, locale: ctxLocale } = useContext(AppContext);
 
     if (typeof href === 'string') {
         if (absoluteLinks && href.substr(0, 1) === '/') {
-            href = host + href;
+            href = '//' + hostname + href;
         }
 
         if (!children) {
@@ -55,7 +55,7 @@ export const Link = ({
         let href = getLinkParamsFromPage(page, targetLocale, params).as;
 
         if (absoluteLinks && href.substr(0, 1) === '/') {
-            href = host + href;
+            href = '//' + hostname + href;
         }
 
         if (plain) {

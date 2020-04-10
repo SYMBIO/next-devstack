@@ -1,28 +1,26 @@
-import { ParsedUrlQuery } from 'querystring';
-
-export function getPatternFromQueryObject(query: ParsedUrlQuery): string | null {
-    if (Array.isArray(query.slug)) {
-        return '^' + query.slug.join('/') + '$';
-    } else if (query.slug) {
-        return '^' + query.slug + '$';
+export function getPatternFromQueryObject(slug: string[] | string): string | null {
+    if (Array.isArray(slug) && slug.length > 0) {
+        return '^' + slug.join('/') + '$';
+    } else if (slug && !Array.isArray(slug)) {
+        return '^' + slug + '$';
     } else {
         return '^homepage$';
     }
 }
 
-export function getDynamicPatternFromQueryObject(query: ParsedUrlQuery): string | null {
+export function getDynamicPatternFromQueryObject(slug: string[] | string): string | null {
     const dynamicPattern = ':([^/]+?)';
 
-    if (Array.isArray(query.slug)) {
-        return '^' + query.slug.slice(0, query.slug.length - 1).join('/') + '/' + dynamicPattern + '$';
+    if (Array.isArray(slug) && slug.length > 0) {
+        return '^' + slug.slice(0, slug.length - 1).join('/') + '/' + dynamicPattern + '$';
     } else {
         return null;
     }
 }
 
-export function getPagePattern(query: ParsedUrlQuery): string {
-    const pattern = getPatternFromQueryObject(query);
-    const dynamicPattern = getDynamicPatternFromQueryObject(query);
+export function getPagePattern(slug: string[] | string): string {
+    const pattern = getPatternFromQueryObject(slug);
+    const dynamicPattern = getDynamicPatternFromQueryObject(slug);
 
     if (!pattern) {
         return 'Nesmyslna adresa';

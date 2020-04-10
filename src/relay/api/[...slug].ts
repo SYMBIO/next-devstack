@@ -18,6 +18,10 @@ export const AppQuery = graphql`
             favicon {
                 url
             }
+            faviconMetaTags {
+                tag
+                attributes
+            }
         }
         webSetting(locale: $locale) {
             mainMenu {
@@ -27,6 +31,26 @@ export const AppQuery = graphql`
                         id
                         url
                         title
+                    }
+                    ... on MenuRecord {
+                        links {
+                            __typename
+                            ... on PageRecord {
+                                id
+                                url
+                                title
+                            }
+                            ... on MenuRecord {
+                                links {
+                                    __typename
+                                    ... on PageRecord {
+                                        id
+                                        url
+                                        title
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -66,9 +90,6 @@ export const AppQuery = graphql`
                 description
                 twitterCard
             }
-            content {
-                __typename
-            }
         }
         redirect(filter: $redirectFilter) {
             to
@@ -82,9 +103,7 @@ export const ContentQuery = graphql`
         contentPage: page(locale: $locale, filter: { url: { matches: { caseSensitive: false, pattern: $pattern } } }) {
             content {
                 __typename
-                ... on RichTextRecord {
-                    ...RichTextBlock_content
-                }
+                ...RichTextBlock_content
             }
         }
     }
