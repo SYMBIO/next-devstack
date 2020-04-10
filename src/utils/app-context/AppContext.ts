@@ -8,7 +8,9 @@ export const AppContext = createContext<AppContextProps>({
     site: {
         faviconMetaTags: [],
     },
+    logo: null,
     mainMenu: null,
+    homepage: null,
     newsPage: null,
     footerMenu: null,
 });

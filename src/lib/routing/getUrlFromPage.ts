@@ -1,12 +1,17 @@
 import { ParsedUrlQuery } from 'querystring';
 import { Page } from '../../types/app';
+import symbio from '../../../symbio.config';
 
 export function getUrlFromPage(
     page: Page,
     locale: string,
     params: Record<string, string | number> | ParsedUrlQuery | undefined,
 ): string {
-    let url = page.url?.substr(0, 1) === '?' ? page.url : '/' + locale + (page.url ? '/' + page.url : '');
+    let url =
+        page.url?.substr(0, 1) === '?'
+            ? page.url
+            : (symbio.i18n.useLocaleInPath ? '/' + locale : '') +
+              (page.url && page.url !== 'homepage' ? '/' + page.url : symbio.i18n.useLocaleInPath ? '' : '/');
     const hash = params && params['#'] ? '#' + params['#'] : '';
 
     if (params && params['#']) {

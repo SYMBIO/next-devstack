@@ -24,6 +24,9 @@ export const AppQuery = graphql`
             }
         }
         webSetting(locale: $locale) {
+            logo {
+                url
+            }
             mainMenu {
                 links {
                     __typename
@@ -53,6 +56,9 @@ export const AppQuery = graphql`
                         }
                     }
                 }
+            }
+            homepage {
+                url
             }
             newsPage {
                 url

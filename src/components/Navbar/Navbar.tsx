@@ -1,6 +1,7 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import { SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
+import { Image } from '../Image/Image';
 import { Link } from '../Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
 import styles from './Navbar.module.scss';
@@ -13,16 +14,20 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
         }
     }
 
-    const { locale, mainMenu } = useContext(AppContext);
+    const { locale, mainMenu, logo, homepage } = useContext(AppContext);
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
     return (
         <div className={styles.navbar}>
-            <div className={styles.logo}>
-                <svg>Logo</svg>
-            </div>
+            {logo && (
+                <div className={styles.logo}>
+                    <Link page={homepage || undefined}>
+                        <Image src={logo.url} objectFit="contain" noLazy />
+                    </Link>
+                </div>
+            )}
             {mainMenu && <MainMenu menu={mainMenu} />}
-            {locales.length > 1 && (
+            {locales.length > 1 ? (
                 <div className={styles.languageSelector}>
                     {locale}
                     <span
@@ -39,6 +44,8 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
                         </ul>
                     )}
                 </div>
+            ) : (
+                <span />
             )}
         </div>
     );

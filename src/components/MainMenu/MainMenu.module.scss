@@ -1,6 +1,18 @@
 .menu1 {
+    display: flex;
+    font-size: 1.3rem;
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     li {
         list-style-type: none;
+        margin-right: 16px;
     }
 }
 

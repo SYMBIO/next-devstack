@@ -1,3 +1,4 @@
+$navbarHeight: 32px;
 $navbarPadding: 24px;
 
 .navbar {
@@ -9,40 +10,18 @@ $navbarPadding: 24px;
     left: 0;
     right: 0;
     top: 0;
-    height: 32px;
+    height: $navbarHeight;
     padding: $navbarPadding;
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    grid-column: col 2;
+    height: ($navbarHeight + $navbarPadding);
 
-    svg {
-        width: 100%;
-        height: 100%;
-        transform: translate(-$navbarPadding, -$navbarPadding);
-    }
-}
-
-.menu1 {
-    li {
-        list-style-type: none;
-    }
-}
-
-.menu2 {
-    li {
-        list-style-type: none;
-    }
-}
-
-.menu3 {
-    li {
-        list-style-type: none;
+    img {
+        width: ($navbarHeight + $navbarPadding);
+        height: ($navbarHeight + $navbarPadding);
     }
 }
 

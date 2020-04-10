@@ -12,7 +12,7 @@ import { SiteLocale } from '../../types/graphql';
 import symbio from '../../../symbio.config';
 
 export default async function (req: NextApiRequest, res: NextApiResponse): Promise<void> {
-    if (!req.query.slug) {
+    if (!req.query.slug && symbio.i18n.useLocaleInPath) {
         res.statusCode = 404;
         res.end('Page not found');
     }

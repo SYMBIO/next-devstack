@@ -14,7 +14,7 @@ export default {
         useLocaleInPath: true,
     },
     gtm: {
-        code: 'GTM-KRM3STK',
+        code: false, // GTM-XXXXXXX
     },
     mailer: {
         from: 'no-reply@example.com',

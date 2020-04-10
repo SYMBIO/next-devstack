@@ -87,7 +87,7 @@ export const Image = ({
     // get class names according to object-fit
     const classNames: string[] = [styles.img];
     if (objectFit) {
-        if (objectPosition) {
+        if (!objectPosition) {
             classNames.push(styles[objectFit]);
         } else {
             classNames.push(styles[objectPosition + capitalize(objectFit)]);

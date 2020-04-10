@@ -6,14 +6,17 @@ import symbio from '../../symbio.config';
 import DefaultPage from './[...slug]';
 
 function LocaleRedirect({ locale }: MyPageProps): ReactNode {
-    return <script dangerouslySetInnerHTML={{ __html: `document.location = '/${locale}';` }} />;
+    return <script dangerouslySetInnerHTML={{ __html: `document.location = '/${locale}';` }}></script>;
 }
 
 LocaleRedirect.getInitialProps = function ({ res }: MyPageContext): { locale: SiteLocale } {
     const locale: SiteLocale = getSiteLocale();
 
-    res?.setHeader('Location', '/' + locale);
-    res?.end(`<script>document.location.href = '/${locale}'`);
+    if (res) {
+        res.statusCode = 302;
+        res.setHeader('Location', '/' + locale);
+        res.end(`<script>document.location.href = '/${locale}'`);
+    }
 
     return {
         locale,

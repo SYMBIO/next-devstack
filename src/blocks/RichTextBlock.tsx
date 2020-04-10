@@ -3,17 +3,11 @@ import { graphql } from 'react-relay';
 import { useFragment } from 'relay-hooks/lib';
 import { BlockWrapper } from '../components/BlockWrapper/BlockWrapper';
 import { RichText } from '../components/RichText/RichText';
+import BlockFactory from '../lib/blocks/BlockFactory';
 import { BaseBlockProps } from '../types/block';
-// import styles from './RichTextBlock.module.scss';
+import styles from './RichTextBlock.module.scss';
 
-interface RichTextBlockProps extends BaseBlockProps {
-    text: string;
-}
-
-export default function RichTextBlock({
-    content,
-    ...rest
-}: RichTextBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function RichTextBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     const { text } = useFragment(
         graphql`
             fragment RichTextBlock_content on RichTextRecord {
@@ -25,8 +19,10 @@ export default function RichTextBlock({
     );
 
     return (
-        <BlockWrapper /*className={styles.wrapper}*/ {...rest}>
+        <BlockWrapper className={styles.wrapper} {...rest}>
             <RichText content={text} />
         </BlockWrapper>
     );
 }
+
+BlockFactory.set('RichTextBlock', RichTextBlock);

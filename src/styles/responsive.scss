@@ -10,8 +10,20 @@ $large-desktop-width: 1440px;
   }
 }
 
+@mixin from-mobile-landscape {
+  @media (min-width: #{$mobile-landscape-width}) {
+    @content;
+  }
+}
+
 @mixin tablet {
   @media (min-width: #{$tablet-width}) and (max-width: #{$tablet-landscape-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin from-tablet {
+  @media (min-width: #{$tablet-width}) {
     @content;
   }
 }
@@ -22,8 +34,20 @@ $large-desktop-width: 1440px;
   }
 }
 
+@mixin from-tablet-landscape {
+  @media (min-width: #{$tablet-landscape-width}) {
+    @content;
+  }
+}
+
 @mixin desktop {
   @media (min-width: #{$desktop-width}) and (max-width: #{$large-desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin from-desktop {
+  @media (min-width: #{$desktop-width}) {
     @content;
   }
 }

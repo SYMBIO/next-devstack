@@ -5,6 +5,7 @@
     margin: 8px auto;
     grid-template-columns: repeat(6, 1fr [col]);
     grid-column-gap: 2.22222222vw;
+    padding-top: 80px;
 
     @include tablet {
         margin: 16px auto;
