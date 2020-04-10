@@ -2,31 +2,32 @@
 
 .grid {
     display: grid;
-    margin: 8px auto;
+    margin: 0 auto;
     grid-template-columns: repeat(6, 1fr [col]);
     grid-column-gap: 2.22222222vw;
     padding-top: 80px;
+    max-width: calc(100vw - 16px);
 
     @include tablet {
-        margin: 16px auto;
+        max-width: calc(100vw - 32px);
         grid-template-columns: repeat(12, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include tablet-landscape {
-        margin: 24px auto;
+        max-width: calc(100vw - 48px);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include desktop {
-        margin: 24px auto;
+        max-width: calc(100vw - 48px);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include large-desktop {
-        margin: 24px auto;
+        max-width: calc(100vw - 48px);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }

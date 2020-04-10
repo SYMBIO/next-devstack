@@ -74,7 +74,6 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
                     <Navbar />
                     {blocksData?.map((block, i) => {
                         const blockName = block?.__typename?.replace('Record', 'Block');
-                        console.log(BlockFactory);
                         if (!blockName || !BlockFactory.has(blockName)) {
                             return null;
                         }
