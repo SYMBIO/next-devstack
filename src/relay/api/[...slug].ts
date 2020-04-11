@@ -110,6 +110,7 @@ export const ContentQuery = graphql`
             content {
                 __typename
                 ...RichTextBlock_content
+                ...SliderBlock_content
             }
         }
     }

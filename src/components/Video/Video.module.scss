@@ -1,0 +1,42 @@
+@import '../../styles/object-fit';
+
+.video {
+  width: 100%;
+  height: 100%;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  @include object-fit(cover);
+}
+
+.contain {
+  width: 100%;
+  height: 100%;
+  @include object-fit(contain);
+}
+
+.bottomCover {
+  width: 100%;
+  height: 100%;
+  @include object-fit(cover, bottom);
+}
+
+.bottomContain {
+  width: 100%;
+  height: 100%;
+  @include object-fit(contain, bottom);
+}
+
+.topCover {
+  width: 100%;
+  height: 100%;
+  @include object-fit(cover, top);
+}
+
+.topContain {
+  width: 100%;
+  height: 100%;
+  @include object-fit(contain, top);
+}

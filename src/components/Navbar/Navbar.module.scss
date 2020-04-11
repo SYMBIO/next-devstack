@@ -1,4 +1,4 @@
-$navbarHeight: 32px;
+$navbarHeight: 80px;
 $navbarPadding: 24px;
 
 .navbar {
@@ -10,18 +10,17 @@ $navbarPadding: 24px;
     left: 0;
     right: 0;
     top: 0;
-    height: $navbarHeight;
+    height: $navbarHeight - 2 * $navbarPadding;
     padding: $navbarPadding;
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    height: ($navbarHeight + $navbarPadding);
+    height: ($navbarHeight - $navbarPadding);
 
     img {
-        width: ($navbarHeight + $navbarPadding);
-        height: ($navbarHeight + $navbarPadding);
+        height: ($navbarHeight - $navbarPadding);
     }
 }
 
@@ -51,6 +50,7 @@ $navbarPadding: 24px;
         margin: 0;
         padding: 16px;
         border: solid 2px #ffffff;
+        z-index: 1;
 
         li {
             list-style-type: none;
