@@ -1,11 +1,9 @@
 import React, { ReactElement } from 'react';
+import symbio from '../../../symbio.config';
 
 export const EditPage = ({ page }: { page: { id: unknown } }): ReactElement => (
     <a
-        href={
-            'https://narodni-divadlo-cz.admin.datocms.com/editor/item_types/' +
-            (page ? `99631/items/${page.id}/edit` : '141896/items/1556599/edit')
-        }
+        href={`https://${symbio.datocms.domain}/editor/item_types/${symbio.datocms.pageTypeId}/items/${page.id}/edit`}
         target="_blank"
         rel="noopener noreferrer"
         style={{

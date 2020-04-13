@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchQuery } from 'relay-runtime';
 import moment from 'moment-timezone';
 import dotenv from 'dotenv';
-import { createRelayEnvironment } from '../../../../utils/createRelayEnvironment';
-import { formQuery } from '../../../../relay/api/saveForm';
-import { saveFormQuery } from '../../../../relay/api/__generated__/saveFormQuery.graphql';
-import { exportFormQuery } from '../../../../relay/api/exportForm/[token]/[id]';
-import { IdExportFormQuery } from '../../../../relay/api/exportForm/[token]/__generated__/IdExportFormQuery.graphql';
+import { createRelayEnvironment } from '../../../../../lib/relay/createRelayEnvironment';
+import { formQuery } from '../../../../../relay/api/form/[id]/save';
+import { saveFormQuery } from '../../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
+import { exportFormQuery } from '../../../../../relay/api/form/[id]/export/[token]';
+import { TokenExportFormQuery } from '../../../../../relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
 
 dotenv.config();
 
@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         filter: { id: { eq: req.query.id } },
     });
 
-    const { allFormDataS: data } = await fetchQuery<IdExportFormQuery>(environment, exportFormQuery, {
+    const { allFormDataS: data } = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
         filter: { form: { eq: req.query.id } },
     });
 

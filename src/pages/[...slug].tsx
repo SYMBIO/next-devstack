@@ -5,10 +5,10 @@ import 'moment/locale/cs';
 import axios from 'axios';
 import { ReactRelayContext } from 'react-relay';
 
-import { EditPage } from '../components/EditPage/EditPage';
-import { Head } from '../components/Head/Head';
-import { Layout } from '../components/Layout/Layout';
-import { Navbar } from '../components/Navbar/Navbar';
+import { EditPage } from '../components';
+import { Head } from '../components';
+import { Layout } from '../components';
+import { Navbar } from '../components';
 import { CALENDAR_FORMATS } from '../constants';
 import BlockFactory from '../lib/blocks/BlockFactory';
 import '../blocks';
@@ -23,7 +23,17 @@ import { AppContext } from '../utils/app-context/AppContext';
 export const config = { amp: 'hybrid' };
 
 const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
-    const { currentUrl, hostname, site, page, blocksData, locale, webSetting, relayRecords } = props;
+    const {
+        currentUrl,
+        hostname,
+        site,
+        page,
+        blocksData,
+        locale,
+        webSetting,
+        blocksInitialProps,
+        relayRecords,
+    } = props;
 
     moment.locale(locale, { calendar: CALENDAR_FORMATS[locale] });
 
@@ -78,9 +88,12 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
                             return null;
                         }
                         const BlockComponent = BlockFactory.get(blockName);
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                        // @ts-ignore
-                        return <BlockComponent key={`page_${page.id}_block_${i}`} content={block} />;
+                        const blockInitialProps = blocksInitialProps[i];
+                        return (
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                            // @ts-ignore
+                            <BlockComponent key={`page_${page.id}_block_${i}`} content={block} {...blockInitialProps} />
+                        );
                     })}
                 </Layout>
                 {symbio.gtm.code && (
@@ -147,20 +160,24 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
             if (blockName && BlockFactory.has(blockName)) {
                 const blk = BlockFactory.get(blockName);
                 if (blk && blk.getInitialProps) {
-                    bIPPromises.push(blk.getInitialProps(ctx));
+                    bIPPromises.push(blk.getInitialProps({ ...ctx, locale }));
+                } else {
+                    bIPPromises.push({});
                 }
+            } else {
+                bIPPromises.push({});
             }
         }
     }
 
-    const relayData = await Promise.all(bIPPromises);
+    const blocksInitialProps = await Promise.all(bIPPromises);
 
     return {
         ...data,
         locale,
         currentUrl,
         hostname,
-        relayData,
+        blocksInitialProps,
         relayRecords: environment.getStore().getSource().toJSON(),
     };
 };

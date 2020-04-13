@@ -1,11 +1,27 @@
 import React, { ReactElement } from 'react';
 import NextHead from 'next/head';
 import symbio from '../../../symbio.config';
-import { SlugAppQueryResponse } from '../../relay/api/__generated__/SlugAppQuery.graphql';
 
 interface HeadProps {
-    page: SlugAppQueryResponse['page'];
-    site: SlugAppQueryResponse['site'];
+    page: { title: string | null };
+    site: {
+        globalSeo: {
+            readonly siteName: string | null;
+            readonly titleSuffix: string | null;
+            readonly facebookPageUrl: string | null;
+            readonly fallbackSeo: {
+                readonly description: string | null;
+                readonly title: string | null;
+                readonly image: {
+                    readonly url: string;
+                } | null;
+                readonly twitterCard: string | null;
+            } | null;
+            readonly twitterAccount: string | null;
+        } | null;
+        favicon: { url: string } | null;
+        faviconMetaTags: readonly { readonly tag: string; readonly attributes: unknown }[];
+    };
 }
 
 export const Head = ({ page, site }: HeadProps): ReactElement => (
@@ -20,6 +36,8 @@ export const Head = ({ page, site }: HeadProps): ReactElement => (
             const { tag: Tag, attributes } = favicon;
             return <Tag key={`Favicon_${i}`} {...attributes} />;
         })}
+        {site.globalSeo?.siteName && <meta property="og:site_name" content={site.globalSeo?.siteName} />}
+        {site.globalSeo?.twitterAccount && <meta name="twitter:site" content={site.globalSeo?.twitterAccount} />}
         {symbio.gtm.code && (
             <script
                 dangerouslySetInnerHTML={{

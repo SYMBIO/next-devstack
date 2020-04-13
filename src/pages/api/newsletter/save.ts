@@ -58,9 +58,9 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 <p>The National Theatre</p>`,
                 subject: subject,
                 // eslint-disable-next-line @typescript-eslint/camelcase
-                from_email: 'webnd@narodni-divadlo.cz',
+                from_email: 'no-reply@example.com',
                 // eslint-disable-next-line @typescript-eslint/camelcase
-                from_name: 'Národní divadlo',
+                from_name: 'SYMBIO devstack',
                 to: [
                     {
                         email: data.email,
@@ -68,10 +68,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
                     },
                 ],
                 headers: {
-                    'Reply-To': 'webnd@narodni-divadlo.cz',
+                    'Reply-To': 'no-reply@example.com',
                 },
                 metadata: {
-                    website: 'www.narodni-divadlo.cz',
+                    website: 'example.com',
                 },
             };
             mandrillClient.messages.send({ message, async: false }, () => {

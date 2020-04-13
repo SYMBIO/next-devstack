@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { BaseDatoCMSProps } from '../../types/app';
 import { BannerRecord } from '../../types/graphql';
@@ -43,6 +43,26 @@ const Banner = ({
     </article>
 );
 
+const renderIndicator = (onClickHandler: () => void, isSelected: boolean, index: number, label: string): ReactNode => {
+    return (
+        <li
+            className={isSelected ? styles.selected : styles.indicator}
+            onClick={onClickHandler}
+            onKeyDown={onClickHandler}
+            value={index}
+            key={index}
+            role="button"
+            tabIndex={0}
+            aria-label={`${label} ${index + 1}`}
+        >
+            <p>{label}</p>
+            <span className={styles.progressHolder}>
+                <span className={styles.progress}></span>
+            </span>
+        </li>
+    );
+};
+
 export const Slider = ({
     banners,
     textAlign = 'vlevo',
@@ -67,6 +87,7 @@ export const Slider = ({
             useKeyboardArrows={true}
             swipeable={true}
             showStatus={false}
+            renderIndicator={renderIndicator}
         >
             {banners.map((banner) => (
                 <Banner key={`banner_${banner.id}`} {...banner} sliderTextAlign={textAlign} />

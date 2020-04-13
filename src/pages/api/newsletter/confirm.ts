@@ -5,6 +5,7 @@ import { fetchQuery } from 'relay-runtime';
 import { Mandrill } from 'mandrill-api';
 import { createRelayEnvironment } from '../../../lib/relay/createRelayEnvironment';
 import { confirmSubscriberQuery } from '../../../relay/api/newsletter/confirm';
+import { confirmSubscriberQuery as q } from '../../../relay/api/newsletter/__generated__/confirmSubscriberQuery.graphql';
 import symbio from '../../../../symbio.config';
 
 dotenv.config();
@@ -35,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     try {
         const environment = createRelayEnvironment({}, false);
-        const { newsletterSubscriber } = await fetchQuery<confirmQuery>(environment, confirmSubscriberQuery, {
+        const { newsletterSubscriber } = await fetchQuery<q>(environment, confirmSubscriberQuery, {
             filter: {
                 hash: { eq: hash },
             },
@@ -56,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
             const mandrillClient = new Mandrill(process.env.MANDRILL_API_KEY);
             const message = {
-                text: symbio.newsletter.body.replace('{EMAIL}', newsletterSubscriber.email),
+                text: symbio.newsletter.body.replace('{EMAIL}', String(newsletterSubscriber.email)),
                 subject: symbio.newsletter.subject,
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 from_email: symbio.mailer.from,

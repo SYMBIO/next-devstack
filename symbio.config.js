@@ -10,6 +10,10 @@ export default {
     cache: {
         maxAge: 10,
     },
+    datocms: {
+        domain: 'symbio-template.admin.datocms.com',
+        pageTypeId: '184261',
+    },
     i18n: {
         useLocaleInPath: true,
     },
@@ -28,4 +32,6 @@ export default {
 E-mail: {EMAIL}
 `,
     },
+    pageCache: 'redis', // "none" | "redis"
+    tz: 'Europe/Prague',
 };

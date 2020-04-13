@@ -30,12 +30,18 @@ export function getLinkParamsForObject(object: PageObject | NewsObject): PageLin
                 },
             };
         case 'NewsRecord':
-            return {
-                page: ctx.newsPage,
-                params: {
-                    slug: object.slug,
-                },
-            };
+            if (ctx.newsPage?.url) {
+                return {
+                    page: {
+                        url: ctx.newsPage.url,
+                    },
+                    params: {
+                        slug: object.slug,
+                    },
+                };
+            } else {
+                return { page: { url: '' } };
+            }
         default:
             return { page: { url: '' } };
     }
