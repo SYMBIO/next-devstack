@@ -1,6 +1,5 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { fetchQuery, graphql } from 'react-relay';
-import { useFragment, useLazyLoadQuery } from 'relay-hooks/lib';
 import { BlockWrapper } from '../components';
 import { NewsList } from '../components';
 import BlockFactory from '../lib/blocks/BlockFactory';
@@ -30,15 +29,14 @@ const query = graphql`
     }
 `;
 
+graphql`
+    fragment NewsListBlock_content on NewsListRecord {
+        headline
+    }
+`;
+
 function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const { headline } = useFragment(
-        graphql`
-            fragment NewsListBlock_content on NewsListRecord {
-                headline
-            }
-        `,
-        content,
-    );
+    const { headline } = content;
 
     return (
         <BlockWrapper className={styles.wrapper} {...rest}>

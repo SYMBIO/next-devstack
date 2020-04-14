@@ -7,16 +7,15 @@ import BlockFactory from '../lib/blocks/BlockFactory';
 import { BaseBlockProps } from '../types/block';
 import styles from './RichTextBlock.module.scss';
 
+graphql`
+    fragment RichTextBlock_content on RichTextRecord {
+        id
+        text
+    }
+`;
+
 function RichTextBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const { text } = useFragment(
-        graphql`
-            fragment RichTextBlock_content on RichTextRecord {
-                id
-                text
-            }
-        `,
-        content,
-    );
+    const { text } = content;
 
     return (
         <BlockWrapper className={styles.wrapper} {...rest}>

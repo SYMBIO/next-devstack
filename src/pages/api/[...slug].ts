@@ -1,13 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchQuery } from 'relay-runtime';
-import { createRelayEnvironment } from '../../lib/relay/createRelayEnvironment';
-import { getPagePattern } from '../../lib/routing/getPagePattern';
+import { PageCacheFactory } from '../../lib/pageCache/PageCacheFactory';
 import { getSiteLocale } from '../../lib/routing/getSiteLocale';
-import { AppQuery, ContentQuery } from '../../relay/api/[...slug]';
-import { SlugAppQuery } from '../../relay/api/__generated__/SlugAppQuery.graphql';
-import { SlugContentQuery } from '../../relay/api/__generated__/SlugContentQuery.graphql';
 import { Logger } from '../../services';
-import { AppData } from '../../types/app';
 import { SiteLocale } from '../../types/graphql';
 import symbio from '../../../symbio.config';
 
@@ -18,29 +12,20 @@ export default async function (req: NextApiRequest, res: NextApiResponse): Promi
     }
 
     const locale: SiteLocale = symbio.i18n.useLocaleInPath ? getSiteLocale(String(req.query.slug[0])) : getSiteLocale();
+    const pathParts = req.query.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
+    const cache = PageCacheFactory.get();
 
-    const environment = createRelayEnvironment({}, false);
-    const promises = [];
-    const variables = {
-        locale,
-        pattern: getPagePattern(req.query.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0)),
-    };
+    if (req.query.update) {
+        await cache.update(Array.isArray(pathParts) ? pathParts : [pathParts]);
+        // @TODO catch errors
+        res.end(JSON.stringify({ status: 'OK' }));
+        return;
+    }
 
-    promises.push(
-        fetchQuery<SlugAppQuery>(environment, AppQuery, variables),
-        fetchQuery<SlugContentQuery>(environment, ContentQuery, variables),
-    );
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [data, content] = await Promise.all<any>(promises);
-
-    const result: AppData = {
-        ...data,
-        blocksData: content.contentPage?.content,
-        relayRecords: environment.getStore().getSource().toJSON(),
-    };
+    const result = await cache.get(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
 
     try {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(result));
         return;
     } catch (e) {

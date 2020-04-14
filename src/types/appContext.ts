@@ -1,7 +1,7 @@
-import { SlugAppQueryResponse } from '../relay/api/__generated__/SlugAppQuery.graphql';
+import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
 import { RedirectRecord, Site, SiteLocale, WebSettingRecord } from './graphql';
 
-export type WebSetting = SlugAppQueryResponse['webSetting'];
+export type WebSetting = appQueryResponse['webSetting'];
 
 export type AppContextProps = WebSetting & {
     locale: SiteLocale;
@@ -10,5 +10,5 @@ export type AppContextProps = WebSetting & {
     currentUrl?: string;
     site?: Site;
     redirect?: RedirectRecord;
-    page?: SlugAppQueryResponse['page'];
+    page?: appQueryResponse['page'];
 };

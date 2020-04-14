@@ -32,6 +32,6 @@ export default {
 E-mail: {EMAIL}
 `,
     },
-    pageCache: 'redis', // "none" | "redis"
+    pageCache: 'memory', // "none" | "memory" | "redis"
     tz: 'Europe/Prague',
 };
