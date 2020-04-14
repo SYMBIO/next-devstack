@@ -1,0 +1,17 @@
+.newsList {
+    display: flex;
+    flex-direction: column;
+
+    .headline {
+
+    }
+
+    .items {
+        display: flex;
+        flex-direction: row;
+
+        .item {
+            display: inline-block;
+        }
+    }
+}

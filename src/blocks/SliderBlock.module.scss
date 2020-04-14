@@ -1,0 +1,17 @@
+@import "src/styles/mixins/responsive";
+
+.wrapper {
+  grid-column: 1 / span 6;
+  height: calc(100vh - 80px);
+  margin: 0 -8px;
+
+  @include tablet {
+    grid-column: 1 / span 12;
+    margin: 0 -16px;
+  }
+
+  @include from-tablet-landscape {
+    grid-column: 1 / span 16;
+    margin: 0 -24px;
+  }
+}

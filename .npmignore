@@ -1,2 +1,0 @@
-# include .env when deploying to now
-!.env.production

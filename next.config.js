@@ -1,12 +1,60 @@
-require('dotenv').config({ path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env' });
-const webpack = require('webpack');
+/* eslint-disable no-undef */
+require('dotenv').config();
 
-module.exports = {
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
+const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+});
+
+const nextConfig = {
+    target: 'serverless',
     webpack: (config) => {
-        config.plugins.push(
-            new webpack.EnvironmentPlugin(process.env)
-        );
+        config.plugins = config.plugins || [];
+
+        config.plugins = [
+            ...config.plugins,
+
+            // Read the .env file
+            new Dotenv({
+                path: path.join(__dirname, '.env'),
+                systemvars: true,
+            }),
+
+            new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /cs|en-gb/),
+            new MomentTimezoneDataPlugin({
+                startYear: new Date().getFullYear() - 1,
+                endYear: new Date().getFullYear() + 2,
+            }),
+            new FaviconsWebpackPlugin({
+                logo: './public/icons/favicon.svg',
+                cache: true,
+                prefix: 'icons/',
+            }),
+        ];
+
+        config.module.rules.push({
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
+        });
+
+        const originalEntry = config.entry;
+        config.entry = async () => {
+            const entries = await originalEntry();
+
+            if (entries['main.js'] && !entries['main.js'].includes('./polyfills.js')) {
+                entries['main.js'].unshift('./polyfills.js');
+            }
+
+            return entries;
+        };
 
         return config;
-    }
+    },
 };
+
+module.exports = withBundleAnalyzer(nextConfig);

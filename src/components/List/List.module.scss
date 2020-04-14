@@ -1,0 +1,41 @@
+.list {
+    margin-bottom: 48px;
+    counter-reset: list;
+
+    li {
+        margin-bottom: 16px;
+        padding-left: 32px;
+        position: relative;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.ul {
+    li {
+        &:before {
+            width: 16px;
+            height: 1px;
+            position: absolute;
+            left: 0;
+            top: 10px;
+            background: #000000;
+            content: '';
+        }
+    }
+}
+
+.ol {
+    li {
+        &:before {
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: #000000;
+            counter-increment: list;
+            content: counter(list) '.';
+        }
+    }
+}

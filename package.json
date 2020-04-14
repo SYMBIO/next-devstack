@@ -1,27 +1,154 @@
 {
-  "name": "nextdevstack",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development node backend/server.js",
-    "build": "next build frontend",
-    "start": "NODE_ENV=production node backend/server.js"
+  "description": "SYMBIO Next.js Devstack",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SYMBIO/next-devstack"
   },
-  "author": "SYMBIO",
-  "license": "ISC",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "env-cmd graphql-codegen --config codegen.yml && npm run relay && ANALYZE=true next build",
+    "start": "NODE_ENV=production next start",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' --exclude '**/schema/**'  --language typescript --schema ./src/schema/schema.graphql",
+    "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "express": "^4.15.4",
-    "next": "^3.0.6",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "@elastic/elasticsearch": "^7.6.1",
+    "axios": "^0.19.2",
+    "busboy": "^0.3.1",
+    "core-js": "^3.6.5",
+    "datocms-client": "^3.0.19",
+    "dotenv": "^8.2.0",
+    "formik": "^2.1.4",
+    "graphql": "^14.6.0",
+    "hls.js": "^0.13.2",
+    "html-react-parser": "^0.10.3",
+    "html-to-text": "^5.1.1",
+    "mandrill-api": "^1.0.45",
+    "moment-timezone": "^0.5.28",
+    "next": "^9.3.4",
+    "object-fit-images": "^3.2.4",
+    "path-to-regexp": "^6.1.0",
+    "queue-promise": "^2.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-image-lightbox": "^5.1.1",
+    "react-intersection-observer": "^8.26.1",
+    "react-relay": "^9.0.0",
+    "react-responsive-carousel": "^3.1.57",
+    "redis": "^3.0.2",
+    "relay-hooks": "^3.3.0",
+    "relay-runtime": "^9.0.0",
+    "sass": "^1.26.3",
+    "slugify": "^1.4.0",
+    "uuid": "^7.0.3",
+    "yup": "^0.28.3"
   },
   "devDependencies": {
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-plugin-styled-components": "^1.1.7",
-    "styled-components": "^2.1.2",
-    "whatwg-fetch": "^2.0.3"
+    "@graphql-codegen/cli": "^1.13.1",
+    "@graphql-codegen/introspection": "1.13.1",
+    "@graphql-codegen/schema-ast": "^1.13.1",
+    "@graphql-codegen/typescript": "1.13.1",
+    "@graphql-codegen/typescript-operations": "1.13.1",
+    "@next/bundle-analyzer": "^9.3.4",
+    "@svgr/webpack": "^5.3.1",
+    "@types/busboy": "^0.2.3",
+    "@types/hls.js": "^0.12.6",
+    "@types/html-to-text": "^1.4.31",
+    "@types/isomorphic-fetch": "^0.0.35",
+    "@types/jest": "^25.2.1",
+    "@types/mandrill-api": "^1.0.30",
+    "@types/moment-timezone": "^0.5.13",
+    "@types/node": "^13.9.8",
+    "@types/object-fit-images": "^3.2.0",
+    "@types/react": "^16.9.31",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-relay": "^7.0.3",
+    "@types/redis": "^2.8.17",
+    "@types/relay-runtime": "^8.0.7",
+    "@types/uuid": "^7.0.2",
+    "@types/yup": "^0.26.34",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-relay": "^9.0.0",
+    "dotenv-webpack": "^1.7.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "favicons": "^6.0.0",
+    "favicons-webpack-plugin": "^3.0.1",
+    "husky": "^4.2.3",
+    "jest": "^25.2.7",
+    "lint-staged": "^10.1.2",
+    "moment-timezone-data-webpack-plugin": "^1.1.0",
+    "prettier": "^2.0.4",
+    "relay-compiler": "^9.0.0",
+    "relay-compiler-language-typescript": "^12.0.0",
+    "ts-jest": "^25.3.0",
+    "typescript": "^3.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*/**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ],
+    "plugins": [
+      "relay"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "printWidth": 120,
+    "tabWidth": 4,
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "react",
+      "@typescript-eslint",
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {},
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
   }
 }

@@ -1,0 +1,24 @@
+.table {
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.table th, .table td {
+  padding: 16px 24px;
+}
+
+.table th {
+  color: #fff;
+  font-family: 'din-serif', serif;
+  line-height: 1.5;
+}
+
+.table td {
+  border-bottom: 1px solid;
+}
+
+.overflowWrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
