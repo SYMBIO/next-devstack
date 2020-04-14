@@ -3,6 +3,7 @@ import { fetchQuery, graphql } from 'react-relay';
 import redis, { RedisClient } from 'redis';
 import { promisify } from 'util';
 import { appQueryResponse } from '../../relay/__generated__/appQuery.graphql';
+import { Logger } from '../../services';
 import { AppData } from '../../types/app';
 import { SiteLocale } from '../../types/graphql';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
@@ -16,7 +17,8 @@ import symbio from '../../../symbio.config';
 dotenv.config();
 
 if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
-    throw new Error('Trying to use Redis page cache without REDIS_URL env variable!');
+    Logger.error('Trying to use Redis page cache without REDIS_URL env variable!');
+    process.exit(1);
 }
 
 export const AppQuery = graphql`

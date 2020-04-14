@@ -1,3 +1,28 @@
 .block {
     display: block;
+    position: relative;
+
+    &.staging {
+        .info {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: auto;
+            height: 32px;
+            background-color: #f99702;
+            opacity: 0;
+            z-index: 1000;
+            line-height: 32px;
+            padding: 0 16px;
+            font-family: monospace;
+        }
+
+        &:hover {
+            background-color: rgba(255, 150, 0, 0.2);
+
+            .info {
+                opacity: 0.8;
+            }
+        }
+    }
 }
