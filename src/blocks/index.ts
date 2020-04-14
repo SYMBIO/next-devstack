@@ -1,9 +1,9 @@
 /**
  * Import blocks which should be included in SSR
  */
-import './RichTextBlock';
-import './SliderBlock';
-import './NewsListBlock';
+import './RichTextBlock/RichTextBlock';
+import './SliderBlock/SliderBlock';
+import './NewsListBlock/NewsListBlock';
 
 /**
  * Define fragment for blocks to load with app data

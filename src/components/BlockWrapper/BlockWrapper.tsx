@@ -3,7 +3,7 @@ import isStaging from '../../utils/isStaging';
 import styles from './BlockWrapper.module.scss';
 
 export interface BlockWrapperProps {
-    type: string;
+    tooltip: string;
     children?: ReactNode;
     className?: string;
     marginTop?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -15,7 +15,7 @@ export interface BlockWrapperProps {
 
 export const BlockWrapper = ({
     children,
-    type,
+    tooltip,
     className,
 }: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
     const classes = [styles.block, className];
@@ -24,7 +24,7 @@ export const BlockWrapper = ({
     }
     return (
         <div className={classes.join(' ')}>
-            {isStaging() && <div className={styles.info}>{type}</div>}
+            {isStaging() && <div className={styles.info}>{tooltip}</div>}
             {children}
         </div>
     );

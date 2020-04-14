@@ -3,7 +3,7 @@ import { Environment } from 'relay-runtime';
 import { BlockWrapperProps } from '../components/BlockWrapper/BlockWrapper';
 import { SiteLocale } from './graphql';
 
-export interface BaseBlockProps extends BlockWrapperProps {
+export interface BaseBlockProps extends Omit<BlockWrapperProps, 'tooltip'> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     content?: any;
 }

@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper } from '../components';
-import { Slider } from '../components';
-import BlockFactory from '../lib/blocks/BlockFactory';
-import { BaseBlockProps } from '../types/block';
+import { BlockWrapper, Slider } from '../../components';
+import BlockFactory from '../../lib/blocks/BlockFactory';
+import { BaseBlockProps } from '../../types/block';
 import styles from './SliderBlock.module.scss';
 
 graphql`
@@ -34,7 +33,7 @@ function SliderBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     const slider = content;
 
     return (
-        <BlockWrapper type={'SliderBlock'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'SliderBlock'} className={styles.wrapper} {...rest}>
             <Slider {...slider} />
         </BlockWrapper>
     );

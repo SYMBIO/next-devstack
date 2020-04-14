@@ -1,10 +1,9 @@
 import React, { ReactElement } from 'react';
 import { fetchQuery, graphql } from 'react-relay';
-import { BlockWrapper } from '../components';
-import { NewsList } from '../components';
-import BlockFactory from '../lib/blocks/BlockFactory';
-import { createRelayEnvironment } from '../lib/relay/createRelayEnvironment';
-import { BaseBlockProps, BlockContext } from '../types/block';
+import { BlockWrapper, NewsList } from '../../components';
+import BlockFactory from '../../lib/blocks/BlockFactory';
+import { createRelayEnvironment } from '../../lib/relay/createRelayEnvironment';
+import { BaseBlockProps, BlockContext } from '../../types/block';
 import { NewsListBlockQuery, NewsListBlockQueryResponse } from './__generated__/NewsListBlockQuery.graphql';
 import styles from './NewsListBlock.module.scss';
 
@@ -40,7 +39,7 @@ function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): React
     const { headline } = content;
 
     return (
-        <BlockWrapper type={'NewsListBlock'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'NewsListBlock'} className={styles.wrapper} {...rest}>
             <NewsList headline={headline} items={allNews} />
         </BlockWrapper>
     );
