@@ -3,36 +3,15 @@
   width: 100%;
   position: relative;
   color: inherit;
-
-  &:after {
-    width: 0;
-    height: 1px;
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    background: #000;
-    transition: width 200ms;
-    content: '';
-  }
 }
 
 .wrapper {
   display: inline-block;
   align-self: flex-start;
-  color: #eff;
+  color: #000;
+  text-decoration: underline;
 
-  @media not all and (pointer: coarse) {
-    &:hover {
-      .inner:after {
-        width: calc(100% - 20px);
-      }
-    }
-
-    &:active .inner:after {
-      width: 20px;
-      right: 0;
-      left: auto;
-      bottom: -6px;
-    }
+  &:hover {
+    text-decoration: none;
   }
 }
