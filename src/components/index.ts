@@ -14,3 +14,4 @@ export { RichText } from './RichText/RichText';
 export { Slider } from './Slider/Slider';
 export { Table } from './Table/Table';
 export { Video } from './Video/Video';
+export { HorizontalRule } from './HorizontalRule/HorizontalRule';
