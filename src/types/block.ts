@@ -1,5 +1,6 @@
+import { NextPageContext } from 'next';
+import { Environment } from 'relay-runtime';
 import { BlockWrapperProps } from '../components/BlockWrapper/BlockWrapper';
-import { MyPageContext } from './app';
 import { SiteLocale } from './graphql';
 
 export interface BaseBlockProps extends BlockWrapperProps {
@@ -7,6 +8,7 @@ export interface BaseBlockProps extends BlockWrapperProps {
     content?: any;
 }
 
-export interface BlockContext extends MyPageContext {
+export interface BlockContext extends NextPageContext {
     locale: SiteLocale;
+    environment: Environment;
 }

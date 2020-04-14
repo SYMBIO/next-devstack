@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "env-cmd graphql-codegen --config codegen.yml && npm run relay && ANALYZE=true next build",
+    "build": "graphql-codegen --config codegen.yml && npm run relay && ANALYZE=true next build",
     "start": "NODE_ENV=production next start",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' --exclude '**/schema/**'  --language typescript --schema ./src/schema/schema.graphql",
