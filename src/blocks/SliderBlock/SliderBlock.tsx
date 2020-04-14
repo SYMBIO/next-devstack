@@ -30,11 +30,9 @@ graphql`
 `;
 
 function SliderBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const slider = content;
-
     return (
         <BlockWrapper tooltip={'SliderBlock'} className={styles.wrapper} {...rest}>
-            <Slider {...slider} />
+            <Slider {...content} />
         </BlockWrapper>
     );
 }
