@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import moment from 'moment-timezone';
-import { Heading } from '..';
+import { Heading, Link, RichText } from '..';
+import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './NewsList.module.scss';
 import symbio from '../../../symbio.config';
 
@@ -13,6 +14,7 @@ interface NewsItem {
     readonly id: unknown;
     readonly dateFrom: unknown | null;
     readonly title: string | null;
+    readonly slug: string | null;
     readonly perex: string | null;
     readonly image: {
         readonly url: string;
@@ -25,6 +27,8 @@ interface NewsItem {
 }
 
 export const NewsList = ({ headline, items }: NewsListProps): ReactElement<NewsListProps, 'div'> | null => {
+    const { newsPage } = useContext(AppContext);
+
     return (
         <div className={styles.newsList}>
             {headline && (
@@ -33,15 +37,21 @@ export const NewsList = ({ headline, items }: NewsListProps): ReactElement<NewsL
                 </Heading>
             )}
             <ul className={styles.items}>
-                {items.map((item) => (
-                    <li key={`NewsList_item_${item.id}`} className={styles.item}>
-                        <article>
-                            <Heading tag={`h3`}>{item.title}</Heading>
-                            <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>
-                            <p>{item.perex}</p>
-                        </article>
-                    </li>
-                ))}
+                {items.map(
+                    (item) =>
+                        item.slug &&
+                        newsPage && (
+                            <li key={`NewsList_item_${item.id}`} className={styles.item}>
+                                <Link page={newsPage} params={{ slug: item.slug }}>
+                                    <article>
+                                        <Heading tag={`h3`}>{item.title}</Heading>
+                                        <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>
+                                        {item.perex && <RichText content={item.perex} />}
+                                    </article>
+                                </Link>
+                            </li>
+                        ),
+                )}
             </ul>
         </div>
     );

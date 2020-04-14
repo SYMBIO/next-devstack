@@ -1,7 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
+import isStaging from '../../utils/isStaging';
 import styles from './BlockWrapper.module.scss';
 
 export interface BlockWrapperProps {
+    type: string;
     children?: ReactNode;
     className?: string;
     marginTop?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -13,7 +15,17 @@ export interface BlockWrapperProps {
 
 export const BlockWrapper = ({
     children,
+    type,
     className,
-}: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => (
-    <div className={[styles.block, className].join(' ')}>{children}</div>
-);
+}: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
+    const classes = [styles.block, className];
+    if (isStaging()) {
+        classes.push(styles.staging);
+    }
+    return (
+        <div className={classes.join(' ')}>
+            {isStaging() && <div className={styles.info}>{type}</div>}
+            {children}
+        </div>
+    );
+};

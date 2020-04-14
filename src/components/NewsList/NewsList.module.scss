@@ -3,15 +3,37 @@
     flex-direction: column;
 
     .headline {
-
+        font-size: 32px;
     }
 
     .items {
         display: flex;
         flex-direction: row;
+        padding: 0;
 
         .item {
             display: inline-block;
+            width: calc(33%);
+            margin-right: 1%;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            article {
+                background-color: #eee;
+                padding: 32px;
+            }
+
+            h3 {
+                font-size: 24px;
+                margin-top: 0;
+            }
+
+            a {
+                color: #000;
+                text-decoration: none;
+            }
         }
     }
 }

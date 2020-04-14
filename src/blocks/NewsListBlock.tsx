@@ -16,6 +16,7 @@ const query = graphql`
             id
             dateFrom
             title
+            slug
             perex
             image {
                 url
@@ -39,7 +40,7 @@ function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): React
     const { headline } = content;
 
     return (
-        <BlockWrapper className={styles.wrapper} {...rest}>
+        <BlockWrapper type={'NewsListBlock'} className={styles.wrapper} {...rest}>
             <NewsList headline={headline} items={allNews} />
         </BlockWrapper>
     );

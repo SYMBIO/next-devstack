@@ -19,6 +19,7 @@ import symbio from '../../symbio.config';
 import { AppData, MyPageProps } from '../types/app';
 import { SiteLocale } from '../types/graphql';
 import { AppContext } from '../utils/app-context/AppContext';
+import isStaging from '../utils/isStaging';
 
 export const config = { amp: 'hybrid' };
 
@@ -42,8 +43,6 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
     if (!page || !webSetting) {
         return <>No page</>;
     }
-
-    const isStaging = process.env.DATOCMS_ENDPOINT?.substr(-7) === 'preview';
 
     useEffect(() => {
         const url = currentUrl?.split('/') || [];
@@ -78,7 +77,7 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
             >
                 <Head page={page} site={site} />
 
-                {isStaging && <EditPage page={page} />}
+                {isStaging() && <EditPage page={page} />}
 
                 <Layout>
                     <Navbar />
@@ -134,7 +133,7 @@ Page.getInitialProps = async (ctx: NextPageContext): Promise<MyPageProps> => {
 
     // load app data from API
     const { data } = await axios.get(
-        (hostname === 'localhost' ? 'http://' : 'https://') +
+        (hostname === 'localhost:3000' ? 'http://' : 'https://') +
             hostname +
             '/api' +
             (currentUrl === '/' ? '/homepage' : currentUrl),

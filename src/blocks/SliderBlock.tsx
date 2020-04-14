@@ -34,7 +34,7 @@ function SliderBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     const slider = content;
 
     return (
-        <BlockWrapper className={styles.wrapper} {...rest}>
+        <BlockWrapper type={'SliderBlock'} className={styles.wrapper} {...rest}>
             <Slider {...slider} />
         </BlockWrapper>
     );

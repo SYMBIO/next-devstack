@@ -18,7 +18,7 @@ function RichTextBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseB
     const { text } = content;
 
     return (
-        <BlockWrapper className={styles.wrapper} {...rest}>
+        <BlockWrapper type={'RichTextBlock'} className={styles.wrapper} {...rest}>
             <RichText content={text} />
         </BlockWrapper>
     );
