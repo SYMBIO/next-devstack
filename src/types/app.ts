@@ -1,5 +1,3 @@
-import { NextPageContext } from 'next';
-import { Environment } from 'relay-runtime';
 import { Record } from 'relay-runtime/lib/store/RelayStoreTypes';
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
 import { Maybe, PageModelContentField, SiteLocale } from './graphql';
@@ -21,10 +19,6 @@ export type BaseDatoCMSProps =
     | '_updatedAt'
     | 'createdAt'
     | 'updatedAt';
-
-export interface MyPageContext extends NextPageContext {
-    environment?: Environment;
-}
 
 export interface MyPageProps extends AppData {
     locale: SiteLocale;

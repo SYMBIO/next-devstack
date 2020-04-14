@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 import React, { useEffect } from 'react';
 import moment from 'moment-timezone';
 import 'moment/locale/cs';
@@ -16,7 +16,7 @@ import { createRelayEnvironment } from '../lib/relay/createRelayEnvironment';
 import { getSiteLocale } from '../lib/routing/getSiteLocale';
 import { Logger } from '../services';
 import symbio from '../../symbio.config';
-import { AppData, MyPageContext, MyPageProps } from '../types/app';
+import { AppData, MyPageProps } from '../types/app';
 import { SiteLocale } from '../types/graphql';
 import { AppContext } from '../utils/app-context/AppContext';
 
@@ -110,7 +110,7 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
     );
 };
 
-Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
+Page.getInitialProps = async (ctx: NextPageContext): Promise<MyPageProps> => {
     const {
         req,
         res,
@@ -132,11 +132,17 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
         res.setHeader('Cache-Control', `public, s-maxage=${symbio.cache.maxAge}, stale-while-revalidate`);
     }
 
-    // @TODO: fix protocol - http vs https
-    const { data } = await axios.get('http://' + hostname + '/api' + (currentUrl === '/' ? '/homepage' : currentUrl));
-    const environment = createRelayEnvironment(data.relayRecords, false);
+    // load app data from API
+    const { data } = await axios.get(
+        (hostname === 'localhost' ? 'http://' : 'https://') +
+            hostname +
+            '/api' +
+            (currentUrl === '/' ? '/homepage' : currentUrl),
+    );
+    const environment = createRelayEnvironment({}, false);
     const { redirect, page, blocksData }: AppData = data;
 
+    // if redirect found - let's do it
     if (redirect && redirect.to && res) {
         res.statusCode = Number(redirect.httpStatus);
         res.setHeader('Location', redirect.to);
@@ -146,6 +152,7 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
         };
     }
 
+    // if page doesn't exist -> 404
     if (!page) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const err: any = new Error('Page not found');
@@ -153,6 +160,7 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
         throw err;
     }
 
+    // blocks initial props handling
     const bIPPromises = [];
     if (blocksData) {
         for (const block of blocksData) {
@@ -160,7 +168,7 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
             if (blockName && BlockFactory.has(blockName)) {
                 const blk = BlockFactory.get(blockName);
                 if (blk && blk.getInitialProps) {
-                    bIPPromises.push(blk.getInitialProps({ ...ctx, locale }));
+                    bIPPromises.push(blk.getInitialProps({ ...ctx, locale, environment }));
                 } else {
                     bIPPromises.push({});
                 }
@@ -169,7 +177,6 @@ Page.getInitialProps = async (ctx: MyPageContext): Promise<MyPageProps> => {
             }
         }
     }
-
     const blocksInitialProps = await Promise.all(bIPPromises);
 
     return {
