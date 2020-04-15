@@ -15,3 +15,4 @@ export { Slider } from './Slider/Slider';
 export { Table } from './Table/Table';
 export { Video } from './Video/Video';
 export { Gallery } from './Gallery/Gallery';
+export { HorizontalRule } from './HorizontalRule/HorizontalRule';

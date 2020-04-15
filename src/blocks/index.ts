@@ -5,6 +5,7 @@ import './RichTextBlock/RichTextBlock';
 import './SliderBlock/SliderBlock';
 import './NewsListBlock/NewsListBlock';
 import './GalleryBlock/GalleryBlock';
+import './HorizontalRuleBlock/HorizontalRuleBlock';
 
 /**
  * Define fragment for blocks to load with app data
