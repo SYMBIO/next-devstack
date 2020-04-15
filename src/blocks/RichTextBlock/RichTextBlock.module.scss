@@ -1,28 +1,29 @@
-@import "../../styles/mixins/responsive";
+@import '../../styles/mixins/responsive';
 
 .wrapper {
-  grid-column: 1 / span 6;
+    grid-column: 1 / span 6;
 
-  img {
-    max-width: 100%;
-  }
+    img {
+        max-width: 100%;
+    }
 
-  @include mobile-landscape {
-    grid-column: 2 / span 4;
-  }
-  @include tablet {
-    grid-column: 3 / span 8;
-  }
+    @include mobile-landscape {
+        grid-column: 2 / span 4;
+    }
 
-  @include tablet-landscape {
-    grid-column: 4 / span 10;
-  }
+    @include tablet {
+        grid-column: 3 / span 8;
+    }
 
-  @include desktop {
-    grid-column: 5 / span 8;
-  }
+    @include tablet-landscape {
+        grid-column: 4 / span 10;
+    }
 
-  @include large-desktop {
-    grid-column: 6 / span 6;
-  }
+    @include desktop {
+        grid-column: 5 / span 8;
+    }
+
+    @include large-desktop {
+        grid-column: 6 / span 6;
+    }
 }
