@@ -45,7 +45,7 @@ export const Link = ({
 
         return (
             <a className={styles.wrapper} href={href} target={target}>
-                <div className={styles.inner}>{children}</div>
+                <span className={styles.inner}>{children}</span>
             </a>
         );
     }
@@ -67,7 +67,7 @@ export const Link = ({
         }
         return (
             <a className={styles.wrapper} href={href} target={target} {...rest}>
-                <div className={styles.inner}>{children || page.title}</div>
+                <span className={styles.inner}>{children || page.title}</span>
             </a>
         );
     }

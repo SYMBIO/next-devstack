@@ -15,6 +15,8 @@ graphql`
             id
             image {
                 url
+                height
+                width
             }
             video {
                 id

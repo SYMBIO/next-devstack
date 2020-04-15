@@ -21,6 +21,8 @@ export const Gallery = ({ images }: GalleryProps): JSX.Element => {
                         setIsOpen(true);
                         setActive(index);
                     }}
+                    width={Number(image.width)}
+                    height={Number(image.height)}
                 />
             ))}
             {isOpen && (
