@@ -4,6 +4,8 @@
 import './RichTextBlock/RichTextBlock';
 import './SliderBlock/SliderBlock';
 import './NewsListBlock/NewsListBlock';
+import './GalleryBlock/GalleryBlock';
+import './HorizontalRuleBlock/HorizontalRuleBlock';
 
 /**
  * Define fragment for blocks to load with app data
@@ -16,5 +18,6 @@ graphql`
         ...RichTextBlock_content @relay(mask: false)
         ...SliderBlock_content @relay(mask: false)
         ...NewsListBlock_content @relay(mask: false)
+        ...GalleryBlock_content @relay(mask: false)
     }
 `;

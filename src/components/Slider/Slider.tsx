@@ -34,7 +34,7 @@ const Banner = ({
         {video ? (
             <Video video={video} objectFit="cover" autoPlay muted loop />
         ) : (
-            <Image src={image?.url} objectFit="cover" />
+            <Image src={image?.url} objectFit="cover" height={Number(image?.height)} width={Number(image?.width)} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>
@@ -88,6 +88,7 @@ export const Slider = ({
             swipeable={true}
             showStatus={false}
             renderIndicator={renderIndicator}
+            showThumbs={false}
         >
             {banners.map((banner) => (
                 <Banner key={`banner_${banner.id}`} {...banner} sliderTextAlign={textAlign} />
