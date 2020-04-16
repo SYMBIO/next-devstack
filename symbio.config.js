@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports = {
     auth: {
         basic: [
@@ -32,6 +33,6 @@ module.exports = {
 E-mail: {EMAIL}
 `,
     },
-    pageCache: 'memory', // "none" | "memory" | "redis"
+    pageCache: process.env.NODE_ENV === 'production' ? 'redis' : 'none', // "none" | "memory" | "redis"
     tz: 'Europe/Prague',
 };
