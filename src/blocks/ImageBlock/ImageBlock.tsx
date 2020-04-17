@@ -19,9 +19,13 @@ graphql`
 `;
 
 function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const {
-        image: { url, ...imgRest },
-    } = content;
+    const { image } = content;
+
+    if (!image) {
+        return <></>;
+    }
+
+    const { url, ...imgRest } = image;
 
     return (
         <BlockWrapper tooltip={'ImageBlock'} className={styles.wrapper} {...rest}>
