@@ -87,6 +87,11 @@ graphql`
                 }
             }
         }
+        formErrors {
+            required
+            emailInvalid
+            generalError
+        }
     }
 `;
 

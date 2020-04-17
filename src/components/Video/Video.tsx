@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, ReactElement, useEffect, VideoHTMLAttributes } from 'react';
+import React, { DetailedHTMLProps, ReactElement, useEffect, useRef, VideoHTMLAttributes } from 'react';
 import { BaseDatoCMSProps } from '../../types/app';
 import { FileField } from '../../types/graphql';
 import capitalize from '../../utils/capitalize';
@@ -12,11 +12,13 @@ interface VideoProps extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElem
 }
 
 export const Video = ({ video, objectFit, objectPosition, ...rest }: VideoProps): ReactElement => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
     useEffect(() => {
-        if (video) {
-            getHLSVideo(video.video?.streamingUrl, `video-${video.id}`);
+        if (video && videoRef.current) {
+            getHLSVideo(video.video?.streamingUrl, videoRef.current);
         }
-    }, [video]);
+    }, [video, videoRef]);
 
     const classNames: string[] = [styles.video];
     if (objectFit) {
@@ -28,7 +30,13 @@ export const Video = ({ video, objectFit, objectPosition, ...rest }: VideoProps)
     }
 
     return (
-        <video id={`video-${video?.id || rest.id}`} className={classNames.join(' ')} {...rest}>
+        <video
+            id={`video-${video?.id || rest.id}`}
+            ref={videoRef}
+            className={classNames.join(' ')}
+            poster={video?.video?.thumbnailUrl + '?time=0'}
+            {...rest}
+        >
             <source src={video?.video?.streamingUrl} type="application/vnd.apple.mpegURL" />
         </video>
     );

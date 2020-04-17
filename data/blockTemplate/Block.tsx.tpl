@@ -20,4 +20,4 @@ function {NAME}Block({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     );
 }
 
-BlockFactory.set('{NAME}', {NAME}Block);
+BlockFactory.set('{NAME}Block', {NAME}Block);

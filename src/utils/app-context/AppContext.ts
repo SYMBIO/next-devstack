@@ -13,4 +13,5 @@ export const AppContext = createContext<AppContextProps>({
     homepage: null,
     newsPage: null,
     footerMenu: null,
+    formErrors: null,
 });

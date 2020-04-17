@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production ANALYZE=true next build",
-    "create-blocks": "node scripts/createBlocks.js",
+    "create-blocks": "node scripts/createBlocks.js && npm run relay",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' --exclude '**/schema/**'  --language typescript --schema ./src/schema/schema.graphql",

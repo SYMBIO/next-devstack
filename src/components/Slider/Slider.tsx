@@ -57,7 +57,7 @@ const renderIndicator = (onClickHandler: () => void, isSelected: boolean, index:
         >
             <p>{label}</p>
             <span className={styles.progressHolder}>
-                <span className={styles.progress}></span>
+                <span className={styles.progress} />
             </span>
         </li>
     );
@@ -69,7 +69,7 @@ export const Slider = ({
     autoplay = true,
     interval = 10,
 }: Props): ReactElement<Props, 'div'> | null => {
-    if (banners.length < 1) {
+    if (!Array.isArray(banners) || banners.length < 1) {
         return null;
     }
 
