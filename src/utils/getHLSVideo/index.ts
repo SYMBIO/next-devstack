@@ -1,8 +1,7 @@
 import Hls from 'hls.js';
 
-export default function getHLSVideo(url: string | undefined, id: string) {
+export default function getHLSVideo(url: string | undefined, target: HTMLVideoElement) {
     if (url) {
-        const target = document.getElementById(id) as HTMLVideoElement;
         if (Hls.isSupported()) {
             const hls = new Hls();
             hls.loadSource(url);

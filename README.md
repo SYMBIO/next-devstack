@@ -15,3 +15,7 @@
 
 1. Change domain in robots.txt
 1. Replace favicon.svg in ./public/icons/favicon.svg
+
+
+## Blocks
+

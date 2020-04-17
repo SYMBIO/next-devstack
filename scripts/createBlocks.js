@@ -13,6 +13,12 @@ const toPascal = (s) => {
     });
 };
 
+const toCamel = (s) => {
+    return s.replace(/([-_][a-z])/gi, ($1) => {
+        return $1.toUpperCase().replace('-', '').replace('_', '');
+    });
+};
+
 fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) => {
     fs.promises.readFile('./data/blockTemplate/Block.module.scss.tpl').then((scssTemplate) => {
         const createBlockTemplate = async (name, fields) => {
@@ -36,25 +42,48 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                                     f.fieldType,
                                 ) !== -1
                             ) {
-                                return '        ' + f.apiKey + '\n';
+                                return '        ' + toCamel(f.apiKey);
                             } else if (['link', 'links'].indexOf(f.fieldType) !== -1) {
-                                return '        ' + f.apiKey + '{\n            id\n        }\n';
+                                return '        ' + toCamel(f.apiKey) + ' {\n            id\n        }';
                             } else if (['video'].indexOf(f.fieldType) !== -1) {
-                                return '        ' + f.apiKey + '{\n            provider\n            url\n        }\n';
-                            } else if (['asset', 'assets'].indexOf(f.fieldType) !== -1) {
-                                return '        ' + f.apiKey + '{\n            id\n            url\n            width\n            height\n        }\n';
+                                return (
+                                    '        ' +
+                                    toCamel(f.apiKey) +
+                                    ' {\n            provider\n            providerUid\n            width\n            height\n        }'
+                                );
+                            } else if (['file', 'files'].indexOf(f.fieldType) !== -1) {
+                                if (f.validators.extension.predefinedList === 'video') {
+                                    return (
+                                        '        ' +
+                                        toCamel(f.apiKey) +
+                                        ' {\n            id\n            width\n            height\n            video {\n                streamingUrl\n                thumbnailUrl\n            }\n        }'
+                                    );
+                                }
+                                return (
+                                    '        ' +
+                                    toCamel(f.apiKey) +
+                                    ' {\n            id\n            url\n            alt\n            width\n            height\n        }'
+                                );
                             } else if (['color'].indexOf(f.fieldType) !== -1) {
-                                return '        ' + f.apiKey + '{\n            hex\n        }\n';
+                                return '        ' + toCamel(f.apiKey) + '{\n            hex\n        }';
                             } else if (['lat_lon'].indexOf(f.fieldType) !== -1) {
-                                return '        ' + f.apiKey + '{\n            id\n            latitude\n            longitude\n        }\n';
+                                return (
+                                    '        ' +
+                                    toCamel(f.apiKey) +
+                                    ' {\n            latitude\n            longitude\n        }'
+                                );
                             } else {
-                                return '';
+                                return false;
                             }
                         })
-                        .join('');
+                        .filter((a) => a)
+                        .join('\n');
                     await fs.promises.writeFile(
                         `${dir}/${name}Block.tsx`,
-                        blockTemplate.toString('utf-8').replace(/{NAME}/g, name),
+                        blockTemplate
+                            .toString('utf-8')
+                            .replace(/{NAME}/g, name)
+                            .replace(/{FIELDS}/g, fieldsGql),
                     );
                 }
             }
@@ -77,7 +106,7 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                         const modularBlock = await client.itemTypes.find(modularBlockId);
                         const name = toPascal(modularBlock.apiKey);
                         const fields = await client.fields.all(modularBlockId);
-                        names.push(name);
+                        names.push([name, fields]);
                         await createBlockTemplate(name, fields);
                     }
                     await fs.promises.writeFile(
@@ -85,7 +114,7 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                         `/**
  * Import blocks which should be included in SSR
  */
-${names.map((name) => `import './${name}Block/${name}Block';\n`)}
+${names.map(([name]) => `import './${name}Block/${name}Block';`).join('\n')}
 
 /**
  * Define fragment for blocks to load with app data
@@ -95,7 +124,10 @@ import { graphql } from 'relay-runtime';
 graphql\`
     fragment blocksContent on PageModelContentField {
         __typename
-${names.map((name) => `        ...${name}Block_content @relay(mask: false)\n`)}
+${names
+    .map(([name, fields]) => (fields.length > 0 ? `        ...${name}Block_content @relay(mask: false)` : ''))
+    .filter((a) => a)
+    .join('\n')}
     }
 \`;
 `,
