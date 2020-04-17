@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image } from '../index';
+import { Image } from '..';
 import { FileField } from '../../types/graphql';
 import Lightbox from 'react-image-lightbox';
 
@@ -13,18 +13,19 @@ export const Gallery = ({ images }: GalleryProps): JSX.Element => {
 
     return (
         <>
-            {images.map((image, index) => (
-                <Image
-                    key={image.id}
-                    src={image.url}
-                    onClick={() => {
-                        setIsOpen(true);
-                        setActive(index);
-                    }}
-                    width={Number(image.width)}
-                    height={Number(image.height)}
-                />
-            ))}
+            {Array.isArray(images) &&
+                images.map((image, index) => (
+                    <Image
+                        key={image.id}
+                        src={image.url}
+                        onClick={() => {
+                            setIsOpen(true);
+                            setActive(index);
+                        }}
+                        width={Number(image.width)}
+                        height={Number(image.height)}
+                    />
+                ))}
             {isOpen && (
                 <Lightbox
                     mainSrc={images[active].url}
