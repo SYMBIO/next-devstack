@@ -1,6 +1,3 @@
-$navbarHeight: 80px;
-$navbarPadding: 24px;
-
 .navbar {
     display: flex;
     flex-direction: row;
@@ -10,17 +7,17 @@ $navbarPadding: 24px;
     left: 0;
     right: 0;
     top: 0;
-    height: $navbarHeight - 2 * $navbarPadding;
-    padding: $navbarPadding;
+    height: calc(var(--navbar-height) - 2 * var(--navbar-padding));
+    padding: var(--navbar-padding);
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    height: ($navbarHeight - $navbarPadding);
+    height: calc(var(--navbar-height) - var(--navbar-padding));
 
     img {
-        height: ($navbarHeight - $navbarPadding);
+        height: calc(var(--navbar-height) - var(--navbar-padding));
     }
 }
 
