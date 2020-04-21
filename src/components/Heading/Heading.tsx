@@ -37,6 +37,7 @@ export const Heading = ({
     const realSize = size || getSizeFromTag(tag);
     const classes = [styles[realSize]];
     className && classes.push(className);
+    classes.push(styles['heading']);
 
     return <CustomTag className={classes.join(' ')}>{children}</CustomTag>;
 };

@@ -1,5 +1,9 @@
-@import "variables";
-@import "mixins/responsive";
 @import "normalize";
+@import "reset";
 @import "carousel";
 @import "lightbox";
+
+body {
+    overflow-x: hidden;
+    font-size: 100%;
+}
