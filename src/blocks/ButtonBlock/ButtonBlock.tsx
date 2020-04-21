@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper } from '../../components';
+import { BlockWrapper, Button } from '../../components';
 import BlockFactory from '../../lib/blocks/BlockFactory';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ButtonBlock.module.scss';
@@ -27,7 +27,9 @@ graphql`
 function ButtonBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'ButtonBlock'} className={styles.wrapper} {...rest}>
-            <div>Button: {JSON.stringify(content)}</div>
+            <Button icon={content.icon} href={content.page}>
+                {content.label}
+            </Button>
         </BlockWrapper>
     );
 }

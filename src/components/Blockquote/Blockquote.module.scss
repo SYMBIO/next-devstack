@@ -3,19 +3,19 @@
 .blockquote {
     display: flex;
     flex-direction: row;
+    margin-bottom: 1rem;
     padding-left: 65px;
     position: relative;
     font-style: italic;
 
     &:before {
-        width: 0;
-        height: 0;
         position: absolute;
-        left: -12px;
-        top: 6px;
+        left: 0;
+        top: 0;
+        transform: translate(-25%,-15%);
         font-size: rem(80);
-        content: '”';
         line-height: 1;
+        content: '”';
     }
 
     p + p {

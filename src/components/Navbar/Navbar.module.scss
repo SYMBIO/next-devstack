@@ -7,17 +7,17 @@
     left: 0;
     right: 0;
     top: 0;
-    height: calc(var(--navbar-height) - 2 * var(--navbar-padding));
+    height: var(--navbar-height);
     padding: var(--navbar-padding);
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    height: calc(var(--navbar-height) - var(--navbar-padding));
+    height: 100%;
 
     img {
-        height: calc(var(--navbar-height) - var(--navbar-padding));
+        height: 100%;
     }
 }
 
