@@ -1,41 +1,37 @@
 @import "../../styles/mixins/responsive";
+@import "../../styles/functions/rem.scss";
+
+.heading {
+    margin-bottom: 1em;
+}
 
 .xl {
-    font-size: 2.5rem;
-
+    font-size: rem(60);
     @include from-tablet {
-        font-size: 3.75rem;
+        font-size: rem(60);
     }
 }
-
 .lg {
-    font-size: 1.5rem;
-
+    font-size: rem(24);
     @include from-tablet {
-        font-size: 2.5rem;
+        font-size: rem(40);
     }
 }
-
 .md {
-    font-size: 48px;
-
+    font-size: rem(20);
     @include from-tablet {
-        font-size: 2rem;
+        font-size: rem(32);
     }
 }
-
 .sm {
-    font-size: 32px;
-
+    font-size: rem(18);
     @include from-tablet {
-        font-size: 1.5rem;
+        font-size: rem(24);
     }
 }
-
 .xs {
-    font-size: 24px;
-
+    font-size: rem(16);
     @include from-tablet {
-        font-size: 1.125rem;
+        font-size: rem(18);
     }
 }

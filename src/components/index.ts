@@ -1,5 +1,6 @@
 export { Blockquote } from './Blockquote/Blockquote';
 export { BlockWrapper } from './BlockWrapper/BlockWrapper';
+export { Button } from './Button/Button';
 export { EditPage } from './EditPage/EditPage';
 export { Gallery } from './Gallery/Gallery';
 export { Head } from './Head/Head';
@@ -11,6 +12,7 @@ export { Input } from './Input/Input';
 export { Layout } from './Layout/Layout';
 export { Link } from './Link/Link';
 export { MainMenu } from './MainMenu/MainMenu';
+export { GoogleMap } from './GoogleMap/GoogleMap';
 export { Navbar } from './Navbar/Navbar';
 export { NewsList } from './NewsList/NewsList';
 export { Paragraph } from './Paragraph/Paragraph';

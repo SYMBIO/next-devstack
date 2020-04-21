@@ -1,0 +1,6 @@
+$base-fz: 16;
+
+// Accepts font size in pixels, returns size in rem (with unit)
+@function rem($size) {
+  @return #{$size / $base-fz}rem;
+}
