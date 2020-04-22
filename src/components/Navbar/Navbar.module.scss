@@ -1,3 +1,5 @@
+@import "../../styles/functions/rem.scss";
+
 .navbar {
     display: flex;
     flex-direction: row;
@@ -8,7 +10,7 @@
     right: 0;
     top: 0;
     height: var(--navbar-height);
-    padding: var(--navbar-padding);
+    padding: rem(24);
     background-color: #000;
     color: #fff;
 }
