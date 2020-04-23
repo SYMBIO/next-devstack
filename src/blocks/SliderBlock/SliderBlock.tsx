@@ -22,6 +22,7 @@ graphql`
                 id
                 video {
                     streamingUrl
+                    thumbnailUrl
                 }
             }
             headline

@@ -1,4 +1,3 @@
-import { NextComponentType } from 'next';
-import { BlockContext } from '../../types/block';
+import { BlockType } from '../../types/block';
 
-export default new Map<string, NextComponentType<BlockContext, any, any>>();
+export default new Map<string, BlockType>();

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { fetchQuery, graphql } from 'react-relay';
 import { BlockWrapper, NewsList } from '../../components';
 import BlockFactory from '../../lib/blocks/BlockFactory';
-import { BaseBlockProps, BlockContext } from '../../types/block';
+import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import { NewsListBlockQuery, NewsListBlockQueryResponse } from './__generated__/NewsListBlockQuery.graphql';
 import styles from './NewsListBlock.module.scss';
 
@@ -44,7 +44,10 @@ function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): React
     );
 }
 
-NewsListBlock.getInitialProps = async ({ environment, locale }: BlockContext): Promise<NewsListBlockQueryResponse> => {
+NewsListBlock.getStaticProps = async ({
+    environment,
+    locale,
+}: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {
     return fetchQuery<NewsListBlockQuery>(environment, query, {
         locale,
         limit: 3,

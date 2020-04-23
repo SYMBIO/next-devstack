@@ -37,21 +37,22 @@ export const NewsList = ({ headline, items }: NewsListProps): ReactElement<NewsL
                 </Heading>
             )}
             <ul className={styles.items}>
-                {items.map(
-                    (item) =>
-                        item.slug &&
-                        newsPage && (
-                            <li key={`NewsList_item_${item.id}`} className={styles.item}>
-                                <Link page={newsPage} params={{ slug: item.slug }}>
-                                    <article>
-                                        <Heading tag={`h3`}>{item.title}</Heading>
-                                        <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>
-                                        {item.perex && <RichText content={item.perex} />}
-                                    </article>
-                                </Link>
-                            </li>
-                        ),
-                )}
+                {Array.isArray(items) &&
+                    items.map(
+                        (item) =>
+                            item.slug &&
+                            newsPage && (
+                                <li key={`NewsList_item_${item.id}`} className={styles.item}>
+                                    <Link page={newsPage} params={{ slug: item.slug }}>
+                                        <article>
+                                            <Heading tag={`h3`}>{item.title}</Heading>
+                                            <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>
+                                            {item.perex && <RichText content={item.perex} />}
+                                        </article>
+                                    </Link>
+                                </li>
+                            ),
+                    )}
             </ul>
         </div>
     );

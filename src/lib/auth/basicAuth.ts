@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { NextApiResponse } from 'next';
 import symbio from '../../../symbio.config';
 
 /**
@@ -26,10 +27,8 @@ export function basicAuth(req: IncomingMessage | undefined, res: ServerResponse 
     if (!login || !password || !isValidAuth(login, password)) {
         if (res) {
             res.statusCode = 401;
-            res.writeHead(401, 'Unathorized', {
-                'WWW-Authenticate': 'Basic realm="401"',
-            });
-            res.end('Unauthorized');
+            res.setHeader('WWW-Authenticate', 'Basic realm="401"');
+            res.end && res.end('Unauthorized');
         }
         return false;
     }

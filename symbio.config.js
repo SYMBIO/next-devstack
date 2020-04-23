@@ -34,5 +34,6 @@ E-mail: {EMAIL}
 `,
     },
     pageCache: process.env.NODE_ENV === 'production' ? 'redis' : 'none', // "none" | "memory" | "redis"
+    staticSSG: true,
     tz: 'Europe/Prague',
 };

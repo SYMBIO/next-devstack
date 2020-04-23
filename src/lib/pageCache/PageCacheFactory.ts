@@ -5,8 +5,8 @@ import { NoCache } from './NoCache';
 import { RedisCache } from './RedisCache';
 
 export class PageCacheFactory {
-    static get(): AbstractPageCache {
-        switch (symbio.pageCache) {
+    static get(type = symbio.pageCache): AbstractPageCache {
+        switch (type) {
             case 'redis':
                 return new RedisCache();
             case 'memory':

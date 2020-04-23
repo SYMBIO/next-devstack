@@ -1,9 +1,8 @@
-import { NextPage, NextPageContext } from 'next';
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import moment from 'moment-timezone';
 import 'moment/locale/cs';
-import axios from 'axios';
-import { ReactRelayContext } from 'react-relay';
+import { fetchQuery, ReactRelayContext } from 'react-relay';
 
 import { EditPage } from '../components';
 import { Head } from '../components';
@@ -12,8 +11,11 @@ import { Navbar } from '../components';
 import { CALENDAR_FORMATS } from '../constants';
 import BlockFactory from '../lib/blocks/BlockFactory';
 import '../blocks';
+import { PageCacheFactory } from '../lib/pageCache/PageCacheFactory';
 import { createRelayEnvironment } from '../lib/relay/createRelayEnvironment';
 import { getSiteLocale } from '../lib/routing/getSiteLocale';
+import { staticPathsQuery as sPQ } from '../relay/api/__generated__/staticPathsQuery.graphql';
+import { staticPathsQuery } from '../relay/api/staticPaths';
 import { Logger } from '../services';
 import symbio from '../../symbio.config';
 import { AppData, MyPageProps } from '../types/app';
@@ -23,7 +25,7 @@ import isStaging from '../utils/isStaging';
 
 export const config = { amp: 'hybrid' };
 
-const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
+const Page = (props: MyPageProps): ReactElement => {
     const {
         currentUrl,
         hostname,
@@ -109,16 +111,12 @@ const Page: NextPage<MyPageProps> = (props: MyPageProps) => {
     );
 };
 
-Page.getInitialProps = async (ctx: NextPageContext): Promise<MyPageProps> => {
-    const {
-        req,
-        res,
-        query: { slug },
-        asPath,
-    } = ctx;
+/*export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { req, res, params } = context;
 
-    const currentUrl = req ? req.url : asPath;
-    const hostname = req ? req.headers.host : window.location.hostname;
+    const slug = params?.slug || [];
+    const currentUrl = req.url;
+    const hostname = req.headers.host;
     const locale: SiteLocale =
         (symbio.i18n.useLocaleInPath && slug && Array.isArray(slug) && getSiteLocale(slug[0])) || getSiteLocale();
 
@@ -166,25 +164,96 @@ Page.getInitialProps = async (ctx: NextPageContext): Promise<MyPageProps> => {
             const blockName = block?.__typename?.replace('Record', 'Block');
             if (blockName && BlockFactory.has(blockName)) {
                 const blk = BlockFactory.get(blockName);
-                if (blk && blk.getInitialProps) {
-                    bIPPromises.push(blk.getInitialProps({ ...ctx, locale, environment }));
+                if (blk && blk.getServerSideProps) {
+                    bIPPromises.push(blk.getServerSideProps({ ...context, locale, environment }));
                 } else {
-                    bIPPromises.push({});
+                    bIPPromises.push(Promise.resolve({}));
                 }
             } else {
-                bIPPromises.push({});
+                bIPPromises.push(Promise.resolve({}));
             }
         }
     }
     const blocksInitialProps = await Promise.all(bIPPromises);
 
     return {
-        ...data,
-        locale,
-        currentUrl,
-        hostname,
-        blocksInitialProps,
-        relayRecords: environment.getStore().getSource().toJSON(),
+        props: {
+            ...data,
+            locale,
+            currentUrl,
+            hostname,
+            blocksInitialProps,
+            relayRecords: environment.getStore().getSource().toJSON(),
+        },
+    };
+};*/
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const { params } = context;
+    const locale: SiteLocale = symbio.i18n.useLocaleInPath ? getSiteLocale(String(params?.slug[0])) : getSiteLocale();
+    const environment = createRelayEnvironment({}, false);
+    const pathParts = params?.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
+    if (pathParts) {
+        const cache = PageCacheFactory.get();
+        const props = await cache.get(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
+        const bIPPromises = [];
+        if (props.blocksData) {
+            for (const block of props.blocksData) {
+                const blockName = block?.__typename?.replace('Record', 'Block');
+                if (blockName && BlockFactory.has(blockName)) {
+                    const blk = BlockFactory.get(blockName);
+                    if (blk && blk.getStaticProps) {
+                        bIPPromises.push(blk.getStaticProps({ ...context, locale, environment }));
+                    } else {
+                        bIPPromises.push(Promise.resolve({}));
+                    }
+                } else {
+                    bIPPromises.push(Promise.resolve({}));
+                }
+            }
+        }
+        const blocksInitialProps = await Promise.all(bIPPromises);
+        console.log('getStaticProps end');
+
+        return {
+            props: {
+                ...props,
+                blocksInitialProps,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    const environment = createRelayEnvironment({}, false);
+    const { useLocaleInPath } = symbio.i18n;
+    const paths: string[] = [];
+    for (const locale in SiteLocale) {
+        if (Object.prototype.hasOwnProperty.call(SiteLocale, locale)) {
+            let cnt = -1;
+            let done = 0;
+            do {
+                const { allPages, _allPagesMeta } = await fetchQuery<sPQ>(environment, staticPathsQuery, {
+                    locale: getSiteLocale(locale),
+                    first: 100,
+                    skip: 0,
+                });
+                if (cnt === -1) {
+                    cnt = Number(_allPagesMeta.count);
+                }
+                done += allPages.length;
+                paths.concat(...allPages.map((p) => (useLocaleInPath ? '/' + locale + '/' + p.url : '/' + p.url)));
+            } while (done < cnt);
+        }
+    }
+
+    return {
+        paths,
+        fallback: true,
     };
 };
 
