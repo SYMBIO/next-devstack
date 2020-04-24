@@ -1,18 +1,4 @@
 {
-  "build": {
-    "env": {
-      "DATOCMS_API_TOKEN": "@devstack-api-token",
-      "DATOCMS_API_TOKEN_FULL": "@devstack-api-token-full",
-      "DATOCMS_ENDPOINT": "https://graphql.datocms.com",
-      "REDIS_URL": "@devstack-redis-url"
-    }
-  },
-  "env": {
-    "DATOCMS_API_TOKEN": "@devstack-api-token",
-    "DATOCMS_API_TOKEN_FULL": "@devstack-api-token-full",
-    "DATOCMS_ENDPOINT": "https://graphql.datocms.com",
-    "REDIS_URL": "@devstack-redis-url"
-  },
   "functions": {
     "pages/api/*": {
       "memory": 256,
