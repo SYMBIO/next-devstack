@@ -48,19 +48,14 @@ export const NewsList = ({
                     {headline}
                 </Heading>
             )}
-            <ul className={styles.items}>
+            <ul className={styles.newsList__items}>
                 {Array.isArray(items) &&
                     items.map(
                         (item) =>
                             item.slug &&
                             newsPage && (
-                                <li key={`NewsList_item_${item.id}`} className={styles.item}>
-                                    <Link
-                                        page={newsPage}
-                                        params={{
-                                            slug: item.id + '-' + item.slug,
-                                        }}
-                                    >
+                                <li key={`NewsList_item_${item.id}`} className={styles.newsList__item}>
+                                    <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
                                         <article>
                                             <Heading tag={`h3`}>{item.title}</Heading>
                                             <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>

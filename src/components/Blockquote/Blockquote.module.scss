@@ -1,28 +1,21 @@
+@import "../../styles/functions/rem.scss";
+
 .blockquote {
     display: flex;
     flex-direction: row;
-    margin-bottom: 48px;
+    margin-bottom: 1rem;
     padding-left: 65px;
-    font-family: 'din-serif';
-    color: #000000;
     position: relative;
-    line-height: 1.5 !important;
     font-style: italic;
 
     &:before {
-        width: 0;
-        height: 0;
         position: absolute;
-        left: -12px;
-        top: 6px;
-        font-size: 80px;
-        content: '”';
+        left: 0;
+        top: 0;
+        transform: translate(-25%,-15%);
+        font-size: rem(80);
         line-height: 1;
-    }
-
-    p {
-        line-height: 1.5;
-        margin-bottom: 0;
+        content: '”';
     }
 
     p + p {

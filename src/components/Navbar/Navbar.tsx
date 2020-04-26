@@ -19,8 +19,8 @@ export const Navbar = (): ReactElement<null, 'div'> | null => {
         <div className={styles.navbar}>
             {logo && (
                 <div className={styles.logo}>
-                    <Link page={homepage || undefined}>
-                        <Image image={logo} objectFit="contain" noLazy />
+                    <Link plain page={homepage || undefined}>
+                        <Image image={logo} noLazy />
                     </Link>
                 </div>
             )}

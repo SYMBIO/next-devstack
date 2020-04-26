@@ -3,6 +3,7 @@
 .wrapper {
   grid-column: 1 / span 6;
   margin-bottom: 32px;
+  align-items: center;
 
   @include tablet {
     grid-column: 1 / span 12;

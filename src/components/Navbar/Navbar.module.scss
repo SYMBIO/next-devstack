@@ -1,5 +1,4 @@
-$navbarHeight: 80px;
-$navbarPadding: 24px;
+@import "../../styles/functions/rem.scss";
 
 .navbar {
     display: flex;
@@ -10,17 +9,17 @@ $navbarPadding: 24px;
     left: 0;
     right: 0;
     top: 0;
-    height: $navbarHeight - 2 * $navbarPadding;
-    padding: $navbarPadding;
+    height: var(--navbar-height);
+    padding: rem(24);
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    height: ($navbarHeight - $navbarPadding);
+    height: 100%;
 
     img {
-        height: ($navbarHeight - $navbarPadding);
+        height: 100%;
     }
 }
 

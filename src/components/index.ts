@@ -1,8 +1,10 @@
 export { Blocks } from './Blocks/Blocks';
 export { Blockquote } from './Blockquote/Blockquote';
 export { BlockWrapper } from './BlockWrapper/BlockWrapper';
+export { Button } from './Button/Button';
 export { EditPage } from './EditPage/EditPage';
 export { Gallery } from './Gallery/Gallery';
+export { GoogleMap } from './GoogleMap/GoogleMap';
 export { Head } from './Head/Head';
 export { Heading } from './Heading/Heading';
 export { HorizontalRule } from './HorizontalRule/HorizontalRule';

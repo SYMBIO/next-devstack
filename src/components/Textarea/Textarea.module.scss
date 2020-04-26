@@ -1,3 +1,5 @@
+@import "../../styles/functions/rem.scss";
+
 .container {
     position: relative;
     z-index: 1;
@@ -6,9 +8,9 @@
 }
 
 .label {
-    font-size: 16px;
+    font-size: rem(16);
     line-height: 1.5;
-    color: #000000;
+    color: var(--primary);
     position: absolute;
     left: 0;
     top: 0;
@@ -21,13 +23,13 @@
     }
 
     &.emptyLabel {
-        color: #000000;
+        color: var(--primary);
         transform: translateY(-15px);
         left: 0;
     }
 
     &.errorLabel {
-        color: #ff0000;
+        color: var(--error);
     }
 }
 
@@ -35,7 +37,7 @@
     background: transparent;
     line-height: 1.3;
     border: none;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--primary);
     display: block;
     width: 100%;
     outline: none;
@@ -47,13 +49,13 @@
     }
 
     &.errorTextarea {
-        border-bottom-color: #ff0000;
+        border-bottom-color: var(--error);
     }
 }
 
 .error {
-    color: #ff0000;
-    font-size: 8px;
+    color: var(--error);
+    font-size: rem(8);
     line-height: 1.3;
     position: absolute;
     bottom: -7px;
@@ -62,7 +64,7 @@
 }
 
 .icon {
-    color: #000000;
+    color: currentColor;
     width: 16px;
     height: 16px;
 }

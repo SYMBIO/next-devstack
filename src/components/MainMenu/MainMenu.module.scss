@@ -1,27 +1,12 @@
+@import "../../styles/functions/rem.scss";
+
 .menu1 {
     display: flex;
-    font-size: 1.3rem;
+    font-size: rem(21);
     padding: 0;
-    color: #fff;
-
-    a {
-        text-decoration: none;
-    }
+    color: var(--secondary);
 
     li {
-        list-style-type: none;
         margin-right: 16px;
-    }
-}
-
-.menu2 {
-    li {
-        list-style-type: none;
-    }
-}
-
-.menu3 {
-    li {
-        list-style-type: none;
     }
 }
