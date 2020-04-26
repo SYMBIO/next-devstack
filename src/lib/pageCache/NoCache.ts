@@ -17,7 +17,6 @@ export class NoCache extends AbstractPageCache {
             pattern: getPagePattern(pathParts),
             redirectPattern: pathParts.join('/'),
         };
-        console.log(variables);
         promises.push(
             fetchQuery<appQuery>(environment, AppQuery, variables),
             fetchQuery<appContentQuery>(environment, ContentQuery, variables),
