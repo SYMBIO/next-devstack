@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production ANALYZE=true next build",
+    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
     "create-blocks": "node scripts/createBlocks.js && npm run relay",
+    "export": "NODE_ENV=production next export",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' --exclude '**/schema/**'  --language typescript --schema ./src/schema/schema.graphql",
@@ -62,7 +63,6 @@
     "@types/busboy": "^0.2.3",
     "@types/hls.js": "^0.12.6",
     "@types/html-to-text": "^1.4.31",
-    "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^25.2.1",
     "@types/mandrill-api": "^1.0.30",
     "@types/moment-timezone": "^0.5.13",

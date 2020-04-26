@@ -19,7 +19,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = {
     target: 'serverless',
-    webpack: (config) => {
+    webpack: (config, { isServer }) => {
         config.plugins = config.plugins || [];
 
         config.plugins = [
@@ -58,6 +58,14 @@ const nextConfig = {
 
             return entries;
         };
+
+        if (!isServer) {
+            config.node = {
+                fs: 'empty',
+                net: 'empty',
+                tls: 'empty',
+            };
+        }
 
         return config;
     },

@@ -13,6 +13,7 @@ import './HorizontalRuleBlock/HorizontalRuleBlock';
 import './NewsListBlock/NewsListBlock';
 import './SliderBlock/SliderBlock';
 import './NewsDetailBlock/NewsDetailBlock';
+import './NewsListFloorBlock/NewsListFloorBlock';
 
 /**
  * Define fragment for blocks to load with app data
@@ -32,5 +33,6 @@ graphql`
         ...ButtonBlock_content @relay(mask: false)
         ...NewsListBlock_content @relay(mask: false)
         ...SliderBlock_content @relay(mask: false)
+        ...NewsListFloorBlock_content @relay(mask: false)
     }
 `;

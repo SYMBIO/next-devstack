@@ -4,7 +4,13 @@ import { FileField } from '../../types/graphql';
 import Lightbox from 'react-image-lightbox';
 
 interface GalleryProps {
-    images: FileField[];
+    images: ReadonlyArray<{
+        readonly id: unknown;
+        readonly url: string;
+        readonly alt: string | null;
+        readonly width: unknown | null;
+        readonly height: unknown | null;
+    }>;
 }
 
 export const Gallery = ({ images }: GalleryProps): JSX.Element => {
@@ -17,13 +23,11 @@ export const Gallery = ({ images }: GalleryProps): JSX.Element => {
                 images.map((image, index) => (
                     <Image
                         key={image.id}
-                        src={image.url}
+                        image={image}
                         onClick={() => {
                             setIsOpen(true);
                             setActive(index);
                         }}
-                        width={Number(image.width)}
-                        height={Number(image.height)}
                     />
                 ))}
             {isOpen && (

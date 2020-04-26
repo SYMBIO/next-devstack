@@ -1,11 +1,13 @@
 import React, { DetailedHTMLProps, ImgHTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import { useAmp } from 'next/amp';
 import objectFitImages from 'object-fit-images';
+import { ImageInterface } from '../../types/app';
 import { ImgixParams, ImgixParamsAuto, ImgixParamsFm } from '../../types/graphql';
 import capitalize from '../../utils/capitalize';
 import styles from './Image.module.scss';
 
 interface Props extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+    image?: ImageInterface;
     noLazy?: boolean;
     objectFit?: 'cover' | 'contain';
     objectPosition?: 'top' | 'bottom';
@@ -42,9 +44,12 @@ function addImgixDimension(imgixParams: ImgixParams, dimension: 'w' | 'h', value
 }
 
 export const Image = ({
+    image,
     src,
     srcSet,
     alt,
+    width,
+    height,
     objectFit,
     objectPosition,
     noLazy = false,
@@ -52,6 +57,16 @@ export const Image = ({
     ...rest
 }: Props): ReactElement<Props, 'img' | 'amp-img' | 'Fragment'> | null => {
     const ref = useRef<HTMLImageElement>(null);
+
+    if (image) {
+        src = image.url;
+        alt = image.alt || undefined;
+        width = Number(image.width) || undefined;
+        height = Number(image.height) || undefined;
+    }
+
+    width = width || imgixParams?.w || 'auto';
+    height = height || imgixParams?.h || 'auto';
 
     // if no src defined -> no image
     if (!src) {
@@ -72,8 +87,8 @@ export const Image = ({
     const buildUrl = isSvg ? (src: string): string => src : buildUrlWithImgixParams;
 
     // define width for imgix if possible
-    addImgixDimension(imgixParams, 'w', rest.width);
-    addImgixDimension(imgixParams, 'h', rest.height);
+    addImgixDimension(imgixParams, 'w', width);
+    addImgixDimension(imgixParams, 'h', height);
 
     // create @2x params of Imgix Parameters
     const imgixParams2x = imgixParams;
@@ -132,8 +147,8 @@ export const Image = ({
                 className={classNames.join(' ')}
                 alt={alt || ''}
                 src={webpUrl}
-                width={rest.width || imgixParams.w || 'auto'}
-                height={rest.height || imgixParams.h || 'auto'}
+                width={width}
+                height={height}
                 layout="responsive"
                 {...webpOptionalAttrs}
                 {...rest}
@@ -143,8 +158,8 @@ export const Image = ({
                         className={classNames.join(' ')}
                         alt={alt || ''}
                         src={origUrl}
-                        width={imgixParams.w || 'auto'}
-                        height={imgixParams.h || 'auto'}
+                        width={width}
+                        height={height}
                         layout="responsive"
                         {...origOptionalAttrs}
                         {...rest}
@@ -178,6 +193,8 @@ export const Image = ({
             key={`image_${src}`}
             src={url1x}
             alt={alt}
+            width={width}
+            height={height}
             className={classNames.join(' ')}
             loading={noLazy ? 'eager' : 'lazy'}
             {...optionalAttrs}

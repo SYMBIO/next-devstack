@@ -1,12 +1,11 @@
 import React, { DetailedHTMLProps, ReactElement, useEffect, useRef, VideoHTMLAttributes } from 'react';
-import { BaseDatoCMSProps } from '../../types/app';
-import { FileField } from '../../types/graphql';
+import { VideoInterface } from '../../types/app';
 import capitalize from '../../utils/capitalize';
 import getHLSVideo from '../../utils/getHLSVideo';
 import styles from './Video.module.scss';
 
 interface VideoProps extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
-    video?: Omit<FileField, BaseDatoCMSProps>;
+    video?: VideoInterface;
     objectFit?: 'cover' | 'contain';
     objectPosition?: 'top' | 'bottom';
 }

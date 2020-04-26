@@ -20,7 +20,7 @@ export interface StaticBlockContext {
     environment: Environment;
 }
 
-export interface BlockContext extends StaticBlockContext {
+export interface ServerSideBlockContext extends StaticBlockContext {
     req: IncomingMessage;
     res: ServerResponse;
 }
@@ -28,15 +28,20 @@ export interface BlockContext extends StaticBlockContext {
 export type BlockGetServerSideProps<
     P extends { [key: string]: any } = { [key: string]: any },
     Q extends ParsedUrlQuery = ParsedUrlQuery
-> = (context: BlockContext) => Promise<P>;
+> = (context: ServerSideBlockContext) => Promise<P>;
 
 export type BlockGetStaticProps<
     P extends { [key: string]: any } = { [key: string]: any },
     Q extends ParsedUrlQuery = ParsedUrlQuery
 > = (ctx: StaticBlockContext) => Promise<P>;
 
-export declare type BlockType = NextComponentType<BlockContext, any, any> & {
+export type BlockGetStaticPaths<P extends ParsedUrlQuery = ParsedUrlQuery> = (
+    locale: SiteLocale,
+    environment: Environment,
+) => Promise<P[]>;
+
+export declare type BlockType = NextComponentType<ServerSideBlockContext, any, any> & {
     getStaticProps?: BlockGetStaticProps;
     getServerSideProps?: BlockGetServerSideProps;
-    getStaticPaths?: GetStaticPaths;
+    getStaticPaths?: BlockGetStaticPaths;
 };

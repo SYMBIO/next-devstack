@@ -17,8 +17,11 @@ const query = graphql`
             slug
             perex
             image {
-                url
-                alt
+                ...appImageFragment @relay(mask: false)
+            }
+            category {
+                id
+                slug
             }
             tags {
                 id
@@ -30,21 +33,19 @@ const query = graphql`
 
 graphql`
     fragment NewsListBlock_content on NewsListRecord {
-        headline
+        id
     }
 `;
 
-function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const { headline } = content;
-
+function NewsListBlock({ allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'NewsListBlock'} className={styles.wrapper} {...rest}>
-            <NewsList headline={headline} items={allNews} />
+            <NewsList items={allNews} />
         </BlockWrapper>
     );
 }
 
-NewsListBlock.getStaticProps = async ({
+NewsListBlock.getStaticProps = NewsListBlock.getServerSideProps = async ({
     environment,
     locale,
 }: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {

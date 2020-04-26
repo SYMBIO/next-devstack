@@ -14,16 +14,10 @@ graphql`
         banners {
             id
             image {
-                url
-                height
-                width
+                ...appImageFragment @relay(mask: false)
             }
             video {
-                id
-                video {
-                    streamingUrl
-                    thumbnailUrl
-                }
+                ...appVideoFragment @relay(mask: false)
             }
             headline
             description
