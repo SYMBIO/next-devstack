@@ -1,8 +1,7 @@
 import React, { useState, ReactElement } from 'react';
 import parse from 'html-react-parser';
 import styles from './GoogleMap.module.scss';
-import { withScriptjs, withGoogleMap, GoogleMap as GoogleMapComponent, Marker } from 'react-google-maps';
-import InfoBox from 'react-google-maps/lib/components/addons/InfoBox';
+import { GoogleMap as GoogleMapComponent, Marker, LoadScript, InfoBox } from '@react-google-maps/api';
 
 interface MapProps {
     readonly isMarkerShown: boolean;
@@ -23,15 +22,17 @@ const TooltipComponent = ({ text }: TooltipProps): ReactElement<TooltipProps, 'd
     <div className={styles.tooltip}>{parse(text)}</div>
 );
 
-export const GoogleMap = withScriptjs(
-    withGoogleMap(({ isMarkerShown, bubbleText, latitude, longitude }: MapProps): ReactElement<
-        MapProps,
-        'div'
-    > | null => {
-        const [visible, setVisible] = useState(false);
-        return (
-            <div>
-                <GoogleMapComponent defaultZoom={8} defaultCenter={{ lat: latitude, lng: longitude }}>
+export const GoogleMap = ({
+    isMarkerShown,
+    bubbleText,
+    latitude,
+    longitude,
+}: MapProps): ReactElement<MapProps, 'div'> | null => {
+    const [visible, setVisible] = useState(false);
+    return (
+        <div>
+            <LoadScript id="script-loader" googleMapsApiKey="PUT_YOUR_API_KEY_HERE">
+                <GoogleMapComponent zoom={8} center={{ lat: latitude, lng: longitude }}>
                     {isMarkerShown && (
                         <>
                             <Marker position={{ lat: latitude, lng: longitude }} onClick={() => setVisible(true)}>
@@ -44,7 +45,7 @@ export const GoogleMap = withScriptjs(
                         </>
                     )}
                 </GoogleMapComponent>
-            </div>
-        );
-    }),
-);
+            </LoadScript>
+        </div>
+    );
+};
