@@ -1,6 +1,6 @@
 # SYMBIO Next.js Devstack
 
-- Run platform: [now.sh](https://zeit.co/home)
+- Runtime platform: [now.sh](https://zeit.co/home)
 - Framework: [Next.js](https://nextjs.org/)
 - Language: [Typescript](https://www.typescriptlang.org/)
 - Styles: [Sass](https://sass-lang.com/) + [CSS modules](https://github.com/css-modules/css-modules)

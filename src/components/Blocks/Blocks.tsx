@@ -3,7 +3,7 @@ import BlockFactory from '../../lib/blocks/BlockFactory';
 
 interface BlocksProps {
     blocks: any[] | null;
-    initialProps: any[];
+    initialProps?: any[];
 }
 
 export const Blocks = ({ blocks, initialProps }: BlocksProps) => (
@@ -14,7 +14,7 @@ export const Blocks = ({ blocks, initialProps }: BlocksProps) => (
                 return null;
             }
             const BlockComponent = BlockFactory.get(blockName);
-            const blockInitialProps = initialProps[i];
+            const blockInitialProps = (initialProps && initialProps[i]) || {};
             return (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                 // @ts-ignore
