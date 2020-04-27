@@ -31,13 +31,21 @@ export const GoogleMap = ({
     const [visible, setVisible] = useState(false);
     return (
         <div>
-            <LoadScript id="script-loader" googleMapsApiKey="PUT_YOUR_API_KEY_HERE">
-                <GoogleMapComponent zoom={8} center={{ lat: latitude, lng: longitude }}>
+            <LoadScript
+                id="script-loader"
+                googleMapsApiKey="PUT_YOUR_API_KEY_HERE"
+                loadingElement={<div className={styles.loading} />}
+            >
+                <GoogleMapComponent
+                    zoom={8}
+                    center={{ lat: latitude, lng: longitude }}
+                    mapContainerClassName={styles.container}
+                >
                     {isMarkerShown && (
                         <>
-                            <Marker position={{ lat: latitude, lng: longitude }} onClick={() => setVisible(true)}>
+                            <Marker position={{ lat: latitude, lng: longitude }} onClick={(): void => setVisible(true)}>
                                 {bubbleText && visible && (
-                                    <InfoBox onCloseClick={() => setVisible(false)}>
+                                    <InfoBox onCloseClick={(): void => setVisible(false)}>
                                         <TooltipComponent text={bubbleText} />
                                     </InfoBox>
                                 )}
