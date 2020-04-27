@@ -73,6 +73,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
                 }
                 // loop over all pages
                 for (const page of allPages) {
+                    // skip homepage because '' url doesn't satisfy '/[...slug]' pattern
+                    if (!useLocaleInPath && String(page.url) === 'homepage') {
+                        continue;
+                    }
                     let url = String(page.url) === 'homepage' ? '' : '/' + page.url;
                     const localePrefix = useLocaleInPath ? '/' + locale : '';
                     const blockParams = await getStaticParamsFromBlocks(page.content, locale, environment);
@@ -100,6 +104,52 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths,
+        fallback: true,
+    };
+};
+
+export const getHomepageStaticProps: GetStaticProps = async (context) => {
+    const locale: SiteLocale = getSiteLocale(process.env.locale);
+    const environment = createRelayEnvironment({}, false);
+    const pathParts: string[] = [];
+    if (pathParts) {
+        const cache = PageCacheFactory.get();
+        const props = await cache.get(locale, pathParts);
+        const bIPPromises = [];
+        if (props.blocksData) {
+            for (const block of props.blocksData) {
+                const blockName = block?.__typename?.replace('Record', 'Block');
+                if (blockName && BlockFactory.has(blockName)) {
+                    const blk = BlockFactory.get(blockName);
+                    if (blk && blk.getStaticProps) {
+                        bIPPromises.push(blk.getStaticProps({ ...context, locale, environment }));
+                        continue;
+                    }
+                }
+                bIPPromises.push(Promise.resolve({}));
+            }
+        } else {
+            props.blocksData = null;
+        }
+        const blocksInitialProps = await Promise.all(bIPPromises);
+
+        return {
+            props: {
+                ...props,
+                locale,
+                blocksInitialProps,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};
+
+export const getHomepageStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: ['/'],
         fallback: true,
     };
 };

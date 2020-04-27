@@ -1,29 +1,16 @@
-import { NextPageContext } from 'next';
-import React, { ReactNode } from 'react';
-import { getSiteLocale } from '../lib/routing/getSiteLocale';
-import { SiteLocale } from '../types/graphql';
-import { MyPageProps } from '../types/app';
-import symbio from '../../symbio.config';
+import React from 'react';
+import LocaleRedirect from '../lib/routing/LocaleRedirect';
 import DefaultPage from './[...slug]';
 
-function LocaleRedirect({ locale }: MyPageProps): ReactNode {
-    return <script dangerouslySetInnerHTML={{ __html: `document.location = '/${locale}';` }}></script>;
-}
+// uncomment one of the possibilities
 
-LocaleRedirect.getInitialProps = function ({ res }: NextPageContext): { locale: SiteLocale } {
-    const locale: SiteLocale = getSiteLocale();
+// 1. SSG OR SSR with locale in path
+export default LocaleRedirect;
 
-    if (res) {
-        res.statusCode = 302;
-        res.setHeader('Location', '/' + locale);
-        res.end(`<script>document.location.href = '/${locale}'`);
-    }
+// 2. Static Site Generation without locale in path
+// export { getHomepageStaticPaths as getStaticPaths, getHomepageStaticProps as getStaticProps } from '../lib/server/ssg';
+// export default DefaultPage;
 
-    return {
-        locale,
-    };
-};
-
-const Page = symbio.i18n.useLocaleInPath ? LocaleRedirect : DefaultPage;
-
-export default Page;
+// 3. Server Side Render without locale in path
+// export * from '../lib/server/ssr';
+// export default DefaultPage;
