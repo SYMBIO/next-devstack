@@ -21,10 +21,6 @@ function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockP
         <BlockWrapper tooltip={'MapBlock'} className={styles.wrapper} {...rest}>
             <GoogleMap
                 isMarkerShown
-                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-                loadingElement={<div className={styles.loading} />}
-                containerElement={<div className={styles.container} />}
-                mapElement={<div className={styles.map} />}
                 latitude={content.gps ? content.gps.latitude : 0}
                 longitude={content.gps ? content.gps.longitude : 0}
                 bubbleText={content.bubbleText}
