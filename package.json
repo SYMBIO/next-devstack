@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
+    "@react-google-maps/api": "^1.8.9",
     "axios": "^0.19.2",
     "busboy": "^0.3.1",
     "core-js": "^3.6.5",
@@ -40,7 +41,6 @@
     "queue-promise": "^2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-google-maps": "^9.4.5",
     "react-image-lightbox": "^5.1.1",
     "react-intersection-observer": "^8.26.1",
     "react-relay": "^9.0.0",
