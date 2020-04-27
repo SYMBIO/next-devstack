@@ -1,15 +1,20 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { BaseDatoCMSProps } from '../../types/app';
-import { BannerRecord } from '../../types/graphql';
-import { Heading } from '..';
-import { Image } from '..';
-import { RichText } from '..';
-import { Video } from '..';
+import { ImageInterface, VideoInterface } from '../../types/app';
+import { Heading, Image, RichText, Video } from '..';
 import styles from './Slider.module.scss';
 
+interface BannerInterface {
+    id: string;
+    headline?: string | null;
+    description?: string | null;
+    textAlign?: string | null;
+    image?: ImageInterface;
+    video?: VideoInterface;
+}
+
 interface Props {
-    banners: Omit<BannerRecord, BaseDatoCMSProps>[];
+    banners: BannerInterface[];
     textAlign?: string;
     autoplay?: boolean;
     interval?: number;
@@ -29,12 +34,12 @@ const Banner = ({
     description,
     textAlign,
     sliderTextAlign,
-}: Omit<BannerRecord, BaseDatoCMSProps> & { sliderTextAlign: string }): ReactElement => (
+}: BannerInterface & { sliderTextAlign: string }): ReactElement => (
     <article className={styles.banner}>
         {video ? (
             <Video video={video} objectFit="cover" autoPlay muted loop />
         ) : (
-            <Image src={image?.url} objectFit="cover" height={Number(image?.height)} width={Number(image?.width)} />
+            image && <Image image={image} objectFit="cover" />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>

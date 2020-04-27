@@ -29,7 +29,7 @@ graphql`
 graphql`
     fragment appWebSettingFragment on WebSettingRecord {
         logo {
-            url
+            ...appImageFragment @relay(mask: false)
         }
         mainMenu {
             links {
@@ -135,6 +135,28 @@ export const ContentQuery = graphql`
             content {
                 ...blocksContent @relay(mask: false)
             }
+        }
+    }
+`;
+
+graphql`
+    fragment appImageFragment on FileField {
+        id
+        url
+        alt
+        width
+        height
+    }
+`;
+
+graphql`
+    fragment appVideoFragment on FileField {
+        id
+        width
+        height
+        video {
+            streamingUrl
+            thumbnailUrl
         }
     }
 `;

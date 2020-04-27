@@ -21,15 +21,13 @@ function isValidAuth(login: string, password: string): boolean {
 
 export function basicAuth(req: IncomingMessage | undefined, res: ServerResponse | undefined): boolean {
     const b64auth = (req?.headers.authorization || '').split(' ')[1] || '';
-    const [login, password] = new Buffer(b64auth, 'base64').toString().split(':');
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
 
     if (!login || !password || !isValidAuth(login, password)) {
         if (res) {
             res.statusCode = 401;
-            res.writeHead(401, 'Unathorized', {
-                'WWW-Authenticate': 'Basic realm="401"',
-            });
-            res.end('Unauthorized');
+            res.setHeader('WWW-Authenticate', 'Basic realm="401"');
+            res.end && res.end('Unauthorized');
         }
         return false;
     }

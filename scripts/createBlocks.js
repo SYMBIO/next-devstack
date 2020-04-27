@@ -56,13 +56,13 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                                     return (
                                         '        ' +
                                         toCamel(f.apiKey) +
-                                        ' {\n            id\n            width\n            height\n            video {\n                streamingUrl\n                thumbnailUrl\n            }\n        }'
+                                        ' {\n            ...appVideoFragment @relay(mask: false)\n        }'
                                     );
                                 }
                                 return (
                                     '        ' +
                                     toCamel(f.apiKey) +
-                                    ' {\n            id\n            url\n            alt\n            width\n            height\n        }'
+                                    ' {\n            ...appImageFragment @relay(mask: false)\n        }'
                                 );
                             } else if (['color'].indexOf(f.fieldType) !== -1) {
                                 return '        ' + toCamel(f.apiKey) + '{\n            hex\n        }';

@@ -11,7 +11,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse): Promi
         res.end('Page not found');
     }
 
-    const locale: SiteLocale = symbio.i18n.useLocaleInPath ? getSiteLocale(String(req.query.slug[0])) : getSiteLocale();
+    const locale: SiteLocale = symbio.i18n.useLocaleInPath
+        ? getSiteLocale(String(req.query.slug[0]))
+        : getSiteLocale(process.env.locale);
     const pathParts = req.query.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
     const cache = PageCacheFactory.get();
 

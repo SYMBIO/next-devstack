@@ -31,7 +31,6 @@ export const Head = ({ page, site }: HeadProps): ReactElement => (
             {site && site.globalSeo && site.globalSeo.titleSuffix}
         </title>
         <link rel="icon" type="image/x-icon" href={site.favicon?.url + '?w='} />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         {site.faviconMetaTags.map((favicon, i) => {
             const { tag: Tag, attributes } = favicon;
             return <Tag key={`Favicon_${i}`} {...attributes} />;

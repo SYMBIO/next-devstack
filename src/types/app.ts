@@ -36,3 +36,21 @@ export interface Page {
     url: string | null;
     title?: string | null;
 }
+
+export interface ImageInterface {
+    readonly id: unknown;
+    readonly url: string;
+    readonly alt: string | null;
+    readonly width: unknown | null;
+    readonly height: unknown | null;
+}
+
+export interface VideoInterface {
+    readonly id: unknown;
+    readonly width: unknown | null;
+    readonly height: unknown | null;
+    readonly video: {
+        readonly streamingUrl: string;
+        readonly thumbnailUrl: string;
+    } | null;
+}

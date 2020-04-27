@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { fetchQuery, graphql } from 'react-relay';
 import { BlockWrapper, NewsList } from '../../components';
 import BlockFactory from '../../lib/blocks/BlockFactory';
-import { BaseBlockProps, BlockContext } from '../../types/block';
+import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import { NewsListBlockQuery, NewsListBlockQueryResponse } from './__generated__/NewsListBlockQuery.graphql';
 import styles from './NewsListBlock.module.scss';
 
@@ -17,8 +17,11 @@ const query = graphql`
             slug
             perex
             image {
-                url
-                alt
+                ...appImageFragment @relay(mask: false)
+            }
+            category {
+                id
+                slug
             }
             tags {
                 id
@@ -30,21 +33,22 @@ const query = graphql`
 
 graphql`
     fragment NewsListBlock_content on NewsListRecord {
-        headline
+        id
     }
 `;
 
-function NewsListBlock({ content, allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    const { headline } = content;
-
+function NewsListBlock({ allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'NewsListBlock'} className={styles.wrapper} {...rest}>
-            <NewsList headline={headline} items={allNews} />
+            <NewsList items={allNews} />
         </BlockWrapper>
     );
 }
 
-NewsListBlock.getInitialProps = async ({ environment, locale }: BlockContext): Promise<NewsListBlockQueryResponse> => {
+NewsListBlock.getStaticProps = NewsListBlock.getServerSideProps = async ({
+    environment,
+    locale,
+}: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {
     return fetchQuery<NewsListBlockQuery>(environment, query, {
         locale,
         limit: 3,

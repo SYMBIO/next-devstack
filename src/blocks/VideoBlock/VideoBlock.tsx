@@ -10,13 +10,7 @@ graphql`
         id
         autoplay
         video {
-            id
-            width
-            height
-            video {
-                streamingUrl
-                thumbnailUrl
-            }
+            ...appVideoFragment @relay(mask: false)
         }
     }
 `;

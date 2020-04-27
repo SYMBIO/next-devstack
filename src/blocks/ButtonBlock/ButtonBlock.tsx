@@ -9,10 +9,7 @@ graphql`
     fragment ButtonBlock_content on ButtonRecord {
         id
         file {
-            id
-            url
-            width
-            height
+            ...appImageFragment @relay(mask: false)
         }
         icon {
             id
