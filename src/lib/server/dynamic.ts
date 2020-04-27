@@ -17,7 +17,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const currentUrl = req.url;
     const hostname = req.headers.host;
     const locale: SiteLocale =
-        (symbio.i18n.useLocaleInPath && slug && Array.isArray(slug) && getSiteLocale(slug[0])) || getSiteLocale();
+        (symbio.i18n.useLocaleInPath && slug && Array.isArray(slug) && getSiteLocale(slug[0])) ||
+        getSiteLocale(process.env.locale);
 
     moment.updateLocale(String(locale), { calendar: CALENDAR_FORMATS[locale] });
     moment.locale(locale);

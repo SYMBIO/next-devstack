@@ -13,7 +13,9 @@ import { getStaticParamsFromBlocks } from './getStaticParamsFromBlocks';
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { params } = context;
-    const locale: SiteLocale = symbio.i18n.useLocaleInPath ? getSiteLocale(String(params?.slug[0])) : getSiteLocale();
+    const locale: SiteLocale = symbio.i18n.useLocaleInPath
+        ? getSiteLocale(String(params?.slug[0]))
+        : getSiteLocale(process.env.locale);
     const environment = createRelayEnvironment({}, false);
     const pathParts = params?.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
     if (pathParts) {

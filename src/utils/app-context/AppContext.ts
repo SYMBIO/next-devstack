@@ -3,7 +3,7 @@ import { getSiteLocale } from '../../lib/routing/getSiteLocale';
 import { AppContextProps } from '../../types/appContext';
 
 export const AppContext = createContext<AppContextProps>({
-    locale: getSiteLocale(),
+    locale: getSiteLocale(process.env.locale),
     absoluteLinks: false,
     site: {
         faviconMetaTags: [],
