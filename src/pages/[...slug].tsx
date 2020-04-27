@@ -34,6 +34,8 @@ const Page = (props: MyPageProps): ReactElement => {
     }
 
     moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+    moment.locale(locale);
+    moment.tz.setDefault(symbio.tz);
 
     const environment = createRelayEnvironment(relayRecords, false);
 
@@ -82,7 +84,7 @@ const Page = (props: MyPageProps): ReactElement => {
     );
 };
 
-// Static-site Generation (static) vs Server side generation (dynamic)
-export * from '../lib/server/static';
+// Static Site Generation (ssg) vs Server Side Rendering (ssr)
+export * from '../lib/server/ssg';
 
 export default Page;
