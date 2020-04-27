@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PageCacheFactory } from '../../lib/pageCache/PageCacheFactory';
-import { getSiteLocale } from '../../lib/routing/getSiteLocale';
-import { Logger } from '../../services';
-import { SiteLocale } from '../../types/graphql';
-import symbio from '../../../symbio.config';
+import { PageCacheFactory } from '../../../lib/pageCache/PageCacheFactory';
+import { getSiteLocale } from '../../../lib/routing/getSiteLocale';
+import { Logger } from '../../../services';
+import { SiteLocale } from '../../../types/graphql';
+import symbio from '../../../../symbio.config';
 
 export default async function (req: NextApiRequest, res: NextApiResponse): Promise<void> {
     if (!req.query.slug && symbio.i18n.useLocaleInPath) {
