@@ -25,8 +25,8 @@ function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockP
                 loadingElement={<div className={styles.loading} />}
                 containerElement={<div className={styles.container} />}
                 mapElement={<div className={styles.map} />}
-                latitude={content.gps.latitude}
-                longitude={content.gps.longitude}
+                latitude={content.gps ? content.gps.latitude : 0}
+                longitude={content.gps ? content.gps.longitude : 0}
                 bubbleText={content.bubbleText}
             />
         </BlockWrapper>
