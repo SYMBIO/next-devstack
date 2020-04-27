@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { data } = await axios.get(
         (hostname === 'localhost:3000' ? 'http://' : 'https://') +
             hostname +
-            '/api' +
+            '/api/page' +
             (currentUrl === '/' ? '/homepage' : currentUrl),
     );
     const environment = createRelayEnvironment({}, false);
