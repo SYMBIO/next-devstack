@@ -45,15 +45,17 @@ function NewsListBlock({ allNews, ...rest }: NewsListBlockProps): ReactElement<B
     );
 }
 
-NewsListBlock.getStaticProps = NewsListBlock.getServerSideProps = async ({
-    environment,
-    locale,
-}: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {
-    return fetchQuery<NewsListBlockQuery>(environment, query, {
+if (typeof window === 'undefined') {
+    NewsListBlock.getStaticProps = NewsListBlock.getServerSideProps = async ({
+        environment,
         locale,
-        limit: 3,
-        offset: 0,
-    });
-};
+    }: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {
+        return fetchQuery<NewsListBlockQuery>(environment, query, {
+            locale,
+            limit: 3,
+            offset: 0,
+        });
+    };
+}
 
 BlockFactory.set('NewsListBlock', NewsListBlock);

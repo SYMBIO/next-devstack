@@ -63,15 +63,17 @@ function NewsListFloorBlock({
     );
 }
 
-NewsListFloorBlock.getStaticProps = NewsListFloorBlock.getServerSideProps = async ({
-    environment,
-    locale,
-}: StaticBlockContext): Promise<NewsListFloorBlockQueryResponse> => {
-    return fetchQuery<NewsListFloorBlockQuery>(environment, query, {
+if (typeof window === 'undefined') {
+    NewsListFloorBlock.getStaticProps = NewsListFloorBlock.getServerSideProps = async ({
+        environment,
         locale,
-        limit: 3,
-        offset: 0,
-    });
-};
+    }: StaticBlockContext): Promise<NewsListFloorBlockQueryResponse> => {
+        return fetchQuery<NewsListFloorBlockQuery>(environment, query, {
+            locale,
+            limit: 3,
+            offset: 0,
+        });
+    };
+}
 
 BlockFactory.set('NewsListFloorBlock', NewsListFloorBlock);

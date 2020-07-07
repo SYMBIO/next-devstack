@@ -77,42 +77,47 @@ function NewsDetailBlock({ content, news, ...rest }: NewsDetailBlockProps): Reac
     );
 }
 
-NewsDetailBlock.getStaticPaths = async (locale: SiteLocale, environment: Environment): Promise<ParsedUrlQuery[]> => {
-    const params: ParsedUrlQuery[] = [];
+if (typeof window === 'undefined') {
+    NewsDetailBlock.getStaticPaths = async (
+        locale: SiteLocale,
+        environment: Environment,
+    ): Promise<ParsedUrlQuery[]> => {
+        const params: ParsedUrlQuery[] = [];
 
-    const data = await fetchQuery<NewsDetailBlockStaticPathsQuery>(environment, staticPathsQuery, {
-        locale,
-    });
-
-    for (const news of data.allNews) {
-        params.push({
-            slug: news.id + '-' + news.slug,
+        const data = await fetchQuery<NewsDetailBlockStaticPathsQuery>(environment, staticPathsQuery, {
+            locale,
         });
-    }
 
-    return params;
-};
+        for (const news of data.allNews) {
+            params.push({
+                slug: news.id + '-' + news.slug,
+            });
+        }
 
-NewsDetailBlock.getStaticProps = NewsDetailBlock.getServerSideProps = async ({
-    environment,
-    locale,
-    params,
-}: StaticBlockContext): Promise<NewsDetailBlockQueryResponse | {}> => {
-    if (!params) {
-        return {};
-    }
+        return params;
+    };
 
-    const slug = params.slug;
-    const id = getId(slug);
-
-    if (!id) {
-        return {};
-    }
-
-    return fetchQuery<NewsDetailBlockQuery>(environment, query, {
+    NewsDetailBlock.getStaticProps = NewsDetailBlock.getServerSideProps = async ({
+        environment,
         locale,
-        id,
-    });
-};
+        params,
+    }: StaticBlockContext): Promise<NewsDetailBlockQueryResponse | {}> => {
+        if (!params) {
+            return {};
+        }
+
+        const slug = params.slug;
+        const id = getId(slug);
+
+        if (!id) {
+            return {};
+        }
+
+        return fetchQuery<NewsDetailBlockQuery>(environment, query, {
+            locale,
+            id,
+        });
+    };
+}
 
 BlockFactory.set('NewsDetailBlock', NewsDetailBlock);
