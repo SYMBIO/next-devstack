@@ -1,0 +1,23 @@
+# NodeJS
+node_modules/
+
+# NextJS
+.next/
+
+# IDEs
+.idea/
+
+# dotenv
+.env
+
+# graphql/relay
+schema.graphql
+/src/types/graphql.ts
+/src/schema/graphql.schema.json
+__generated__/
+
+fixtures/
+
+.now/
+
+sitemap.xml
