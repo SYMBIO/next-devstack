@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
+    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build && build-storybook -c .storybook -o ./src/pages/storybook",
     "create-blocks": "node scripts/createBlocks.js && npm run relay",
     "export": "NODE_ENV=production next export",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
@@ -15,7 +15,9 @@
     "relay": "relay-compiler",
     "start": "NODE_ENV=production next start",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "storybook": "start-storybook",
+    "build-storybook": "build-storybook -c .storybook -o ./src/pages/storybook"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -54,12 +56,24 @@
     "yup": "^0.28.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.4",
     "@graphql-codegen/cli": "^1.13.1",
     "@graphql-codegen/introspection": "1.13.1",
     "@graphql-codegen/schema-ast": "^1.13.1",
     "@graphql-codegen/typescript": "1.13.1",
     "@graphql-codegen/typescript-operations": "1.13.1",
     "@next/bundle-analyzer": "^9.3.4",
+    "@storybook/addon-a11y": "^5.3.19",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-backgrounds": "^5.3.19",
+    "@storybook/addon-console": "^1.2.1",
+    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-notes": "^5.3.19",
+    "@storybook/addon-storysource": "^5.3.19",
+    "@storybook/addon-viewport": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/client-api": "^5.3.19",
+    "@storybook/react": "^5.3.19",
     "@svgr/webpack": "^5.3.1",
     "@types/busboy": "^0.2.3",
     "@types/hls.js": "^0.12.6",
@@ -78,7 +92,9 @@
     "@types/yup": "^0.26.34",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
+    "awesome-typescript-loader": "^5.2.1",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
     "babel-plugin-relay": "^9.0.0",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
@@ -94,6 +110,7 @@
     "lint-staged": "^10.1.2",
     "moment-timezone-data-webpack-plugin": "^1.1.0",
     "prettier": "^2.0.4",
+    "react-docgen-typescript-loader": "^3.7.2",
     "relay-compiler": "^9.1.0",
     "relay-compiler-language-typescript": "^12.0.0",
     "relay-config": "^9.1.0",

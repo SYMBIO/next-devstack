@@ -22,3 +22,4 @@ fixtures/
 
 sitemap.xml
 .vercel
+/src/pages/storybook/
