@@ -28,15 +28,15 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     const { form: formCs } = await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'cs',
-        filter: { id: { eq: req.query.id } },
+        filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
     });
     const { form: formEn } = await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'en',
-        filter: { id: { eq: req.query.id } },
+        filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
     });
 
-    const { allFormDataS: data } = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
-        filter: { form: { eq: req.query.id } },
+    const { allDataForms: data } = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
+        filter: { form: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
     });
 
     if ((!formCs && !formEn) || !Array.isArray(data)) {
