@@ -20,6 +20,10 @@
       ]
     },
     {
+      "source": "/storybook/(.*)",
+      "headers": []
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
