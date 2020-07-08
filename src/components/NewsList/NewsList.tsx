@@ -1,7 +1,7 @@
 import React, { ReactElement, useContext } from 'react';
 import moment from 'moment-timezone';
 import { Heading, Link, RichText } from '..';
-import { Page } from '../../types/app';
+import { ImageInterface, Page } from '../../types/app';
 import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './NewsList.module.scss';
 import symbio from '../../../symbio.config';
@@ -19,10 +19,7 @@ interface NewsItem {
     readonly title: string | null;
     readonly slug: string | null;
     readonly perex: string | null;
-    readonly image: {
-        readonly url: string;
-        readonly alt: string | null;
-    } | null;
+    readonly image: ImageInterface | null;
     readonly category: {
         readonly id: unknown;
         readonly slug: string | null;

@@ -21,3 +21,4 @@ fixtures/
 .now/
 
 sitemap.xml
+.vercel
