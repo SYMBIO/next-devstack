@@ -17,7 +17,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "start-storybook",
-    "build-storybook": "build-storybook -c .storybook -o ./src/pages/storybook"
+    "build-storybook": "build-storybook -c .storybook -o ./public/storybook"
   },
   "engines": {
     "node": ">=10.0.0"

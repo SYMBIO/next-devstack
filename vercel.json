@@ -20,13 +20,8 @@
       ]
     },
     {
-      "source": "/storybook/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "ALLOW"
-        }
-      ]
+      "source": "(.*)/storybook/(.*)",
+      "headers": []
     },
     {
       "source": "/(.*)",
