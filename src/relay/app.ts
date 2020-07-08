@@ -29,7 +29,10 @@ graphql`
 graphql`
     fragment appWebSettingFragment on WebSettingRecord {
         logo {
-            ...appImageFragment @relay(mask: false)
+            ...appImageBaseFragment @relay(mask: false)
+            responsiveImage(imgixParams: { w: 32 }) {
+                ...appResponsiveImageFragment @relay(mask: false)
+            }
         }
         mainMenu {
             links {
@@ -140,12 +143,40 @@ export const ContentQuery = graphql`
 `;
 
 graphql`
-    fragment appImageFragment on FileField {
+    fragment appImageBaseFragment on FileField {
         id
         url
-        alt
+    }
+`;
+
+graphql`
+    fragment appResponsiveImageFragment on ResponsiveImage {
+        # HTML5 src/srcset/sizes attributes
+        srcSet
+        webpSrcSet
+        sizes
+        src
+
+        # size information (post-transformations)
         width
         height
+        aspectRatio
+
+        # SEO attributes
+        alt
+        title
+
+        # blur-up placeholder, JPEG format, base64-encoded
+        base64
+    }
+`;
+
+graphql`
+    fragment appImageFragment on FileField {
+        ...appImageBaseFragment @relay(mask: false)
+        responsiveImage {
+            ...appResponsiveImageFragment @relay(mask: false)
+        }
     }
 `;
 

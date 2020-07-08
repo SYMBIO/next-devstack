@@ -38,11 +38,20 @@ export interface Page {
 }
 
 export interface ImageInterface {
-    readonly id: unknown;
+    readonly id: number;
     readonly url: string;
-    readonly alt: string | null;
-    readonly width: unknown | null;
-    readonly height: unknown | null;
+    readonly responsiveImage: {
+        readonly srcSet: string;
+        readonly webpSrcSet: string;
+        readonly sizes: string;
+        readonly src: string;
+        readonly width: number;
+        readonly height: number;
+        readonly aspectRatio: number;
+        readonly alt: string | null;
+        readonly title: string | null;
+        readonly base64: string | null;
+    } | null;
 }
 
 export interface VideoInterface {

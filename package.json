@@ -12,7 +12,7 @@
     "export": "NODE_ENV=production next export",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "relay": "relay-compiler --src ./ --exclude '**/.next/**' '**/node_modules/**' '**/test/**'  '**/__generated__/**' --exclude '**/schema/**'  --language typescript --schema ./src/schema/schema.graphql",
+    "relay": "relay-compiler",
     "start": "NODE_ENV=production next start",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -38,6 +38,7 @@
     "object-fit-images": "^3.2.4",
     "path-to-regexp": "^6.1.0",
     "react": "^16.13.1",
+    "react-datocms": "^1.2.5",
     "react-dom": "^16.13.1",
     "react-image-lightbox": "^5.1.1",
     "react-intersection-observer": "^8.26.1",
@@ -93,8 +94,9 @@
     "lint-staged": "^10.1.2",
     "moment-timezone-data-webpack-plugin": "^1.1.0",
     "prettier": "^2.0.4",
-    "relay-compiler": "^9.0.0",
+    "relay-compiler": "^9.1.0",
     "relay-compiler-language-typescript": "^12.0.0",
+    "relay-config": "^9.1.0",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3"
   },

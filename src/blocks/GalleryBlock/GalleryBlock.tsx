@@ -10,7 +10,10 @@ import styles from './GalleryBlock.module.scss';
 graphql`
     fragment GalleryBlock_content on GalleryRecord {
         assets {
-            ...appImageFragment @relay(mask: false)
+            ...appImageBaseFragment @relay(mask: false)
+            responsiveImage(imgixParams: { fit: crop, w: 300 }) {
+                ...appResponsiveImageFragment @relay(mask: false)
+            }
         }
     }
 `;

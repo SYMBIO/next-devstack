@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import { Image } from '..';
-import { FileField } from '../../types/graphql';
 import Lightbox from 'react-image-lightbox';
+import { ImageInterface } from '../../types/app';
 
 interface GalleryProps {
-    images: ReadonlyArray<{
-        readonly id: unknown;
-        readonly url: string;
-        readonly alt: string | null;
-        readonly width: unknown | null;
-        readonly height: unknown | null;
-    }>;
+    images: ReadonlyArray<ImageInterface>;
 }
 
 export const Gallery = ({ images }: GalleryProps): JSX.Element => {

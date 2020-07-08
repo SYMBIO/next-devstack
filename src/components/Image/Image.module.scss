@@ -1,5 +1,9 @@
 @import '../../styles/mixins/object-fit';
 
+.imageWrapper {
+    height: 100%;
+}
+
 .img {
     width: auto;
     height: auto;
