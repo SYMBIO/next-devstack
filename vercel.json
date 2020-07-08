@@ -21,7 +21,12 @@
     },
     {
       "source": "/storybook/(.*)",
-      "headers": []
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOW"
+        }
+      ]
     },
     {
       "source": "/(.*)",
