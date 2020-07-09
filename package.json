@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build && build-storybook -c .storybook -o ./public/storybook --quiet",
+    "build": "graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
     "create-blocks": "node scripts/createBlocks.js && npm run relay",
     "export": "NODE_ENV=production next export",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
@@ -17,7 +17,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "start-storybook",
-    "build-storybook": "build-storybook -c .storybook -o ./public/storybook"
+    "build-storybook": "build-storybook -c .storybook -o ./public/storybook --quiet"
   },
   "engines": {
     "node": ">=10.0.0"
