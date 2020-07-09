@@ -49,7 +49,7 @@
       ]
     },
     {
-      "source": "/storybook/\\?path=/story/(.*)",
+      "source": "/storybook/(.*)",
       "headers": [
         {
           "key": "X-Frame-Options",
