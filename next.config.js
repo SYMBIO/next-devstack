@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const symbio = require('./symbio.config');
+const withPWA = require('next-pwa');
 
 if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
     console.error('Trying to use Redis page cache without REDIS_URL env variable!');
@@ -69,6 +70,10 @@ const nextConfig = {
 
         return config;
     },
+    pwa: {
+        dest: 'public',
+        disable: process.env.NODE_ENV === 'development',
+    },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = withBundleAnalyzer(withPWA(nextConfig));

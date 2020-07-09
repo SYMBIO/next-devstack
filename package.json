@@ -37,6 +37,7 @@
     "mandrill-api": "^1.0.45",
     "moment-timezone": "^0.5.28",
     "next": "^9.4.4",
+    "next-pwa": "^3.0.2",
     "object-fit-images": "^3.2.4",
     "path-to-regexp": "^6.1.0",
     "react": "^16.13.1",
