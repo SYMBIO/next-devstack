@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 export const EditPage = ({ page }: { page: { id: unknown } }): ReactElement => (
     <a

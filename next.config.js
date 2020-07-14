@@ -1,8 +1,5 @@
 /* eslint-disable no-undef */
-require('dotenv').config();
-
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
@@ -25,12 +22,6 @@ const nextConfig = {
 
         config.plugins = [
             ...config.plugins,
-
-            // Read the .env file
-            new Dotenv({
-                path: path.join(__dirname, '.env'),
-                systemvars: true,
-            }),
 
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /cs|en-gb/),
             new MomentTimezoneDataPlugin({

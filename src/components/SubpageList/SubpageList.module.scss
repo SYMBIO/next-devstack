@@ -1,0 +1,32 @@
+@import "../../styles/mixins/responsive";
+@import '../../styles/functions/rem.scss';
+
+.list {
+  grid-column: 1 / span 6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: rem(24);
+  grid-column-gap: rem(16);
+
+  @include tablet {
+    grid-column: 1 / span 12;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include tablet-landscape {
+    grid-column: 1 / span 16;
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: rem(80);
+  }
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 16rem;
+}
+
+.pagination {
+  justify-content: flex-end;
+}

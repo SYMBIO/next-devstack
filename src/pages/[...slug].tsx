@@ -2,30 +2,21 @@ import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 import moment from 'moment-timezone';
 import 'moment/locale/cs';
-import { ReactRelayContext } from 'react-relay';
 
+// import { getStaticProps as gSP, getStaticPaths as gSPaths } from '../lib/server/ssg';
+import { getServerSideProps as gSSP } from '../lib/server/ssr';
 import { CALENDAR_FORMATS } from '../constants';
 import '../blocks';
+import '../providers';
 import { Blocks, EditPage, Head, Layout, Navbar } from '../components';
-import { createRelayEnvironment } from '../lib/relay/createRelayEnvironment';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
-import symbio from '../../symbio.config';
+import symbio from '../../symbio.config.json';
 import isStaging from '../utils/isStaging';
 
 const Page = (props: MyPageProps): ReactElement => {
-    const {
-        currentUrl,
-        hostname,
-        site,
-        page,
-        blocksData,
-        locale,
-        webSetting,
-        blocksInitialProps,
-        relayRecords,
-    } = props;
+    const { currentUrl, hostname, site, page, blocksData, locale, webSetting, blocksProps } = props;
 
     const router = useRouter();
 
@@ -37,8 +28,6 @@ const Page = (props: MyPageProps): ReactElement => {
     moment.locale(locale);
     moment.tz.setDefault(symbio.tz);
 
-    const environment = createRelayEnvironment(relayRecords, false);
-
     if (!page || !webSetting) {
         return <>No page</>;
     }
@@ -48,43 +37,42 @@ const Page = (props: MyPageProps): ReactElement => {
     }, [currentUrl]);
 
     return (
-        <ReactRelayContext.Provider
+        <AppContext.Provider
             value={{
-                environment,
+                locale,
+                currentUrl,
+                hostname,
+                page,
+                site,
+                absoluteLinks: false,
+                ...webSetting,
             }}
         >
-            <AppContext.Provider
-                value={{
-                    locale,
-                    currentUrl,
-                    hostname,
-                    absoluteLinks: false,
-                    ...webSetting,
-                }}
-            >
-                <Head page={page} site={site} />
+            <Head page={page} site={site} />
 
-                {isStaging() && <EditPage page={page} />}
+            {isStaging() && <EditPage page={page} />}
 
-                <Layout>
-                    <Navbar />
-                    <Blocks blocks={blocksData} initialProps={blocksInitialProps} />
-                </Layout>
-                {symbio.gtm.code && (
-                    <noscript
-                        dangerouslySetInnerHTML={{
-                            __html: `<!-- Google Tag Manager (noscript) -->
+            <Layout>
+                <Navbar />
+                <Blocks blocks={blocksData} initialProps={blocksProps} />
+            </Layout>
+
+            {symbio.gtm.code && (
+                <noscript
+                    dangerouslySetInnerHTML={{
+                        __html: `<!-- Google Tag Manager (noscript) -->
                         <iframe src="https://www.googletagmanager.com/ns.html?id=${symbio.gtm.code}" height="0" width="0" style="display:none;visibility:hidden"></iframe>
                         <!-- End Google Tag Manager (noscript) -->`,
-                        }}
-                    />
-                )}
-            </AppContext.Provider>
-        </ReactRelayContext.Provider>
+                    }}
+                />
+            )}
+        </AppContext.Provider>
     );
 };
 
 // Static Site Generation (ssg) vs Server Side Rendering (ssr)
-export * from '../lib/server/ssg';
+export const getServerSideProps = gSSP;
+// export const getStaticProps = gSP;
+// export const getStaticPaths = gSPaths;
 
 export default Page;

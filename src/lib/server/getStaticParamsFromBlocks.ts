@@ -1,14 +1,10 @@
 import { ParsedUrlQuery } from 'querystring';
-import { Environment } from 'relay-runtime';
-import BlockFactory from '../blocks/BlockFactory';
-import { getSiteLocale } from '../routing/getSiteLocale';
+import BlockRegistry from '../blocks/BlockRegistry';
+import getBlockName from '../../utils/getBlockName';
 
 export async function getStaticParamsFromBlocks(
-    blocks: ReadonlyArray<{
-        readonly __typename: string;
-    } | null> | null,
+    blocks: ReadonlyArray<{ __typename: string } | null> | null,
     locale: string,
-    environment: Environment,
 ): Promise<ParsedUrlQuery[]> {
     if (!blocks) {
         return [];
@@ -16,11 +12,11 @@ export async function getStaticParamsFromBlocks(
 
     let blockParams: ParsedUrlQuery[] = [];
     for (const block of blocks) {
-        const blockName = block?.__typename?.replace('Record', 'Block');
-        if (blockName && BlockFactory.has(blockName)) {
-            const blk = BlockFactory.get(blockName);
+        const blockName = getBlockName(block);
+        if (blockName && BlockRegistry.has(blockName)) {
+            const blk = BlockRegistry.get(blockName);
             if (blk && blk.getStaticPaths) {
-                const newParams = await blk.getStaticPaths(getSiteLocale(locale), environment);
+                const newParams = await blk.getStaticPaths(locale);
                 if (blockParams.length === 0) {
                     blockParams.push(...newParams);
                 } else {

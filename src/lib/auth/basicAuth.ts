@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 /**
  * Check username/password against basic auth credentials defined in config

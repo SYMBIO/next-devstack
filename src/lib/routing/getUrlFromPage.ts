@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import { Page } from '../../types/app';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 export function getUrlFromPage(
     page: Page,
@@ -21,10 +21,15 @@ export function getUrlFromPage(
     if (params) {
         const tmpParams = new Map(Object.entries(params));
         for (const key in params) {
-            if (url.indexOf(':' + key) !== -1) {
+            if (url.indexOf(':' + key) !== -1 && key !== 'url') {
                 tmpParams.delete(key);
-                url = url.replace(':' + key, params[key].toString());
+                url = url.replace(':' + key, params[key]?.toString() || '');
             }
+        }
+
+        if (url.endsWith('*') && tmpParams.has('url')) {
+            url = url.replace('*', tmpParams.get('url'));
+            tmpParams.delete('url');
         }
 
         if (tmpParams.size > 0) {

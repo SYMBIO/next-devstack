@@ -2,24 +2,14 @@
 
 .wrapper {
   grid-column: 1 / span 6;
+  margin-top: 2rem;
 
-  @include mobile-landscape {
-    grid-column: 1 / span 6;
-  }
-
-  @include tablet {
+  @include sm-md {
     grid-column: 1 / span 12;
   }
 
-  @include tablet-landscape {
+  @include md-min {
     grid-column: 1 / span 16;
-  }
-
-  @include desktop {
-    grid-column: 1 / span 16;
-  }
-
-  @include large-desktop {
-    grid-column: 1 / span 16;
+    margin-top: 4rem;
   }
 }

@@ -6,7 +6,7 @@ import { Mandrill } from 'mandrill-api';
 import { createRelayEnvironment } from '../../../lib/relay/createRelayEnvironment';
 import { confirmSubscriberQuery } from '../../../relay/api/newsletter/confirm';
 import { confirmSubscriberQuery as q } from '../../../relay/api/newsletter/__generated__/confirmSubscriberQuery.graphql';
-import symbio from '../../../../symbio.config';
+import symbio from '../../../../symbio.config.json';
 
 dotenv.config();
 
@@ -59,9 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
             const message = {
                 text: symbio.newsletter.body.replace('{EMAIL}', String(newsletterSubscriber.email)),
                 subject: symbio.newsletter.subject,
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_email: symbio.mailer.from,
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_name: symbio.mailer.name,
                 to: [
                     {

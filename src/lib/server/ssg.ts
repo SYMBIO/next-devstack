@@ -1,55 +1,74 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { fetchQuery } from 'react-relay';
-import symbio from '../../../symbio.config';
-import { staticPathsQuery as sPQ } from '../../relay/api/__generated__/staticPathsQuery.graphql';
-import { staticPathsQuery } from '../../relay/api/staticPaths';
-import { SiteLocale } from '../../types/graphql';
-import BlockFactory from '../blocks/BlockFactory';
-import { PageCacheFactory } from '../pageCache/PageCacheFactory';
-import { createRelayEnvironment } from '../relay/createRelayEnvironment';
-import { getSiteLocale } from '../routing/getSiteLocale';
-import { getStaticParamsFromBlocks } from './getStaticParamsFromBlocks';
-import fs from 'fs';
-import xml from 'xml';
+import { i18n, locales, tz } from '../../../symbio.config.json';
+import BlockRegistry from '../blocks/BlockRegistry';
+import moment from 'moment-timezone';
+import { CALENDAR_FORMATS } from '../../constants';
+import ProviderRegistry from '../provider/ProviderRegistry';
+import PageProvider from '../../providers/PageProvider';
+import getBlockName from '../../utils/getBlockName';
+import '../../providers';
+
+const getBlocksProps = async (
+    context: {
+        params?: ParsedUrlQuery;
+        preview?: boolean;
+        previewData?: unknown;
+    },
+    locale: string,
+    pathParts: string | string[],
+): Promise<{
+    props: { [key: string]: unknown };
+}> => {
+    const provider = ProviderRegistry.get('page') as PageProvider;
+    const props = await provider.getPageBySlug(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
+    const blocksPropsPromises = [];
+    if (props.blocksData && props.blocksData.length > 0) {
+        for (const block of props.blocksData) {
+            const blockName = getBlockName(block);
+            if (blockName && BlockRegistry.has(blockName)) {
+                const blk = BlockRegistry.get(blockName);
+                if (blk && blk.getStaticProps) {
+                    blocksPropsPromises.push(blk.getStaticProps({ ...context, locale, page: props.page, block }));
+                    continue;
+                }
+            }
+            blocksPropsPromises.push(Promise.resolve({}));
+        }
+    } else {
+        const blk = BlockRegistry.get('SubpageListBlock');
+        if (blk && blk.getStaticProps) {
+            blocksPropsPromises.push(blk.getStaticProps({ ...context, locale, page: props.page, block: {} }));
+        }
+        props.blocksData = [
+            {
+                __typename: 'SubpageListBlockRecord',
+            },
+        ];
+    }
+    const blocksProps = await Promise.all(blocksPropsPromises);
+
+    return {
+        props: {
+            ...props,
+            locale,
+            blocksProps,
+        },
+    };
+};
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    if (typeof window === 'undefined') {
-        const { params } = context;
-        const locale: SiteLocale = symbio.i18n.useLocaleInPath
-            ? getSiteLocale(String(params?.slug[0]))
-            : getSiteLocale(process.env.locale);
-        const environment = createRelayEnvironment({}, false);
-        const pathParts = params?.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
-        if (pathParts) {
-            const cache = PageCacheFactory.get();
-            const props = await cache.get(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
-            const bIPPromises = [];
-            if (props.blocksData) {
-                for (const block of props.blocksData) {
-                    const blockName = block?.__typename?.replace('Record', 'Block');
-                    if (blockName && BlockFactory.has(blockName)) {
-                        const blk = BlockFactory.get(blockName);
-                        if (blk && blk.getStaticProps) {
-                            bIPPromises.push(blk.getStaticProps({ ...context, locale, environment }));
-                            continue;
-                        }
-                    }
-                    bIPPromises.push(Promise.resolve({}));
-                }
-            } else {
-                props.blocksData = null;
-            }
-            const blocksInitialProps = await Promise.all(bIPPromises);
+    const { params } = context;
+    const locale: string = i18n.useLocaleInPath && params?.slug ? params.slug[0] : String(process.env.locale);
 
-            return {
-                props: {
-                    ...props,
-                    locale,
-                    blocksInitialProps,
-                },
-            };
-        }
+    moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+    moment.locale(locale);
+    moment.tz.setDefault(tz);
+
+    const pathParts = params?.slug?.slice(i18n.useLocaleInPath ? 1 : 0);
+
+    if (pathParts) {
+        return await getBlocksProps(context, locale, pathParts);
     }
 
     return {
@@ -59,113 +78,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const paths: Array<string | { params: ParsedUrlQuery }> = [];
-    if (typeof window === 'undefined') {
-        const environment = createRelayEnvironment({}, false);
-        const { useLocaleInPath } = symbio.i18n;
-        // loop over all locales
-        for (const locale in SiteLocale) {
-            if (Object.prototype.hasOwnProperty.call(SiteLocale, locale)) {
-                let cnt = -1;
-                let done = 0;
-                do {
-                    const { allPages, _allPagesMeta } = await fetchQuery<sPQ>(environment, staticPathsQuery, {
-                        locale: getSiteLocale(locale),
-                        first: 100,
-                        skip: 0,
-                    });
-                    if (cnt === -1) {
-                        cnt = Number(_allPagesMeta.count);
-                    }
-                    // loop over all pages
-                    for (const page of allPages) {
-                        // skip homepage because '' url doesn't satisfy '/[...slug]' pattern
-                        if (!useLocaleInPath && String(page.url) === 'homepage') {
-                            continue;
-                        }
-                        const url = String(page.url) === 'homepage' ? '' : '/' + page.url;
-                        const localePrefix = useLocaleInPath ? '/' + locale : '';
-                        const blockParams = await getStaticParamsFromBlocks(page.content, locale, environment);
-                        if (blockParams.length > 0) {
-                            for (const params of blockParams) {
-                                let newUrl = url;
-                                for (const key in params) {
-                                    if (Object.prototype.hasOwnProperty.call(params, key)) {
-                                        newUrl = newUrl?.replace(
-                                            new RegExp('/:' + key + '(\\/|$)'),
-                                            String('/' + params[key] + '$1'),
-                                        );
-                                    }
-                                }
-                                paths.push(localePrefix + newUrl);
-                            }
-                        } else {
-                            paths.push(localePrefix + url);
-                        }
-                    }
+    const provider = ProviderRegistry.get('page') as PageProvider;
 
-                    done += allPages.length;
-                } while (done < cnt);
-            }
-        }
-        const res: any = [];
-        paths.forEach((url) => {
-            res.push({
-                url: 'https://www.xom-materials.com' + url,
-            });
-        });
-
-        const xmlString = xml({ urlset: res }, true);
-
-        fs.writeFile('public/sitemap.xml', xmlString, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-        });
+    // loop over all locales
+    for (const locale of locales) {
+        const localePaths = await provider.getStaticPaths(locale);
+        paths.push(...localePaths.map((lp) => ({ params: lp })));
     }
 
-    return {
-        paths: paths,
-        fallback: true,
-    };
-};
-
-export const getHomepageStaticProps: GetStaticProps = async (context) => {
-    if (typeof window === 'undefined') {
-        const locale: SiteLocale = getSiteLocale(process.env.locale);
-        const environment = createRelayEnvironment({}, false);
-        const pathParts: string[] = [];
-        if (pathParts) {
-            const cache = PageCacheFactory.get();
-            const props = await cache.get(locale, pathParts);
-            const bIPPromises = [];
-            if (props.blocksData) {
-                for (const block of props.blocksData) {
-                    const blockName = block?.__typename?.replace('Record', 'Block');
-                    if (blockName && BlockFactory.has(blockName)) {
-                        const blk = BlockFactory.get(blockName);
-                        if (blk && blk.getStaticProps) {
-                            bIPPromises.push(blk.getStaticProps({ ...context, locale, environment }));
-                            continue;
-                        }
-                    }
-                    bIPPromises.push(Promise.resolve({}));
-                }
-            } else {
-                props.blocksData = null;
-            }
-            const blocksInitialProps = await Promise.all(bIPPromises);
-
-            return {
-                props: {
-                    ...props,
-                    locale,
-                    blocksInitialProps,
-                },
-            };
-        }
-    }
+    console.log(JSON.stringify(paths));
 
     return {
-        props: {},
+        paths,
+        fallback: false,
     };
 };

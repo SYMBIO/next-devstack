@@ -1,35 +1,19 @@
 import React, { ReactElement } from 'react';
-import { fetchQuery, graphql } from 'react-relay';
+import { graphql } from 'react-relay';
 import { BlockWrapper, NewsList } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
+import { FindResponse } from '../../lib/provider/Provider';
+import ProviderRegistry from '../../lib/provider/ProviderRegistry';
+import NewsProvider from '../../providers/NewsProvider';
+import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
-import { NewsListBlockQuery, NewsListBlockQueryResponse } from './__generated__/NewsListBlockQuery.graphql';
 import styles from './NewsListBlock.module.scss';
 
-type NewsListBlockProps = BaseBlockProps & NewsListBlockQueryResponse;
+interface ServerProps extends FindResponse {
+    data: NonNullable<newsDetailQueryResponse['item']>[];
+}
 
-const query = graphql`
-    query NewsListBlockQuery($locale: SiteLocale, $limit: IntType, $offset: IntType) {
-        allNews(locale: $locale, orderBy: dateFrom_DESC, first: $limit, skip: $offset) {
-            id
-            dateFrom
-            title
-            slug
-            perex
-            image {
-                ...appImageFragment @relay(mask: false)
-            }
-            category {
-                id
-                slug
-            }
-            tags {
-                id
-                title
-            }
-        }
-    }
-`;
+type NewsListBlockProps = BaseBlockProps & ServerProps;
 
 graphql`
     fragment NewsListBlock_content on NewsListRecord {
@@ -37,25 +21,25 @@ graphql`
     }
 `;
 
-function NewsListBlock({ allNews, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function NewsListBlock({ data, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'NewsListBlock'} className={styles.wrapper} {...rest}>
-            <NewsList items={allNews} />
+            <NewsList items={data} />
         </BlockWrapper>
     );
 }
 
 if (typeof window === 'undefined') {
     NewsListBlock.getStaticProps = NewsListBlock.getServerSideProps = async ({
-        environment,
         locale,
-    }: StaticBlockContext): Promise<NewsListBlockQueryResponse> => {
-        return fetchQuery<NewsListBlockQuery>(environment, query, {
+    }: StaticBlockContext): Promise<ServerProps> => {
+        const provider = ProviderRegistry.get('news') as NewsProvider;
+        return await provider.find({
             locale,
-            limit: 3,
+            limit: 10,
             offset: 0,
         });
     };
 }
 
-BlockFactory.set('NewsListBlock', NewsListBlock);
+BlockRegistry.set('NewsListBlock', NewsListBlock);

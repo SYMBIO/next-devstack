@@ -1,20 +1,16 @@
 import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import React, { ReactElement, useContext, useState } from 'react';
 import axios from 'axios';
-import Yup from 'yup';
-import { Heading, Icon, Input, Paragraph, RichText, Textarea } from '..';
-// eslint-disable-next-line @typescript-eslint/camelcase
+import * as yup from 'yup';
+import { Button, Heading, Input, Paragraph, RichText, Textarea } from '..';
 import { CmsFormBlock_content } from '../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
-import { FormErrorsTypes } from '../../types/forms';
-import { SiteLocale } from '../../types/graphql';
 import { AppContext } from '../../utils/app-context/AppContext';
-import { formErrorsExists } from '../../utils/formErrorsExists';
-import { Button } from '../Button/Button';
 import styles from './CmsForm.module.scss';
+import trans from '../../strings';
 
 interface FormValues extends Record<string, string | number | string[] | number[]> {
     formId: string;
-    locale: SiteLocale;
+    locale: string;
 }
 
 interface SingleLineInput {
@@ -58,9 +54,8 @@ interface Choice {
 type FormField = SingleLineInput | Textarea | Fieldset | Checkbox | Choice | { readonly __typename: '%other' } | null;
 type RealField = SingleLineInput | Textarea | Checkbox | Choice;
 
-// eslint-disable-next-line @typescript-eslint/camelcase
 export const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement => {
-    const { locale, formErrors } = useContext(AppContext);
+    const { locale } = useContext(AppContext);
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const form = data.form;
@@ -70,6 +65,7 @@ export const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement 
     }
 
     function renderForm(props: FormikProps<FormValues>): (ReactElement | boolean)[] | undefined {
+        // eslint-disable-next-line react/prop-types
         const { values, setFieldValue } = props;
         return form?.content
             ?.map((field: FormField) => {
@@ -196,11 +192,9 @@ export const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement 
                     actions.setSubmitting(false);
                 }
             }}
-            validationSchema={Yup.object().shape(
+            validationSchema={yup.object().shape(
                 required.reduce<Record<string, any>>((acc, field) => {
-                    acc[String(field?.id)] = Yup.string().required(
-                        formErrorsExists(formErrors, FormErrorsTypes.REQUIRED),
-                    );
+                    acc[String(field?.id)] = yup.string().required(trans('form.required'));
                     return acc;
                 }, {}),
             )}
@@ -209,7 +203,7 @@ export const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement 
                 <Form action={'/api/saveForm'} method={'post'}>
                     {globalError && (
                         <div className={styles.globalError}>
-                            <Icon className={styles.alertIcon} name="alert" />
+                            {/* <Icon className={styles.alertIcon} name="alert" /> */}
                             <p>{globalError}</p>
                         </div>
                     )}

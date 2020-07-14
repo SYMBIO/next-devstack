@@ -1,6 +1,6 @@
-export default function condCls(...attributes: (boolean | string)[]): string {
+export default function condCls(...attributes: (boolean | string | undefined)[]): string {
     const classes = [];
-    for (const attr in attributes) {
+    for (const attr of attributes) {
         if (attr) {
             classes.push(attr);
         }

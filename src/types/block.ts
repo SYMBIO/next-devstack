@@ -1,11 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextComponentType } from 'next';
-import { BaseContext } from 'next/dist/next-server/lib/utils';
+import { NextComponentType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { ComponentType } from 'react';
-import { Environment } from 'relay-runtime';
 import { BlockWrapperProps } from '../components/BlockWrapper/BlockWrapper';
-import { SiteLocale } from './graphql';
+import { ImageInterface } from './app';
 
 export interface BaseBlockProps extends Omit<BlockWrapperProps, 'tooltip'> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,13 +13,19 @@ export interface StaticBlockContext {
     params?: ParsedUrlQuery;
     preview?: boolean;
     previewData?: any;
-    locale: SiteLocale;
-    environment: Environment;
+    locale: string;
+    page?: {
+        readonly id: unknown;
+        readonly url: string | null;
+        readonly title: string | null;
+    } | null;
+    block?: any;
 }
 
 export interface ServerSideBlockContext extends StaticBlockContext {
     req: IncomingMessage;
     res: ServerResponse;
+    basePath: string;
 }
 
 export type BlockGetServerSideProps<
@@ -35,10 +38,7 @@ export type BlockGetStaticProps<
     Q extends ParsedUrlQuery = ParsedUrlQuery
 > = (ctx: StaticBlockContext) => Promise<P>;
 
-export type BlockGetStaticPaths<P extends ParsedUrlQuery = ParsedUrlQuery> = (
-    locale: SiteLocale,
-    environment: Environment,
-) => Promise<P[]>;
+export type BlockGetStaticPaths<P extends ParsedUrlQuery = ParsedUrlQuery> = (locale: string) => Promise<P[]>;
 
 export declare type BlockType = NextComponentType<ServerSideBlockContext, any, any> & {
     getStaticProps?: BlockGetStaticProps;

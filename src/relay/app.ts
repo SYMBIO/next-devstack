@@ -65,9 +65,11 @@ graphql`
             }
         }
         homepage {
+            title
             url
         }
         newsPage {
+            title
             url
         }
         footerMenu {
@@ -90,11 +92,6 @@ graphql`
                 }
             }
         }
-        formErrors {
-            required
-            emailInvalid
-            generalError
-        }
     }
 `;
 
@@ -111,6 +108,26 @@ graphql`
             description
             twitterCard
         }
+        parent {
+            id
+            title
+            url
+            parent {
+                id
+                title
+                url
+                parent {
+                    id
+                    title
+                    url
+                    parent {
+                        id
+                        title
+                        url
+                    }
+                }
+            }
+        }
     }
 `;
 
@@ -124,20 +141,13 @@ export const AppQuery = graphql`
         }
         page(locale: $locale, filter: { url: { matches: { caseSensitive: false, pattern: $pattern } } }) {
             ...appPageFragment @relay(mask: false)
+            content {
+                ...blocksContent @relay(mask: false)
+            }
         }
         redirect(filter: { from: { matches: { pattern: $redirectPattern, caseSensitive: false, regexp: true } } }) {
             to
             httpStatus
-        }
-    }
-`;
-
-export const ContentQuery = graphql`
-    query appContentQuery($locale: SiteLocale, $pattern: String!) {
-        contentPage: page(locale: $locale, filter: { url: { matches: { caseSensitive: false, pattern: $pattern } } }) {
-            content {
-                ...blocksContent @relay(mask: false)
-            }
         }
     }
 `;

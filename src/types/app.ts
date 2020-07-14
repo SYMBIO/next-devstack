@@ -1,10 +1,9 @@
-import { Record } from 'relay-runtime/lib/store/RelayStoreTypes';
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
-import { Maybe, PageModelContentField, SiteLocale } from './graphql';
+import { SiteLocale } from './graphql';
+import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
 
 export interface AppData extends appQueryResponse {
-    blocksData: Maybe<Array<Maybe<PageModelContentField>>>;
-    relayRecords?: { [key: string]: Record };
+    blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> | null;
 }
 
 export type BaseDatoCMSProps =
@@ -25,7 +24,7 @@ export interface MyPageProps extends AppData {
     currentUrl: string;
     hostname: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    blocksInitialProps?: any;
+    blocksProps?: any;
 }
 
 type WebSetting = Exclude<appQueryResponse['webSetting'], null>;

@@ -1,17 +1,8 @@
 import { createContext } from 'react';
-import { getSiteLocale } from '../../lib/routing/getSiteLocale';
 import { AppContextProps } from '../../types/appContext';
+import symbio from '../../../symbio.config.json';
 
 export const AppContext = createContext<AppContextProps>({
-    locale: getSiteLocale(process.env.locale),
+    locale: process.env.locale || symbio.locales[0],
     absoluteLinks: false,
-    site: {
-        faviconMetaTags: [],
-    },
-    logo: null,
-    mainMenu: null,
-    homepage: null,
-    newsPage: null,
-    footerMenu: null,
-    formErrors: null,
 });

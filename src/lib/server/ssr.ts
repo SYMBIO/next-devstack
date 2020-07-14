@@ -4,24 +4,33 @@ import { GetServerSideProps } from 'next';
 import { CALENDAR_FORMATS } from '../../constants';
 import { Logger } from '../../services';
 import { AppData } from '../../types/app';
-import { SiteLocale } from '../../types/graphql';
-import BlockFactory from '../blocks/BlockFactory';
-import { createRelayEnvironment } from '../relay/createRelayEnvironment';
-import { getSiteLocale } from '../routing/getSiteLocale';
-import symbio from '../../../symbio.config';
+import BlockRegistry from '../blocks/BlockRegistry';
+import symbio from '../../../symbio.config.json';
+import getBlockName from '../../utils/getBlockName';
+import '../../providers';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { req, res, params } = context;
+    const { useLocaleInPath } = symbio.i18n;
+    let slug = params?.slug || [];
 
-    const slug = params?.slug || [];
+    // handle /_next/data routes
+    if (req.url?.startsWith('/_next/data') && req.url?.endsWith('.json')) {
+        req.url = req.url?.substr(req.url?.indexOf('/', 12)).replace(/\.json.*$/, '');
+        slug = req.url?.split('/').slice(1);
+    } else if (req.url?.endsWith('.js') || req.url?.endsWith('.json')) {
+        res.statusCode = 500;
+        res.end();
+        throw new Error('Not implemented');
+    }
+
     const currentUrl = req.url;
     const hostname = req.headers.host;
-    const locale: SiteLocale =
-        (symbio.i18n.useLocaleInPath && slug && Array.isArray(slug) && getSiteLocale(slug[0])) ||
-        getSiteLocale(process.env.locale);
-
-    moment.updateLocale(String(locale), { calendar: CALENDAR_FORMATS[locale] });
+    const locale: string =
+        (useLocaleInPath && slug && Array.isArray(slug) && String(slug[0])) || String(process.env.locale);
+    moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
     moment.locale(locale);
+    moment.tz.setDefault(symbio.tz);
 
     Logger.log(req?.method + ': ' + currentUrl);
 
@@ -30,13 +39,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     // load app data from API
-    const { data } = await axios.get(
-        (hostname === 'localhost:3000' ? 'http://' : 'https://') +
-            hostname +
-            '/api/page' +
-            (currentUrl === '/' ? '/homepage' : currentUrl),
-    );
-    const environment = createRelayEnvironment({}, false);
+    const scheme = hostname === 'localhost:3000' ? 'http://' : 'https://';
+    const basePath = scheme + hostname;
+    const url = !useLocaleInPath && currentUrl === '/' ? '/homepage' : currentUrl;
+    let data;
+
+    try {
+        const { data: apiData } = await axios.get(basePath + '/api/page' + url, {
+            maxRedirects: 0,
+        });
+        data = apiData;
+    } catch (e) {
+        if ('response' in e && e.response.status === 307) {
+            context.res.statusCode = 307;
+            context.res.setHeader('Location', e.response.headers.location);
+            context.res.end();
+
+            return {
+                props: {},
+            };
+        }
+    }
+
     const { redirect, page, blocksData }: AppData = data;
 
     // if redirect found - let's do it
@@ -45,45 +69,54 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         res.setHeader('Location', redirect.to);
         res.end(`<script>document.location.href = '${redirect.to}'`);
         return {
-            ...data,
+            props: {
+                ...data,
+            },
         };
     }
 
     // if page doesn't exist -> 404
     if (!page) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const err: any = new Error('Page not found');
-        err.code = 'ENOENT';
-        throw err;
+        res.statusCode = 404;
     }
 
     // blocks initial props handling
-    const bIPPromises = [];
-    if (blocksData) {
+    const blocksPropsPromises = [];
+    if (blocksData && blocksData.length > 0) {
         for (const block of blocksData) {
-            const blockName = block?.__typename?.replace('Record', 'Block');
-            if (blockName && BlockFactory.has(blockName)) {
-                const blk = BlockFactory.get(blockName);
+            const blockName = getBlockName(block);
+            if (blockName && BlockRegistry.has(blockName)) {
+                const blk = BlockRegistry.get(blockName);
                 if (blk && blk.getServerSideProps) {
-                    bIPPromises.push(blk.getServerSideProps({ ...context, locale, environment }));
+                    blocksPropsPromises.push(blk.getServerSideProps({ ...context, locale, basePath, page, block }));
                 } else {
-                    bIPPromises.push(Promise.resolve({}));
+                    blocksPropsPromises.push(Promise.resolve({}));
                 }
             } else {
-                bIPPromises.push(Promise.resolve({}));
+                blocksPropsPromises.push(Promise.resolve({}));
             }
         }
+    } else {
+        const blk = BlockRegistry.get('SubpageListBlock');
+        if (blk && blk.getServerSideProps) {
+            blocksPropsPromises.push(blk.getServerSideProps({ ...context, locale, basePath, page, block: {} }));
+        }
+        data.blocksData = [
+            {
+                __typename: 'SubpageListBlockRecord',
+            },
+        ];
     }
-    const blocksInitialProps = await Promise.all(bIPPromises);
+    const blocksProps = await Promise.all(blocksPropsPromises);
 
     return {
         props: {
             ...data,
+            page,
             locale,
             currentUrl,
             hostname,
-            blocksInitialProps,
-            relayRecords: environment.getStore().getSource().toJSON(),
+            blocksProps,
         },
     };
 };

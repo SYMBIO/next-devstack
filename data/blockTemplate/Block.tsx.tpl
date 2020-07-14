@@ -1,23 +1,48 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
-import styles from './{NAME}Block.module.scss';
+import condCls from '../../utils/conditionalClasses';
+import styles from './{NAME}.module.scss';
+
+interface ServerProps {
+}
+
+type {NAME}Props = ServerProps & {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    content: {NAME}_content;
+};
 
 graphql`
-    fragment {NAME}Block_content on {NAME}Record {
+    fragment {NAME}_content on {NAME}Record {
         id
 {FIELDS}
     }
 `;
 
-function {NAME}Block({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function {NAME}({ content, className, ...rest }: {NAME}Props): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
-        <BlockWrapper tooltip={'{NAME}Block'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'{NAME}'} className={condCls(styles.wrapper, className)} {...rest}>
             <div>{NAME}: {JSON.stringify(content)}</div>
         </BlockWrapper>
     );
 }
 
-BlockFactory.set('{NAME}Block', {NAME}Block);
+if (typeof window === 'undefined') {
+    // put your getStaticProps, getStaticPaths or getServerProps here
+    /*
+    {NAME}.getStaticProps = {NAME}.getServerSideProps = async ({
+        locale,
+    }: StaticBlockContext): Promise<ServerProps> => {
+        const provider = ProviderRegistry.get('x') as xProvider;
+        if (!provider) {
+            throw new Error('Provider x not found');
+        }
+
+        return {};
+    };
+    */
+}
+
+BlockRegistry.set('{NAME}', {NAME});

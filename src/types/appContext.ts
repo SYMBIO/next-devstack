@@ -1,14 +1,15 @@
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
-import { RedirectRecord, Site, SiteLocale, WebSettingRecord } from './graphql';
+import { RedirectRecord } from './graphql';
+import { AppData } from './app';
 
 export type WebSetting = appQueryResponse['webSetting'];
 
-export type AppContextProps = WebSetting & {
-    locale: SiteLocale;
+export type AppContextProps = Partial<WebSetting> & {
+    locale: string;
     absoluteLinks: boolean;
     hostname?: string;
     currentUrl?: string;
-    site?: Site;
+    site?: AppData['site'];
+    page?: AppData['page'];
     redirect?: RedirectRecord;
-    page?: appQueryResponse['page'];
 };

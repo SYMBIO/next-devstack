@@ -1,6 +1,6 @@
 import { AppInitialProps } from 'next/dist/next-server/lib/utils';
 import App, { AppContext } from 'next/app';
-import symbio from '../../symbio.config';
+import symbio from '../../symbio.config.json';
 import { basicAuth } from '../lib/auth/basicAuth';
 import '../styles/global.scss';
 

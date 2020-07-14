@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper, Button } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ButtonBlock.module.scss';
 
@@ -31,4 +31,4 @@ function ButtonBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     );
 }
 
-BlockFactory.set('ButtonBlock', ButtonBlock);
+BlockRegistry.set('ButtonBlock', ButtonBlock);
