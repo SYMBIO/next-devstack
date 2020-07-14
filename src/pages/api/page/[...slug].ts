@@ -1,30 +1,26 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PageCacheFactory } from '../../../lib/pageCache/PageCacheFactory';
-import { getSiteLocale } from '../../../lib/routing/getSiteLocale';
 import { Logger } from '../../../services';
-import { SiteLocale } from '../../../types/graphql';
-import symbio from '../../../../symbio.config';
+import symbio from '../../../../symbio.config.json';
+import ProviderRegistry from '../../../lib/provider/ProviderRegistry';
+import PageProvider from '../../../providers/PageProvider';
+import '../../../providers';
+import { detectLocale } from '../../../lib/routing/LocaleRedirect';
 
 export default async function (req: NextApiRequest, res: NextApiResponse): Promise<void> {
-    if (!req.query.slug && symbio.i18n.useLocaleInPath) {
-        res.statusCode = 404;
-        res.end('Page not found');
+    const { useLocaleInPath } = symbio.i18n;
+    if (!req.query.slug && useLocaleInPath) {
+        const locale = detectLocale(req);
+        res.statusCode = 307;
+
+        res.setHeader('Location', '/' + locale);
+        res.end();
     }
 
-    const locale: SiteLocale = symbio.i18n.useLocaleInPath
-        ? getSiteLocale(String(req.query.slug[0]))
-        : getSiteLocale(process.env.locale);
-    const pathParts = req.query.slug.slice(symbio.i18n.useLocaleInPath ? 1 : 0);
-    const cache = PageCacheFactory.get();
+    const locale: string = useLocaleInPath ? String(String(req.query.slug[0])) : String(process.env.locale);
+    const pathParts = req.query.slug.slice(useLocaleInPath ? 1 : 0);
+    const provider = ProviderRegistry.get('page') as PageProvider;
 
-    if (req.query.update) {
-        await cache.update(Array.isArray(pathParts) ? pathParts : [pathParts]);
-        // @TODO catch errors
-        res.end(JSON.stringify({ status: 'OK' }));
-        return;
-    }
-
-    const result = await cache.get(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
+    const result = await provider.getPageBySlug(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
 
     try {
         res.setHeader('Content-Type', 'application/json; charset=utf-8');

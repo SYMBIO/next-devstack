@@ -1,0 +1,49 @@
+@import '../../styles/functions/rem.scss';
+@import '../../styles/mixins/responsive.scss';
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: rem(40) 0;
+
+    @include mobile-landscape {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.linksList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: rem(24);
+
+    @include mobile-landscape {
+        margin-left: rem(70);
+        margin-top: 0;
+    }
+}
+
+.linkItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: rem(43);
+    height: rem(43);
+    border-bottom: 1px solid transparent;
+
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.linkItemActive {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}

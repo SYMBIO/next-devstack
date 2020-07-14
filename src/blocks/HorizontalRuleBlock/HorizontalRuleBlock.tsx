@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { HorizontalRule, BlockWrapper } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './HorizontalRuleBlock.module.scss';
 
@@ -12,4 +12,4 @@ function HorizontalRuleBlock(): ReactElement<BaseBlockProps, 'BaseBlock'> {
     );
 }
 
-BlockFactory.set('HorizontalRuleBlock', HorizontalRuleBlock);
+BlockRegistry.set('HorizontalRuleBlock', HorizontalRuleBlock);

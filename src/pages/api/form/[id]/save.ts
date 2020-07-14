@@ -9,7 +9,7 @@ import { createRelayEnvironment } from '../../../../lib/relay/createRelayEnviron
 import { formQuery } from '../../../../relay/api/form/[id]/save';
 import { getSiteLocale } from '../../../../lib/routing/getSiteLocale';
 import { saveFormQuery } from '../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
-import symbio from '../../../../../symbio.config';
+import symbio from '../../../../../symbio.config.json';
 
 dotenv.config();
 
@@ -90,9 +90,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
             const message = {
                 text: text.join('\n'),
                 subject: subject,
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_email: symbio.mailer.from,
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_name: symbio.mailer.name,
                 to: form?.emails?.split(',').map((e: string) => ({
                     email: e.trim(),
@@ -110,9 +108,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
                     const message = {
                         text: String(form?.recipientText).replace('{form}', text.join('\n')),
                         subject: form?.title,
-                        // eslint-disable-next-line @typescript-eslint/camelcase
                         from_email: symbio.mailer.from,
-                        // eslint-disable-next-line @typescript-eslint/camelcase
                         from_name: symbio.mailer.name,
                         to: [
                             {

@@ -57,9 +57,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 <p><a href="${url}">${url}</a></p>
 <p>The National Theatre</p>`,
                 subject: subject,
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_email: 'no-reply@example.com',
-                // eslint-disable-next-line @typescript-eslint/camelcase
                 from_name: 'SYMBIO devstack',
                 to: [
                     {

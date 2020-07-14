@@ -1,5 +1,4 @@
 import { SiteLocale } from '../../types/graphql';
-import capitalize from '../../utils/capitalize';
 
 export function getSiteLocale(strLocale?: string): SiteLocale {
     if (strLocale) {

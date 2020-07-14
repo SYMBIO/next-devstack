@@ -4,7 +4,7 @@ import { Blocks, Heading, RichText } from '..';
 import { ImageInterface } from '../../types/app';
 import { NewsModelContentField } from '../../types/graphql';
 import styles from './NewsDetail.module.scss';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 interface NewsDetailProps {
     news: Readonly<{

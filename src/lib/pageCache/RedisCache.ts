@@ -1,11 +1,9 @@
-import dotenv from 'dotenv';
 import { fetchQuery, graphql } from 'react-relay';
 import redis, { RedisClient } from 'redis';
 import { promisify } from 'util';
 import { appQueryResponse } from '../../relay/__generated__/appQuery.graphql';
 import { Logger } from '../../services';
 import { AppData } from '../../types/app';
-import { SiteLocale } from '../../types/graphql';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { getPagePattern } from '../routing/getPagePattern';
 import { getSiteLocale } from '../routing/getSiteLocale';
@@ -13,8 +11,7 @@ import { RedisCacheAppQuery } from './__generated__/RedisCacheAppQuery.graphql';
 import { RedisCachePagesQuery } from './__generated__/RedisCachePagesQuery.graphql';
 import { RedisCacheRedirectsQuery } from './__generated__/RedisCacheRedirectsQuery.graphql';
 import { AbstractPageCache } from './AbstractPageCache';
-import symbio from '../../../symbio.config';
-dotenv.config();
+import symbio from '../../../symbio.config.json';
 
 if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
     Logger.error('Trying to use Redis page cache without REDIS_URL env variable!');
@@ -74,26 +71,33 @@ export class RedisCache extends AbstractPageCache {
         });
     }
 
-    async get(locale: SiteLocale, pathParts: string[]): Promise<AppData> {
+    async get(locale: string, pathParts: string[]): Promise<AppData> {
         const client = await this.getClient();
         const getAsync = promisify(client.get).bind(client);
-        let data = JSON.parse(await getAsync(this.key + '_' + locale));
+        let objData = null;
+        let data = await getAsync(this.key + '_' + locale);
+        if (data) {
+            objData = JSON.parse(data);
+        }
 
         if (data === null) {
             await this.update();
-            data = JSON.parse(await getAsync(this.key + '_' + locale));
+            data = await getAsync(this.key + '_' + locale);
+            if (data) {
+                objData = JSON.parse(data);
+            }
         }
 
         client.quit();
 
         const pattern = getPagePattern(pathParts);
-        if (data !== null) {
+        if (objData !== null) {
             return {
-                site: data.site,
-                webSetting: data.webSetting,
-                page: this.getPage(data.pages, pattern),
-                redirect: this.getRedirect(data.redirects, pathParts.join('/')),
-                blocksData: this.getBlocksData(data.blocksData, pattern),
+                site: objData.site,
+                webSetting: objData.webSetting,
+                page: this.getPage(objData.pages, pattern),
+                redirect: this.getRedirect(objData.redirects, pathParts.join('/')),
+                blocksData: this.getBlocksData(objData.blocksData, pattern),
             };
         } else {
             return {
@@ -152,14 +156,14 @@ export class RedisCache extends AbstractPageCache {
     async update(): Promise<void> {
         const environment = createRelayEnvironment({}, false);
 
-        for (const loc in SiteLocale) {
-            if (Object.prototype.hasOwnProperty.call(SiteLocale, loc)) {
+        for (const loc in symbio.locales) {
+            if (Object.prototype.hasOwnProperty.call(symbio.locales, loc)) {
                 const locale = getSiteLocale(loc);
                 const { site, webSetting } = await fetchQuery<RedisCacheAppQuery>(environment, AppQuery, {
                     locale,
                 });
 
-                const pages: Record<string, appQueryResponse['page']> = {};
+                const pages: Record<string, Omit<appQueryResponse['page'], 'content'>> = {};
                 const blocksData: Record<string, any> = {};
                 let skip = 0,
                     count = 0;

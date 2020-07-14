@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import NextHead from 'next/head';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 interface HeadProps {
     page: { title: string | null };

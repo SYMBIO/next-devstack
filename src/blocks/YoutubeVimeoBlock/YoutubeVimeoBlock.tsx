@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './YoutubeVimeoBlock.module.scss';
 import { BlockWrapper, VimeoVideo, YoutubeVideo } from '../../components';
@@ -32,4 +32,4 @@ function YoutubeVimeoBlock({ content, ...rest }: BaseBlockProps): ReactElement<B
     );
 }
 
-BlockFactory.set('YoutubeVimeoBlock', YoutubeVimeoBlock);
+BlockRegistry.set('YoutubeVimeoBlock', YoutubeVimeoBlock);

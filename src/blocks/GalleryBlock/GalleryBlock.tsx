@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper, Gallery } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { GalleryBlock_content } from './__generated__/GalleryBlock_content.graphql';
 import styles from './GalleryBlock.module.scss';
 
@@ -19,7 +18,6 @@ graphql`
 `;
 
 function GalleryBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     const { assets }: GalleryBlock_content = content;
 
     return (
@@ -29,4 +27,4 @@ function GalleryBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBl
     );
 }
 
-BlockFactory.set('GalleryBlock', GalleryBlock);
+BlockRegistry.set('GalleryBlock', GalleryBlock);

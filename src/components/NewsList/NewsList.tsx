@@ -4,7 +4,7 @@ import { Heading, Link, RichText } from '..';
 import { ImageInterface, Page } from '../../types/app';
 import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './NewsList.module.scss';
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 
 interface NewsListProps {
     headline?: string;

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper, GoogleMap } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './MapBlock.module.scss';
 
@@ -29,4 +29,4 @@ function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockP
     );
 }
 
-BlockFactory.set('MapBlock', MapBlock);
+BlockRegistry.set('MapBlock', MapBlock);

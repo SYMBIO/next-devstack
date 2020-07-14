@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper, Image } from '../../components';
-import BlockFactory from '../../lib/blocks/BlockFactory';
+import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ImageBlock.module.scss';
 
@@ -28,4 +28,4 @@ function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
     );
 }
 
-BlockFactory.set('ImageBlock', ImageBlock);
+BlockRegistry.set('ImageBlock', ImageBlock);

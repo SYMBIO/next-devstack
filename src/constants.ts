@@ -1,4 +1,6 @@
-export const CALENDAR_FORMATS = {
+import { CalendarSpec } from 'moment';
+
+export const CALENDAR_FORMATS: Record<string, CalendarSpec> = {
     cs: {
         lastDay: '[Včera]',
         sameDay: '[Dnes]',
@@ -16,3 +18,5 @@ export const CALENDAR_FORMATS = {
         sameElse: 'L',
     },
 };
+
+export const DATOCMS_MAX_LIMIT = 100;

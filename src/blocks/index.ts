@@ -23,16 +23,17 @@ import { graphql } from 'relay-runtime';
 graphql`
     fragment blocksContent on PageModelContentField {
         __typename
-        ...RichTextBlock_content @relay(mask: false)
+        ...ButtonBlock_content @relay(mask: false)
         ...CmsFormBlock_content @relay(mask: false)
         ...GalleryBlock_content @relay(mask: false)
         ...ImageBlock_content @relay(mask: false)
+        ...MapBlock_content @relay(mask: false)
+        ...NewsListBlock_content @relay(mask: false)
+        ...NewsListFloorBlock_content @relay(mask: false)
+        ...RichTextBlock_content @relay(mask: false)
+        ...SliderBlock_content @relay(mask: false)
+        ...SubpageListBlock_content @relay(mask: false)
         ...VideoBlock_content @relay(mask: false)
         ...YoutubeVimeoBlock_content @relay(mask: false)
-        ...MapBlock_content @relay(mask: false)
-        ...ButtonBlock_content @relay(mask: false)
-        ...NewsListBlock_content @relay(mask: false)
-        ...SliderBlock_content @relay(mask: false)
-        ...NewsListFloorBlock_content @relay(mask: false)
     }
 `;

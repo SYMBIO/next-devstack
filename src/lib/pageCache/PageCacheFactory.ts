@@ -1,4 +1,4 @@
-import symbio from '../../../symbio.config';
+import symbio from '../../../symbio.config.json';
 import isStaging from '../../utils/isStaging';
 import { AbstractPageCache } from './AbstractPageCache';
 import { MemoryCache } from './MemoryCache';
