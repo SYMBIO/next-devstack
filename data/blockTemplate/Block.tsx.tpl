@@ -16,7 +16,7 @@ type {NAME}Props = ServerProps & {
 };
 
 graphql`
-    fragment {NAME}_content on {NAME}Record {
+    fragment {NAME}Block_content on {NAME}Record {
         id
 {FIELDS}
     }
