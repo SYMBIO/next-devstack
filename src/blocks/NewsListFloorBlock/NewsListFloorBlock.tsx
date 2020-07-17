@@ -10,7 +10,7 @@ import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './NewsListFloorBlock.module.scss';
 
 interface ServerProps extends FindResponse {
-    data: NonNullable<newsDetailQueryResponse['item']>[];
+    data: ReadonlyArray<NonNullable<newsDetailQueryResponse['item']>>;
 }
 
 type NewsListFloorBlockProps = BaseBlockProps & ServerProps;

@@ -1,8 +1,6 @@
 /* eslint-disable no-undef */
-const path = require('path');
 const webpack = require('webpack');
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const symbio = require('./symbio.config');
 const withPWA = require('next-pwa');
 
@@ -10,10 +8,6 @@ if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
     console.error('Trying to use Redis page cache without REDIS_URL env variable!');
     process.exit(1);
 }
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-    enabled: process.env.ANALYZE === 'true',
-});
 
 const nextConfig = {
     target: 'serverless',
@@ -27,11 +21,6 @@ const nextConfig = {
             new MomentTimezoneDataPlugin({
                 startYear: new Date().getFullYear() - 1,
                 endYear: new Date().getFullYear() + 2,
-            }),
-            new FaviconsWebpackPlugin({
-                logo: './public/icons/favicon.svg',
-                cache: true,
-                prefix: 'icons/',
             }),
         ];
 
@@ -67,4 +56,4 @@ const nextConfig = {
     },
 };
 
-module.exports = withBundleAnalyzer(withPWA(nextConfig));
+module.exports = withPWA(nextConfig);

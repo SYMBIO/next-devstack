@@ -4,30 +4,20 @@ import { Heading, Link, RichText } from '..';
 import { ImageInterface, Page } from '../../types/app';
 import { AppContext } from '../../utils/app-context/AppContext';
 import styles from './NewsList.module.scss';
-import symbio from '../../../symbio.config.json';
 
 interface NewsListProps {
     headline?: string;
-    items: readonly NewsItem[];
+    items: ReadonlyArray<NewsItem>;
     allNewsLinkText?: string;
     allNewsPage?: Page;
 }
 
 interface NewsItem {
-    readonly id: unknown;
-    readonly dateFrom: unknown | null;
-    readonly title: string | null;
-    readonly slug: string | null;
-    readonly perex: string | null;
-    readonly image: ImageInterface | null;
-    readonly category: {
-        readonly id: unknown;
-        readonly slug: string | null;
-    } | null;
-    readonly tags: ReadonlyArray<{
-        readonly id: unknown;
-        readonly title: string | null;
-    }>;
+    id: string;
+    dateFrom: string | null;
+    title: string | null;
+    slug: string | null;
+    perex: string | null;
 }
 
 export const NewsList = ({
@@ -55,7 +45,7 @@ export const NewsList = ({
                                     <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
                                         <article>
                                             <Heading tag={`h3`}>{item.title}</Heading>
-                                            <p>{moment(String(item.dateFrom)).calendar()}</p>
+                                            <p>{moment(item.dateFrom).calendar()}</p>
                                             {item.perex && <RichText content={item.perex} />}
                                         </article>
                                     </Link>
