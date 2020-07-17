@@ -15,7 +15,7 @@ type ServerProps = newsDetailQueryResponse;
 type NewsDetailBlockProps = BaseBlockProps & ServerProps;
 
 graphql`
-    fragment NewsDetailBlock_content on NewsDetailRecord {
+    fragment NewsDetailBlock_content on NewsDetailBlockRecord {
         id
     }
 `;

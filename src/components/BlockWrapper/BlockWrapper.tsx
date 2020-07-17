@@ -1,4 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
+import condCls from '../../utils/conditionalClasses';
 import isStaging from '../../utils/isStaging';
 import styles from './BlockWrapper.module.scss';
 
@@ -18,14 +19,5 @@ export const BlockWrapper = ({
     tooltip,
     className,
 }: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
-    const classes = [styles.block, className];
-    if (isStaging()) {
-        classes.push(styles.staging);
-    }
-    return (
-        <div className={classes.join(' ')}>
-            {isStaging() && <div className={styles.info}>{tooltip}</div>}
-            {children}
-        </div>
-    );
+    return <div className={condCls(styles.block, className)}>{children}</div>;
 };

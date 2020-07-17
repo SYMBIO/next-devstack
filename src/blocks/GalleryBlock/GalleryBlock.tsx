@@ -7,7 +7,7 @@ import { GalleryBlock_content } from './__generated__/GalleryBlock_content.graph
 import styles from './GalleryBlock.module.scss';
 
 graphql`
-    fragment GalleryBlock_content on GalleryRecord {
+    fragment GalleryBlock_content on GalleryBlockRecord {
         assets {
             ...appImageBaseFragment @relay(mask: false)
             responsiveImage(imgixParams: { fit: crop, w: 300 }) {

@@ -2,7 +2,7 @@ import { ParsedUrlQuery } from 'querystring';
 
 export interface FindResponse {
     count: number;
-    data: any[];
+    data: ReadonlyArray<any>;
 }
 
 export default interface Provider {

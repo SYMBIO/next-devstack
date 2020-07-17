@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './ImageBlock.module.scss';
 
 graphql`
-    fragment ImageBlock_content on ImageRecord {
+    fragment ImageBlock_content on ImageBlockRecord {
         id
         image {
             ...appImageFragment @relay(mask: false)

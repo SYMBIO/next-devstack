@@ -6,7 +6,7 @@ import styles from './YoutubeVimeoBlock.module.scss';
 import { BlockWrapper, VimeoVideo, YoutubeVideo } from '../../components';
 
 graphql`
-    fragment YoutubeVimeoBlock_content on YoutubeVimeoRecord {
+    fragment YoutubeVimeoBlock_content on YoutubeVimeoBlockRecord {
         id
         video {
             provider

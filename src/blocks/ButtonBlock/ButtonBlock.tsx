@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './ButtonBlock.module.scss';
 
 graphql`
-    fragment ButtonBlock_content on ButtonRecord {
+    fragment ButtonBlock_content on ButtonBlockRecord {
         id
         file {
             ...appImageFragment @relay(mask: false)

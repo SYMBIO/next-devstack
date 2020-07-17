@@ -11,5 +11,6 @@ module.exports = {
         UploadId: 'number',
         IntType: 'number',
         FloatType: 'number',
+        DateTime: 'string',
     },
 };

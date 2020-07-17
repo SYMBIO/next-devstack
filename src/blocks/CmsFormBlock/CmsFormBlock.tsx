@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './CmsFormBlock.module.scss';
 
 graphql`
-    fragment CmsFormBlock_content on CmsFormRecord {
+    fragment CmsFormBlock_content on CmsFormBlockRecord {
         form {
             id
             title

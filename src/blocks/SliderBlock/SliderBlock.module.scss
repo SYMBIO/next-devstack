@@ -3,15 +3,15 @@
 .wrapper {
   grid-column: 1 / span 6;
   height: calc(100vh - 80px);
-  margin: 0 -8px;
+  margin: 0 -8px 2rem;
 
   @include tablet {
     grid-column: 1 / span 12;
-    margin: 0 -16px;
+    margin: 0 -16px 3rem;
   }
 
   @include from-tablet-landscape {
     grid-column: 1 / span 16;
-    margin: 0 -24px;
+    margin: 0 -24px 4rem;
   }
 }

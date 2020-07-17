@@ -10,13 +10,13 @@ import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './NewsListBlock.module.scss';
 
 interface ServerProps extends FindResponse {
-    data: NonNullable<newsDetailQueryResponse['item']>[];
+    data: ReadonlyArray<NonNullable<newsDetailQueryResponse['item']>>;
 }
 
 type NewsListBlockProps = BaseBlockProps & ServerProps;
 
 graphql`
-    fragment NewsListBlock_content on NewsListRecord {
+    fragment NewsListBlock_content on NewsListBlockRecord {
         id
     }
 `;

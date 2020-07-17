@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './VideoBlock.module.scss';
 
 graphql`
-    fragment VideoBlock_content on VideoRecord {
+    fragment VideoBlock_content on VideoBlockRecord {
         id
         autoplay
         video {
