@@ -8,6 +8,10 @@ import symbio from '../../../symbio.config.json';
  * @returns {boolean}
  */
 function isValidAuth(login: string, password: string): boolean {
+    if (!symbio.auth.basic) {
+        return true;
+    }
+
     const auths = symbio.auth.basic;
     if (Array.isArray(auths)) {
         for (const auth of auths) {
