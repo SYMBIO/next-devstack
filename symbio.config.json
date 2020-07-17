@@ -1,12 +1,4 @@
 {
-    "auth": {
-        "basic": [
-            {
-                "login": "symbio",
-                "password": "password"
-            }
-        ]
-    },
     "cache": {
         "maxAge": 10
     },
