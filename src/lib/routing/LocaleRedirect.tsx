@@ -2,7 +2,8 @@ import { IncomingMessage } from 'http';
 import { NextPageContext } from 'next';
 import React, { ReactNode } from 'react';
 import { MyPageProps } from '../../types/app';
-import { locales } from '../../../symbio.config.json';
+import symbio, { locales } from '../../../symbio.config.json';
+import { basicAuth } from '../auth/basicAuth';
 
 function LocaleRedirect({ locale }: MyPageProps): ReactNode {
     return <script dangerouslySetInnerHTML={{ __html: `document.location = '/${locale}';` }} />;
@@ -34,6 +35,9 @@ export function detectLocale(req?: IncomingMessage): string {
 
 LocaleRedirect.getInitialProps = function ({ req, res }: NextPageContext): { locale: string } {
     const locale = detectLocale(req);
+
+    const auth = symbio.auth as Record<string, unknown> | undefined;
+    auth && auth.basic && !basicAuth(req, res);
 
     if (res) {
         res.statusCode = 302;

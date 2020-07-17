@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { i18n, locales, tz } from '../../../symbio.config.json';
+import symbio, { i18n, locales, tz } from '../../../symbio.config.json';
+import { basicAuth } from '../auth/basicAuth';
 import BlockRegistry from '../blocks/BlockRegistry';
 import moment from 'moment-timezone';
 import { CALENDAR_FORMATS } from '../../constants';
@@ -60,6 +61,13 @@ const getBlocksProps = async (
 export const getStaticProps: GetStaticProps = async (context) => {
     const { params } = context;
     const locale: string = i18n.useLocaleInPath && params?.slug ? params.slug[0] : String(process.env.locale);
+
+    const auth = symbio.auth as Record<string, unknown> | undefined;
+    if (auth && auth.basic) {
+        throw new Error(
+            "You have basic auth enabled in symbio.config.json, but it's not compatible with Static Site Generation",
+        );
+    }
 
     moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
     moment.locale(locale);

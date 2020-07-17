@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { CALENDAR_FORMATS } from '../../constants';
 import { Logger } from '../../services';
 import { AppData } from '../../types/app';
+import { basicAuth } from '../auth/basicAuth';
 import BlockRegistry from '../blocks/BlockRegistry';
 import symbio from '../../../symbio.config.json';
 import getBlockName from '../../utils/getBlockName';
@@ -13,6 +14,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { req, res, params } = context;
     const { useLocaleInPath } = symbio.i18n;
     let slug = params?.slug || [];
+
+    const auth = symbio.auth as Record<string, unknown> | undefined;
+    auth && auth.basic && !basicAuth(req, res);
 
     // handle /_next/data routes
     if (req.url?.startsWith('/_next/data') && req.url?.endsWith('.json')) {
