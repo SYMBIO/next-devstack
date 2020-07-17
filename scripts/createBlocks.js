@@ -52,17 +52,23 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                                     ' {\n            provider\n            providerUid\n            width\n            height\n        }'
                                 );
                             } else if (['file', 'files'].indexOf(f.fieldType) !== -1) {
-                                if (f.validators.extension.predefinedList === 'video') {
+                                if (f.validators.extension && f.validators.extension.predefinedList === 'video') {
                                     return (
                                         '        ' +
                                         toCamel(f.apiKey) +
                                         ' {\n            ...appVideoFragment @relay(mask: false)\n        }'
                                     );
+                                } else if (f.validators.extension && f.validators.extension.predefinedList === 'image') {
+                                    return (
+                                        '        ' +
+                                        toCamel(f.apiKey) +
+                                        ' {\n            ...appImageFragment @relay(mask: false)\n        }'
+                                    );
                                 }
                                 return (
                                     '        ' +
                                     toCamel(f.apiKey) +
-                                    ' {\n            ...appImageFragment @relay(mask: false)\n        }'
+                                    ' {\n            id\n            size\n            title\n            url\n        }'
                                 );
                             } else if (['color'].indexOf(f.fieldType) !== -1) {
                                 return '        ' + toCamel(f.apiKey) + '{\n            hex\n        }';
