@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './MapBlock.module.scss';
 
 graphql`
-    fragment MapBlock_content on MapRecord {
+    fragment MapBlock_content on MapBlockRecord {
         id
         bubbleText
         gps {

@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './RichTextBlock.module.scss';
 
 graphql`
-    fragment RichTextBlock_content on RichTextRecord {
+    fragment RichTextBlock_content on RichTextBlockRecord {
         id
         text
     }

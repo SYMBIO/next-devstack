@@ -16,7 +16,7 @@ interface ServerProps extends FindResponse {
 type NewsListBlockProps = BaseBlockProps & ServerProps;
 
 graphql`
-    fragment NewsListBlock_content on NewsListRecord {
+    fragment NewsListBlock_content on NewsListBlockRecord {
         id
     }
 `;

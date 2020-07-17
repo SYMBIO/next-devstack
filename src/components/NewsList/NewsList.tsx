@@ -55,7 +55,7 @@ export const NewsList = ({
                                     <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
                                         <article>
                                             <Heading tag={`h3`}>{item.title}</Heading>
-                                            <p>{moment(String(item.dateFrom)).tz(symbio.tz).calendar()}</p>
+                                            <p>{moment(String(item.dateFrom)).calendar()}</p>
                                             {item.perex && <RichText content={item.perex} />}
                                         </article>
                                     </Link>

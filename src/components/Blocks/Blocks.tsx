@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
+import getBlockName from '../../utils/getBlockName';
 
 interface BlocksProps {
     blocks: readonly any[] | null;
@@ -9,7 +10,7 @@ interface BlocksProps {
 export const Blocks = ({ blocks, initialProps }: BlocksProps): ReactElement => (
     <>
         {blocks?.map((block, i) => {
-            const blockName = block?.__typename?.replace('Record', 'Block');
+            const blockName = getBlockName(block);
             if (!blockName || !BlockRegistry.has(blockName)) {
                 return null;
             }

@@ -6,7 +6,7 @@ import { BaseBlockProps } from '../../types/block';
 import styles from './SliderBlock.module.scss';
 
 graphql`
-    fragment SliderBlock_content on SliderRecord {
+    fragment SliderBlock_content on SliderBlockRecord {
         id
         textAlign
         autoplay
