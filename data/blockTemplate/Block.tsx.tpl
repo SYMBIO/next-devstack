@@ -5,19 +5,12 @@ import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import condCls from '../../utils/conditionalClasses';
 import styles from './{NAME}.module.scss';
-
-interface ServerProps {
-}
-
-type {NAME}Props = ServerProps & {
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    content: {NAME}_content;
-};
-import condCls from '../../utils/conditionalClasses';
-import styles from './{NAME}.module.scss';
 import { {NAME}Block_content } from './__generated__/{NAME}Block_content.graphql';
 
-type {NAME}Props = {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface ServerProps {}
+
+type {NAME}Props = ServerProps & {
     content: {NAME}Block_content;
     className?: string
 };
