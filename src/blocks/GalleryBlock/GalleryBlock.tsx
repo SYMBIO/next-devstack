@@ -27,4 +27,6 @@ function GalleryBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBl
     );
 }
 
+GalleryBlock.whyDidYouRender = true;
+
 BlockRegistry.set('GalleryBlock', GalleryBlock);

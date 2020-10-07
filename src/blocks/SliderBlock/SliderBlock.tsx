@@ -34,4 +34,6 @@ function SliderBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     );
 }
 
+SliderBlock.whyDidYouRender = true;
+
 BlockRegistry.set('SliderBlock', SliderBlock);

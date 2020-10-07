@@ -3,7 +3,7 @@ import { graphql } from 'react-relay';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './YoutubeVimeoBlock.module.scss';
-import { BlockWrapper, VimeoVideo, YoutubeVideo } from '../../components';
+import { BlockWrapper, Video } from '../../components';
 
 graphql`
     fragment YoutubeVimeoBlock_content on YoutubeVimeoBlockRecord {
@@ -22,14 +22,11 @@ function YoutubeVimeoBlock({ content, ...rest }: BaseBlockProps): ReactElement<B
 
     return (
         <BlockWrapper tooltip={'YoutubeVimeoBlock'} className={styles.wrapper} {...rest}>
-            {video.provider === 'youtube' && (
-                <YoutubeVideo uid={video.providerUid} width={video.width} height={video.height} />
-            )}
-            {video.provider === 'vimeo' && (
-                <VimeoVideo uid={video.providerUid} width={video.width} height={video.height} />
-            )}
+            <Video video={{ embeddedVideo: video }} />
         </BlockWrapper>
     );
 }
+
+YoutubeVimeoBlock.whyDidYouRender = true;
 
 BlockRegistry.set('YoutubeVimeoBlock', YoutubeVimeoBlock);

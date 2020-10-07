@@ -54,9 +54,9 @@ export interface ImageInterface {
 }
 
 export interface VideoInterface {
-    readonly id: unknown;
-    readonly width: unknown | null;
-    readonly height: unknown | null;
+    readonly id: number;
+    readonly width: number | null;
+    readonly height: number | null;
     readonly video: {
         readonly streamingUrl: string;
         readonly thumbnailUrl: string;

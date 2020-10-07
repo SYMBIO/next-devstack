@@ -46,4 +46,6 @@ if (typeof window === 'undefined') {
     */
 }
 
+{NAME}.whyDidYouRender = true;
+
 BlockRegistry.set('{NAME}', {NAME});

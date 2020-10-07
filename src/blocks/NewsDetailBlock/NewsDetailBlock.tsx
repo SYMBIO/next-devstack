@@ -73,4 +73,6 @@ if (typeof window === 'undefined') {
     };
 }
 
+NewsDetailBlock.whyDidYouRender = true;
+
 BlockRegistry.set('NewsDetailBlock', NewsDetailBlock);

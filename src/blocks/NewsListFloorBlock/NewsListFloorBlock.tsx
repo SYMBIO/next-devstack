@@ -57,4 +57,6 @@ if (typeof window === 'undefined') {
     };
 }
 
+NewsListFloorBlock.whyDidYouRender = true;
+
 BlockRegistry.set('NewsListFloorBlock', NewsListFloorBlock);

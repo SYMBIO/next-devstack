@@ -19,9 +19,11 @@ function VideoBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
     const { autoplay, video } = content;
     return (
         <BlockWrapper tooltip={'VideoBlock'} className={styles.wrapper} {...rest}>
-            <Video video={video} autoPlay={autoplay} muted={autoplay} controls={!autoplay} />
+            <Video video={{ uploadedVideo: video }} autoPlay={autoplay} />
         </BlockWrapper>
     );
 }
+
+VideoBlock.whyDidYouRender = true;
 
 BlockRegistry.set('VideoBlock', VideoBlock);

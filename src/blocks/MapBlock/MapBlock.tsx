@@ -29,4 +29,6 @@ function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockP
     );
 }
 
+MapBlock.whyDidYouRender = true;
+
 BlockRegistry.set('MapBlock', MapBlock);

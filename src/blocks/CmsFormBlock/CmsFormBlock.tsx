@@ -55,4 +55,6 @@ function CmsFormBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBl
     );
 }
 
+CmsFormBlock.whyDidYouRender = true;
+
 BlockRegistry.set('CmsFormBlock', CmsFormBlock);

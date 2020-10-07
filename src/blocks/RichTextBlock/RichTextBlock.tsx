@@ -22,4 +22,6 @@ function RichTextBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseB
     );
 }
 
+RichTextBlock.whyDidYouRender = true;
+
 BlockRegistry.set('RichTextBlock', RichTextBlock);

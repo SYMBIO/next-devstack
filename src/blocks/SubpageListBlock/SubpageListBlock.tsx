@@ -112,4 +112,6 @@ if (typeof window === 'undefined') {
     };
 }
 
+SubpageListBlock.whyDidYouRender = true;
+
 BlockRegistry.set('SubpageListBlock', SubpageListBlock);

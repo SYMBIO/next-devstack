@@ -42,4 +42,6 @@ if (typeof window === 'undefined') {
     };
 }
 
+NewsListBlock.whyDidYouRender = true;
+
 BlockRegistry.set('NewsListBlock', NewsListBlock);

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { NextComponentType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { BlockWrapperProps } from '../components/BlockWrapper/BlockWrapper';
+import { BlockWrapperProps } from '../components/base/BlockWrapper/BlockWrapper';
 import { ImageInterface } from './app';
 
 export interface BaseBlockProps extends Omit<BlockWrapperProps, 'tooltip'> {

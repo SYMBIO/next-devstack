@@ -28,4 +28,6 @@ function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
     );
 }
 
+ImageBlock.whyDidYouRender = true;
+
 BlockRegistry.set('ImageBlock', ImageBlock);

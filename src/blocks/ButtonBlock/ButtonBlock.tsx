@@ -31,4 +31,6 @@ function ButtonBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
     );
 }
 
+ButtonBlock.whyDidYouRender = true;
+
 BlockRegistry.set('ButtonBlock', ButtonBlock);

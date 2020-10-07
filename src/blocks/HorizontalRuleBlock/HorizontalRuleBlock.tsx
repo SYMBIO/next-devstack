@@ -12,4 +12,6 @@ function HorizontalRuleBlock(): ReactElement<BaseBlockProps, 'BaseBlock'> {
     );
 }
 
+HorizontalRuleBlock.whyDidYouRender = true;
+
 BlockRegistry.set('HorizontalRuleBlock', HorizontalRuleBlock);

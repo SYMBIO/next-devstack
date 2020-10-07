@@ -25,7 +25,7 @@ export function detectLocale(req?: IncomingMessage): string {
                     return can;
                 }
                 if (locales.indexOf(can.substr(0, 2)) !== -1) {
-                    return can;
+                    return can.substr(0, 2);
                 }
             }
         }
