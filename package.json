@@ -9,6 +9,7 @@
     "build": "env-cmd --silent graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
     "build-storybook": "build-storybook -c .storybook -o ./public/storybook --quiet",
     "create-blocks": "env-cmd node scripts/createBlocks.js && npm run relay",
+    "create-component": "node scripts/createComponent.js $F $N",
     "dev": "next dev",
     "export": "NODE_ENV=production next export",
     "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
