@@ -19,3 +19,7 @@
 
 ## Blocks
 
+## Components
+1. automatic creation of component to a specific folder
+2. example: `npm run create-component F=primitives N=test`
+3. component Test in folder primitives will be created
