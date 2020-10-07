@@ -116,7 +116,7 @@ export default abstract class AbstractElasticProvider<
                 await getElastic().index({
                     index: this.getIndex(locale, undefined, prod),
                     body: { ...item, locale },
-                    refresh: 'true',
+                    refresh: true,
                     id,
                 });
             }
@@ -135,7 +135,7 @@ export default abstract class AbstractElasticProvider<
             await getElastic().index({
                 index: this.getIndex(undefined, undefined, prod),
                 body: item as RequestBody,
-                refresh: 'true',
+                refresh: true,
                 id,
             });
         }
