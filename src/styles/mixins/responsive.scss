@@ -2,7 +2,7 @@ $mobile-landscape-width: 36em;
 $tablet-width: 48em;
 $tablet-landscape-width: 64em;
 $desktop-width: 80em;
-$large-desktop-width: 90em;
+$large-desktop-width: 120em;
 
 @mixin mobile-landscape {
   @media (min-width: #{$mobile-landscape-width}) and (max-width: #{$tablet-width - 0.0625em}) {
