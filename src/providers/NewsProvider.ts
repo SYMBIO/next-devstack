@@ -19,7 +19,7 @@ export default class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQu
     }
 
     getFilterParams(): Record<string, Record<string, string>> {
-        return { dateFrom: { lte: moment().format() } };
+        return { dateFrom: { lte: moment().format() }, slug: { neq: 'null' } };
     }
 
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
