@@ -1,5 +1,4 @@
 {
-    "auth": {},
     "cache": {
         "maxAge": 10
     },
@@ -8,12 +7,13 @@
         "pageTypeId": "184261"
     },
     "i18n": {
-        "useLocaleInPath": true
+        "locales": ["cs", "en"],
+        "defaultLocale": "cs",
+        "localeDetection": true
     },
     "gtm": {
         "code": false
     },
-    "locales": ["cs", "en"],
     "mailer": {
         "from": "no-reply@example.com",
         "name": "SYMBIO"
@@ -23,7 +23,5 @@
         "to": "subscriber@example.com",
         "body": "The new subscriber has just confirmed the newsletter.\nE-mail: {EMAIL}\n"
     },
-    "pageCache": "none",
-    "staticSSG": true,
     "tz": "Europe/Prague"
 }

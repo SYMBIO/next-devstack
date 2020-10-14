@@ -10,15 +10,19 @@ import { Blocks, EditPage, Head, Layout, Navbar } from '../components';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
-import { cache, gtm, i18n, tz } from '../../symbio.config.json';
+import { gtm, i18n, tz } from '../../symbio.config.json';
 import isStaging from '../utils/isStaging';
 import { getBlocksProps } from '../lib/blocks/getBlockProps';
 // import { ParsedUrlQuery } from 'querystring';
 
 const Page = (props: MyPageProps): ReactElement => {
-    const { currentUrl, hostname, site, page, blocksData, locale, webSetting, blocksProps } = props;
+    const { hostname, site, page, blocksData, locale, webSetting, blocksProps } = props;
 
     const router = useRouter();
+    const currentUrl =
+        '/' + (router.locale === router.defaultLocale ? '' : router.locale) + router.asPath !== '/'
+            ? router.asPath
+            : '';
 
     if (props.forcePreview) {
         return (
@@ -56,7 +60,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
     useEffect(() => {
         trackPage(currentUrl);
-    }, [currentUrl]);
+    }, []);
 
     return (
         <AppContext.Provider
@@ -116,31 +120,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { params, locales } = context;
-
     console.log('context', context);
 
-    let locale = context.locale;
-
-    if (!locale) {
-        locale = 'cs';
-    }
+    const locale = context.locale || i18n.defaultLocale;
 
     moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
     moment.locale(locale);
     moment.tz.setDefault(tz);
-
-    let pathParts = params?.slug?.slice(i18n.useLocaleInPath ? 1 : 0);
-
-    console.log('pathparts first', pathParts);
-
-    if (locales?.indexOf(locale) === -1) {
-        locale = locales[0];
-        pathParts = ['404'];
-    }
-
-    const currentUrl =
-        typeof pathParts !== 'undefined' ? (typeof pathParts === 'string' ? pathParts : pathParts.join('/')) : '';
 
     // redirect to preview mode
     if (isStaging() && !context.preview) {
@@ -148,25 +134,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
             props: {
                 locale,
                 forcePreview: true,
-                currentUrl,
             },
             revalidate: 1,
         };
     }
 
-    console.log('pathparts', pathParts);
-
-    if (pathParts) {
-        return await getBlocksProps(context, locale, pathParts, providers, currentUrl);
-    }
-
-    return {
-        props: {
-            locale,
-            currentUrl,
-        },
-        revalidate: isStaging() ? 1 : cache.maxAge,
-    };
+    return await getBlocksProps(context, providers);
 };
 
 export default Page;

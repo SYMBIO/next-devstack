@@ -1,23 +1,20 @@
-import { ParsedUrlQuery } from 'querystring';
+import { GetStaticPropsContext } from 'next';
 import getBlockName from '../../utils/getBlockName';
 import BlockRegistry from './BlockRegistry';
 import { Providers } from '../../types/provider';
+import { i18n } from '../../../symbio.config.json';
 
 export const getBlocksProps = async (
-    context: {
-        params?: ParsedUrlQuery;
-        previewData?: unknown;
-    },
-    locale: string,
-    pathParts: string | string[],
+    context: GetStaticPropsContext,
     providers: Providers,
-    currentUrl: string,
 ): Promise<{
     props: { [key: string]: unknown };
     revalidate: number;
 }> => {
     const provider = providers.page;
-    const props = await provider.getPageBySlug(locale, Array.isArray(pathParts) ? pathParts : [pathParts]);
+    const locale = context.locale || i18n.defaultLocale;
+    const slug = context.params?.slug;
+    const props = await provider.getPageBySlug(locale, Array.isArray(slug) ? slug : slug ? [slug] : ['homepage']);
     const blocksPropsPromises = [];
     if (props.blocksData && props.blocksData.length > 0) {
         for (const block of props.blocksData) {
@@ -48,7 +45,6 @@ export const getBlocksProps = async (
             ...props,
             locale,
             blocksProps,
-            currentUrl,
         },
         revalidate: 1,
     };

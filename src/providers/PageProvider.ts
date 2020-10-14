@@ -48,7 +48,6 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
 
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
         const params: ParsedUrlQuery[] = [];
-        const { useLocaleInPath } = symbio.i18n;
 
         let cnt = -1;
         let done = 0;
@@ -67,11 +66,11 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
             }
             // loop over all pages
             for (const page of allPages) {
-                if (!useLocaleInPath && String(page.url) === 'homepage') {
+                if (String(page.url) === 'homepage') {
                     params.push({});
                     continue;
                 }
-                const url = String(page.url) === 'homepage' ? '' : '/' + page.url;
+                const url = '/' + page.url;
                 const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers);
                 if (blocksParams.length > 0) {
                     for (const blockParams of blocksParams) {
@@ -90,12 +89,12 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
                         }
                         // build slug array
                         const pathParts = newUrl.split('/').slice(1);
-                        params.push({ slug: useLocaleInPath ? [locale, ...pathParts] : pathParts });
+                        params.push({ slug: pathParts });
                     }
                 } else {
                     // build slug array
                     const pathParts = url.split('/').slice(1);
-                    params.push({ slug: useLocaleInPath ? [locale, ...pathParts] : pathParts });
+                    params.push({ slug: pathParts });
                 }
             }
 
