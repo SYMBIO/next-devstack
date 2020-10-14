@@ -1,9 +1,7 @@
-import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
 import symbio from '../../symbio.config.json';
 import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
 import { getSiteLocale } from '../lib/routing/getSiteLocale';
-import ProviderRegistry from '../lib/provider/ProviderRegistry';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
 import * as d from '../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../relay/__generated__/pageListQuery.graphql';
@@ -13,9 +11,11 @@ import { AppQuery } from '../relay/app';
 import { getPagePattern } from '../lib/routing/getPagePattern';
 import { AppData } from '../types/app';
 import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
-import { getStaticParamsFromBlocks } from '../lib/server/getStaticParamsFromBlocks';
+import { ParsedUrlQuery } from 'querystring';
+import { getStaticParamsFromBlocks } from '../lib/blocks/getStaticParamsFromBlocks';
+import providers from '../providers';
 
-export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
+class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
     getApiKey(): string {
         return 'page';
     }
@@ -72,7 +72,7 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
                     continue;
                 }
                 const url = String(page.url) === 'homepage' ? '' : '/' + page.url;
-                const blocksParams = await getStaticParamsFromBlocks(page.content, locale);
+                const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers);
                 if (blocksParams.length > 0) {
                     for (const blockParams of blocksParams) {
                         let newUrl = url;
@@ -108,4 +108,4 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
     }
 }
 
-ProviderRegistry.set(new PageProvider(pageDetailQuery, pageListQuery));
+export default new PageProvider(pageDetailQuery, pageListQuery);

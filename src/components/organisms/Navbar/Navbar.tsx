@@ -13,6 +13,9 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
     }
 
     const { locale, mainMenu, logo, homepage } = useContext(AppContext);
+
+    console.log('main menu', mainMenu);
+
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
     return (

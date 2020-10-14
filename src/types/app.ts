@@ -20,6 +20,7 @@ export type BaseDatoCMSProps =
     | 'updatedAt';
 
 export interface MyPageProps extends AppData {
+    forcePreview?: boolean;
     locale: SiteLocale;
     currentUrl: string;
     hostname: string;

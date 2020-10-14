@@ -33,21 +33,23 @@ export function detectLocale(req?: IncomingMessage): string {
     return locales[0];
 }
 
-LocaleRedirect.getInitialProps = function ({ req, res }: NextPageContext): { locale: string } {
-    const locale = detectLocale(req);
+LocaleRedirect.getInitialProps = function ({ req, res }: NextPageContext) {
+    // const locale = detectLocale(req);
+
+    console.log(req);
 
     const auth = symbio.auth as Record<string, unknown> | undefined;
     auth && auth.basic && !basicAuth(req, res);
 
-    if (res) {
-        res.statusCode = 302;
-        res.setHeader('Location', '/' + locale);
-        res.end(`<script>document.location.href = '/${locale}'`);
-    }
-
-    return {
-        locale,
-    };
+    // if (res) {
+    //     res.statusCode = 302;
+    //     res.setHeader('Location', '/' + locale);
+    //     res.end(`<script>document.location.href = '/${locale}'`);
+    // }
+    //
+    // return {
+    //     locale,
+    // };
 };
 
 export default LocaleRedirect;

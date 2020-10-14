@@ -10,6 +10,13 @@ if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
 }
 
 const nextConfig = {
+    experimental: {
+        i18n: {
+            locales: ['cs', 'en'],
+            defaultLocale: 'cs',
+            localeDetection: true,
+        },
+    },
     target: 'serverless',
     webpack: (config, { isServer }) => {
         config.plugins = config.plugins || [];

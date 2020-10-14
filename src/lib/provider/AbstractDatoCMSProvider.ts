@@ -1,7 +1,6 @@
 import Provider, { FindResponse } from './Provider';
 import { Environment, GraphQLTaggedNode } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
-import { ParsedUrlQuery } from 'querystring';
 import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
 import { getSiteLocale } from '../routing/getSiteLocale';
@@ -88,6 +87,4 @@ export default abstract class AbstractDatoCMSProvider<TOne extends OperationType
     getFilterParams(): Record<string, unknown> {
         return {};
     }
-
-    abstract async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]>;
 }

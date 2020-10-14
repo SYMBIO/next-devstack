@@ -1,11 +1,10 @@
 import { AppData } from '../../types/app';
 import { AbstractPageCache } from './AbstractPageCache';
-import ProviderRegistry from '../provider/ProviderRegistry';
-import PageProvider from '../../providers/PageProvider';
+import providers from '../../providers';
 
 export class NoCache extends AbstractPageCache {
     async get(locale: string, pathParts: string[]): Promise<AppData> {
-        const provider = ProviderRegistry.get('page') as PageProvider;
+        const provider = providers.page;
         return await provider.getPageBySlug(locale, pathParts);
     }
 

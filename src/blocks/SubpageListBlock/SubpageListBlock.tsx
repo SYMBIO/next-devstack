@@ -4,7 +4,6 @@ import { BlockWrapper, Heading, SubpageList } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './SubpageListBlock.module.scss';
-import ProviderRegistry from '../../lib/provider/ProviderRegistry';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
 import PageProvider from '../../providers/PageProvider';
 import { ImageInterface } from '../../types/app';
@@ -77,11 +76,12 @@ if (typeof window === 'undefined') {
         locale,
         page,
         block,
+        providers,
     }: StaticBlockContext): Promise<ServerProps> => {
         const parentId: string = block.page?.id || page?.id;
 
         if (page?.id) {
-            const provider = ProviderRegistry.get('page') as PageProvider;
+            const provider = providers.page;
 
             const result = await provider.find({
                 filter: {

@@ -3,7 +3,6 @@ import { graphql } from 'relay-runtime';
 import { BlockWrapper, NewsList } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { FindResponse } from '../../lib/provider/Provider';
-import ProviderRegistry from '../../lib/provider/ProviderRegistry';
 import NewsProvider from '../../providers/NewsProvider';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
@@ -47,8 +46,9 @@ function NewsListFloorBlock({
 if (typeof window === 'undefined') {
     NewsListFloorBlock.getStaticProps = NewsListFloorBlock.getServerSideProps = async ({
         locale,
+        providers,
     }: StaticBlockContext): Promise<ServerProps> => {
-        const provider = ProviderRegistry.get('news') as NewsProvider;
+        const provider = providers.news;
         return await provider.find({
             locale,
             limit: 3,

@@ -1,14 +1,10 @@
 import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
-import ProviderRegistry from '../lib/provider/ProviderRegistry';
 import * as d from '../relay/__generated__/newsCategoryDetailQuery.graphql';
 import * as l from '../relay/__generated__/newsCategoryListQuery.graphql';
 import { newsCategoryDetailQuery, newsCategoryListQuery } from '../relay/newsCategory';
 import { ParsedUrlQuery } from 'querystring';
 
-export default class NewsCategoryProvider extends AbstractDatoCMSProvider<
-    d.newsCategoryDetailQuery,
-    l.newsCategoryListQuery
-> {
+class NewsCategoryProvider extends AbstractDatoCMSProvider<d.newsCategoryDetailQuery, l.newsCategoryListQuery> {
     getApiKey(): string {
         return 'news_category';
     }
@@ -22,4 +18,4 @@ export default class NewsCategoryProvider extends AbstractDatoCMSProvider<
     }
 }
 
-ProviderRegistry.set(new NewsCategoryProvider(newsCategoryDetailQuery, newsCategoryListQuery));
+export default new NewsCategoryProvider(newsCategoryDetailQuery, newsCategoryListQuery);
