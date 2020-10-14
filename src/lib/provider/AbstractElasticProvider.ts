@@ -4,7 +4,7 @@ import { Logger } from '../../services';
 import AbstractDatoCMSProvider from './AbstractDatoCMSProvider';
 import getElastic from '../elastic';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
-import symbio from '../../../symbio.config.json';
+import { i18n } from '../../../symbio.config.json';
 import { FindResponse } from './Provider';
 import isStaging from '../../utils/isStaging';
 
@@ -101,7 +101,7 @@ export default abstract class AbstractElasticProvider<
      */
     async indexByElastic(id: string, simple = false, prod = false): Promise<void> {
         if (this.isLocalizable()) {
-            for (const locale of symbio.locales) {
+            for (const locale of i18n.locales) {
                 const item = await this.findOneForIndex(id, locale);
 
                 if (!item || typeof item !== 'object') {
@@ -303,7 +303,7 @@ export default abstract class AbstractElasticProvider<
         if (locale) {
             await unindexItem(locale);
         } else {
-            for (const locale of symbio.locales) {
+            for (const locale of i18n.locales) {
                 await unindexItem(locale);
             }
         }

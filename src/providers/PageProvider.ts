@@ -1,9 +1,7 @@
-import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
 import symbio from '../../symbio.config.json';
 import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
 import { getSiteLocale } from '../lib/routing/getSiteLocale';
-import ProviderRegistry from '../lib/provider/ProviderRegistry';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
 import * as d from '../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../relay/__generated__/pageListQuery.graphql';
@@ -13,9 +11,11 @@ import { AppQuery } from '../relay/app';
 import { getPagePattern } from '../lib/routing/getPagePattern';
 import { AppData } from '../types/app';
 import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
-import { getStaticParamsFromBlocks } from '../lib/server/getStaticParamsFromBlocks';
+import { ParsedUrlQuery } from 'querystring';
+import { getStaticParamsFromBlocks } from '../lib/blocks/getStaticParamsFromBlocks';
+import providers from '../providers';
 
-export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
+class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
     getApiKey(): string {
         return 'page';
     }
@@ -48,7 +48,6 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
 
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
         const params: ParsedUrlQuery[] = [];
-        const { useLocaleInPath } = symbio.i18n;
 
         let cnt = -1;
         let done = 0;
@@ -67,12 +66,12 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
             }
             // loop over all pages
             for (const page of allPages) {
-                if (!useLocaleInPath && String(page.url) === 'homepage') {
+                if (String(page.url) === 'homepage') {
                     params.push({});
                     continue;
                 }
-                const url = String(page.url) === 'homepage' ? '' : '/' + page.url;
-                const blocksParams = await getStaticParamsFromBlocks(page.content, locale);
+                const url = '/' + page.url;
+                const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers);
                 if (blocksParams.length > 0) {
                     for (const blockParams of blocksParams) {
                         let newUrl = url;
@@ -90,12 +89,12 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
                         }
                         // build slug array
                         const pathParts = newUrl.split('/').slice(1);
-                        params.push({ slug: useLocaleInPath ? [locale, ...pathParts] : pathParts });
+                        params.push({ slug: pathParts });
                     }
                 } else {
                     // build slug array
                     const pathParts = url.split('/').slice(1);
-                    params.push({ slug: useLocaleInPath ? [locale, ...pathParts] : pathParts });
+                    params.push({ slug: pathParts });
                 }
             }
 
@@ -108,4 +107,4 @@ export default class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQu
     }
 }
 
-ProviderRegistry.set(new PageProvider(pageDetailQuery, pageListQuery));
+export default new PageProvider(pageDetailQuery, pageListQuery);

@@ -3,12 +3,11 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper, NewsDetail } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
-import ProviderRegistry from '../../lib/provider/ProviderRegistry';
-import NewsProvider from '../../providers/NewsProvider';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import getId from '../../utils/getId';
 import styles from './NewsDetailBlock.module.scss';
+import { Providers } from '../../types/provider';
 
 type ServerProps = newsDetailQueryResponse;
 
@@ -40,14 +39,15 @@ function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<BaseBlock
 }
 
 if (typeof window === 'undefined') {
-    NewsDetailBlock.getStaticPaths = async (locale: string): Promise<ParsedUrlQuery[]> => {
-        const provider = ProviderRegistry.get('news') as NewsProvider;
+    NewsDetailBlock.getStaticPaths = async (locale: string, providers: Providers): Promise<ParsedUrlQuery[]> => {
+        const provider = providers.news;
         return provider.getStaticPaths(locale);
     };
 
     NewsDetailBlock.getStaticProps = NewsDetailBlock.getServerSideProps = async ({
         locale,
         params,
+        providers,
     }: StaticBlockContext): Promise<ServerProps> => {
         if (!params || !params.slug) {
             const err = new Error('Page not found') as Error & { code: string };
@@ -64,7 +64,7 @@ if (typeof window === 'undefined') {
             throw err;
         }
 
-        const provider = ProviderRegistry.get('news') as NewsProvider;
+        const provider = providers.news;
         const item = (await provider.findOne(id, locale)) as newsDetailQueryResponse['item'];
 
         return {

@@ -35,11 +35,9 @@ if (typeof window === 'undefined') {
     /*
     {NAME}.getStaticProps = {NAME}.getServerSideProps = async ({
         locale,
+        providers,
     }: StaticBlockContext): Promise<ServerProps> => {
-        const provider = ProviderRegistry.get('x') as xProvider;
-        if (!provider) {
-            throw new Error('Provider x not found');
-        }
+        const provider = providers.x;
 
         return {};
     };

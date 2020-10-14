@@ -3,13 +3,12 @@ import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
 import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
 import { getSiteLocale } from '../lib/routing/getSiteLocale';
-import ProviderRegistry from '../lib/provider/ProviderRegistry';
 import { newsDetailQuery, newsListQuery, newsStaticPathsQuery } from '../relay/news';
 import * as d from '../relay/__generated__/newsDetailQuery.graphql';
 import * as l from '../relay/__generated__/newsListQuery.graphql';
 import * as s from '../relay/__generated__/newsStaticPathsQuery.graphql';
 
-export default class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsListQuery> {
+class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsListQuery> {
     getApiKey(): string {
         return 'news';
     }
@@ -39,4 +38,4 @@ export default class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQu
     }
 }
 
-ProviderRegistry.set(new NewsProvider(newsDetailQuery, newsListQuery));
+export default new NewsProvider(newsDetailQuery, newsListQuery);

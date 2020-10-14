@@ -4,7 +4,7 @@ export function getRouteParamsFromUrl(url: string): UrlObject {
     const parts = url.split('/');
 
     return {
-        pathname: '/[...slug]',
+        pathname: '/[[...slug]]',
         query: {
             locale: parts[1],
             slug: parts.slice(2),

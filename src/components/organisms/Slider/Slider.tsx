@@ -87,8 +87,6 @@ const Slider = ({
         return <Banner {...banners[0]} sliderTextAlign={textAlign} />;
     }
 
-    console.log(banners);
-
     return (
         <Carousel
             className={styles.slider}

@@ -1,15 +1,14 @@
 /* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack');
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
-const symbio = require('./symbio.config');
+const { i18n } = require('./symbio.config');
 const withPWA = require('next-pwa');
 
-if (symbio.pageCache === 'redis' && !process.env.REDIS_URL) {
-    console.error('Trying to use Redis page cache without REDIS_URL env variable!');
-    process.exit(1);
-}
-
 const nextConfig = {
+    experimental: {
+        i18n,
+    },
     target: 'serverless',
     webpack: (config, { isServer }) => {
         config.plugins = config.plugins || [];

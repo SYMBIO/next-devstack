@@ -1,10 +1,12 @@
 import { ParsedUrlQuery } from 'querystring';
-import BlockRegistry from '../blocks/BlockRegistry';
+import BlockRegistry from './BlockRegistry';
 import getBlockName from '../../utils/getBlockName';
+import { Providers } from '../../types/provider';
 
 export async function getStaticParamsFromBlocks(
     blocks: ReadonlyArray<{ __typename: string } | null> | null,
     locale: string,
+    providers: Providers,
 ): Promise<ParsedUrlQuery[]> {
     if (!blocks) {
         return [];
@@ -16,7 +18,7 @@ export async function getStaticParamsFromBlocks(
         if (blockName && BlockRegistry.has(blockName)) {
             const blk = BlockRegistry.get(blockName);
             if (blk && blk.getStaticPaths) {
-                const newParams = await blk.getStaticPaths(locale);
+                const newParams = await blk.getStaticPaths(locale, providers);
                 if (blockParams.length === 0) {
                     blockParams.push(...newParams);
                 } else {

@@ -3,6 +3,7 @@ import { NextComponentType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { BlockWrapperProps } from '../components/base/BlockWrapper/BlockWrapper';
 import { ImageInterface } from './app';
+import { Providers } from './provider';
 
 export interface BaseBlockProps extends Omit<BlockWrapperProps, 'tooltip'> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,6 +21,7 @@ export interface StaticBlockContext {
         readonly title: string | null;
     } | null;
     block?: any;
+    providers: Providers;
 }
 
 export interface ServerSideBlockContext extends StaticBlockContext {
@@ -38,10 +40,12 @@ export type BlockGetStaticProps<
     Q extends ParsedUrlQuery = ParsedUrlQuery
 > = (ctx: StaticBlockContext) => Promise<P>;
 
-export type BlockGetStaticPaths<P extends ParsedUrlQuery = ParsedUrlQuery> = (locale: string) => Promise<P[]>;
+export type BlockGetStaticPaths<P extends ParsedUrlQuery = ParsedUrlQuery> = (
+    locale: string,
+    providers: Providers,
+) => Promise<P[]>;
 
 export declare type BlockType = NextComponentType<ServerSideBlockContext, any, any> & {
     getStaticProps?: BlockGetStaticProps;
-    getServerSideProps?: BlockGetServerSideProps;
     getStaticPaths?: BlockGetStaticPaths;
 };

@@ -19,8 +19,6 @@ function formatValue(val: string | number | boolean | Moment | undefined): strin
         return encodeURIComponent(val.format('YYYYMM'));
     }
 
-    console.log(val);
-
     return '';
 }
 

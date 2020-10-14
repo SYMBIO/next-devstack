@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import ProviderRegistry from '../../lib/provider/ProviderRegistry';
-import '../../providers';
+import providers from '../../providers';
 import AbstractElasticProvider from '../../lib/provider/AbstractElasticProvider';
+import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const isPost = req.method === 'POST';
@@ -11,7 +11,26 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     const simple = !req.query.create;
 
     try {
-        const provider = ProviderRegistry.get(typeId);
+        let provider;
+        const providerIndex = Object.keys(providers).indexOf(typeId);
+        if (providerIndex === -1) {
+            provider = Object.values(providers).find(
+                (p) => p instanceof AbstractDatoCMSProvider && p.getId() === typeId,
+            );
+            if (!provider) {
+                res.setHeader('Content-Type', 'application/json');
+                res.statusCode = 200;
+                res.end(
+                    JSON.stringify({
+                        status: 'ERROR',
+                        message: 'Provider not found',
+                    }),
+                );
+                return;
+            }
+        } else {
+            provider = Object.values(providers)[providerIndex];
+        }
 
         try {
             if (provider && provider instanceof AbstractElasticProvider) {
