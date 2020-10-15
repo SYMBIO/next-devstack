@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import condCls from '../../utils/conditionalClasses';
 import styles from './{NAME}.module.scss';
@@ -46,4 +45,4 @@ if (typeof window === 'undefined') {
 
 {NAME}.whyDidYouRender = true;
 
-BlockRegistry.set('{NAME}', {NAME});
+export default {NAME};

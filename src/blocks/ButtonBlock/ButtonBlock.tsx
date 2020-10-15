@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Button } from '../../components/primitives/Button/Button';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ButtonBlock.module.scss';
 
@@ -34,4 +33,4 @@ function ButtonBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlo
 
 ButtonBlock.whyDidYouRender = true;
 
-BlockRegistry.set('ButtonBlock', ButtonBlock);
+export default ButtonBlock;

@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Video } from '../../components/organisms/Video/Video';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './VideoBlock.module.scss';
 
@@ -27,4 +26,4 @@ function VideoBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
 
 VideoBlock.whyDidYouRender = true;
 
-BlockRegistry.set('VideoBlock', VideoBlock);
+export default VideoBlock;

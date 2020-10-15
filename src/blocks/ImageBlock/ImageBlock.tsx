@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ImageBlock.module.scss';
 import { Image } from '../../components/primitives/Image/Image';
@@ -31,4 +30,4 @@ function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
 
 ImageBlock.whyDidYouRender = true;
 
-BlockRegistry.set('ImageBlock', ImageBlock);
+export default ImageBlock;

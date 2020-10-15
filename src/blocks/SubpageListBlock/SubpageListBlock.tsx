@@ -1,6 +1,5 @@
 import React, { ReactElement, useState } from 'react';
 import { graphql } from 'react-relay';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
@@ -120,4 +119,4 @@ if (typeof window === 'undefined') {
 
 SubpageListBlock.whyDidYouRender = true;
 
-BlockRegistry.set('SubpageListBlock', SubpageListBlock);
+export default SubpageListBlock;

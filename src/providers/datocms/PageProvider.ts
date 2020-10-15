@@ -14,6 +14,7 @@ import { blocksContent } from '../../blocks/__generated__/blocksContent.graphql'
 import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
+import blocks from '../../blocks';
 
 class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
     getApiKey(): string {
@@ -71,7 +72,7 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
                     continue;
                 }
                 const url = '/' + page.url;
-                const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers);
+                const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
                 if (blocksParams.length > 0) {
                     for (const blockParams of blocksParams) {
                         let newUrl = url;

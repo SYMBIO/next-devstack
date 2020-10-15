@@ -1,22 +1,23 @@
 import { ParsedUrlQuery } from 'querystring';
-import BlockRegistry from './BlockRegistry';
+import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
 
 export async function getStaticParamsFromBlocks(
-    blocks: ReadonlyArray<{ __typename: string } | null> | null,
+    content: ReadonlyArray<{ __typename: string } | null> | null,
     locale: string,
     providers: Providers,
+    blocks: Record<string, BlockType>,
 ): Promise<ParsedUrlQuery[]> {
-    if (!blocks) {
+    if (!content) {
         return [];
     }
 
     let blockParams: ParsedUrlQuery[] = [];
-    for (const block of blocks) {
+    for (const block of content) {
         const blockName = getBlockName(block);
-        if (blockName && BlockRegistry.has(blockName)) {
-            const blk = BlockRegistry.get(blockName);
+        if (blockName && Object.prototype.hasOwnProperty.call(blocks, blockName)) {
+            const blk = blocks[blockName];
             if (blk && blk.getStaticPaths) {
                 const newParams = await blk.getStaticPaths(locale, providers);
                 if (blockParams.length === 0) {

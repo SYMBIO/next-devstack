@@ -6,8 +6,8 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { CALENDAR_FORMATS } from '../constants';
-import '../blocks';
 import providers from '../providers';
+import blocks from '../blocks';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
@@ -88,7 +88,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
             <Layout>
                 <Navbar />
-                <Blocks blocks={blocksData} initialProps={blocksProps} />
+                <Blocks blocksData={blocksData} initialProps={blocksProps} />
             </Layout>
 
             {gtm.code && (
@@ -149,7 +149,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         };
     }
 
-    return await getBlocksProps(context, providers);
+    return await getBlocksProps(context, providers, blocks);
 };
 
 export default Page;

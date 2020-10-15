@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './MapBlock.module.scss';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
@@ -32,4 +31,4 @@ function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockP
 
 MapBlock.whyDidYouRender = true;
 
-BlockRegistry.set('MapBlock', MapBlock);
+export default MapBlock;
