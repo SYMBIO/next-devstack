@@ -1,7 +1,7 @@
-import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
-import * as d from '../relay/__generated__/newsCategoryDetailQuery.graphql';
-import * as l from '../relay/__generated__/newsCategoryListQuery.graphql';
-import { newsCategoryDetailQuery, newsCategoryListQuery } from '../relay/newsCategory';
+import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
+import * as d from '../../relay/__generated__/newsCategoryDetailQuery.graphql';
+import * as l from '../../relay/__generated__/newsCategoryListQuery.graphql';
+import { newsCategoryDetailQuery, newsCategoryListQuery } from '../../relay/newsCategory';
 import { ParsedUrlQuery } from 'querystring';
 
 class NewsCategoryProvider extends AbstractDatoCMSProvider<d.newsCategoryDetailQuery, l.newsCategoryListQuery> {

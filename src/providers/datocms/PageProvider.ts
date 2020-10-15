@@ -1,19 +1,19 @@
 import { fetchQuery } from 'react-relay';
-import symbio from '../../symbio.config.json';
-import AbstractDatoCMSProvider from '../lib/provider/AbstractDatoCMSProvider';
-import { getSiteLocale } from '../lib/routing/getSiteLocale';
-import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
-import * as d from '../relay/__generated__/pageDetailQuery.graphql';
-import * as l from '../relay/__generated__/pageListQuery.graphql';
-import * as s from '../relay/__generated__/pageStaticPathsQuery.graphql';
-import { appQuery } from '../relay/__generated__/appQuery.graphql';
-import { AppQuery } from '../relay/app';
-import { getPagePattern } from '../lib/routing/getPagePattern';
-import { AppData } from '../types/app';
-import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
+import symbio from '../../../symbio.config.json';
+import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
+import { getSiteLocale } from '../../lib/routing/getSiteLocale';
+import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../../relay/page';
+import * as d from '../../relay/__generated__/pageDetailQuery.graphql';
+import * as l from '../../relay/__generated__/pageListQuery.graphql';
+import * as s from '../../relay/__generated__/pageStaticPathsQuery.graphql';
+import { appQuery } from '../../relay/__generated__/appQuery.graphql';
+import { AppQuery } from '../../relay/app';
+import { getPagePattern } from '../../lib/routing/getPagePattern';
+import { AppData } from '../../types/app';
+import { blocksContent } from '../../blocks/__generated__/blocksContent.graphql';
 import { ParsedUrlQuery } from 'querystring';
-import { getStaticParamsFromBlocks } from '../lib/blocks/getStaticParamsFromBlocks';
-import providers from '../providers';
+import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
+import providers from '../../providers';
 
 class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
     getApiKey(): string {

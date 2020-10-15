@@ -31,9 +31,9 @@ function {NAME}({ content, className, ...rest }: {NAME}Props): ReactElement<Base
 }
 
 if (typeof window === 'undefined') {
-    // put your getStaticProps, getStaticPaths or getServerProps here
+    // put your getStaticProps or getStaticPaths
     /*
-    {NAME}.getStaticProps = {NAME}.getServerSideProps = async ({
+    {NAME}.getStaticProps = async ({
         locale,
         providers,
     }: StaticBlockContext): Promise<ServerProps> => {
