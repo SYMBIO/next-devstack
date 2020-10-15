@@ -1,8 +1,9 @@
 import React from 'react';
 import { Icon, Link } from '..';
+import condCls from '../../../utils/conditionalClasses';
 import styles from './Button.module.scss';
 
-interface Props {
+export interface ButtonProps {
     children: string | JSX.Element | (string | JSX.Element | number)[];
     onClick?: () => void;
     href?: string;
@@ -26,14 +27,15 @@ const Button = ({
     submit,
     iconOnLeft = false,
     ...rest
-}: Props): JSX.Element =>
+}: ButtonProps): JSX.Element =>
     href || page ? (
-        <div className={styles.wrapper} disabled={disabled} {...rest} target={external ? '_blank' : '_self'}>
+        <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest}>
             <div className={styles.inner}>
                 <Link
                     className={styles.link}
                     href={href}
                     page={{ url: (page && page.url) || '' }}
+                    target={external ? '_blank' : '_self'}
                     params={params}
                     plain
                 >
@@ -44,8 +46,8 @@ const Button = ({
             </div>
         </div>
     ) : (
-        <div className={styles.wrapper} disabled={disabled} {...rest} target={external ? '_blank' : '_self'}>
-            <button className={styles.innerButton} type={submit ? 'submit' : 'button'}>
+        <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest}>
+            <button className={styles.innerButton} type={submit ? 'submit' : 'button'} disabled={disabled}>
                 {iconOnLeft && icon && <Icon className={styles.icon} name={icon} />}
                 {children}
                 {!iconOnLeft && icon && <Icon className={styles.icon} name={icon} />}
