@@ -2,14 +2,13 @@ import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'reac
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
-import { SiteLocale } from '../../../types/graphql';
 import { AppContext } from '../../../utils/app-context/AppContext';
 import styles from './Link.module.scss';
 
 interface Props extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
     page?: Page;
     params?: Record<string, string | number> | ParsedUrlQuery;
-    locale?: SiteLocale;
+    locale?: string;
     plain?: boolean;
 }
 

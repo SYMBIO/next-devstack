@@ -1,17 +1,6 @@
-import { SiteLocale } from '../../types/graphql';
+import { SiteLocale } from '../../relay/__generated__/appQuery.graphql';
+import { i18n } from '../../../symbio.config.json';
 
 export function getSiteLocale(strLocale?: string): SiteLocale {
-    if (strLocale) {
-        for (const locale in SiteLocale) {
-            if (locale === strLocale) {
-                return (SiteLocale as any)[locale];
-            }
-        }
-    }
-
-    for (const locale in SiteLocale) {
-        return (SiteLocale as any)[locale];
-    }
-
-    return (SiteLocale as any)[0];
+    return (strLocale || i18n.defaultLocale) as SiteLocale;
 }

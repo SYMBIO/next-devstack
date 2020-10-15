@@ -1,6 +1,6 @@
-import NewsProvider from '../providers/NewsProvider';
-import NewsCategoryProvider from '../providers/NewsCategoryProvider';
-import PageProvider from '../providers/PageProvider';
+import NewsProvider from '../providers/datocms/NewsProvider';
+import NewsCategoryProvider from '../providers/datocms/NewsCategoryProvider';
+import PageProvider from '../providers/datocms/PageProvider';
 
 export type Providers = {
     news: typeof NewsProvider;

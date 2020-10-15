@@ -5,19 +5,20 @@ import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
-import PageProvider from '../../providers/PageProvider';
 import { ImageInterface } from '../../types/app';
 import condCls from '../../utils/conditionalClasses';
 
+interface Subpage {
+    __typename: 'PageRecord';
+    id: string;
+    title: string;
+    url: string;
+    image: ImageInterface;
+}
+
 interface ServerProps {
     count: number;
-    items: {
-        __typename: 'PageRecord';
-        id: string;
-        title: string;
-        url: string;
-        image: ImageInterface;
-    }[];
+    items: Subpage[];
 }
 
 type SubpageListBlockProps = BaseBlockProps &
@@ -81,9 +82,7 @@ if (typeof window === 'undefined') {
         const parentId: string = block.page?.id || page?.id;
 
         if (page?.id) {
-            const provider = providers.page;
-
-            const result = await provider.find({
+            const result = await providers.page.find({
                 filter: {
                     parent: {
                         eq: parentId,
@@ -95,13 +94,18 @@ if (typeof window === 'undefined') {
 
             return {
                 count: result.count,
-                items: result.data.map((i) => ({
-                    __typename: 'PageRecord',
-                    id: i.id,
-                    title: i.title,
-                    url: i.url,
-                    image: i.image,
-                })),
+                items: result.data
+                    .map(
+                        (item) =>
+                            item && {
+                                __typename: 'PageRecord',
+                                id: item.id,
+                                title: item.title,
+                                url: item.url,
+                                image: item.image,
+                            },
+                    )
+                    .filter((item) => item) as Subpage[],
             };
         } else {
             return {

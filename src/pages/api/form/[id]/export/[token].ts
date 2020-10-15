@@ -1,14 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchQuery } from 'relay-runtime';
 import moment from 'moment-timezone';
-import dotenv from 'dotenv';
 import { createRelayEnvironment } from '../../../../../lib/relay/createRelayEnvironment';
 import { formQuery } from '../../../../../relay/api/form/[id]/save';
 import { saveFormQuery } from '../../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
 import { exportFormQuery } from '../../../../../relay/api/form/[id]/export/[token]';
 import { TokenExportFormQuery } from '../../../../../relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
-
-dotenv.config();
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     if (!process.env.DATOCMS_API_TOKEN) {

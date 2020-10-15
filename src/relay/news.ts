@@ -1,5 +1,17 @@
 import { graphql } from 'relay-runtime';
 
+graphql`
+    fragment newsContentFragment on NewsModelContentField {
+        __typename
+        ...GalleryBlock_content @relay(mask: false)
+        ...ImageBlock_content @relay(mask: false)
+        ...MapBlock_content @relay(mask: false)
+        ...RichTextBlock_content @relay(mask: false)
+        ...VideoBlock_content @relay(mask: false)
+        ...YoutubeVimeoBlock_content @relay(mask: false)
+    }
+`;
+
 export const newsDetailQuery = graphql`
     query newsDetailQuery($locale: SiteLocale, $filter: NewsModelFilter) {
         item: news(locale: $locale, filter: $filter) {
@@ -21,13 +33,7 @@ export const newsDetailQuery = graphql`
                 title
             }
             content {
-                __typename
-                ...GalleryBlock_content @relay(mask: false)
-                ...ImageBlock_content @relay(mask: false)
-                ...MapBlock_content @relay(mask: false)
-                ...RichTextBlock_content @relay(mask: false)
-                ...VideoBlock_content @relay(mask: false)
-                ...YoutubeVimeoBlock_content @relay(mask: false)
+                ...newsContentFragment @relay(mask: false)
             }
         }
     }
