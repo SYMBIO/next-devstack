@@ -1,16 +1,17 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
 import { Logger } from '../../services';
-import AbstractDatoCMSProvider from './AbstractDatoCMSProvider';
+import AbstractDatoCMSProvider, { DatoCMSRecord } from './AbstractDatoCMSProvider';
 import getElastic from '../elastic';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
 import { i18n } from '../../../symbio.config.json';
-import { FindResponse } from './Provider';
 import isStaging from '../../utils/isStaging';
+import { FindResponse } from './Provider';
 
 export default abstract class AbstractElasticProvider<
     TOne extends OperationType,
-    TFind extends OperationType
+    TFind extends OperationType,
+    TItem extends DatoCMSRecord = DatoCMSRecord
 > extends AbstractDatoCMSProvider<TOne, TFind> {
     /**
      * Find items by querying elastic search
@@ -21,9 +22,10 @@ export default abstract class AbstractElasticProvider<
         const options = {
             index: this.getIndex(locale),
             body: {
+                size: 1,
                 query: {
-                    term: {
-                        id,
+                    ids: {
+                        values: [id],
                     },
                 },
             },
@@ -43,8 +45,9 @@ export default abstract class AbstractElasticProvider<
      * @param options
      * @param locale
      */
-    async findByElastic(options: Search, locale?: string): Promise<FindResponse> {
+    async findByElastic(options: Search, locale?: string): Promise<FindResponse<TItem>> {
         options.index = this.getIndex(locale);
+        options._source = options._source || this.getSource();
         try {
             const result = await getElastic().search(options);
             const { hits, total } = result.body.hits;
@@ -53,12 +56,21 @@ export default abstract class AbstractElasticProvider<
                 data: hits.map((h: { _source: unknown }) => h._source),
             };
         } catch (e) {
+            console.log('ELASTIC ERROR:', JSON.stringify(options));
             console.error(e.meta.body.error);
             return {
                 count: 0,
                 data: [],
             };
         }
+    }
+
+    /**
+     * Get source fields (default all)
+     * @override
+     */
+    getSource(): string[] | undefined {
+        return undefined;
     }
 
     /**
@@ -83,14 +95,26 @@ export default abstract class AbstractElasticProvider<
         return result.body.count;
     }
 
+    async findAggs(options: Search, locale?: string): Promise<any> {
+        options.index = this.getIndex(locale);
+        options.size = 0;
+        try {
+            const result = await getElastic().search(options);
+            return result.body.aggregations;
+        } catch (e) {
+            console.log('ELASTIC ERROR:', JSON.stringify(options));
+            console.error(e.meta.body.error);
+            return null;
+        }
+    }
+
     /**
      * Get one item by id for search indexing
      * @param id
      * @param locale
      */
     async findOneForIndex(id: string, locale?: string): Promise<unknown> {
-        const item = await this.findOne(id, locale);
-        return typeof item === 'object' ? (this.isLocalizable() ? { ...item, locale } : item) : null;
+        return await this.findOne(id, locale);
     }
 
     /**
@@ -99,13 +123,13 @@ export default abstract class AbstractElasticProvider<
      * @param simple
      * @param prod
      */
-    async indexByElastic(id: string, simple = false, prod = false): Promise<void> {
+    async indexOne(id: string, simple = false, prod = false): Promise<void> {
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
                 const item = await this.findOneForIndex(id, locale);
 
                 if (!item || typeof item !== 'object') {
-                    await this.unindexByElastic(id, locale, prod);
+                    await this.unindex(id, locale, prod);
                     continue;
                 }
 
@@ -124,7 +148,7 @@ export default abstract class AbstractElasticProvider<
             const item = await this.findOneForIndex(id);
 
             if (!item) {
-                await this.unindexByElastic(id, undefined, prod);
+                await this.unindex(id, undefined, prod);
                 return;
             }
 
@@ -138,6 +162,106 @@ export default abstract class AbstractElasticProvider<
                 refresh: true,
                 id,
             });
+        }
+    }
+
+    /**
+     * Index in elastic search
+     * @param simple
+     * @param prod
+     */
+    async indexAll(simple = false, prod = false): Promise<void> {
+        if (this.isLocalizable()) {
+            for (const locale of i18n.locales) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                const { data } = await this.find({ locale, limit: Infinity });
+
+                console.log('indexing', this.getApiKey(), 'count', data.length);
+
+                if (!simple) {
+                    await this.createAndReindex(locale, prod);
+                }
+
+                for (const item of data) {
+                    if (item) {
+                        await getElastic().index({
+                            index: this.getIndex(locale, undefined, prod),
+                            body: { ...item, locale },
+                            refresh: true,
+                            id: item.id,
+                        });
+                    }
+                }
+            }
+        } else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            const { data } = await this.find({});
+
+            if (!simple) {
+                await this.createAndReindex(undefined, prod);
+            }
+
+            for (const item of data) {
+                if (item) {
+                    await getElastic().index({
+                        index: this.getIndex(undefined, undefined, prod),
+                        body: { ...item },
+                        refresh: true,
+                        id: item.id,
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * Index in elastic search
+     * @param prod
+     */
+    async deleteRelics(prod = false): Promise<void> {
+        console.log('Deleting relics for', this.getApiKey(), prod);
+        if (this.isLocalizable()) {
+            for (const locale of i18n.locales) {
+                console.log('Getting data for', this.getApiKey(), locale);
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                const { data } = await this.find({ locale, limit: Infinity });
+                const cmsIds = data.map((item) => item?.id).filter((id) => id);
+
+                const { data: data2 } = await this.findByElastic({ size: 10000 }, locale);
+                const elasticIds = data2.map((i) => i && i.id).filter((i) => i);
+
+                for (const id of elasticIds) {
+                    if (id && cmsIds.indexOf(id) === -1) {
+                        console.log('Unindexing ' + id);
+                        await this.unindex(id, locale, prod);
+                    }
+                }
+
+                console.log('Done');
+            }
+        } else {
+            console.log('Getting data for', this.getApiKey());
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            const { data } = await this.find({ limit: Infinity });
+
+            const cmsIds = data.map((item) => item?.id).filter((id) => id);
+
+            const { data: data2 } = await this.findByElastic({ size: 10000 });
+            const elasticIds = data2.map((i) => i && i.id).filter((i) => i);
+
+            for (const id of elasticIds) {
+                if (id && cmsIds.indexOf(id) === -1) {
+                    console.log('Unindexing ' + id);
+                    await this.unindex(id, undefined, prod);
+                }
+            }
+
+            console.log('Done');
         }
     }
 
@@ -157,7 +281,7 @@ export default abstract class AbstractElasticProvider<
                             analysis: {
                                 analyzer: {
                                     default: {
-                                        type: 'czech',
+                                        type: locale === 'en' ? 'english' : 'czech',
                                     },
                                     czech: {
                                         type: 'custom',
@@ -171,6 +295,12 @@ export default abstract class AbstractElasticProvider<
                                             'icu_folding',
                                             'uniqueOnSamePosition',
                                         ],
+                                    },
+                                    english: {
+                                        type: 'custom',
+                                        tokenizer: 'standard',
+                                        char_filter: ['html_strip'],
+                                        filter: ['lowercase', 'icu_folding', 'uniqueOnSamePosition'],
                                     },
                                 },
                                 filter: {
@@ -200,8 +330,43 @@ export default abstract class AbstractElasticProvider<
                             properties: this.getMappingProperties(locale),
                             dynamic_templates: [
                                 {
+                                    ids: {
+                                        path_match: '*.id',
+                                        mapping: {
+                                            type: 'keyword',
+                                        },
+                                    },
+                                },
+                                {
+                                    slug: {
+                                        path_match: 'slug',
+                                        mapping: {
+                                            type: 'keyword',
+                                            copy_to: '_all',
+                                        },
+                                    },
+                                },
+                                {
                                     slugs: {
                                         path_match: '*.slug',
+                                        mapping: {
+                                            type: 'keyword',
+                                            copy_to: '_all',
+                                        },
+                                    },
+                                },
+                                {
+                                    url: {
+                                        path_match: 'url',
+                                        mapping: {
+                                            type: 'keyword',
+                                            copy_to: '_all',
+                                        },
+                                    },
+                                },
+                                {
+                                    urls: {
+                                        path_match: '*.url',
                                         mapping: {
                                             type: 'keyword',
                                             copy_to: '_all',
@@ -215,6 +380,7 @@ export default abstract class AbstractElasticProvider<
                                         mapping: {
                                             copy_to: '_all',
                                             type: 'text',
+                                            analyzer: locale === 'en' ? 'english' : 'czech',
                                         },
                                     },
                                 },
@@ -270,7 +436,7 @@ export default abstract class AbstractElasticProvider<
                 console.log('Done');
             }
         } catch (e) {
-            console.error(e);
+            console.error(e.meta.body.error);
         }
     }
 
@@ -280,7 +446,7 @@ export default abstract class AbstractElasticProvider<
      * @param locale
      * @param prod
      */
-    async unindexByElastic(id: string, locale?: string, prod?: boolean): Promise<void> {
+    async unindex(id: string, locale?: string, prod?: boolean): Promise<void> {
         const unindexItem = async (locale: string) => {
             try {
                 await getElastic().delete({
@@ -334,14 +500,18 @@ export default abstract class AbstractElasticProvider<
      */
     getMappingProperties(
         locale?: string,
-    ): Record<string, Record<string, string | boolean | Record<string, string | Record<string, string | boolean>>>> {
+    ): Record<
+        string,
+        Record<string, string | boolean | number | Record<string, string | Record<string, string | boolean>>>
+    > {
         return {
             id: {
                 type: 'keyword',
             },
             title: {
                 type: 'text',
-                analyzer: 'czech',
+                analyzer: locale === 'en' ? 'english' : 'czech',
+                copy_to: '_all',
                 fields: {
                     sort: {
                         type: 'icu_collation_keyword',
@@ -354,7 +524,7 @@ export default abstract class AbstractElasticProvider<
             },
             _all: {
                 type: 'text',
-                analyzer: 'czech',
+                analyzer: locale === 'en' ? 'english' : 'czech',
             },
         };
     }

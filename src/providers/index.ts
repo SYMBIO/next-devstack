@@ -1,6 +1,6 @@
-import NewsProvider from './NewsProvider';
-import NewsCategoryProvider from './NewsCategoryProvider';
-import PageProvider from './PageProvider';
+import NewsProvider from './datocms/NewsProvider';
+import NewsCategoryProvider from './datocms/NewsCategoryProvider';
+import PageProvider from './datocms/PageProvider';
 
 export default {
     news: NewsProvider,

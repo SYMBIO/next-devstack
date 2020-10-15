@@ -1,7 +1,7 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const symbio = require('../symbio.config');
+const symbio = require('../symbio.config.json');
 const fs = require('fs');
 
 dotenv.config();
@@ -22,17 +22,17 @@ const toCamel = (s) => {
 fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) => {
     fs.promises.readFile('./data/blockTemplate/Block.module.scss.tpl').then((scssTemplate) => {
         const createBlockTemplate = async (name, fields) => {
-            const dir = `./src/blocks/${name}Block`;
+            const dir = `./src/blocks/${name}`;
             try {
                 await fs.promises.access(dir, fs.constants.R_OK);
             } catch (e) {
                 if (e.code === 'ENOENT') {
-                    console.log('Creating block ' + name + 'Block');
-                    await fs.promises.mkdir(`./src/blocks/${name}Block`);
+                    console.log('Creating block ' + name);
+                    await fs.promises.mkdir(`./src/blocks/${name}`);
                 }
             }
             try {
-                await fs.promises.access(`${dir}/${name}Block.tsx`, fs.constants.R_OK);
+                await fs.promises.access(`${dir}/${name}.tsx`, fs.constants.R_OK);
             } catch (e) {
                 if (e.code === 'ENOENT') {
                     const fieldsGql = fields
@@ -85,7 +85,7 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                         .filter((a) => a)
                         .join('\n');
                     await fs.promises.writeFile(
-                        `${dir}/${name}Block.tsx`,
+                        `${dir}/${name}.tsx`,
                         blockTemplate
                             .toString('utf-8')
                             .replace(/{NAME}/g, name)
@@ -94,10 +94,10 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                 }
             }
             try {
-                await fs.promises.access(`${dir}/${name}Block.module.scss`, fs.constants.R_OK);
+                await fs.promises.access(`${dir}/${name}.module.scss`, fs.constants.R_OK);
             } catch (e) {
                 if (e.code === 'ENOENT') {
-                    await fs.promises.writeFile(`${dir}/${name}Block.module.scss`, scssTemplate.toString('utf-8'));
+                    await fs.promises.writeFile(`${dir}/${name}.module.scss`, scssTemplate.toString('utf-8'));
                 }
             }
         };
@@ -120,7 +120,7 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                         `/**
  * Import blocks which should be included in SSR
  */
-${names.map(([name]) => `import './${name}Block/${name}Block';`).join('\n')}
+${names.map(([name]) => `import './${name}/${name}';`).join('\n')}
 
 /**
  * Define fragment for blocks to load with app data
@@ -131,9 +131,9 @@ graphql\`
     fragment blocksContent on PageModelContentField {
         __typename
 ${names
-    .map(([name, fields]) => (fields.length > 0 ? `        ...${name}Block_content @relay(mask: false)` : ''))
-    .filter((a) => a)
-    .join('\n')}
+                            .map(([name, fields]) => (fields.length > 0 ? `        ...${name}_content @relay(mask: false)` : ''))
+                            .filter((a) => a)
+                            .join('\n')}
     }
 \`;
 `,
