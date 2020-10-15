@@ -1,6 +1,4 @@
-import { CalendarSpec } from 'moment';
-
-export const CALENDAR_FORMATS: Record<string, CalendarSpec> = {
+export const CALENDAR_FORMATS: Record<string, unknown> = {
     cs: {
         lastDay: '[Včera]',
         sameDay: '[Dnes]',

@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
 import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
 import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
@@ -23,7 +23,7 @@ class NewsProvider extends AbstractDatoCMSProvider<
     }
 
     getFilterParams(): Record<string, Record<string, string>> {
-        return { dateFrom: { lte: moment().format() }, slug: { neq: 'null' } };
+        return { dateFrom: { lte: dayjs().format() }, slug: { neq: 'null' } };
     }
 
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {

@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
-import moment from 'moment-timezone';
-import 'moment/locale/cs';
+import dayjs from 'dayjs';
+import 'dayjs/locale/cs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import timeZone from 'dayjs/plugin/timezone';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { CALENDAR_FORMATS } from '../constants';
 import '../blocks';
@@ -42,8 +44,8 @@ const Page = (props: MyPageProps): ReactElement => {
                 <script
                     dangerouslySetInnerHTML={{
                         __html: `window.setTimeout(function() {
-    document.location = '/api/preview?locale=${locale}&target=${encodeURIComponent(currentUrl)}';
-}, 1000)`,
+        document.location = '/api/preview?locale=${locale}&target=${encodeURIComponent(currentUrl)}';
+    }, 1000)`,
                     }}
                 />
             </>
@@ -54,9 +56,11 @@ const Page = (props: MyPageProps): ReactElement => {
         return <div>Loading...</div>;
     }
 
-    moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
-    moment.locale(locale);
-    moment.tz.setDefault(tz);
+    dayjs.extend(updateLocale);
+    dayjs.extend(timeZone);
+    dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+    dayjs.locale(locale);
+    dayjs.tz.setDefault(tz);
 
     useEffect(() => {
         trackPage(currentUrl);
@@ -124,9 +128,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const locale = context.locale || i18n.defaultLocale;
 
-    moment.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
-    moment.locale(locale);
-    moment.tz.setDefault(tz);
+    dayjs.extend(updateLocale);
+    dayjs.extend(timeZone);
+    dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+    dayjs.locale(locale);
+    dayjs.tz.setDefault(tz);
 
     // redirect to preview mode
     if (isStaging() && !context.preview) {

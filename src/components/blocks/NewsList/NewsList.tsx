@@ -1,5 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import Calendar from 'dayjs/plugin/calendar';
 import { Heading, Link, RichText } from '../../index';
 import { Page } from '../../../types/app';
 import { AppContext } from '../../../utils/app-context/AppContext';
@@ -27,6 +28,7 @@ const NewsList = ({
     items,
 }: NewsListProps): ReactElement<NewsListProps, 'div'> | null => {
     const { newsPage } = useContext(AppContext);
+    dayjs.extend(Calendar);
 
     return (
         <div className={styles.newsList}>
@@ -46,7 +48,7 @@ const NewsList = ({
                                     <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
                                         <article>
                                             <Heading tag={`h3`}>{item.title}</Heading>
-                                            <p>{moment(item.dateFrom).calendar()}</p>
+                                            <p>{dayjs(item.dateFrom).calendar()}</p>
                                             {item.perex && <RichText content={item.perex} />}
                                         </article>
                                     </Link>

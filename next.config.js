@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack');
-const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin');
 const { i18n } = require('./symbio.config');
 const withPWA = require('next-pwa');
 
@@ -12,16 +11,6 @@ const nextConfig = {
     target: 'serverless',
     webpack: (config, { isServer }) => {
         config.plugins = config.plugins || [];
-
-        config.plugins = [
-            ...config.plugins,
-
-            new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /cs|en-gb/),
-            new MomentTimezoneDataPlugin({
-                startYear: new Date().getFullYear() - 1,
-                endYear: new Date().getFullYear() + 2,
-            }),
-        ];
 
         config.module.rules.push({
             test: /\.svg$/,

@@ -1,4 +1,6 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import timeZone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import React, { ReactElement } from 'react';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
 import { Blocks, Heading, RichText } from '../../index';
@@ -23,11 +25,13 @@ interface NewsDetailProps {
 }
 
 const NewsDetail = ({ news }: NewsDetailProps): ReactElement => {
+    dayjs.extend(utc);
+    dayjs.extend(timeZone);
     return (
         <>
             <Heading tag={'h1'}>aaa</Heading>
             <div className={styles.perex}>
-                {moment(String(news.dateFrom)).tz(symbio.tz).format()}
+                {dayjs.tz(String(news.dateFrom), symbio.tz).format()}
                 {news.perex && <RichText content={news.perex} />}
             </div>
             <Blocks blocks={news.content} initialProps={[]} />

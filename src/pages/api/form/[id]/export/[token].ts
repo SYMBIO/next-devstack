@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchQuery } from 'relay-runtime';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import timeZone from 'dayjs/plugin/timezone';
 import { createRelayEnvironment } from '../../../../../lib/relay/createRelayEnvironment';
 import { formQuery } from '../../../../../relay/api/form/[id]/save';
 import { saveFormQuery } from '../../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
 import { exportFormQuery } from '../../../../../relay/api/form/[id]/export/[token]';
 import { TokenExportFormQuery } from '../../../../../relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
+
+dayjs.extend(timeZone);
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     if (!process.env.DATOCMS_API_TOKEN) {
@@ -63,7 +66,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                             }
                             return acc;
                         },
-                        [moment(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.language],
+                        [dayjs(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.language],
                     )
                     .map((a) =>
                         a
