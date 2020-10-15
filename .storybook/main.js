@@ -8,19 +8,6 @@ module.exports = {
                 {
                     loader: require.resolve('babel-loader'),
                 },
-                {
-                    loader: require.resolve('awesome-typescript-loader'),
-                    options: {
-                        configFileName: path.resolve(__dirname, './tsconfig.json'),
-                    },
-                },
-                // Optional
-                {
-                    loader: require.resolve('react-docgen-typescript-loader'),
-                    options: {
-                        tsconfigPath: path.resolve(__dirname, './tsconfig.json'),
-                    },
-                },
             ],
         });
         config.module.rules.push({
@@ -32,12 +19,12 @@ module.exports = {
         return config;
     },
     addons: [
-        '@storybook/addon-actions/register',
-        '@storybook/addon-knobs/register',
-        '@storybook/addon-notes/register',
-        '@storybook/addon-viewport/register',
+        '@storybook/addon-controls',
+        '@storybook/addon-docs',
+        '@storybook/addon-actions',
+        '@storybook/addon-viewport',
         '@storybook/addon-storysource',
-        '@storybook/addon-backgrounds/register',
-        '@storybook/addon-a11y/register',
+        '@storybook/addon-backgrounds',
+        '@storybook/addon-a11y',
     ],
 };
