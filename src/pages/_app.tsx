@@ -11,11 +11,12 @@ if (isStaging() && typeof window !== 'undefined') {
     );
 }
 
-import { AppProps } from 'next/app';
+import { AppProps, NextWebVitalsMetric } from 'next/app';
 import '../styles/global.scss';
+import { reportLogging } from '../utils/metricsReport';
 
-export function reportWebVitals(metric: any) {
-    console.log(metric);
+export function reportWebVitals(metrics: NextWebVitalsMetric) {
+    reportLogging(metrics);
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
