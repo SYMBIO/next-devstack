@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Busboy from 'busboy';
 import { fetchQuery } from 'relay-runtime';
 import { SiteClient } from 'datocms-client';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 import { Mandrill } from 'mandrill-api';
 import { createRelayEnvironment } from '../../../../lib/relay/createRelayEnvironment';
@@ -82,7 +82,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
                 itemType: '178107',
                 form: data.formId,
                 locale: data.locale,
-                datetime: moment().format(),
+                datetime: dayjs().format(),
                 data: JSON.stringify(humanData),
             });
 

@@ -1,8 +1,8 @@
-import moment, { Moment } from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
 
-type ValidParam = string | number | boolean | Moment | undefined;
+type ValidParam = string | number | boolean | Dayjs | undefined;
 
-function formatValue(val: string | number | boolean | Moment | undefined): string {
+function formatValue(val: string | number | boolean | Dayjs | undefined): string {
     if (typeof val === 'string') {
         return encodeURIComponent(val);
     }
@@ -15,7 +15,7 @@ function formatValue(val: string | number | boolean | Moment | undefined): strin
     if (typeof val === 'undefined') {
         return '';
     }
-    if (moment.isMoment(val)) {
+    if (dayjs.isDayjs(val)) {
         return encodeURIComponent(val.format('YYYYMM'));
     }
 
