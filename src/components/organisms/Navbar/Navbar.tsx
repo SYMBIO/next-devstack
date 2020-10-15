@@ -1,8 +1,10 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../utils/app-context/AppContext';
-import { Image, Link, MainMenu } from '../../index';
 import styles from './Navbar.module.scss';
 import { i18n } from '../../../../symbio.config.json';
+import { Link } from '../../primitives/Link/Link';
+import { Image } from '../../primitives/Image/Image';
+import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
     const { locales } = i18n;

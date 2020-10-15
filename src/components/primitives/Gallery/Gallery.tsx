@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image } from '..';
+import { Image } from '../Image/Image';
 import Lightbox from 'react-image-lightbox';
 import { ImageInterface } from '../../../types/app';
 

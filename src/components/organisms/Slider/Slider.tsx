@@ -1,8 +1,11 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { ImageInterface, VideoInterface } from '../../../types/app';
-import { Heading, Image, RichText, Video } from '../../index';
 import styles from './Slider.module.scss';
+import { Video } from '../Video/Video';
+import { RichText } from '../../primitives/RichText/RichText';
+import { Heading } from '../../primitives/Heading/Heading';
+import { Image } from '../../primitives/Image/Image';
 
 interface BannerInterface {
     id: string;

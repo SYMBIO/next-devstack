@@ -3,10 +3,12 @@ import timeZone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import React, { ReactElement } from 'react';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
-import { Blocks, Heading, RichText } from '../../index';
 import { ImageInterface } from '../../../types/app';
 import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
+import { Heading } from '../../primitives/Heading/Heading';
+import { RichText } from '../../primitives/RichText/RichText';
+import { Blocks } from '../../base/Blocks/Blocks';
 
 interface NewsDetailProps {
     news: Readonly<{

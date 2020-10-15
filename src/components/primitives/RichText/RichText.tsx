@@ -2,9 +2,15 @@ import React, { Fragment, ReactElement } from 'react';
 import parse from 'html-react-parser';
 import { DomElement, domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import { v4 } from 'uuid';
-import { Blockquote, Image, List, Link, Heading, Table, Paragraph } from '..';
 import { isInternalLink } from '../../../lib/routing/isInternalLink';
 import nbsp from '../../../utils/nbsp';
+import { List } from '../List/List';
+import { Link } from '../Link/Link';
+import { Heading } from '../Heading/Heading';
+import { Table } from '../Table/Table';
+import { Paragraph } from '../Paragraph/Paragraph';
+import { Blockquote } from '../Blockquote/Blockquote';
+import { Image } from '../Image/Image';
 
 export interface RichTextProps {
     content: string;

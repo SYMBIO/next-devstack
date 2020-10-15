@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { MainMenu as MainMenuType } from '../../../types/app';
-import { Link } from '../..';
+import { Link } from '../../primitives/Link/Link';
 import styles from './MainMenu.module.scss';
 
 interface MainMenuProps {

@@ -1,10 +1,12 @@
 import React, { ReactElement, useContext } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
-import { Heading, Link, RichText } from '../../index';
 import { Page } from '../../../types/app';
 import { AppContext } from '../../../utils/app-context/AppContext';
 import styles from './NewsList.module.scss';
+import { Heading } from '../../primitives/Heading/Heading';
+import { Link } from '../../primitives/Link/Link';
+import { RichText } from '../../primitives/RichText/RichText';
 
 interface NewsListProps {
     headline?: string;

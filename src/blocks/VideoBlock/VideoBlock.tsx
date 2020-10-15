@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper, Video } from '../../components';
+import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { Video } from '../../components/organisms/Video/Video';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './VideoBlock.module.scss';

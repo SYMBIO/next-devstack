@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 import condCls from '../../../utils/conditionalClasses';
-import { Pagination, PageBox } from '..';
 import styles from './SubpageList.module.scss';
 import { ImageInterface } from '../../../types/app';
+import { PageBox } from '../PageBox/PageBox';
+import { Pagination } from '../Pagination/Pagination';
 
 interface SubpageListProps {
     showImages: boolean;

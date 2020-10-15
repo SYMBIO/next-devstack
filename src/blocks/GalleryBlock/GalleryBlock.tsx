@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper, Gallery } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import { GalleryBlock_content } from './__generated__/GalleryBlock_content.graphql';
 import styles from './GalleryBlock.module.scss';
+import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { Gallery } from '../../components/primitives/Gallery/Gallery';
 
 graphql`
     fragment GalleryBlock_content on GalleryBlockRecord {

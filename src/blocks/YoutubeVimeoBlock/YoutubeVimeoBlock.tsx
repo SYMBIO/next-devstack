@@ -3,7 +3,8 @@ import { graphql } from 'react-relay';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps } from '../../types/block';
 import styles from './YoutubeVimeoBlock.module.scss';
-import { BlockWrapper, Video } from '../../components';
+import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { Video } from '../../components/organisms/Video/Video';
 
 graphql`
     fragment YoutubeVimeoBlock_content on YoutubeVimeoBlockRecord {

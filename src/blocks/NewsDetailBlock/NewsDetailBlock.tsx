@@ -1,13 +1,14 @@
 import { ParsedUrlQuery } from 'querystring';
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper, NewsDetail } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import getId from '../../utils/getId';
 import styles from './NewsDetailBlock.module.scss';
 import { Providers } from '../../types/provider';
+import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { NewsDetail } from '../../components/blocks/NewsDetail/NewsDetail';
 
 type ServerProps = newsDetailQueryResponse;
 

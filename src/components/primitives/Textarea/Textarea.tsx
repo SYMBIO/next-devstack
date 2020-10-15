@@ -1,8 +1,8 @@
 import React, { ReactElement, TextareaHTMLAttributes } from 'react';
 import { FieldProps } from 'formik';
-import { Icon } from '..';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './Textarea.module.scss';
+import { Icon } from '../Icon/Icon';
 
 interface Props extends FieldProps {
     readonly label?: string;

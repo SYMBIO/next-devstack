@@ -1,7 +1,8 @@
 import React from 'react';
-import { Icon, Link } from '..';
 import condCls from '../../../utils/conditionalClasses';
+import { Link } from '../Link/Link';
 import styles from './Button.module.scss';
+import { Icon } from '../Icon/Icon';
 
 export interface ButtonProps {
     children: string | JSX.Element | (string | JSX.Element | number)[];

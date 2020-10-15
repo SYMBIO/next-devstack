@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import styles from './Pagination.module.scss';
-import { Link } from '../../index';
 import condCls from '../../../utils/conditionalClasses';
+import { Link } from '../../primitives/Link/Link';
 
 interface PaginationProps {
     page?: number;

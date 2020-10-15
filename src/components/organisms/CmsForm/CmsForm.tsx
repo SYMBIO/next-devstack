@@ -2,11 +2,16 @@ import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import React, { ReactElement, useContext, useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
-import { Button, Heading, Input, Paragraph, RichText, Textarea } from '../../';
 import { CmsFormBlock_content } from '../../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
 import { AppContext } from '../../../utils/app-context/AppContext';
 import styles from './CmsForm.module.scss';
 import trans from '../../../strings';
+import { Input } from '../../primitives/Input/Input';
+import { Paragraph } from '../../primitives/Paragraph/Paragraph';
+import { RichText } from '../../primitives/RichText/RichText';
+import { Textarea } from '../../primitives/Textarea/Textarea';
+import { Heading } from '../../primitives/Heading/Heading';
+import { Button } from '../../primitives/Button/Button';
 
 interface FormValues extends Record<string, string | number | string[] | number[]> {
     formId: string;

@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { FieldProps } from 'formik';
-import { Icon } from '..';
+import { Icon } from '../Icon/Icon';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './Input.module.scss';
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { VideoProps } from '../../../types/video';
-import { UploadedVideo, VimeoVideo, YoutubeVideo } from '../../';
+import { UploadedVideo } from '../../primitives/UploadedVideo/UploadedVideo';
+import { VimeoVideo } from '../../primitives/VimeoVideo/VimeoVideo';
+import { YoutubeVideo } from '../../primitives/YoutubeVideo/YoutubeVideo';
 
 interface Props {
     video: VideoProps | null;

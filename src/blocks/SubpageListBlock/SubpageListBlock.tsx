@@ -1,12 +1,14 @@
 import React, { ReactElement, useState } from 'react';
 import { graphql } from 'react-relay';
-import { BlockWrapper, Heading, SubpageList } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
 import { ImageInterface } from '../../types/app';
 import condCls from '../../utils/conditionalClasses';
+import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { SubpageList } from '../../components/organisms/SubpageList/SubpageList';
+import { Heading } from '../../components/primitives/Heading/Heading';
 
 interface Subpage {
     __typename: 'PageRecord';

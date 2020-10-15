@@ -49,11 +49,6 @@ fs.promises.readFile('./data/componentTemplate/Component.tsx.tpl').then((compone
                     await fs.promises.writeFile(`${dir}/${toPascal(name)}.module.scss`, scssTemplate.toString('utf-8'));
                 }
             }
-
-            await fs.promises.appendFile(
-                `./src/components/${folder}/index.ts`,
-                `export { ${toPascal(name)} } from './${toPascal(name)}/${toPascal(name)}';\n`,
-            );
         };
 
         createComponentTemplate(variables.name, variables.folder);

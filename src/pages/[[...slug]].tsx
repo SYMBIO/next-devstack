@@ -8,13 +8,17 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { CALENDAR_FORMATS } from '../constants';
 import '../blocks';
 import providers from '../providers';
-import { Blocks, EditPage, Head, Layout, Navbar } from '../components';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
 import { gtm, i18n, tz } from '../../symbio.config.json';
 import isStaging from '../utils/isStaging';
 import { getBlocksProps } from '../lib/blocks/getBlockProps';
+import { Head } from '../components/base/Head/Head';
+import { EditPage } from '../components/primitives/EditPage/EditPage';
+import { Layout } from '../components/base/Layout/Layout';
+import { Navbar } from '../components/organisms/Navbar/Navbar';
+import { Blocks } from '../components/base/Blocks/Blocks';
 // import { ParsedUrlQuery } from 'querystring';
 
 const Page = (props: MyPageProps): ReactElement => {
