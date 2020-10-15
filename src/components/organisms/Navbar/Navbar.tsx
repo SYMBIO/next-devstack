@@ -1,17 +1,11 @@
 import React, { ReactElement, useContext, useState } from 'react';
-import { SiteLocale } from '../../../types/graphql';
 import { AppContext } from '../../../utils/app-context/AppContext';
 import { Image, Link, MainMenu } from '../../index';
 import styles from './Navbar.module.scss';
+import { i18n } from '../../../../symbio.config.json';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
-    const locales = [];
-    for (const locale in SiteLocale) {
-        if (Object.prototype.hasOwnProperty.call(SiteLocale, locale)) {
-            locales.push(locale);
-        }
-    }
-
+    const { locales } = i18n;
     const { locale, mainMenu, logo, homepage } = useContext(AppContext);
 
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);

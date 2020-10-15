@@ -3,7 +3,6 @@ import { Environment, GraphQLTaggedNode } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
-import { getSiteLocale } from '../routing/getSiteLocale';
 import { DATOCMS_MAX_LIMIT } from '../../constants';
 import { sleep } from '../../utils/sleep';
 
@@ -47,7 +46,7 @@ export default abstract class AbstractDatoCMSProvider<
         };
 
         if (this.isLocalizable()) {
-            variables.locale = getSiteLocale(locale);
+            variables.locale = locale;
         }
 
         const result = await fetchQuery<TOne>(this.environment, this.node, variables);
@@ -66,7 +65,7 @@ export default abstract class AbstractDatoCMSProvider<
         };
 
         if (this.isLocalizable()) {
-            variables.locale = getSiteLocale(options.locale);
+            variables.locale = options.locale;
         }
 
         const result = (await fetchQuery<TFind>(this.environment, this.findNode, variables)) as {

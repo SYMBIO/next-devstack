@@ -1,8 +1,8 @@
 import moment from 'moment-timezone';
 import React, { ReactElement } from 'react';
+import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
 import { Blocks, Heading, RichText } from '../../index';
 import { ImageInterface } from '../../../types/app';
-import { NewsModelContentField } from '../../../types/graphql';
 import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
 
@@ -13,7 +13,7 @@ interface NewsDetailProps {
         title: string;
         slug: string;
         perex: string | null;
-        content: Readonly<NewsModelContentField>[];
+        content: ReadonlyArray<newsContentFragment | null>;
         image: ImageInterface | null;
         tags: ReadonlyArray<{
             id: unknown;

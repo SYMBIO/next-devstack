@@ -5,10 +5,9 @@ schema:
             Authorization: ${DATOCMS_API_TOKEN_FULL}
 #documents: ./src/**/*.{ts,tsx}
 generates:
-    ./src/types/graphql.ts:
+    ./src/schema/schema.graphql:
         plugins:
-            - typescript:
-            #- typescript-operations
+            - schema-ast
         config:
             scalars:
                 DateTime: Date
@@ -23,9 +22,3 @@ generates:
                 enumValues: keep
                 transformUnderscore: false
             skipTypename: false
-#    ./src/schema/graphql.schema.json:
-#        plugins:
-#            - introspection
-    ./src/schema/schema.graphql:
-        plugins:
-            - schema-ast

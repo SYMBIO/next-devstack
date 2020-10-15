@@ -1,5 +1,4 @@
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
-import { SiteLocale } from './graphql';
 import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
 
 export interface AppData extends appQueryResponse {
@@ -21,7 +20,7 @@ export type BaseDatoCMSProps =
 
 export interface MyPageProps extends AppData {
     forcePreview?: boolean;
-    locale: SiteLocale;
+    locale: string;
     currentUrl: string;
     hostname: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

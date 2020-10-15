@@ -3,16 +3,13 @@ import { graphql } from 'relay-runtime';
 import { BlockWrapper, NewsList } from '../../components';
 import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { FindResponse } from '../../lib/provider/Provider';
-import NewsProvider from '../../providers/NewsProvider';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './NewsListFloorBlock.module.scss';
 
-interface ServerProps extends FindResponse {
-    data: ReadonlyArray<NonNullable<newsDetailQueryResponse['item']>>;
-}
+type StaticProps = FindResponse<NonNullable<newsDetailQueryResponse['item']>>;
 
-type NewsListFloorBlockProps = BaseBlockProps & ServerProps;
+type NewsListFloorBlockProps = BaseBlockProps & StaticProps;
 
 graphql`
     fragment NewsListFloorBlock_content on NewsListFloorBlockRecord {
@@ -44,17 +41,12 @@ function NewsListFloorBlock({
 }
 
 if (typeof window === 'undefined') {
-    NewsListFloorBlock.getStaticProps = NewsListFloorBlock.getServerSideProps = async ({
-        locale,
-        providers,
-    }: StaticBlockContext): Promise<ServerProps> => {
-        const provider = providers.news;
-        return await provider.find({
+    NewsListFloorBlock.getStaticProps = async ({ locale, providers }: StaticBlockContext): Promise<StaticProps> =>
+        await providers.news.find({
             locale,
             limit: 3,
             offset: 0,
         });
-    };
 }
 
 NewsListFloorBlock.whyDidYouRender = true;

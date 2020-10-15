@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import providers from '../../providers';
 import AbstractElasticProvider from '../../lib/provider/AbstractElasticProvider';
-import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const isPost = req.method === 'POST';
@@ -14,9 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         let provider;
         const providerIndex = Object.keys(providers).indexOf(typeId);
         if (providerIndex === -1) {
-            provider = Object.values(providers).find(
-                (p) => p instanceof AbstractDatoCMSProvider && p.getId() === typeId,
-            );
+            provider = Object.values(providers).find((p) => p.getId() === typeId || p.getApiKey() === typeId);
             if (!provider) {
                 res.setHeader('Content-Type', 'application/json');
                 res.statusCode = 200;
@@ -38,15 +35,15 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                 res.statusCode = 200;
 
                 if (action === 'delete') {
-                    await provider.unindexByElastic(id); // unindex staging
-                    await provider.unindexByElastic(id, undefined, true); // unindex prod
+                    await provider.unindex(id); // unindex staging
+                    await provider.unindex(id, undefined, true); // unindex prod
                 } else if (action === 'unpublish') {
-                    await provider.unindexByElastic(id, undefined, true); // unindex prod
+                    await provider.unindex(id, undefined, true); // unindex prod
                 } else {
                     if (action === 'publish') {
-                        await provider.indexByElastic(id, simple, true);
+                        await provider.indexOne(id, simple, true);
                     } else {
-                        await provider.indexByElastic(id, simple);
+                        await provider.indexOne(id, simple);
                     }
                 }
 
