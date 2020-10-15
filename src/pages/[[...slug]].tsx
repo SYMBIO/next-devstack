@@ -30,7 +30,9 @@ const Page = (props: MyPageProps): ReactElement => {
             ? router.asPath
             : '';
 
-    if (props.forcePreview) {
+    console.log(currentUrl);
+
+    /*    if (props.forcePreview) {
         return (
             <>
                 <span
@@ -54,7 +56,7 @@ const Page = (props: MyPageProps): ReactElement => {
                 />
             </>
         );
-    }
+    }*/
 
     if (router.isFallback) {
         return <div>Loading...</div>;
@@ -143,7 +145,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         return {
             props: {
                 locale,
-                forcePreview: true,
+                // forcePreview: true,
             },
             revalidate: 1,
         };
