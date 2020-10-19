@@ -68,7 +68,7 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
             // loop over all pages
             for (const page of allPages) {
                 if (String(page.url) === 'homepage') {
-                    // params.push({ slug: [] });
+                    params.push({ slug: [] });
                     continue;
                 }
                 const url = page.url;
