@@ -1,7 +1,11 @@
 import React, { ReactElement } from 'react';
 import symbio from '../../../../symbio.config.json';
 
-export const EditPage = ({ page }: { page: { id: unknown } }): ReactElement => (
+export interface PreviewToolbarProps {
+    page: { id: unknown };
+}
+
+export const PreviewToolbar = ({ page }: PreviewToolbarProps): ReactElement => (
     <a
         href={`https://${symbio.datocms.domain}/editor/item_types/${symbio.datocms.pageTypeId}/items/${page.id}/edit`}
         target="_blank"
