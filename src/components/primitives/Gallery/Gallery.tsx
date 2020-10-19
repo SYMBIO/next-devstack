@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Image } from '../Image/Image';
-import Lightbox from 'react-image-lightbox';
+const Lightbox = dynamic(() => import('react-image-lightbox'));
 import { ImageInterface } from '../../../types/app';
 
 interface GalleryProps {
