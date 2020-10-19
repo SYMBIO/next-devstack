@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import { ImageInterface, VideoInterface } from '../../../types/app';
+import { VideoComponentProps } from '../Video/Video';
 import styles from './Slider.module.scss';
-import { Video } from '../Video/Video';
 import { RichText } from '../../primitives/RichText/RichText';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Image } from '../../primitives/Image/Image';
@@ -29,6 +30,8 @@ function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): str
     }
     return bannerAlign === 'vlevo' ? styles.left : styles.right;
 }
+
+const Video = dynamic<VideoComponentProps>(() => import('../Video/Video').then((mod) => mod.Video));
 
 const Banner = ({
     image,

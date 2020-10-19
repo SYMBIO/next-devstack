@@ -20,10 +20,10 @@ export type BaseDatoCMSProps =
 
 export interface MyPageProps extends AppData {
     locale: string;
-    currentUrl: string;
     hostname: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     blocksProps?: any;
+    preview?: boolean;
 }
 
 type WebSetting = Exclude<appQueryResponse['webSetting'], null>;

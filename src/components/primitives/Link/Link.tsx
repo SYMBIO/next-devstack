@@ -56,7 +56,7 @@ const Link = ({ className, href, page, params, locale, children, target, plain, 
             );
         }
         return (
-            <NextLink href={'/[...slug]'} as={href}>
+            <NextLink href={'/[[...slug]]'} as={href}>
                 <a className={styles.wrapper} target={target} {...rest}>
                     {children || page.title}
                 </a>

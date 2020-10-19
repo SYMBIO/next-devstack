@@ -1,18 +1,15 @@
 {
-    "cache": {
-        "maxAge": 10
-    },
     "datocms": {
         "domain": "symbio-template.admin.datocms.com",
         "pageTypeId": "184261"
+    },
+    "gtm": {
+        "code": false
     },
     "i18n": {
         "locales": ["cs", "en"],
         "defaultLocale": "cs",
         "localeDetection": true
-    },
-    "gtm": {
-        "code": false
     },
     "mailer": {
         "from": "no-reply@example.com",
@@ -22,6 +19,10 @@
         "subject": "New newsletter subscription",
         "to": "subscriber@example.com",
         "body": "The new subscriber has just confirmed the newsletter.\nE-mail: {EMAIL}\n"
+    },
+    "ssg": {
+        "revalidate": 10,
+        "staticGeneration": false
     },
     "tz": "Europe/Prague"
 }

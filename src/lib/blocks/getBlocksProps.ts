@@ -2,7 +2,7 @@ import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
-import { i18n } from '../../../symbio.config.json';
+import { i18n, ssg } from '../../../symbio.config.json';
 
 export const getBlocksProps = async (
     context: GetStaticPropsContext,
@@ -46,8 +46,9 @@ export const getBlocksProps = async (
                 ...props,
                 locale,
                 blocksProps,
+                preview: !!context.preview,
             },
-            revalidate: 1,
+            revalidate: ssg.staticGeneration ? false : ssg.revalidate,
             unstable_notFound: notFound,
         };
     } catch (e) {
@@ -57,8 +58,9 @@ export const getBlocksProps = async (
                     ...props,
                     locale,
                     blocksProps: [],
+                    preview: !!context.preview,
                 },
-                revalidate: 1,
+                revalidate: ssg.staticGeneration ? false : ssg.revalidate,
                 unstable_notFound: true,
             };
         } else {
