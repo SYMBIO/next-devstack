@@ -5,7 +5,6 @@ import AbstractDatoCMSProvider, { DatoCMSRecord } from './AbstractDatoCMSProvide
 import getElastic from '../elastic';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
 import { i18n } from '../../../symbio.config.json';
-import isStaging from '../../utils/isStaging';
 import { FindResponse } from './AbstractDatoCMSProvider';
 
 export default abstract class AbstractElasticProvider<
@@ -17,10 +16,11 @@ export default abstract class AbstractElasticProvider<
      * Find items by querying elastic search
      * @param id
      * @param locale
+     * @param preview
      */
-    async findOneByElastic(id: string, locale?: string): Promise<unknown | null> {
+    async findOneByElastic(id: string, locale?: string, preview = false): Promise<unknown | null> {
         const options = {
-            index: this.getIndex(locale),
+            index: this.getIndex(locale, !preview),
             body: {
                 size: 1,
                 query: {
@@ -44,9 +44,10 @@ export default abstract class AbstractElasticProvider<
      * Find items by querying elastic search
      * @param options
      * @param locale
+     * @param preview
      */
-    async findByElastic(options: Search, locale?: string): Promise<FindResponse<TItem>> {
-        options.index = this.getIndex(locale);
+    async findByElastic(options: Search, locale?: string, preview = false): Promise<FindResponse<TItem>> {
+        options.index = this.getIndex(locale, !preview);
         options._source = options._source || this.getSource();
         try {
             const result = await getElastic().search(options);
@@ -77,9 +78,10 @@ export default abstract class AbstractElasticProvider<
      * Get total count of items by querying elastic count API
      * @param options
      * @param locale
+     * @param preview
      */
-    async getCount(options: Search, locale?: string): Promise<number> {
-        options.index = this.getIndex(locale);
+    async getCount(options: Search, locale?: string, preview = false): Promise<number> {
+        options.index = this.getIndex(locale, !preview);
         const result = await getElastic().count(options);
         return result.body.count;
     }
@@ -87,16 +89,24 @@ export default abstract class AbstractElasticProvider<
     /**
      * Get total count of items by querying elastic count API
      * @param locale
+     * @param preview
      */
-    async getTotalCount(locale?: string): Promise<number> {
+    async getTotalCount(locale?: string, preview = false): Promise<number> {
         const result = await getElastic().count({
-            index: this.getIndex(locale),
+            index: this.getIndex(locale, !preview),
         });
         return result.body.count;
     }
 
-    async findAggs(options: Search, locale?: string): Promise<any> {
-        options.index = this.getIndex(locale);
+    /**
+     * Search for aggregations
+     * @param {Search} options
+     * @param {string} locale
+     * @param {boolean} preview
+     * @returns {Promise<any>}
+     */
+    async findAggs(options: Search, locale?: string, preview = false): Promise<unknown> {
+        options.index = this.getIndex(locale, !preview);
         options.size = 0;
         try {
             const result = await getElastic().search(options);
@@ -139,7 +149,7 @@ export default abstract class AbstractElasticProvider<
                 }
 
                 await getElastic().index({
-                    index: this.getIndex(locale, undefined, prod),
+                    index: this.getIndex(locale, prod),
                     body: { ...item, locale },
                     refresh: true,
                     id,
@@ -158,7 +168,7 @@ export default abstract class AbstractElasticProvider<
             }
 
             await getElastic().index({
-                index: this.getIndex(undefined, undefined, prod),
+                index: this.getIndex(undefined, prod),
                 body: item as RequestBody,
                 refresh: true,
                 id,
@@ -187,7 +197,7 @@ export default abstract class AbstractElasticProvider<
                 for (const item of data) {
                     if (item) {
                         await getElastic().index({
-                            index: this.getIndex(locale, undefined, prod),
+                            index: this.getIndex(locale, prod),
                             body: { ...item, locale },
                             refresh: true,
                             id: item.id,
@@ -207,7 +217,7 @@ export default abstract class AbstractElasticProvider<
             for (const item of data) {
                 if (item) {
                     await getElastic().index({
-                        index: this.getIndex(undefined, undefined, prod),
+                        index: this.getIndex(undefined, prod),
                         body: { ...item },
                         refresh: true,
                         id: item.id,
@@ -268,7 +278,7 @@ export default abstract class AbstractElasticProvider<
 
     async createAndReindex(locale?: string, prod?: boolean): Promise<void> {
         try {
-            const index = this.getIndex(locale, undefined, prod);
+            const index = this.getIndex(locale, prod);
             const result = await getElastic().indices.exists({
                 index,
             });
@@ -397,25 +407,25 @@ export default abstract class AbstractElasticProvider<
                         if (prod) {
                             if (this.getIndexVersion() > 1) {
                                 const result = await getElastic().indices.exists({
-                                    index: this.getIndex(locale, this.getIndexVersion() - 1, prod),
+                                    index: this.getIndex(locale, prod, this.getIndexVersion() - 1),
                                 });
                                 if (result.body) {
-                                    return this.getIndex(locale, this.getIndexVersion() - 1, prod);
+                                    return this.getIndex(locale, prod, this.getIndexVersion() - 1);
                                 }
                             }
                             const result2 = await getElastic().indices.exists({
-                                index: this.getIndex(locale, this.getIndexVersion()),
+                                index: this.getIndex(locale, false, this.getIndexVersion()),
                             });
                             if (result2.body) {
-                                return this.getIndex(locale, this.getIndexVersion());
+                                return this.getIndex(locale, false, this.getIndexVersion());
                             }
                         }
                         if (this.getIndexVersion() > 1) {
                             const result = await getElastic().indices.exists({
-                                index: this.getIndex(locale, this.getIndexVersion() - 1),
+                                index: this.getIndex(locale, false, this.getIndexVersion() - 1),
                             });
                             if (result.body) {
-                                return this.getIndex(locale, this.getIndexVersion() - 1);
+                                return this.getIndex(locale, false, this.getIndexVersion() - 1);
                             }
                         }
                         return false;
@@ -457,10 +467,10 @@ export default abstract class AbstractElasticProvider<
                 Logger.log('Unindex ' + id + ' from ' + this.getIndex(locale));
                 if (prod) {
                     await getElastic().delete({
-                        index: this.getIndex(locale, undefined, prod),
+                        index: this.getIndex(locale, prod),
                         id,
                     });
-                    Logger.log('Unindex ' + id + ' from ' + this.getIndex(locale, undefined, prod));
+                    Logger.log('Unindex ' + id + ' from ' + this.getIndex(locale, prod));
                 }
             } catch (e) {
                 Logger.log('Unindex ' + id + ' ' + locale + ' failed');
@@ -486,9 +496,9 @@ export default abstract class AbstractElasticProvider<
     /**
      * Get full index name
      */
-    getIndex(locale?: string, version?: number, prod?: boolean | undefined): string {
+    getIndex(locale?: string, prod?: boolean | undefined, version?: number): string {
         const ver = version || this.getIndexVersion();
-        const suffix = typeof prod === 'undefined' ? (isStaging() ? '' : '_prod') : prod ? '_prod' : '';
+        const suffix = typeof prod === 'undefined' && prod ? '_prod' : '';
         if (this.isLocalizable()) {
             return this.getApiKey() + '_' + locale + '_v' + ver + suffix;
         } else {

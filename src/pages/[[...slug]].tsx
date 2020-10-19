@@ -12,8 +12,7 @@ import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
 import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
-import isStaging from '../utils/isStaging';
-import { getBlocksProps } from '../lib/blocks/getBlockProps';
+import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import { Head } from '../components/base/Head/Head';
 import { EditPage } from '../components/primitives/EditPage/EditPage';
 import { Layout } from '../components/base/Layout/Layout';
@@ -21,7 +20,7 @@ import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { Blocks } from '../components/base/Blocks/Blocks';
 
 const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, blocksData, locale, webSetting, blocksProps } = props;
+    const { hostname, site, page, blocksData, locale, webSetting, blocksProps, preview } = props;
 
     const router = useRouter();
     const currentUrl =
@@ -55,9 +54,9 @@ const Page = (props: MyPageProps): ReactElement => {
                 ...webSetting,
             }}
         >
-            {page && <Head page={page} site={site} />}
+            <Head />
 
-            {isStaging() && page && <EditPage page={page} />}
+            {preview && page && <EditPage page={page} />}
 
             <Layout>
                 <Navbar />
