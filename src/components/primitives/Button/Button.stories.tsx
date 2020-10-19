@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as ButtonComponent, ButtonProps } from './Button';
+import { Button as ButtonComponent, ButtonI } from './Button';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -11,6 +11,9 @@ export default {
         params: { table: { disable: true } },
         external: { table: { disable: true } },
         submit: { table: { disable: true } },
+        href: { table: { disable: true } },
+        icon: { control: 'select' },
+        iconPosition: { control: 'select' },
     },
     args: {
         children: 'I am a button',
@@ -18,6 +21,6 @@ export default {
     },
 };
 
-const Template: Story<ButtonProps> = (args) => <ButtonComponent {...args} />;
+const Template: Story<ButtonI> = (args) => <ButtonComponent {...args} />;
 
 export const Button = Template.bind({});

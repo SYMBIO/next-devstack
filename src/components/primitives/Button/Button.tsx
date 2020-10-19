@@ -4,12 +4,9 @@ import { Link } from '../Link/Link';
 import styles from './Button.module.scss';
 import { Icon, Icons } from '../Icon/Icon';
 
-enum IconPosition {
-    Left = 'Left',
-    Right = 'Right',
-}
+type IconPosition = 'left' | 'right';
 
-export interface ButtonProps {
+export interface ButtonI {
     children: string | JSX.Element | (string | JSX.Element | number)[];
     onClick?: () => void;
     href?: string;
@@ -32,9 +29,9 @@ const Button = ({
     external,
     submit,
     onClick,
-    iconPosition = IconPosition.Left,
+    iconPosition = 'left',
     ...rest
-}: ButtonProps): JSX.Element => {
+}: ButtonI): JSX.Element => {
     if (href || page) {
         return (
             <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest}>
@@ -47,9 +44,13 @@ const Button = ({
                         params={params}
                         plain
                     >
-                        {icon && iconPosition === IconPosition.Left && <Icon className={styles.icon} name={icon} />}
+                        {icon && iconPosition === 'left' && (
+                            <Icon className={condCls(styles.icon, styles.iconOnLeft)} name={icon} />
+                        )}
                         {children}
-                        {icon && iconPosition === IconPosition.Right && <Icon className={styles.icon} name={icon} />}
+                        {icon && iconPosition === 'right' && (
+                            <Icon className={condCls(styles.icon, styles.iconOnRight)} name={icon} />
+                        )}
                     </Link>
                 </div>
             </div>
@@ -58,9 +59,13 @@ const Button = ({
         return (
             <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest} onClick={onClick}>
                 <button className={styles.innerButton} type={submit ? 'submit' : 'button'} disabled={disabled}>
-                    {icon && iconPosition === IconPosition.Left && <Icon className={styles.icon} name={icon} />}
+                    {icon && iconPosition === 'left' && (
+                        <Icon className={condCls(styles.icon, styles.iconOnLeft)} name={icon} />
+                    )}
                     {children}
-                    {icon && iconPosition === IconPosition.Right && <Icon className={styles.icon} name={icon} />}
+                    {icon && iconPosition === 'right' && (
+                        <Icon className={condCls(styles.icon, styles.iconOnRight)} name={icon} />
+                    )}
                 </button>
             </div>
         );
