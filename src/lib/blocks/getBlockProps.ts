@@ -47,7 +47,7 @@ export const getBlocksProps = async (
                 locale,
                 blocksProps,
             },
-            revalidate: ssg.revalidate,
+            revalidate: ssg.staticGeneration ? false : ssg.revalidate,
             unstable_notFound: notFound,
         };
     } catch (e) {
@@ -58,7 +58,7 @@ export const getBlocksProps = async (
                     locale,
                     blocksProps: [],
                 },
-                revalidate: ssg.revalidate,
+                revalidate: ssg.staticGeneration ? false : ssg.revalidate,
                 unstable_notFound: true,
             };
         } else {
