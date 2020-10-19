@@ -3,11 +3,11 @@ import { Image } from '../Image/Image';
 import Lightbox from 'react-image-lightbox';
 import { ImageInterface } from '../../../types/app';
 
-interface GalleryProps {
+export interface GalleryI {
     images: ReadonlyArray<ImageInterface>;
 }
 
-const Gallery = ({ images }: GalleryProps): JSX.Element => {
+const Gallery = ({ images }: GalleryI): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
     const [active, setActive] = useState(0);
 
