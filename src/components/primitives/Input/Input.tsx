@@ -1,12 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 import { FieldProps } from 'formik';
-import { Icon } from '../Icon/Icon';
+import { Icon, Icons } from '../Icon/Icon';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './Input.module.scss';
 
 interface Props extends FieldProps {
     readonly label?: string | React.ReactNode;
-    readonly icon?: string;
+    readonly icon?: Icons;
     readonly type: string;
     readonly id?: string;
     readonly name?: string;
@@ -46,7 +46,7 @@ const Input = ({
         >
             {label && (
                 <label className={styles.label} htmlFor={id}>
-                    {type === 'checkbox' && <Icon name="check" className={styles.checkboxIcon} />}
+                    {type === 'checkbox' && <Icon name="tick" className={styles.checkboxIcon} />}
                     {label}
                 </label>
             )}
@@ -57,7 +57,7 @@ const Input = ({
                     onClick={(): void => setShowPassword(!showPassword)}
                     type="button"
                 >
-                    <Icon name={showPassword ? 'hide' : 'view'} className={styles.iconCommon} />
+                    <Icon name={showPassword ? 'tick' : 'tick'} className={styles.iconCommon} />
                 </button>
             )}
             <input

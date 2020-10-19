@@ -7,12 +7,12 @@ import Tick from '../../../../public/svg/tick.svg';
 
 export type Icons = 'tick' | 'symbio';
 
-interface Props {
+interface IconI {
     name: Icons | null;
     className?: string;
 }
 
-const Icon = ({ name, className }: Props): JSX.Element => {
+const Icon = ({ name, className }: IconI): JSX.Element => {
     useEffect(() => {
         console.log(styles);
     }, []);
