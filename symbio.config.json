@@ -21,8 +21,8 @@
         "body": "The new subscriber has just confirmed the newsletter.\nE-mail: {EMAIL}\n"
     },
     "ssg": {
-        "revalidate": false,
-        "staticGeneration": true
+        "revalidate": 10,
+        "staticGeneration": false
     },
     "tz": "Europe/Prague"
 }
