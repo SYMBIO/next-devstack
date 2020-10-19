@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Icon.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 
@@ -13,9 +13,6 @@ interface IconI {
 }
 
 const Icon = ({ name, className }: IconI): JSX.Element => {
-    useEffect(() => {
-        console.log(styles);
-    }, []);
     const renderIcon = (name: Icons): JSX.Element => {
         switch (name) {
             case 'tick':
@@ -28,5 +25,7 @@ const Icon = ({ name, className }: IconI): JSX.Element => {
     };
     return <div className={condCls(className, styles.wrapper)}>{name && renderIcon(name)}</div>;
 };
+
+Icon.whyDidYouRender = true;
 
 export { Icon };
