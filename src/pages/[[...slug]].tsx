@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
 import React, { ReactElement, useEffect } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
@@ -12,7 +11,7 @@ import blocks from '../blocks';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
-import { gtm, i18n, tz } from '../../symbio.config.json';
+import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
 import isStaging from '../utils/isStaging';
 import { getBlocksProps } from '../lib/blocks/getBlockProps';
 import { Head } from '../components/base/Head/Head';
@@ -20,7 +19,6 @@ import { EditPage } from '../components/primitives/EditPage/EditPage';
 import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { Blocks } from '../components/base/Blocks/Blocks';
-// import { ParsedUrlQuery } from 'querystring';
 
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, blocksData, locale, webSetting, blocksProps } = props;
@@ -80,29 +78,29 @@ const Page = (props: MyPageProps): ReactElement => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const paths: GetStaticPathsResult['paths'] = [];
-    const provider = providers.page;
+    if (ssg.staticGeneration) {
+        const paths: GetStaticPathsResult['paths'] = [];
+        const provider = providers.page;
 
-    // loop over all locales
-    for (const locale of i18n.locales) {
-        const localePaths = await provider.getStaticPaths(locale);
-        paths.push(...localePaths);
+        // loop over all locales
+        for (const locale of i18n.locales) {
+            const localePaths = await provider.getStaticPaths(locale);
+            paths.push(...localePaths);
+        }
+
+        return {
+            paths,
+            fallback: false,
+        };
+    } else {
+        return {
+            paths: [],
+            fallback: 'unstable_blocking',
+        };
     }
-
-    return {
-        paths,
-        fallback: false,
-    };
-
-    /*return {
-        paths: [],
-        fallback: 'unstable_blocking',
-    };*/
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    // console.log('context', context);
-
     const locale = context.locale || i18n.defaultLocale;
 
     dayjs.extend(updateLocale);
