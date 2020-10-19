@@ -29,7 +29,9 @@ class NewsProvider extends AbstractDatoCMSProvider<
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
         const params: ParsedUrlQuery[] = [];
 
-        const data = await fetchQuery<s.newsStaticPathsQuery>(this.environment, newsStaticPathsQuery, {
+        console.log('NewsProvider::getStaticPaths', locale);
+
+        const data = await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
             locale: getSiteLocale(locale),
         });
 

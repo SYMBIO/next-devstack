@@ -39,7 +39,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
                 return;
             }
 
-            const environment = createRelayEnvironment({}, false);
+            const environment = createRelayEnvironment({}, !!req.preview);
             const { form } = await fetchQuery<saveFormQuery>(environment, formQuery, {
                 locale: getSiteLocale(data.locale),
                 filter: { id: { eq: data.formId } },

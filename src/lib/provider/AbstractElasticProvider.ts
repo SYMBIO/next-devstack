@@ -6,7 +6,7 @@ import getElastic from '../elastic';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
 import { i18n } from '../../../symbio.config.json';
 import isStaging from '../../utils/isStaging';
-import { FindResponse } from './Provider';
+import { FindResponse } from './AbstractDatoCMSProvider';
 
 export default abstract class AbstractElasticProvider<
     TOne extends OperationType,
@@ -112,9 +112,10 @@ export default abstract class AbstractElasticProvider<
      * Get one item by id for search indexing
      * @param id
      * @param locale
+     * @param preview
      */
-    async findOneForIndex(id: string, locale?: string): Promise<unknown> {
-        return await this.findOne(id, locale);
+    async findOneForIndex(id: string, locale?: string, preview = false): Promise<unknown> {
+        return await this.findOne(id, locale, preview);
     }
 
     /**
@@ -126,7 +127,7 @@ export default abstract class AbstractElasticProvider<
     async indexOne(id: string, simple = false, prod = false): Promise<void> {
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
-                const item = await this.findOneForIndex(id, locale);
+                const item = await this.findOneForIndex(id, locale, !prod);
 
                 if (!item || typeof item !== 'object') {
                     await this.unindex(id, locale, prod);
@@ -145,7 +146,7 @@ export default abstract class AbstractElasticProvider<
                 });
             }
         } else {
-            const item = await this.findOneForIndex(id);
+            const item = await this.findOneForIndex(id, undefined, !prod);
 
             if (!item) {
                 await this.unindex(id, undefined, prod);
@@ -175,7 +176,7 @@ export default abstract class AbstractElasticProvider<
             for (const locale of i18n.locales) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                const { data } = await this.find({ locale, limit: Infinity });
+                const { data } = await this.find({ locale, limit: Infinity }, !prod);
 
                 console.log('indexing', this.getApiKey(), 'count', data.length);
 
@@ -197,7 +198,7 @@ export default abstract class AbstractElasticProvider<
         } else {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            const { data } = await this.find({});
+            const { data } = await this.find({}, !prod);
 
             if (!simple) {
                 await this.createAndReindex(undefined, prod);
@@ -247,7 +248,7 @@ export default abstract class AbstractElasticProvider<
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            const { data } = await this.find({ limit: Infinity });
+            const { data } = await this.find({ limit: Infinity }, !prod);
 
             const cmsIds = data.map((item) => item?.id).filter((id) => id);
 

@@ -1,4 +1,5 @@
 import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'react';
+import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
@@ -55,9 +56,11 @@ const Link = ({ className, href, page, params, locale, children, target, plain, 
             );
         }
         return (
-            <a className={styles.wrapper} href={href} target={target} {...rest}>
-                <span className={styles.inner}>{children || page.title}</span>
-            </a>
+            <NextLink href={'/[...slug]'} as={href}>
+                <a className={styles.wrapper} target={target} {...rest}>
+                    {children || page.title}
+                </a>
+            </NextLink>
         );
     }
 

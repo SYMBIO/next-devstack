@@ -1,4 +1,4 @@
-import { GetStaticPropsContext } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
@@ -8,15 +8,14 @@ export const getBlocksProps = async (
     context: GetStaticPropsContext,
     providers: Providers,
     blocks: Record<string, BlockType>,
-): Promise<{
-    props: { [key: string]: unknown };
-    revalidate: number;
-}> => {
+): Promise<GetStaticPropsResult<{ [key: string]: unknown }>> => {
     const provider = providers.page;
     const locale = context.locale || i18n.defaultLocale;
     const slug = context.params?.slug;
     const props = await provider.getPageBySlug(locale, Array.isArray(slug) ? slug : slug ? [slug] : ['homepage']);
     const blocksPropsPromises = [];
+    const notFound = !props.page || undefined;
+
     if (props.blocksData && props.blocksData.length > 0) {
         for (const block of props.blocksData) {
             const blockName = getBlockName(block);
@@ -39,14 +38,31 @@ export const getBlocksProps = async (
             );
         }
     }
-    const blocksProps = await Promise.all(blocksPropsPromises);
 
-    return {
-        props: {
-            ...props,
-            locale,
-            blocksProps,
-        },
-        revalidate: 1,
-    };
+    try {
+        const blocksProps = await Promise.all(blocksPropsPromises);
+        return {
+            props: {
+                ...props,
+                locale,
+                blocksProps,
+            },
+            revalidate: 1,
+            unstable_notFound: notFound,
+        };
+    } catch (e) {
+        if (e.code === 'ENOENT') {
+            return {
+                props: {
+                    ...props,
+                    locale,
+                    blocksProps: [],
+                },
+                revalidate: 1,
+                unstable_notFound: true,
+            };
+        } else {
+            throw e;
+        }
+    }
 };
