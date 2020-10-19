@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import React, { ReactElement, useEffect } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next';
 import { CALENDAR_FORMATS } from '../constants';
-import '../blocks';
 import providers from '../providers';
+import blocks from '../blocks';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
@@ -29,32 +30,6 @@ const Page = (props: MyPageProps): ReactElement => {
         '/' + (router.locale === router.defaultLocale ? '' : router.locale) + router.asPath !== '/'
             ? router.asPath
             : '';
-
-    if (props.forcePreview) {
-        return (
-            <>
-                <span
-                    style={{
-                        display: 'block',
-                        textAlign: 'center',
-                        position: 'absolute',
-                        width: '100%',
-                        height: '100%',
-                        lineHeight: '50vh',
-                    }}
-                >
-                    Loading preview mode...
-                </span>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `window.setTimeout(function() {
-        document.location = '/api/preview?locale=${locale}&target=${encodeURIComponent(currentUrl)}';
-    }, 1000)`,
-                    }}
-                />
-            </>
-        );
-    }
 
     if (router.isFallback) {
         return <div>Loading...</div>;
@@ -88,7 +63,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
             <Layout>
                 <Navbar />
-                <Blocks blocks={blocksData} initialProps={blocksProps} />
+                <Blocks blocksData={blocksData} initialProps={blocksProps} />
             </Layout>
 
             {gtm.code && (
@@ -105,30 +80,28 @@ const Page = (props: MyPageProps): ReactElement => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    // const paths: Array<string | { params: ParsedUrlQuery }> = [];
-    // const provider = providers.page;
-    //
-    // // loop over all locales
-    // for (const locale of locales) {
-    //     const localePaths = await provider.getStaticPaths(locale);
-    //     paths.push(...localePaths.map((lp) => ({ params: lp })));
-    // }
-    //
-    // console.log(JSON.stringify(paths));
-    //
-    // return {
-    //     paths,
-    //     fallback: false,
-    // };
+    const paths: GetStaticPathsResult['paths'] = [];
+    const provider = providers.page;
+
+    // loop over all locales
+    for (const locale of i18n.locales) {
+        const localePaths = await provider.getStaticPaths(locale);
+        paths.push(...localePaths);
+    }
 
     return {
+        paths,
+        fallback: false,
+    };
+
+    /*return {
         paths: [],
         fallback: 'unstable_blocking',
-    };
+    };*/
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    console.log('context', context);
+    // console.log('context', context);
 
     const locale = context.locale || i18n.defaultLocale;
 
@@ -138,18 +111,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     dayjs.locale(locale);
     dayjs.tz.setDefault(tz);
 
-    // redirect to preview mode
-    if (isStaging() && !context.preview) {
-        return {
-            props: {
-                locale,
-                forcePreview: true,
-            },
-            revalidate: 1,
-        };
-    }
-
-    return await getBlocksProps(context, providers);
+    return await getBlocksProps(context, providers, blocks);
 };
 
 export default Page;

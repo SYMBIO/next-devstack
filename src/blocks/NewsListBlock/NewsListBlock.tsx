@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
-import { FindResponse } from '../../lib/provider/Provider';
+import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './NewsListBlock.module.scss';
@@ -37,4 +36,4 @@ if (typeof window === 'undefined') {
 
 NewsListBlock.whyDidYouRender = true;
 
-BlockRegistry.set('NewsListBlock', NewsListBlock);
+export default NewsListBlock;

@@ -1,20 +1,22 @@
+import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
-import BlockRegistry from '../../../lib/blocks/BlockRegistry';
 import getBlockName from '../../../utils/getBlockName';
+import blocks from '../../../blocks';
 
 interface BlocksProps {
-    blocks: readonly any[] | null;
+    blocksData: readonly any[] | null;
     initialProps?: any[];
 }
 
-export const Blocks = ({ blocks, initialProps }: BlocksProps): ReactElement => (
+export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement => (
     <>
-        {blocks?.map((block, i) => {
+        {blocksData?.map((block, i) => {
             const blockName = getBlockName(block);
-            if (!blockName || !BlockRegistry.has(blockName)) {
+            if (!blockName || !Object.prototype.hasOwnProperty.call(blocks, blockName)) {
                 return null;
             }
-            const BlockComponent = BlockRegistry.get(blockName);
+            // const BlockComponent = dynamic(() => import(`../../../blocks/${blockName}/${blockName}`));
+            const BlockComponent = blocks[blockName];
             const blockInitialProps = (initialProps && initialProps[i]) || {};
             return (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

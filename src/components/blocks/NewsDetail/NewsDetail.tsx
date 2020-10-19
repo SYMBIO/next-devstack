@@ -36,7 +36,7 @@ const NewsDetail = ({ news }: NewsDetailProps): ReactElement => {
                 {dayjs.tz(String(news.dateFrom), symbio.tz).format()}
                 {news.perex && <RichText content={news.perex} />}
             </div>
-            <Blocks blocks={news.content} initialProps={[]} />
+            <Blocks blocksData={news.content} initialProps={[]} />
         </>
     );
 };

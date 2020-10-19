@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const webpack = require('webpack');
 const { i18n } = require('./symbio.config');
 const withPWA = require('next-pwa');
 

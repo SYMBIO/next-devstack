@@ -1,19 +1,48 @@
 import { graphql } from 'react-relay';
 
+graphql`
+    fragment pageFragment on PageRecord {
+        id
+        url
+        title
+        metaTags {
+            title
+            image {
+                url
+            }
+            description
+            twitterCard
+        }
+        parent {
+            id
+            title
+            url
+            parent {
+                id
+                title
+                url
+                parent {
+                    id
+                    title
+                    url
+                    parent {
+                        id
+                        title
+                        url
+                    }
+                }
+            }
+        }
+        content {
+            ...blocksContent @relay(mask: false)
+        }
+    }
+`;
+
 export const pageListQuery = graphql`
     query pageListQuery($locale: SiteLocale, $filter: PageModelFilter, $limit: IntType, $offset: IntType) {
         allPages(locale: $locale, filter: $filter, first: $limit, skip: $offset) {
-            id
-            url
-            title
-            metaTags {
-                title
-                image {
-                    url
-                }
-                description
-                twitterCard
-            }
+            ...pageFragment @relay(mask: false)
         }
     }
 `;
@@ -21,20 +50,7 @@ export const pageListQuery = graphql`
 export const pageDetailQuery = graphql`
     query pageDetailQuery($locale: SiteLocale, $filter: PageModelFilter) {
         item: page(locale: $locale, filter: $filter) {
-            id
-            url
-            title
-            parent {
-                id
-            }
-            metaTags {
-                title
-                image {
-                    url
-                }
-                description
-                twitterCard
-            }
+            ...pageFragment @relay(mask: false)
         }
     }
 `;

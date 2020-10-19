@@ -1,16 +1,18 @@
-import { fetchQuery } from 'react-relay';
+import { ParsedUrlQuery } from 'querystring';
 import symbio from '../../../symbio.config.json';
-import { getSiteLocale } from '../../lib/routing/getSiteLocale';
+import blocks from '../../blocks';
+import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
+import { siteQueryResponse } from '../../relay/__generated__/siteQuery.graphql';
+import { webSettingQueryResponse } from '../../relay/__generated__/webSettingQuery.graphql';
 import { pageDetailQuery, pageListQuery } from '../../relay/page';
 import * as d from '../../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../../relay/__generated__/pageListQuery.graphql';
-import { appQuery } from '../../relay/__generated__/appQuery.graphql';
-import { AppQuery } from '../../relay/app';
-import { getPagePattern } from '../../lib/routing/getPagePattern';
 import { AppData } from '../../types/app';
-import { blocksContent } from '../../blocks/__generated__/blocksContent.graphql';
 import AbstractElasticProvider from '../../lib/provider/AbstractElasticProvider';
 import { pageDetailQueryResponse } from '../../relay/__generated__/pageDetailQuery.graphql';
+import providers from '../index';
+import SiteProvider from './SiteProvider';
+import WebSettingProvider from './WebSettingProvider';
 
 class PageProvider extends AbstractElasticProvider<
     d.pageDetailQuery,
@@ -31,20 +33,108 @@ class PageProvider extends AbstractElasticProvider<
      * @param slug
      */
     async getPageBySlug(locale: string, slug: string[]): Promise<AppData> {
-        const pattern = getPagePattern(slug);
-        const redirectPattern = slug.join('/');
-        const data = await fetchQuery<appQuery>(this.environment, AppQuery, {
-            locale: getSiteLocale(locale),
-            pattern,
-            redirectPattern,
-        });
+        const promises = [
+            SiteProvider.get(locale),
+            WebSettingProvider.get(locale),
+            this.findByElastic(
+                {
+                    body: {
+                        query: {
+                            bool: {
+                                should: [
+                                    {
+                                        term: {
+                                            url: {
+                                                value: slug.length === 0 ? 'homepage' : slug.join('/'),
+                                                boost: 5,
+                                            },
+                                        },
+                                    },
+                                    // dynamic routes
+                                    slug.length > 1 && {
+                                        regexp: {
+                                            url: {
+                                                value: slug.slice(0, slug.length - 1).join('/') + '/:([^/]+?)',
+                                                boost: 3,
+                                            },
+                                        },
+                                    },
+                                    // catch-all routes
+                                    ...(slug.length > 1
+                                        ? slug.slice(1).map((s, i) => ({
+                                              term: {
+                                                  url: slug.slice(0, i + 1).join('/') + '/*',
+                                              },
+                                          }))
+                                        : []),
+                                ].filter((a) => a),
+                                minimum_should_match: 1,
+                            },
+                        },
+                        size: 1,
+                    },
+                },
+                locale,
+            ),
+        ];
 
-        const blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> = data.page?.content || [];
+        const [site, webSetting, { data }] = (await Promise.all(promises)) as [
+            siteQueryResponse['_site'],
+            webSettingQueryResponse['item'],
+            { data: d.pageDetailQueryResponse['item'][] },
+        ];
+
+        const blocksData: AppData['blocksData'] = (data[0] || null)?.content || [];
+        const page = data[0] || null;
 
         return {
-            ...data,
+            site,
+            webSetting,
+            page: page as AppData['page'],
             blocksData,
         };
+    }
+
+    async getStaticPaths(locale: string, defaultLocale: string): Promise<ParsedUrlQuery[]> {
+        const params: ParsedUrlQuery[] = [];
+
+        const { data: allPages } = await this.findByElastic({}, locale);
+
+        // loop over all pages
+        for (const page of allPages) {
+            if (String(page.url) === 'homepage') {
+                params.push({ slug: locale === defaultLocale ? [] : [locale] });
+                continue;
+            }
+            const url = (locale === defaultLocale ? '/' : `/${locale}/`) + page.url;
+            const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
+            if (blocksParams.length > 0) {
+                for (const blockParams of blocksParams) {
+                    let newUrl = url;
+                    for (const key in blockParams) {
+                        if (Object.prototype.hasOwnProperty.call(blockParams, key)) {
+                            if (key === '*') {
+                                newUrl = newUrl.replace('/*', '/' + String(blockParams[key]));
+                            } else {
+                                newUrl = newUrl?.replace(
+                                    new RegExp('/:' + key + '(\\/|$)'),
+                                    String('/' + blockParams[key] + '$1'),
+                                );
+                            }
+                        }
+                    }
+                    // build slug array
+                    const pathParts = newUrl.split('/').slice(1);
+                    params.push({ slug: pathParts });
+                }
+            } else {
+                // build slug array
+                const pathParts = url.split('/').slice(1);
+                params.push({ slug: pathParts });
+            }
+        }
+
+        return params;
     }
 }
 

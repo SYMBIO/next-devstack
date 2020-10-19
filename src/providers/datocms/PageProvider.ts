@@ -1,3 +1,4 @@
+import { GetStaticPathsResult } from 'next';
 import { fetchQuery } from 'react-relay';
 import symbio from '../../../symbio.config.json';
 import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
@@ -14,6 +15,7 @@ import { blocksContent } from '../../blocks/__generated__/blocksContent.graphql'
 import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
+import blocks from '../../blocks';
 
 class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
     getApiKey(): string {
@@ -28,14 +30,13 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
      * Special function returning Page and Site data
      * @param locale
      * @param slug
+     * @param preview
      */
-    async getPageBySlug(locale: string, slug: string[]): Promise<AppData> {
+    async getPageBySlug(locale: string, slug: string[], preview = false): Promise<AppData> {
         const pattern = getPagePattern(slug);
-        const redirectPattern = slug.join('/');
-        const data = await fetchQuery<appQuery>(this.environment, AppQuery, {
+        const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
             locale: getSiteLocale(locale),
             pattern,
-            redirectPattern,
         });
 
         const blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> = data.page?.content || [];
@@ -46,14 +47,14 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
         };
     }
 
-    async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
+    async getStaticPaths(locale: string): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
         let cnt = -1;
         let done = 0;
         do {
             const { allPages, _allPagesMeta } = await fetchQuery<s.pageStaticPathsQuery>(
-                this.environment,
+                this.getEnvironment(false),
                 pageStaticPathsQuery,
                 {
                     locale: getSiteLocale(locale),
@@ -67,43 +68,46 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
             // loop over all pages
             for (const page of allPages) {
                 if (String(page.url) === 'homepage') {
-                    params.push({});
+                    params.push({ slug: [] });
                     continue;
                 }
-                const url = '/' + page.url;
-                const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers);
-                if (blocksParams.length > 0) {
-                    for (const blockParams of blocksParams) {
-                        let newUrl = url;
-                        for (const key in blockParams) {
-                            if (Object.prototype.hasOwnProperty.call(blockParams, key)) {
-                                if (key === '*') {
-                                    newUrl = newUrl.replace('/*', '/' + String(blockParams[key]));
-                                } else {
-                                    newUrl = newUrl?.replace(
-                                        new RegExp('/:' + key + '(\\/|$)'),
-                                        String('/' + blockParams[key] + '$1'),
-                                    );
+                const url = page.url;
+                if (url) {
+                    const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
+                    if (blocksParams.length > 0) {
+                        for (const blockParams of blocksParams) {
+                            let newUrl = url;
+                            for (const key in blockParams) {
+                                if (Object.prototype.hasOwnProperty.call(blockParams, key)) {
+                                    if (key === '*') {
+                                        newUrl = newUrl.replace('/*', '/' + String(blockParams[key]));
+                                    } else {
+                                        newUrl = newUrl?.replace(
+                                            new RegExp('/:' + key + '(\\/|$)'),
+                                            String('/' + blockParams[key] + '$1'),
+                                        );
+                                    }
                                 }
                             }
+                            // build slug array
+                            const pathParts = newUrl.split('/');
+                            params.push({ slug: pathParts, locale });
                         }
+                    } else {
                         // build slug array
-                        const pathParts = newUrl.split('/').slice(1);
-                        params.push({ slug: pathParts });
+                        const pathParts = url.split('/');
+                        params.push({ slug: pathParts, locale });
                     }
-                } else {
-                    // build slug array
-                    const pathParts = url.split('/').slice(1);
-                    params.push({ slug: pathParts });
                 }
             }
 
             done += allPages.length;
         } while (done < cnt);
-        // console.log('------------------------ STATIC ROUTES ------------------------');
-        // console.log(params);
 
-        return params;
+        return params.map((p) => ({
+            params: p,
+            locale,
+        }));
     }
 }
 

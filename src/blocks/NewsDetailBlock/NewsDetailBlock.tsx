@@ -1,7 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
-import BlockRegistry from '../../lib/blocks/BlockRegistry';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import getId from '../../utils/getId';
@@ -76,4 +75,4 @@ if (typeof window === 'undefined') {
 
 NewsDetailBlock.whyDidYouRender = true;
 
-BlockRegistry.set('NewsDetailBlock', NewsDetailBlock);
+export default NewsDetailBlock;

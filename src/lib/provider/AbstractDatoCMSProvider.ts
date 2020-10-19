@@ -1,4 +1,4 @@
-import Provider, { FindResponse } from './Provider';
+import Provider from './Provider';
 import { Environment, GraphQLTaggedNode } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
@@ -11,21 +11,32 @@ export type DatoCMSRecord = {
     [key: string]: unknown;
 } | null;
 
+export interface FindResponse<T> {
+    count: number;
+    data: T[];
+}
+
 export default abstract class AbstractDatoCMSProvider<
     TOne extends OperationType,
     TFind extends OperationType,
     TItem extends DatoCMSRecord = DatoCMSRecord
 > implements Provider {
-    protected environment: Environment;
+    protected environment: Record<string, Environment> = {
+        preview: createRelayEnvironment({}, true),
+        production: createRelayEnvironment({}, false),
+    };
 
     protected node: GraphQLTaggedNode;
 
     protected findNode: GraphQLTaggedNode;
 
     public constructor(node: GraphQLTaggedNode, findNode: GraphQLTaggedNode) {
-        this.environment = createRelayEnvironment({}, false);
         this.node = node;
         this.findNode = findNode;
+    }
+
+    protected getEnvironment(preview = false): Environment {
+        return this.environment[preview ? 'preview' : 'production'];
     }
 
     public isLocalizable(): boolean {
@@ -36,7 +47,7 @@ export default abstract class AbstractDatoCMSProvider<
 
     abstract getId(): string;
 
-    async findOne(id: string, locale?: string): Promise<TItem | null> {
+    async findOne(id: string, locale?: string, preview = false): Promise<TItem | null> {
         const variables: { filter: { id: { eq: string }; title: { exists: boolean } }; locale?: string } = {
             filter: {
                 id: { eq: id },
@@ -49,12 +60,15 @@ export default abstract class AbstractDatoCMSProvider<
             variables.locale = locale;
         }
 
-        const result = await fetchQuery<TOne>(this.environment, this.node, variables);
+        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
 
         return (result as { item: TItem }).item;
     }
 
-    async find(options: Omit<TFind['variables'], 'locale'> & { locale?: string }): Promise<FindResponse<TItem>> {
+    async find(
+        options: Omit<TFind['variables'], 'locale'> & { locale?: string },
+        preview = false,
+    ): Promise<FindResponse<TItem>> {
         const data: TItem[] = [];
 
         const variables = {
@@ -68,7 +82,7 @@ export default abstract class AbstractDatoCMSProvider<
             variables.locale = options.locale;
         }
 
-        const result = (await fetchQuery<TFind>(this.environment, this.findNode, variables)) as {
+        const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
             items: TItem[];
             meta: { count: number };
         };
@@ -79,7 +93,7 @@ export default abstract class AbstractDatoCMSProvider<
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
-                const result = (await fetchQuery<TFind>(this.environment, this.findNode, variables)) as {
+                const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
                     items: TItem[];
                 };
                 data.push(...result.items);
