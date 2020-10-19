@@ -9,7 +9,7 @@ import { {NAME}_content } from './__generated__/{NAME}_content.graphql';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ServerProps {}
 
-type {NAME}Props = ServerProps & {
+type {NAME}VideoComponentProps = ServerProps & {
     content: {NAME}_content;
     className?: string
 };
@@ -21,7 +21,7 @@ graphql`
     }
 `;
 
-function {NAME}({ content, className, ...rest }: {NAME}Props): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function {NAME}({ content, className, ...rest }: {NAME}VideoComponentProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'{NAME}'} className={condCls(styles.wrapper, className)} {...rest}>
             <div>{NAME}: {JSON.stringify(content)}</div>
