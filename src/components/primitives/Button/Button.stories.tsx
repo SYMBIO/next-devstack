@@ -1,22 +1,26 @@
 import React from 'react';
-import { Button, ButtonProps } from './Button';
+import { Button as ButtonComponent, ButtonI } from './Button';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
-    component: Button,
-    title: 'Button',
-    argTypes: { onClick: { action: 'clicked' } },
+    component: ButtonComponent,
+    title: 'Primitives/Button',
+    argTypes: {
+        onClick: { table: { disable: true } },
+        page: { table: { disable: true } },
+        params: { table: { disable: true } },
+        external: { table: { disable: true } },
+        submit: { table: { disable: true } },
+        href: { table: { disable: true } },
+        icon: { control: 'select' },
+        iconPosition: { control: 'select' },
+    },
     args: {
-        children: 'Click me',
-        disabled: false,
+        children: 'I am a button',
+        icon: 'symbio',
     },
 };
 
-const Template: Story<ButtonProps> = (args) => <Button {...args} />;
+const Template: Story<ButtonI> = (args) => <ButtonComponent {...args} />;
 
-export const TextButton = Template.bind({});
-
-export const DisabledButton = Template.bind({});
-DisabledButton.args = {
-    disabled: true,
-};
+export const Button = Template.bind({});
