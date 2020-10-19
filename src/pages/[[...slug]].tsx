@@ -1,23 +1,28 @@
-import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
-import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next';
-import { CALENDAR_FORMATS } from '../constants';
-import providers from '../providers';
 import blocks from '../blocks';
+import { Blocks } from '../components/base/Blocks/Blocks';
+import { Head } from '../components/base/Head/Head';
+import { Layout } from '../components/base/Layout/Layout';
+import { Navbar } from '../components/organisms/Navbar/Navbar';
+import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/PreviewToolbar';
+import { CALENDAR_FORMATS } from '../constants';
+import { getBlocksProps } from '../lib/blocks/getBlocksProps';
+import providers from '../providers';
+import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
 import { MyPageProps } from '../types/app';
 import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
-import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
-import { getBlocksProps } from '../lib/blocks/getBlocksProps';
-import { Head } from '../components/base/Head/Head';
-import { EditPage } from '../components/primitives/EditPage/EditPage';
-import { Layout } from '../components/base/Layout/Layout';
-import { Navbar } from '../components/organisms/Navbar/Navbar';
-import { Blocks } from '../components/base/Blocks/Blocks';
+
+const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
+    import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
+);
 
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, blocksData, locale, webSetting, blocksProps, preview } = props;
@@ -56,7 +61,7 @@ const Page = (props: MyPageProps): ReactElement => {
         >
             <Head />
 
-            {preview && page && <EditPage page={page} />}
+            {preview && page && <PreviewToolbar page={page} />}
 
             <Layout>
                 <Navbar />
