@@ -4,14 +4,14 @@ import { UploadedVideo } from '../../primitives/UploadedVideo/UploadedVideo';
 import { VimeoVideo } from '../../primitives/VimeoVideo/VimeoVideo';
 import { YoutubeVideo } from '../../primitives/YoutubeVideo/YoutubeVideo';
 
-interface Props {
+export interface VideoComponentProps {
     video: VideoProps | null;
     autoPlay?: boolean | null;
     objectFit?: 'cover' | 'contain' | undefined;
     loop?: boolean;
 }
 
-const Video = ({ video, autoPlay, objectFit, loop }: Props): JSX.Element => {
+const Video = ({ video, autoPlay, objectFit, loop }: VideoComponentProps): JSX.Element => {
     if (video?.uploadedVideo) {
         return (
             <UploadedVideo video={video.uploadedVideo} autoPlay={Boolean(autoPlay)} objectFit={objectFit} loop={loop} />
