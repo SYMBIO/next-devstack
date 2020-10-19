@@ -3,7 +3,6 @@ import { OperationType } from 'relay-runtime';
 import { Logger } from '../../services';
 import getElastic from '../elastic';
 import { i18n } from '../../../symbio.config.json';
-import isStaging from '../../utils/isStaging';
 import AbstractSingletonDatoCMSProvider from './AbstractSingletonDatoCMSProvider';
 
 export default abstract class AbstractSingletonElasticProvider<
@@ -12,10 +11,11 @@ export default abstract class AbstractSingletonElasticProvider<
     /**
      * Get item from elastic search
      * @param locale
+     * @param preview
      */
-    async getByElastic(locale?: string): Promise<unknown | null> {
+    async getByElastic(locale?: string, preview = false): Promise<unknown | null> {
         const options = {
-            index: this.getIndex(locale),
+            index: this.getIndex(locale, !preview),
             body: {
                 size: 1,
                 query: {
@@ -70,7 +70,7 @@ export default abstract class AbstractSingletonElasticProvider<
                 }
 
                 await getElastic().index({
-                    index: this.getIndex(locale, undefined, prod),
+                    index: this.getIndex(locale, prod),
                     body: { ...item, locale },
                     refresh: true,
                     id: '1',
@@ -89,7 +89,7 @@ export default abstract class AbstractSingletonElasticProvider<
             }
 
             await getElastic().index({
-                index: this.getIndex(undefined, undefined, prod),
+                index: this.getIndex(undefined, prod),
                 body: item as RequestBody,
                 refresh: true,
                 id: '1',
@@ -99,7 +99,7 @@ export default abstract class AbstractSingletonElasticProvider<
 
     async createAndReindex(locale?: string, prod?: boolean): Promise<void> {
         try {
-            const index = this.getIndex(locale, undefined, prod);
+            const index = this.getIndex(locale, prod);
             const result = await getElastic().indices.exists({
                 index,
             });
@@ -159,25 +159,25 @@ export default abstract class AbstractSingletonElasticProvider<
                         if (prod) {
                             if (this.getIndexVersion() > 1) {
                                 const result = await getElastic().indices.exists({
-                                    index: this.getIndex(locale, this.getIndexVersion() - 1, prod),
+                                    index: this.getIndex(locale, prod, this.getIndexVersion() - 1),
                                 });
                                 if (result.body) {
-                                    return this.getIndex(locale, this.getIndexVersion() - 1, prod);
+                                    return this.getIndex(locale, prod, this.getIndexVersion() - 1);
                                 }
                             }
                             const result2 = await getElastic().indices.exists({
-                                index: this.getIndex(locale, this.getIndexVersion()),
+                                index: this.getIndex(locale, false, this.getIndexVersion()),
                             });
                             if (result2.body) {
-                                return this.getIndex(locale, this.getIndexVersion());
+                                return this.getIndex(locale, false, this.getIndexVersion());
                             }
                         }
                         if (this.getIndexVersion() > 1) {
                             const result = await getElastic().indices.exists({
-                                index: this.getIndex(locale, this.getIndexVersion() - 1),
+                                index: this.getIndex(locale, false, this.getIndexVersion() - 1),
                             });
                             if (result.body) {
-                                return this.getIndex(locale, this.getIndexVersion() - 1);
+                                return this.getIndex(locale, false, this.getIndexVersion() - 1);
                             }
                         }
                         return false;
@@ -212,16 +212,16 @@ export default abstract class AbstractSingletonElasticProvider<
         const unindexItem = async (locale: string) => {
             try {
                 await getElastic().delete({
-                    index: this.getIndex(locale),
+                    index: this.getIndex(locale, false),
                     id: '1',
                 });
-                Logger.log('Unindex from ' + this.getIndex(locale));
+                Logger.log('Unindex from ' + this.getIndex(locale, false));
                 if (prod) {
                     await getElastic().delete({
-                        index: this.getIndex(locale, undefined, prod),
+                        index: this.getIndex(locale, prod),
                         id: '1',
                     });
-                    Logger.log('Unindex from ' + this.getIndex(locale, undefined, prod));
+                    Logger.log('Unindex from ' + this.getIndex(locale, prod));
                 }
             } catch (e) {
                 Logger.log('Unindex ' + locale + ' failed');
@@ -247,9 +247,9 @@ export default abstract class AbstractSingletonElasticProvider<
     /**
      * Get full index name
      */
-    getIndex(locale?: string, version?: number, prod?: boolean | undefined): string {
+    getIndex(locale?: string, prod?: boolean | undefined, version?: number): string {
         const ver = version || this.getIndexVersion();
-        const suffix = typeof prod === 'undefined' ? (isStaging() ? '' : '_prod') : prod ? '_prod' : '';
+        const suffix = typeof prod === 'undefined' && prod ? '_prod' : '';
         if (this.isLocalizable()) {
             return this.getApiKey() + '_' + locale + '_v' + ver + suffix;
         } else {
