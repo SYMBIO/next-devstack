@@ -1,168 +1,169 @@
 {
-  "description": "SYMBIO Next.js Devstack",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SYMBIO/next-devstack"
-  },
-  "license": "MIT",
-  "scripts": {
-    "build": "env-cmd --silent graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
-    "build-storybook": "build-storybook -c .storybook -o ./public/storybook --quiet",
-    "create-blocks": "env-cmd node scripts/createBlocks.js && npm run relay",
-    "create-component": "node scripts/createComponent.js $F $N",
-    "dev": "next dev",
-    "export": "NODE_ENV=production next export",
-    "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
-    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "relay": "relay-compiler",
-    "start": "NODE_ENV=production next start",
-    "storybook": "start-storybook",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "update-strings": "env-cmd node scripts/updateStrings.js"
-  },
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "dependencies": {
-    "@elastic/elasticsearch": "^7.9.1",
-    "@react-google-maps/api": "^1.13.0",
-    "axios": "^0.20.0",
-    "busboy": "^0.3.1",
-    "core-js": "^3.6.5",
-    "datocms-client": "^3.1.1",
-    "dayjs": "^1.9.3",
-    "formik": "^2.2.0",
-    "graphql": "^15.3.0",
-    "hls.js": "^0.14.15",
-    "html-react-parser": "^0.14.0",
-    "html-to-text": "^5.1.1",
-    "mandrill-api": "^1.0.45",
-    "next": "^9.5.6-canary.4",
-    "next-pwa": "^3.1.5",
-    "object-fit-images": "^3.2.4",
-    "path-to-regexp": "^6.2.0",
-    "react": "^16.14.0",
-    "react-datocms": "^1.2.6",
-    "react-dom": "^16.14.0",
-    "react-image-lightbox": "^5.1.1",
-    "react-intersection-observer": "^8.29.0",
-    "react-relay": "^9.1.0",
-    "react-responsive-carousel": "^3.2.10",
-    "relay-hooks": "^3.7.0",
-    "relay-runtime": "^9.1.0",
-    "sass": "^1.27.0",
-    "slugify": "^1.4.5",
-    "uuid": "^8.3.1",
-    "xml": "^1.0.1",
-    "yup": "^0.29.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.0",
-    "@graphql-codegen/cli": "^1.17.10",
-    "@graphql-codegen/introspection": "1.18.0",
-    "@graphql-codegen/schema-ast": "^1.17.8",
-    "@storybook/addon-a11y": "^6.0.26",
-    "@storybook/addon-actions": "^6.0.26",
-    "@storybook/addon-backgrounds": "^6.0.26",
-    "@storybook/addon-console": "^1.2.2",
-    "@storybook/addon-controls": "^6.0.26",
-    "@storybook/addon-docs": "^6.0.26",
-    "@storybook/addon-storysource": "^6.0.26",
-    "@storybook/addon-viewport": "^6.0.26",
-    "@storybook/addons": "^6.0.26",
-    "@storybook/client-api": "^6.0.26",
-    "@storybook/react": "^6.0.26",
-    "@svgr/webpack": "^5.4.0",
-    "@types/busboy": "^0.2.3",
-    "@types/hls.js": "^0.13.2",
-    "@types/html-to-text": "^5.1.2",
-    "@types/jest": "^26.0.14",
-    "@types/mandrill-api": "^1.0.30",
-    "@types/node": "^14.11.8",
-    "@types/object-fit-images": "^3.2.0",
-    "@types/react": "^16.9.52",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-relay": "^7.0.13",
-    "@types/relay-runtime": "^10.0.4",
-    "@types/uuid": "^8.3.0",
-    "@types/yup": "^0.29.8",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
-    "@welldone-software/why-did-you-render": "^5.0.0-rc.1",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-relay": "^9.1.0",
-    "dotenv": "^8.2.0",
-    "env-cmd": "^10.1.0",
-    "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.4",
-    "husky": "^4.3.0",
-    "jest": "^26.5.2",
-    "lint-staged": "^10.4.0",
-    "prettier": "^2.1.2",
-    "react-docgen-typescript-loader": "^3.7.2",
-    "relay-compiler": "^9.1.0",
-    "relay-compiler-language-typescript": "^13.0.1",
-    "relay-config": "^9.1.0",
-    "ts-jest": "^26.4.1",
-    "typescript": "^4.0.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*/**/*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "relay"
-    ]
-  },
-  "prettier": {
-    "semi": true,
-    "trailingComma": "all",
-    "printWidth": 120,
-    "tabWidth": 4,
-    "singleQuote": true
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "react",
-      "@typescript-eslint",
-      "prettier"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "prettier/@typescript-eslint",
-      "plugin:prettier/recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
+    "description": "SYMBIO Next.js Devstack",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SYMBIO/next-devstack"
     },
-    "rules": {},
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
+    "license": "MIT",
+    "scripts": {
+        "build": "env-cmd --silent graphql-codegen --config codegen.yml && npm run relay && NODE_ENV=production next build",
+        "build-storybook": "build-storybook -c .storybook -o ./public/storybook --quiet",
+        "create-blocks": "env-cmd node scripts/createBlocks.js && npm run relay",
+        "create-component": "node scripts/createComponent.js $F $N",
+        "dev": "next dev",
+        "export": "NODE_ENV=production next export",
+        "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
+        "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+        "relay": "relay-compiler",
+        "start": "NODE_ENV=production next start",
+        "storybook": "start-storybook",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "update-strings": "env-cmd node scripts/updateStrings.js"
+    },
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "dependencies": {
+        "@elastic/elasticsearch": "^7.9.1",
+        "@react-google-maps/api": "^1.13.0",
+        "axios": "^0.20.0",
+        "busboy": "^0.3.1",
+        "core-js": "^3.6.5",
+        "datocms-client": "^3.1.1",
+        "dayjs": "^1.9.3",
+        "formik": "^2.2.0",
+        "graphql": "^15.3.0",
+        "hls.js": "^0.14.15",
+        "html-react-parser": "^0.14.0",
+        "html-to-text": "^5.1.1",
+        "mandrill-api": "^1.0.45",
+        "next": "^9.5.6-canary.4",
+        "next-pwa": "^3.1.5",
+        "object-fit-images": "^3.2.4",
+        "path-to-regexp": "^6.2.0",
+        "react": "^16.14.0",
+        "react-datocms": "^1.2.6",
+        "react-dom": "^16.14.0",
+        "react-image-lightbox": "^5.1.1",
+        "react-intersection-observer": "^8.29.0",
+        "react-relay": "^9.1.0",
+        "react-responsive-carousel": "^3.2.10",
+        "relay-hooks": "^3.7.0",
+        "relay-runtime": "^9.1.0",
+        "sass": "^1.27.0",
+        "slugify": "^1.4.5",
+        "uuid": "^8.3.1",
+        "xml": "^1.0.1",
+        "yup": "^0.29.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.0",
+        "@graphql-codegen/cli": "^1.17.10",
+        "@graphql-codegen/introspection": "1.18.0",
+        "@graphql-codegen/schema-ast": "^1.17.8",
+        "@storybook/addon-a11y": "^6.0.26",
+        "@storybook/addon-actions": "^6.0.26",
+        "@storybook/addon-backgrounds": "^6.0.26",
+        "@storybook/addon-console": "^1.2.2",
+        "@storybook/addon-controls": "^6.0.26",
+        "@storybook/addon-docs": "^6.0.26",
+        "@storybook/addon-storysource": "^6.0.26",
+        "@storybook/addon-viewport": "^6.0.26",
+        "@storybook/addons": "^6.0.26",
+        "@storybook/client-api": "^6.0.26",
+        "@storybook/react": "^6.0.26",
+        "@svgr/webpack": "^5.4.0",
+        "@types/busboy": "^0.2.3",
+        "@types/hls.js": "^0.13.2",
+        "@types/html-to-text": "^5.1.2",
+        "@types/jest": "^26.0.14",
+        "@types/mandrill-api": "^1.0.30",
+        "@types/node": "^14.11.8",
+        "@types/object-fit-images": "^3.2.0",
+        "@types/react": "^16.9.52",
+        "@types/react-dom": "^16.9.8",
+        "@types/react-relay": "^7.0.13",
+        "@types/relay-runtime": "^10.0.4",
+        "@types/uuid": "^8.3.0",
+        "@types/yup": "^0.29.8",
+        "@typescript-eslint/eslint-plugin": "^4.4.1",
+        "@typescript-eslint/parser": "^4.4.1",
+        "@welldone-software/why-did-you-render": "^5.0.0-rc.1",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-eslint": "^10.1.0",
+        "babel-loader": "^8.1.0",
+        "babel-plugin-relay": "^9.1.0",
+        "dotenv": "^8.2.0",
+        "env-cmd": "^10.1.0",
+        "eslint": "^7.11.0",
+        "eslint-config-prettier": "^6.12.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-react": "^7.21.4",
+        "husky": "^4.3.0",
+        "jest": "^26.5.2",
+        "lint-staged": "^10.4.0",
+        "prettier": "^2.1.2",
+        "react-docgen-typescript-loader": "^3.7.2",
+        "relay-compiler": "^9.1.0",
+        "relay-compiler-language-typescript": "^13.0.1",
+        "relay-config": "^9.1.0",
+        "ts-jest": "^26.4.1",
+        "typescript": "^4.0.3"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "post-merge": "env-cmd --silent graphql-codegen --config codegen.yml && npm run relay"
+        }
+    },
+    "lint-staged": {
+        "*/**/*.{js,ts,tsx}": [
+            "eslint --fix"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "next/babel"
+        ],
+        "plugins": [
+            "relay"
+        ]
+    },
+    "prettier": {
+        "semi": true,
+        "trailingComma": "all",
+        "printWidth": 120,
+        "tabWidth": 4,
+        "singleQuote": true
+    },
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "react",
+            "@typescript-eslint",
+            "prettier"
+        ],
+        "extends": [
+            "eslint:recommended",
+            "plugin:react/recommended",
+            "plugin:@typescript-eslint/eslint-recommended",
+            "plugin:@typescript-eslint/recommended",
+            "prettier/@typescript-eslint",
+            "plugin:prettier/recommended"
+        ],
+        "parserOptions": {
+            "ecmaVersion": 2018,
+            "sourceType": "module",
+            "ecmaFeatures": {
+                "jsx": true
+            }
+        },
+        "rules": {},
+        "settings": {
+            "react": {
+                "version": "detect"
+            }
+        }
     }
-  }
 }
