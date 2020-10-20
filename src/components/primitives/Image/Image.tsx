@@ -4,7 +4,7 @@ import capitalize from '../../../utils/capitalize';
 import styles from './Image.module.scss';
 import { Image as DatoCMSImage } from 'react-datocms';
 
-interface Props extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+export interface ImageI extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     image?: ImageInterface;
     objectFit?: 'cover' | 'contain';
     objectPosition?: 'top' | 'bottom';
@@ -16,7 +16,7 @@ const Image = ({
     objectFit,
     objectPosition,
     ...rest
-}: Props): ReactElement<Props, 'img' | 'amp-img' | 'Fragment'> | null => {
+}: ImageI): ReactElement<ImageI, 'img' | 'amp-img' | 'Fragment'> | null => {
     // if no responsiveImage defined -> no image
     if (!image?.responsiveImage) {
         return <></>;

@@ -7,8 +7,8 @@ import Tick from '../../../../public/svg/tick.svg';
 
 export type Icons = 'tick' | 'symbio';
 
-interface IconI {
-    name: Icons | null;
+export interface IconI {
+    name: Icons;
     className?: string;
 }
 
