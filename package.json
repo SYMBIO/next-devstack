@@ -115,7 +115,8 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged"
+            "pre-commit": "lint-staged",
+            "post-merge": "env-cmd --silent graphql-codegen --config codegen.yml && npm run relay"
         }
     },
     "lint-staged": {
