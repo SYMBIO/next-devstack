@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
-import { Carousel } from 'react-responsive-carousel';
 import { ImageInterface, VideoInterface } from '../../../types/app';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Slider.module.scss';
@@ -32,6 +31,7 @@ function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): str
 }
 
 const Video = dynamic<VideoComponentProps>(() => import('../Video/Video').then((mod) => mod.Video));
+const CarouselComponent = dynamic<any>(() => import('react-responsive-carousel').then((mod: any) => mod.Carousel));
 
 const Banner = ({
     image,
@@ -91,26 +91,26 @@ const Slider = ({
 
     if (banners.length === 1) {
         return <Banner {...banners[0]} sliderTextAlign={textAlign} />;
+    } else {
+        return (
+            <CarouselComponent
+                className={styles.slider}
+                showArrows={true}
+                autoPlay={autoplay}
+                interval={interval * 1000}
+                infiniteLoop={true}
+                useKeyboardArrows={true}
+                swipeable={true}
+                showStatus={false}
+                renderIndicator={renderIndicator}
+                showThumbs={false}
+            >
+                {banners.map((banner) => (
+                    <Banner key={`banner_${banner.id}`} {...banner} sliderTextAlign={textAlign} />
+                ))}
+            </CarouselComponent>
+        );
     }
-
-    return (
-        <Carousel
-            className={styles.slider}
-            showArrows={true}
-            autoPlay={autoplay}
-            interval={interval * 1000}
-            infiniteLoop={true}
-            useKeyboardArrows={true}
-            swipeable={true}
-            showStatus={false}
-            renderIndicator={renderIndicator}
-            showThumbs={false}
-        >
-            {banners.map((banner) => (
-                <Banner key={`banner_${banner.id}`} {...banner} sliderTextAlign={textAlign} />
-            ))}
-        </Carousel>
-    );
 };
 
 Slider.whyDidYouRender = true;

@@ -1,2 +1,2 @@
-import 'core-js/stable';
-import 'core-js/es';
+// import 'core-js/stable';
+// import 'core-js/es';
