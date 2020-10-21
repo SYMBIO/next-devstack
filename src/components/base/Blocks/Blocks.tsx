@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 import getBlockName from '../../../utils/getBlockName';
 import blocks from '../../../blocks';
@@ -15,7 +14,6 @@ export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement 
             if (!blockName || !Object.prototype.hasOwnProperty.call(blocks, blockName)) {
                 return null;
             }
-            // const BlockComponent = dynamic(() => import(`../../../blocks/${blockName}/${blockName}`));
             const BlockComponent = blocks[blockName];
             const blockInitialProps = (initialProps && initialProps[i]) || {};
             return (

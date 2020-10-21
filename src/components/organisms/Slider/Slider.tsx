@@ -43,9 +43,9 @@ const Banner = ({
 }: BannerInterface & { sliderTextAlign: string }): ReactElement => (
     <article className={styles.banner}>
         {video ? (
-            <Video video={{ uploadedVideo: video }} objectFit="cover" autoPlay loop />
+            <Video video={{ uploadedVideo: video }} autoPlay loop />
         ) : (
-            image && <Image image={image} objectFit="cover" />
+            image?.responsiveImage && <Image data={image.responsiveImage} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>

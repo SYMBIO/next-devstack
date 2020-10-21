@@ -58,7 +58,10 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                                         toCamel(f.apiKey) +
                                         ' {\n            ...appVideoFragment @relay(mask: false)\n        }'
                                     );
-                                } else if (f.validators.extension && f.validators.extension.predefinedList === 'image') {
+                                } else if (
+                                    f.validators.extension &&
+                                    f.validators.extension.predefinedList === 'image'
+                                ) {
                                     return (
                                         '        ' +
                                         toCamel(f.apiKey) +
@@ -120,7 +123,8 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                         `/**
  * Import blocks which should be included in SSR
  */
-${names.map(([name]) => `import './${name}/${name}';`).join('\n')}
+import dynamic from 'next/dynamic';
+import { BlockType } from '../types/block';
 
 /**
  * Define fragment for blocks to load with app data
@@ -131,11 +135,22 @@ graphql\`
     fragment blocksContent on PageModelContentField {
         __typename
 ${names
-                            .map(([name, fields]) => (fields.length > 0 ? `        ...${name}_content @relay(mask: false)` : ''))
-                            .filter((a) => a)
-                            .join('\n')}
+    .map(([name, fields]) => (fields.length > 0 ? `        ...${name}_content @relay(mask: false)` : ''))
+    .filter((a) => a)
+    .join('\n')}
     }
 \`;
+
+const blocks: { [name: string]: BlockType } = {
+${names
+    .reduce((acc, [name]) => {
+        acc.push(`    ${name}: dynamic(() => import('./${name}/${name}')),`);
+        return acc;
+    }, [])
+    .join('\n')}
+};
+
+export default blocks;
 `,
                     );
                 }

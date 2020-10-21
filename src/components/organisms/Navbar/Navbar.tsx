@@ -14,10 +14,10 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
 
     return (
         <div className={styles.navbar}>
-            {logo && (
+            {logo && logo.responsiveImage && (
                 <div className={styles.logo}>
                     <Link plain page={homepage || undefined}>
-                        <Image image={logo} />
+                        <Image data={logo.responsiveImage} />
                     </Link>
                 </div>
             )}
