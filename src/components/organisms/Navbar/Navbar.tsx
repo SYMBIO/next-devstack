@@ -1,9 +1,9 @@
 import React, { ReactElement, useContext, useState } from 'react';
+import BsNavbar from 'react-bootstrap/Navbar';
 import { AppContext } from '../../../utils/app-context/AppContext';
 import styles from './Navbar.module.scss';
 import { i18n } from '../../../../symbio.config.json';
 import { Link } from '../../primitives/Link/Link';
-import { Image } from '../../primitives/Image/Image';
 import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
@@ -13,11 +13,11 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
     return (
-        <div className={styles.navbar}>
+        <BsNavbar>
             {logo && (
                 <div className={styles.logo}>
                     <Link plain page={homepage || undefined}>
-                        <Image image={logo} />
+                        <img src={logo.url} alt={''} />
                     </Link>
                 </div>
             )}
@@ -45,7 +45,7 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
             ) : (
                 <span />
             )}
-        </div>
+        </BsNavbar>
     );
 };
 
