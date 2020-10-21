@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link as LinkComponent, LinkI } from './Link';
 import { Story } from '@storybook/react/types-6-0';
@@ -7,10 +6,13 @@ export default {
     component: LinkComponent,
     title: 'Primitives/Link',
     argTypes: {
-        children: { name: 'text' },
+        page: { table: { disable: true } },
+        params: { table: { disable: true } },
+        locale: { table: { disable: true } },
     },
     args: {
-        children: 'I am a Link',
+        href: '/',
+        children: 'I am Link',
     },
 };
 

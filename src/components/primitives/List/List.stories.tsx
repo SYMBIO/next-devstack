@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { List as ListComponent, ListI } from './List';
 import { Story } from '@storybook/react/types-6-0';
@@ -7,10 +6,10 @@ export default {
     component: ListComponent,
     title: 'Primitives/List',
     argTypes: {
-        children: { name: 'text' },
+        children: [],
     },
     args: {
-        children: 'I am a List',
+        children: ['Položka 1', 'Položka 2', 'Položka 3'],
     },
 };
 
