@@ -16,14 +16,15 @@ const Gallery = ({ images }: GalleryI): JSX.Element => {
         <>
             {Array.isArray(images) &&
                 images.map((image, index) => (
-                    <Image
+                    <div
                         key={image.id}
-                        image={image}
                         onClick={() => {
                             setIsOpen(true);
                             setActive(index);
                         }}
-                    />
+                    >
+                        <Image data={image.responsiveImage} />
+                    </div>
                 ))}
             {isOpen && (
                 <Lightbox

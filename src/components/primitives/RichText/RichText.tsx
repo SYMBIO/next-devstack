@@ -119,7 +119,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
                         delete attribs.alt;
                         return (
                             <span key={v4()} style={{ padding: '16px', display: 'inline-block' }}>
-                                <Image src={src} alt={alt} {...attribs} />
+                                <img src={src} alt={alt} {...attribs} />
                             </span>
                         );
                     }
