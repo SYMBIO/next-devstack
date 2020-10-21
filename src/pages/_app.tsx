@@ -1,13 +1,14 @@
 import React, { ReactElement } from 'react';
 
-if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
-    import('@welldone-software/why-did-you-render').then((wdyr) =>
-        wdyr.default(React, {
-            titleColor: 'green',
-            diffNameColor: 'aqua',
-            trackAllPureComponents: true,
-        }),
-    );
+if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const whyDidYouRender = require('@welldone-software/why-did-you-render');
+    whyDidYouRender(React, {
+        titleColor: 'green',
+        diffNameColor: 'aqua',
+        trackAllPureComponents: true,
+        logOnDifferentValues: true,
+    });
 }
 
 import { AppProps, NextWebVitalsMetric } from 'next/app';

@@ -1,6 +1,7 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import BsNavbar from 'react-bootstrap/Navbar';
 import { AppContext } from '../../../utils/app-context/AppContext';
+import { Image } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { i18n } from '../../../../symbio.config.json';
 import { Link } from '../../primitives/Link/Link';
@@ -14,10 +15,10 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
 
     return (
         <BsNavbar>
-            {logo && (
+            {logo && logo.responsiveImage && (
                 <div className={styles.logo}>
                     <Link plain page={homepage || undefined}>
-                        <img src={logo.url} alt={''} />
+                        <Image data={logo.responsiveImage} />
                     </Link>
                 </div>
             )}
