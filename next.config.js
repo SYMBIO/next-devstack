@@ -13,8 +13,6 @@ const nextConfig = {
     },
     target: 'serverless',
     webpack: (config, { isServer }) => {
-        config.plugins = config.plugins || [];
-
         config.module.rules.push({
             test: /\.svg$/,
             use: ['@svgr/webpack'],
