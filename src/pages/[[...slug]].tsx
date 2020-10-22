@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
-import blocks from '../blocks';
+import blocks from '../blocks/server';
 import { Blocks } from '../components/base/Blocks/Blocks';
 import { Head } from '../components/base/Head/Head';
 import { Layout } from '../components/base/Layout/Layout';
