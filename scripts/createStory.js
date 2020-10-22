@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Logger } from '../src/services';
+
 const fs = require('fs');
 
 const toPascal = (s) => {
@@ -27,7 +29,7 @@ fs.promises.readFile('./data/storyTemplate/StoryTemplate.tsx.tpl').then((storyTe
             } catch (e) {
                 if (e.code === 'ENOENT') {
                     await fs.promises.mkdir(`./src/components/${toPascal(folder)}/${toPascal(name)}`);
-                    console.log('\x1b[32m', `Folder created in components/${toPascal(folder)}/${toPascal(name)}`);
+                    Logger.log('\x1b[32m', `Folder created in components/${toPascal(folder)}/${toPascal(name)}`);
                 }
             }
             try {
@@ -42,14 +44,14 @@ fs.promises.readFile('./data/storyTemplate/StoryTemplate.tsx.tpl').then((storyTe
                             .replace(/{FOLDER}/g, toPascal(folder)),
                     );
 
-                    console.log(
+                    Logger.log(
                         '\x1b[32m',
                         `Story file created in components/${toPascal(folder)}/${toPascal(name)}.stories.tsx`,
                     );
                 }
             }
         } else {
-            console.log(
+            Logger.log(
                 '\x1b[31m',
                 'You probably forgot to specify folder or name!\nExample: npm run create-story F=primitives N=Milos',
             );

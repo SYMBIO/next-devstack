@@ -105,7 +105,7 @@ export default abstract class AbstractSingletonElasticProvider<
             });
 
             if (!result.body) {
-                console.info('Creating index ' + index);
+                Logger.info('Creating index ' + index);
                 await getElastic().indices.create({
                     index,
                     body: {
@@ -183,7 +183,7 @@ export default abstract class AbstractSingletonElasticProvider<
                         return false;
                     })();
                     if (sourceIndex) {
-                        console.info('Reindexing ' + sourceIndex + ' to ' + index);
+                        Logger.info('Reindexing ' + sourceIndex + ' to ' + index);
                         await getElastic().reindex({
                             body: {
                                 source: {
@@ -196,10 +196,10 @@ export default abstract class AbstractSingletonElasticProvider<
                         });
                     }
                 }
-                console.log('Done');
+                Logger.log('Done');
             }
         } catch (e) {
-            console.error(e.meta.body.error);
+            Logger.error(e.meta.body.error);
         }
     }
 

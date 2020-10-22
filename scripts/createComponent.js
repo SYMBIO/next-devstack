@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Logger } from '../src/services';
+
 const fs = require('fs');
 
 const toPascal = (s) => {
@@ -18,8 +20,6 @@ process.argv.forEach((val) => {
     }
 });
 
-console.log('variables', variables);
-
 fs.promises.readFile('./data/componentTemplate/Component.tsx.tpl').then((componentTemplate) => {
     fs.promises.readFile('./data/componentTemplate/Component.module.scss.tpl').then((scssTemplate) => {
         const createComponentTemplate = async (name, folder) => {
@@ -28,7 +28,7 @@ fs.promises.readFile('./data/componentTemplate/Component.tsx.tpl').then((compone
                 await fs.promises.access(dir, fs.constants.R_OK);
             } catch (e) {
                 if (e.code === 'ENOENT') {
-                    console.log('Creating component ' + name);
+                    Logger.error('Creating component ' + name);
                     await fs.promises.mkdir(`./src/components/${toPascal(folder)}/${toPascal(name)}`);
                 }
             }

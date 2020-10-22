@@ -1,18 +1,19 @@
 import { NextWebVitalsMetric } from 'next/app';
+import { Logger } from '../../services';
 
 const printCorrectColors = (good: number, medium: number, metric: string, value: number) => {
     if (value <= good) {
-        console.log(
+        Logger.log(
             `%c${metric}: ${Math.round(value * 100) / 100_000}s`,
             `color: green; font-weight: bold; font-size: 1rem`,
         );
     } else if (value <= medium) {
-        console.log(
+        Logger.log(
             `%c${metric}: ${Math.round(value * 100) / 100_000}s`,
             `color: orange; font-weight: bold; font-size: 1rem`,
         );
     } else {
-        console.log(
+        Logger.log(
             `%c${metric}: ${Math.round(value * 100) / 100_000}s`,
             `color: red; font-weight: bold; font-size: 1rem`,
         );
