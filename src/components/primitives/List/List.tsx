@@ -1,16 +1,18 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
+import condCls from '../../../utils/conditionalClasses';
 import styles from './List.module.scss';
 
-interface Props {
+export interface ListI {
     tag: 'ol' | 'ul';
-    children: ReactNode;
+    children: ReactElement[] | ReactElement;
 }
 
-const List = ({ tag, children }: Props): JSX.Element => {
-    const CustomTag = tag;
-    const classes = styles.list + ' ' + styles[tag];
-
-    return <CustomTag className={classes}>{children}</CustomTag>;
+const List = ({ tag, children }: ListI): JSX.Element => {
+    return (
+        <span as={tag} className={condCls(styles.list, styles[tag])}>
+            {children}
+        </span>
+    );
 };
 
 List.whyDidYouRender = true;

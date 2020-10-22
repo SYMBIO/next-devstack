@@ -95,7 +95,7 @@ if (typeof window === 'undefined') {
                 count: result.count,
                 items: result.data
                     .map(
-                        (item) =>
+                        (item: Subpage) =>
                             item && {
                                 __typename: 'PageRecord',
                                 id: item.id,
@@ -103,7 +103,7 @@ if (typeof window === 'undefined') {
                                 url: item.url,
                             },
                     )
-                    .filter((item) => item) as Subpage[],
+                    .filter((item: Subpage) => item) as Subpage[],
             };
         } else {
             return {

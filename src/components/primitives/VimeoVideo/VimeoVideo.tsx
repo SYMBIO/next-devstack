@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './VimeoVideo.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 
-interface VimeoVideoProps {
+export interface VimeoVideoI {
     uid: string;
     className?: string;
     width?: number;
     height?: number;
 }
 
-const VimeoVideo = ({ uid, className, width, height }: VimeoVideoProps) => (
+const VimeoVideo = ({ uid, className, width, height }: VimeoVideoI) => (
     <iframe
         src={`https://player.vimeo.com/video/${uid}`}
         className={condCls(styles.iframe, className)}

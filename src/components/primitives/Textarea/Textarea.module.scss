@@ -1,4 +1,4 @@
-@import "../../../styles/functions/rem";
+@import '../../../styles/functions/rem';
 
 .container {
     position: relative;
@@ -11,9 +11,6 @@
     font-size: rem(16);
     line-height: 1.5;
     color: var(--primary);
-    position: absolute;
-    left: 0;
-    top: 0;
     z-index: 1;
     transform: translateY(5px);
     transition: all 0.25s ease;
@@ -24,8 +21,6 @@
 
     &.emptyLabel {
         color: var(--primary);
-        transform: translateY(-15px);
-        left: 0;
     }
 
     &.errorLabel {

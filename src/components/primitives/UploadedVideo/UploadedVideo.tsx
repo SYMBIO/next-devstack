@@ -4,13 +4,13 @@ import capitalize from '../../../utils/capitalize';
 import getHLSVideo from '../../../utils/getHLSVideo';
 import styles from './UploadedVideo.module.scss';
 
-interface VideoProps extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
+export interface UploadedVideoI extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
     video?: VideoInterface;
     objectFit?: 'cover' | 'contain';
     objectPosition?: 'top' | 'bottom';
 }
 
-const UploadedVideo = ({ video, objectFit, objectPosition, autoPlay, ...rest }: VideoProps): ReactElement => {
+const UploadedVideo = ({ video, objectFit, objectPosition, autoPlay, ...rest }: UploadedVideoI): ReactElement => {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
