@@ -10,7 +10,7 @@ interface SubpageListProps {
     count: number;
     setPage: (page: number) => void;
     items: {
-        __typename: 'PageRecord';
+        __typename: string;
         id: string;
         title: string;
         url: string;

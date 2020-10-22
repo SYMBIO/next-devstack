@@ -9,7 +9,7 @@ import { SubpageList } from '../../components/organisms/SubpageList/SubpageList'
 import { Heading } from '../../components/primitives/Heading/Heading';
 
 interface Subpage {
-    __typename: 'PageRecord';
+    __typename: string;
     id: string;
     title: string;
     url: string;
@@ -91,19 +91,21 @@ if (typeof window === 'undefined') {
                 locale,
             });
 
+            const items = [];
+            for (const item of result.data) {
+                if (item && item.title && item.url) {
+                    items.push({
+                        __typename: 'PageRecord',
+                        id: item.id,
+                        title: item.title,
+                        url: item.url,
+                    });
+                }
+            }
+
             return {
                 count: result.count,
-                items: result.data
-                    .map(
-                        (item) =>
-                            item && {
-                                __typename: 'PageRecord',
-                                id: item.id,
-                                title: item.title,
-                                url: item.url,
-                            },
-                    )
-                    .filter((item) => item) as Subpage[],
+                items,
             };
         } else {
             return {

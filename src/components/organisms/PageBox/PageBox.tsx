@@ -5,7 +5,7 @@ import { Link } from '../../primitives/Link/Link';
 
 export interface PageBoxProps {
     page: {
-        __typename: 'PageRecord';
+        __typename: string;
         id: string;
         title: string;
         url: string;
