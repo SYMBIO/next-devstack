@@ -153,6 +153,37 @@ ${names
 export default blocks;
 `,
                     );
+                    await fs.promises.writeFile(
+                        './src/blocks/server.ts',
+                        `/**
+ * Import blocks which should be included in SSR
+ */
+import { BlockType } from '../types/block';
+
+${names.map(([name]) => `import ${name} from './${name}/${name}';`).join('\n')}
+
+/**
+ * Define fragment for blocks to load with app data
+ */
+import { graphql } from 'relay-runtime';
+
+graphql\`
+    fragment serverBlocksContent on PageModelContentField {
+        __typename
+${names
+    .map(([name, fields]) => (fields.length > 0 ? `        ...${name}_content @relay(mask: false)` : ''))
+    .filter((a) => a)
+    .join('\n')}
+    }
+\`;
+
+const blocks: { [name: string]: BlockType } = {
+${names.map(([name]) => `    ${name},`).join('\n')}
+};
+
+export default blocks;
+`,
+                    );
                 }
             }
         });

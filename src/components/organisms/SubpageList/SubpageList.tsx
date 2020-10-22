@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './SubpageList.module.scss';
-import { ImageInterface } from '../../../types/app';
 import { PageBox } from '../PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
 
@@ -15,7 +14,6 @@ interface SubpageListProps {
         id: string;
         title: string;
         url: string;
-        image: ImageInterface;
     }[];
     pages: boolean;
 }

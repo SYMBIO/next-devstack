@@ -13,13 +13,14 @@ export type DatoCMSRecord = {
 
 export interface FindResponse<T> {
     count: number;
-    data: T[];
+    data: T;
 }
 
 export default abstract class AbstractDatoCMSProvider<
     TOne extends OperationType,
     TFind extends OperationType,
-    TItem extends DatoCMSRecord = DatoCMSRecord
+    TItem extends DatoCMSRecord = DatoCMSRecord,
+    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>
 > implements Provider {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
@@ -68,13 +69,11 @@ export default abstract class AbstractDatoCMSProvider<
     async find(
         options: Omit<TFind['variables'], 'locale'> & { locale?: string },
         preview = false,
-    ): Promise<FindResponse<TItem>> {
-        const data: TItem[] = [];
-
+    ): Promise<FindResponse<TItems>> {
         const variables = {
             ...options,
             limit: Math.min(options.limit, DATOCMS_MAX_LIMIT),
-            offset: data.length,
+            offset: 0,
             filter: options.filter ? { ...options.filter, ...this.getFilterParams() } : this.getFilterParams(),
         };
 
@@ -83,18 +82,18 @@ export default abstract class AbstractDatoCMSProvider<
         }
 
         const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
-            items: TItem[];
+            items: TItems;
             meta: { count: number };
         };
 
         const count = result.meta.count;
-        data.push(...result.items);
+        const data: Mutable<TItems> = result.items;
 
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
                 const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
-                    items: TItem[];
+                    items: TItems;
                 };
                 data.push(...result.items);
                 await sleep();
@@ -103,7 +102,7 @@ export default abstract class AbstractDatoCMSProvider<
 
         return {
             count,
-            data,
+            data: data as TItems,
         };
     }
 

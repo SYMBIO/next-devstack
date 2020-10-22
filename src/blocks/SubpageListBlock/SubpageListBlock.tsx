@@ -3,7 +3,6 @@ import { graphql } from 'react-relay';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
-import { ImageInterface } from '../../types/app';
 import condCls from '../../utils/conditionalClasses';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { SubpageList } from '../../components/organisms/SubpageList/SubpageList';
@@ -14,7 +13,6 @@ interface Subpage {
     id: string;
     title: string;
     url: string;
-    image: ImageInterface;
 }
 
 interface ServerProps {
@@ -98,7 +96,6 @@ if (typeof window === 'undefined') {
                                 id: item.id,
                                 title: item.title,
                                 url: item.url,
-                                image: item.image,
                             },
                     )
                     .filter((item) => item) as Subpage[],
