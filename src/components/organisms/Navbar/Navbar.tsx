@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import BsNavbar from 'react-bootstrap/Navbar';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 import { Image } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { i18n } from '../../../../symbio.config.json';

@@ -4,7 +4,7 @@ import styles from './SubpageList.module.scss';
 import { PageBox } from '../PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
 
-interface SubpageListProps {
+export interface SubpageListProps {
     showImages: boolean;
     page: number;
     count: number;

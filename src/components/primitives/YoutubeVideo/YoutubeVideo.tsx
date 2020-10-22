@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './YoutubeVideo.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 
-interface YoutubeVideoProps {
+export interface YoutubeVideoProps {
     uid: string;
     className?: string;
     width?: number;

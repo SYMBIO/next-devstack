@@ -3,17 +3,17 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './Link.module.scss';
 
-interface Props extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
+export interface LinkI extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
     page?: Page;
     params?: Record<string, string | number> | ParsedUrlQuery;
     locale?: string;
     plain?: boolean;
 }
 
-const Link = ({ className, href, page, params, locale, children, target, plain, ...rest }: Props): JSX.Element => {
+const Link = ({ className, href, page, params, locale, children, target, plain, ...rest }: LinkI): JSX.Element => {
     const { absoluteLinks, hostname, locale: ctxLocale } = useContext(AppContext);
 
     if (typeof href === 'string') {

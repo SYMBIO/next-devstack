@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styles from './Table.module.scss';
 
-interface TableProps {
+export interface TableProps {
     readonly children: ReactNode;
 }
 

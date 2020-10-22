@@ -10,7 +10,6 @@ import { Heading } from '../Heading/Heading';
 import { Table } from '../Table/Table';
 import { Paragraph } from '../Paragraph/Paragraph';
 import { Blockquote } from '../Blockquote/Blockquote';
-import { Image } from '../Image/Image';
 
 export interface RichTextProps {
     content: string;

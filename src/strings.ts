@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useContext } from 'react';
-import { AppContext } from './utils/app-context/AppContext';
+import { AppContext } from './contexts/app-context/AppContext';
 
 const data: Record<string, Record<string, string>> = {};
 

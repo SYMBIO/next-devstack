@@ -17,8 +17,8 @@ import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
 import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
 import { MyPageProps } from '../types/app';
-import { AppContext } from '../utils/app-context/AppContext';
 import { trackPage } from '../utils/gtm';
+import { ContextsProvider } from '../contexts';
 
 const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
@@ -48,15 +48,17 @@ const Page = (props: MyPageProps): ReactElement => {
     }, []);
 
     return (
-        <AppContext.Provider
+        <ContextsProvider.Provider
             value={{
-                locale,
-                currentUrl,
-                hostname,
-                page,
-                site,
-                absoluteLinks: false,
-                ...webSetting,
+                appContext: {
+                    locale,
+                    currentUrl,
+                    hostname,
+                    page,
+                    site,
+                    absoluteLinks: false,
+                    ...webSetting,
+                },
             }}
         >
             <Head />
@@ -75,7 +77,7 @@ const Page = (props: MyPageProps): ReactElement => {
                     }}
                 />
             )}
-        </AppContext.Provider>
+        </ContextsProvider.Provider>
     );
 };
 

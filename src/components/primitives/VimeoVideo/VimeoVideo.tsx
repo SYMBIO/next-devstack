@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './VimeoVideo.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 
-interface VimeoVideoProps {
+export interface VimeoVideoProps {
     uid: string;
     className?: string;
     width?: number;

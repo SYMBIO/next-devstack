@@ -3,7 +3,7 @@ import styles from './Pagination.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 import { Link } from '../../primitives/Link/Link';
 
-interface PaginationProps {
+export interface PaginationProps {
     page?: number;
     total?: number;
     className?: string;

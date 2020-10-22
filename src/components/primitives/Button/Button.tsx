@@ -6,7 +6,7 @@ import { Icon, Icons } from '../Icon/Icon';
 
 type IconPosition = 'left' | 'right';
 
-export interface ButtonI {
+export interface ButtonProps {
     children: string | JSX.Element | (string | JSX.Element | number)[];
     onClick?: () => void;
     href?: string;
@@ -31,7 +31,7 @@ const Button = ({
     onClick,
     iconPosition = 'left',
     ...rest
-}: ButtonI): JSX.Element => {
+}: ButtonProps): JSX.Element => {
     if (href || page) {
         return (
             <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest}>
