@@ -43,7 +43,7 @@
         "next-pwa": "^3.1.5",
         "object-fit-images": "^3.2.4",
         "path-to-regexp": "^6.2.0",
-        "react": "^16.14.0",
+        "react": "^17.0.0",
         "react-datocms": "^1.2.6",
         "react-dom": "^16.14.0",
         "react-image-lightbox": "^5.1.1",

@@ -3,6 +3,8 @@ import { fetchQuery } from 'react-relay';
 import symbio from '../../../symbio.config.json';
 import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
 import { getSiteLocale } from '../../lib/routing/getSiteLocale';
+import { pageDetailQueryResponse } from '../../relay/__generated__/pageDetailQuery.graphql';
+import { pageListQueryResponse } from '../../relay/__generated__/pageListQuery.graphql';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../../relay/page';
 import * as d from '../../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../../relay/__generated__/pageListQuery.graphql';
@@ -17,7 +19,12 @@ import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromB
 import providers from '../../providers';
 import blocks from '../../blocks';
 
-class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
+class PageProvider extends AbstractDatoCMSProvider<
+    d.pageDetailQuery,
+    l.pageListQuery,
+    pageDetailQueryResponse['item'],
+    pageListQueryResponse['items']
+> {
     getApiKey(): string {
         return 'page';
     }

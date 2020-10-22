@@ -2,6 +2,7 @@ import { ParsedUrlQuery } from 'querystring';
 import symbio from '../../../symbio.config.json';
 import blocks from '../../blocks';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
+import { pageListQueryResponse } from '../../relay/__generated__/pageListQuery.graphql';
 import { siteQueryResponse } from '../../relay/__generated__/siteQuery.graphql';
 import { webSettingQueryResponse } from '../../relay/__generated__/webSettingQuery.graphql';
 import { pageDetailQuery, pageListQuery } from '../../relay/page';
@@ -17,7 +18,8 @@ import WebSettingProvider from './WebSettingProvider';
 class PageProvider extends AbstractElasticProvider<
     d.pageDetailQuery,
     l.pageListQuery,
-    NonNullable<pageDetailQueryResponse['item']>
+    NonNullable<pageDetailQueryResponse['item']>,
+    NonNullable<pageListQueryResponse['items']>
 > {
     getApiKey(): string {
         return 'page';
@@ -98,10 +100,10 @@ class PageProvider extends AbstractElasticProvider<
     async getStaticPaths(locale: string, defaultLocale: string): Promise<ParsedUrlQuery[]> {
         const params: ParsedUrlQuery[] = [];
 
-        const { data: allPages } = await this.findByElastic({}, locale);
+        const { data } = await this.findByElastic({}, locale);
 
         // loop over all pages
-        for (const page of allPages) {
+        for (const page of data) {
             if (String(page.url) === 'homepage') {
                 params.push({ slug: locale === defaultLocale ? [] : [locale] });
                 continue;
