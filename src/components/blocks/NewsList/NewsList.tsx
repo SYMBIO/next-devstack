@@ -2,7 +2,7 @@ import React, { ReactElement, useContext } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
 import { Page } from '../../../types/app';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';

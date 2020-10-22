@@ -1,7 +1,7 @@
 import React, { ReactElement, useContext } from 'react';
 import NextHead from 'next/head';
 import symbio from '../../../../symbio.config.json';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 
 const APP_NAME = 'Next devstack';
 

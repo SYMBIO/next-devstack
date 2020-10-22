@@ -3,7 +3,7 @@ import React, { ReactElement, useContext, useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 import { CmsFormBlock_content } from '../../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './CmsForm.module.scss';
 import trans from '../../../strings';
 import { Input } from '../../primitives/Input/Input';

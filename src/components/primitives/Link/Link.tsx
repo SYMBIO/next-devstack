@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
-import { AppContext } from '../../../utils/app-context/AppContext';
+import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './Link.module.scss';
 
 export interface LinkI extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {

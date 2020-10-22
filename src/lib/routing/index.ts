@@ -1,4 +1,4 @@
-import { AppContext } from '../../utils/app-context/AppContext';
+import { AppContext } from '../../contexts/app-context/AppContext';
 import { useContext } from 'react';
 
 interface PageLinkParams {
