@@ -9,7 +9,7 @@ import { SubpageList } from '../../components/organisms/SubpageList/SubpageList'
 import { Heading } from '../../components/primitives/Heading/Heading';
 
 interface Subpage {
-    __typename: string;
+    __typename: 'PageRecord';
     id: string;
     title: string;
     url: string;
@@ -91,7 +91,7 @@ if (typeof window === 'undefined') {
                 locale,
             });
 
-            const items = [];
+            const items: Subpage[] = [];
             for (const item of result.data) {
                 if (item && item.title && item.url) {
                     items.push({
