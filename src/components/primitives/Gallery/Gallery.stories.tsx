@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gallery as GalleryComponent, GalleryI } from './Gallery';
+import { Gallery as GalleryComponent, GalleryProps } from './Gallery';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -49,6 +49,6 @@ export default {
     },
 };
 
-const Template: Story<GalleryI> = (args) => <GalleryComponent {...args} />;
+const Template: Story<GalleryProps> = (args) => <GalleryComponent {...args} />;
 
 export const Gallery = Template.bind({});

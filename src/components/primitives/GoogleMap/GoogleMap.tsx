@@ -3,7 +3,7 @@ import parse from 'html-react-parser';
 import styles from './GoogleMap.module.scss';
 import { GoogleMap as GoogleMapComponent, Marker, LoadScript, InfoBox } from '@react-google-maps/api';
 
-export interface GoogleMapI {
+export interface GoogleMapProps {
     readonly isMarkerShown: boolean;
     readonly latitude: string;
     readonly longitude: string;
@@ -29,7 +29,7 @@ const GoogleMap = ({
     latitude,
     longitude,
     apiKey,
-}: GoogleMapI): ReactElement<GoogleMapI, 'div'> | null => {
+}: GoogleMapProps): ReactElement<GoogleMapProps, 'div'> | null => {
     const [visible, setVisible] = useState(false);
     return (
         <div>

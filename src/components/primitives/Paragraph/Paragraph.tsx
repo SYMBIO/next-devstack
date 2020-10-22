@@ -1,11 +1,11 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styles from './Paragraph.module.scss';
 
-export interface ParagraphI {
+export interface ParagraphProps {
     children: ReactNode;
 }
 
-const Paragraph = ({ children }: ParagraphI): ReactElement<ParagraphI, 'p'> | null => {
+const Paragraph = ({ children }: ParagraphProps): ReactElement<ParagraphProps, 'p'> | null => {
     return <p className={styles.paragraph}>{children}</p>;
 };
 

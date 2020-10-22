@@ -18,7 +18,7 @@ interface BannerInterface {
 
 export type TextAlignT = 'vlevo' | 'vpravo';
 
-export interface SliderI {
+export interface SliderProps {
     banners: BannerInterface[];
     textAlign?: TextAlignT;
     autoplay?: boolean;
@@ -86,7 +86,7 @@ const Slider = ({
     textAlign = 'vlevo',
     autoplay = true,
     interval = 10,
-}: SliderI): ReactElement<SliderI, 'div'> | null => {
+}: SliderProps): ReactElement<SliderProps, 'div'> | null => {
     if (!Array.isArray(banners) || banners.length < 1) {
         return null;
     }

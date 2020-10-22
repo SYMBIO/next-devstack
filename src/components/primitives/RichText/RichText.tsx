@@ -11,7 +11,7 @@ import { Table } from '../Table/Table';
 import { Paragraph } from '../Paragraph/Paragraph';
 import { Blockquote } from '../Blockquote/Blockquote';
 
-export interface RichTextI {
+export interface RichTextProps {
     content: string;
 }
 
@@ -143,7 +143,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
     }
 })();
 
-const RichText = ({ content }: RichTextI): ReactElement<RichTextI, 'div'> | null => (
+const RichText = ({ content }: RichTextProps): ReactElement<RichTextProps, 'div'> | null => (
     <>{parse(content, parserOptions)}</>
 );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon as IconComponent, IconI } from './Icon';
+import { Icon as IconComponent, IconProps } from './Icon';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -13,6 +13,6 @@ export default {
     },
 };
 
-const Template: Story<IconI> = (args) => <IconComponent {...args} />;
+const Template: Story<IconProps> = (args) => <IconComponent {...args} />;
 
 export const Icon = Template.bind({});

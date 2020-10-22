@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainMenu as MainMenuComponent, MainMenuI } from './MainMenu';
+import { MainMenu as MainMenuComponent, MainMenuProps } from './MainMenu';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -15,6 +15,6 @@ export default {
     },
 };
 
-const Template: Story<MainMenuI> = (args) => <MainMenuComponent {...args} />;
+const Template: Story<MainMenuProps> = (args) => <MainMenuComponent {...args} />;
 
 export const MainMenu = Template.bind({});

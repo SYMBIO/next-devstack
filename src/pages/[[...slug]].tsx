@@ -11,7 +11,7 @@ import { Blocks } from '../components/base/Blocks/Blocks';
 import { Head } from '../components/base/Head/Head';
 import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
-import { PreviewToolbarI } from '../components/primitives/PreviewToolbar/PreviewToolbar';
+import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/PreviewToolbar';
 import { CALENDAR_FORMATS } from '../constants';
 import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
@@ -20,7 +20,7 @@ import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
 
-const PreviewToolbar = dynamic<PreviewToolbarI>(() =>
+const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
 );
 
