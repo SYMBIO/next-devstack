@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider as SliderComponent, SliderI, TextAlignT } from './Slider';
+import { Slider as SliderComponent, SliderProps, TextAlignT } from './Slider';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -40,6 +40,6 @@ export default {
     },
 };
 
-const Template: Story<SliderI> = (args) => <SliderComponent {...args} />;
+const Template: Story<SliderProps> = (args) => <SliderComponent {...args} />;
 
 export const Slider = Template.bind({});

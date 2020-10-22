@@ -4,7 +4,7 @@ import styles from './SubpageList.module.scss';
 import { PageBox } from '../PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
 
-export interface SubpageListI {
+export interface SubpageListProps {
     showImages: boolean;
     page: number;
     count: number;
@@ -18,7 +18,7 @@ export interface SubpageListI {
     pages: boolean;
 }
 
-const SubpageList = ({ page, count, items, setPage, pages }: SubpageListI): ReactElement => (
+const SubpageList = ({ page, count, items, setPage, pages }: SubpageListProps): ReactElement => (
     <div className={styles.list}>
         {count > 0 && (
             <>

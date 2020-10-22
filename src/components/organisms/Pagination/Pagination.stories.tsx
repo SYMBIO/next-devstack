@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination as PaginationComponent, PaginationI } from './Pagination';
+import { Pagination as PaginationComponent, PaginationProps } from './Pagination';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -18,6 +18,6 @@ export default {
     },
 };
 
-const Template: Story<PaginationI> = (args) => <PaginationComponent {...args} />;
+const Template: Story<PaginationProps> = (args) => <PaginationComponent {...args} />;
 
 export const Pagination = Template.bind({});

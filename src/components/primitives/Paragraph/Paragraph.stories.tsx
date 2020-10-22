@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paragraph as ParagraphComponent, ParagraphI } from './Paragraph';
+import { Paragraph as ParagraphComponent, ParagraphProps } from './Paragraph';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -10,6 +10,6 @@ export default {
     },
 };
 
-const Template: Story<ParagraphI> = (args) => <ParagraphComponent {...args} />;
+const Template: Story<ParagraphProps> = (args) => <ParagraphComponent {...args} />;
 
 export const Paragraph = Template.bind({});

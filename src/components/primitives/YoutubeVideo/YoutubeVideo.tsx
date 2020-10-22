@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './YoutubeVideo.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 
-export interface YoutubeVideoI {
+export interface YoutubeVideoProps {
     uid: string;
     className?: string;
     width?: number;
     height?: number;
 }
 
-const YoutubeVideo = ({ uid, className, width, height }: YoutubeVideoI): JSX.Element => (
+const YoutubeVideo = ({ uid, className, width, height }: YoutubeVideoProps): JSX.Element => (
     <div className={styles.wrapper}>
         <iframe
             className={condCls(styles.iframe, className)}

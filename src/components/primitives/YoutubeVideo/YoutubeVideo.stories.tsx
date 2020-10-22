@@ -1,5 +1,5 @@
 import React from 'react';
-import { YoutubeVideo as YoutubeVideoComponent, YoutubeVideoI } from './YoutubeVideo';
+import { YoutubeVideo as YoutubeVideoComponent, YoutubeVideoProps } from './YoutubeVideo';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -15,6 +15,6 @@ export default {
     },
 };
 
-const Template: Story<YoutubeVideoI> = (args) => <YoutubeVideoComponent {...args} />;
+const Template: Story<YoutubeVideoProps> = (args) => <YoutubeVideoComponent {...args} />;
 
 export const YoutubeVideo = Template.bind({});

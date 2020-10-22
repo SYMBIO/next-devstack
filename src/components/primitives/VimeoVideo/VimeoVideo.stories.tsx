@@ -1,5 +1,5 @@
 import React from 'react';
-import { VimeoVideo as VimeoVideoComponent, VimeoVideoI } from './VimeoVideo';
+import { VimeoVideo as VimeoVideoComponent, VimeoVideoProps } from './VimeoVideo';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -15,6 +15,6 @@ export default {
     },
 };
 
-const Template: Story<VimeoVideoI> = (args) => <VimeoVideoComponent {...args} />;
+const Template: Story<VimeoVideoProps> = (args) => <VimeoVideoComponent {...args} />;
 
 export const VimeoVideo = Template.bind({});

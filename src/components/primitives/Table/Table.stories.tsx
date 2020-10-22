@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table as TableComponent, TableI } from './Table';
+import { Table as TableComponent, TableProps } from './Table';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -24,6 +24,6 @@ export default {
     },
 };
 
-const Template: Story<TableI> = (args) => <TableComponent {...args} />;
+const Template: Story<TableProps> = (args) => <TableComponent {...args} />;
 
 export const Table = Template.bind({});

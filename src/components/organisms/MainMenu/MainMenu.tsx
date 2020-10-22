@@ -3,7 +3,7 @@ import { MainMenu as MainMenuType } from '../../../types/app';
 import { Link } from '../../primitives/Link/Link';
 import styles from './MainMenu.module.scss';
 
-export interface MainMenuI {
+export interface MainMenuProps {
     menu: MainMenuType;
 }
 
@@ -20,7 +20,7 @@ function renderMenu(menu: MainMenuType, level = 1): ReactElement {
     );
 }
 
-const MainMenu = ({ menu }: MainMenuI): ReactElement => renderMenu(menu, 1);
+const MainMenu = ({ menu }: MainMenuProps): ReactElement => renderMenu(menu, 1);
 
 MainMenu.whyDidYouRender = true;
 

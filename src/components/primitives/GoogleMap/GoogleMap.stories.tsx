@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap as GoogleMapComponent, GoogleMapI } from './GoogleMap';
+import { GoogleMap as GoogleMapComponent, GoogleMapProps } from './GoogleMap';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -14,6 +14,6 @@ export default {
     },
 };
 
-const Template: Story<GoogleMapI> = (args) => <GoogleMapComponent {...args} />;
+const Template: Story<GoogleMapProps> = (args) => <GoogleMapComponent {...args} />;
 
 export const GoogleMap = Template.bind({});

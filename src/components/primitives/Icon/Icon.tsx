@@ -7,12 +7,12 @@ import Tick from '../../../../public/svg/tick.svg';
 
 export type Icons = 'tick' | 'symbio';
 
-export interface IconI {
+export interface IconProps {
     name: Icons;
     className?: string;
 }
 
-const Icon = ({ name, className }: IconI): JSX.Element => {
+const Icon = ({ name, className }: IconProps): JSX.Element => {
     const renderIcon = (name: Icons): JSX.Element => {
         switch (name) {
             case 'tick':

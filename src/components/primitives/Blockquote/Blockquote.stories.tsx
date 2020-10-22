@@ -1,5 +1,5 @@
 import React from 'react';
-import { Blockquote as BlockquoteComponent, BlockquoteI } from './Blockquote';
+import { Blockquote as BlockquoteComponent, BlockquoteProps } from './Blockquote';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -13,6 +13,6 @@ export default {
     },
 };
 
-const Template: Story<BlockquoteI> = (args) => <BlockquoteComponent {...args} />;
+const Template: Story<BlockquoteProps> = (args) => <BlockquoteComponent {...args} />;
 
 export const Blockquote = Template.bind({});
