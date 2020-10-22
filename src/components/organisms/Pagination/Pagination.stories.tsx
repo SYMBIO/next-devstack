@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Pagination as PaginationComponent, PaginationI } from './Pagination';
 import { Story } from '@storybook/react/types-6-0';
@@ -6,11 +5,16 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: PaginationComponent,
     title: 'Organisms/Pagination',
-    argTypes: {
-        children: { name: 'text' },
-    },
     args: {
-        children: 'I am a Pagination',
+        page: 1,
+        total: 10,
+    },
+    argTypes: {
+        className: {
+            table: {
+                disable: true,
+            },
+        },
     },
 };
 

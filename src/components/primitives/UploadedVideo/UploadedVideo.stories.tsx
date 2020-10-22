@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UploadedVideo as UploadedVideoComponent, UploadedVideoI } from './UploadedVideo';
 import { Story } from '@storybook/react/types-6-0';
@@ -6,11 +5,9 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: UploadedVideoComponent,
     title: 'Primitives/UploadedVideo',
-    argTypes: {
-        children: { name: 'text' },
-    },
     args: {
-        children: 'I am a UploadedVideo',
+        objectFit: 'cover',
+        objectPosition: 'top',
     },
 };
 

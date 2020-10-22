@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { YoutubeVideo as YoutubeVideoComponent, YoutubeVideoI } from './YoutubeVideo';
 import { Story } from '@storybook/react/types-6-0';
@@ -7,10 +6,12 @@ export default {
     component: YoutubeVideoComponent,
     title: 'Primitives/YoutubeVideo',
     argTypes: {
-        children: { name: 'text' },
+        className: { table: { disable: true } },
     },
     args: {
-        children: 'I am a YoutubeVideo',
+        width: 640,
+        height: 480,
+        uid: 'oavMtUWDBTM',
     },
 };
 

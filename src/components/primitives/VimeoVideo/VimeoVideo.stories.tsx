@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { VimeoVideo as VimeoVideoComponent, VimeoVideoI } from './VimeoVideo';
 import { Story } from '@storybook/react/types-6-0';
@@ -7,10 +6,12 @@ export default {
     component: VimeoVideoComponent,
     title: 'Primitives/VimeoVideo',
     argTypes: {
-        children: { name: 'text' },
+        className: { table: { disable: true } },
     },
     args: {
-        children: 'I am a VimeoVideo',
+        width: 640,
+        height: 480,
+        uid: '10245458',
     },
 };
 

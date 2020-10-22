@@ -5,7 +5,7 @@ import { ImageInterface } from '../../../types/app';
 import { PageBox } from '../PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
 
-interface SubpageListProps {
+export interface SubpageListI {
     showImages: boolean;
     page: number;
     count: number;
@@ -20,8 +20,9 @@ interface SubpageListProps {
     pages: boolean;
 }
 
-const SubpageList = ({ page, count, items, setPage, pages }: SubpageListProps): ReactElement => (
+const SubpageList = ({ page, count, items, setPage, pages }: SubpageListI): ReactElement => (
     <div className={styles.list}>
+        {console.log(page, count, items, setPage, pages)}
         {count > 0 && (
             <>
                 {items.map((item, i) => (

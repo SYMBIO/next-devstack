@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Textarea as TextareaComponent, TextareaI } from './Textarea';
 import { Story } from '@storybook/react/types-6-0';
@@ -7,10 +6,16 @@ export default {
     component: TextareaComponent,
     title: 'Primitives/Textarea',
     argTypes: {
-        children: { name: 'text' },
+        id: { table: { disable: true } },
+        name: { table: { disable: true } },
+        form: { table: { disable: true } },
     },
     args: {
-        children: 'I am a Textarea',
+        children: 'I am Textarea',
+        form: {
+            errors: [],
+            touched: [],
+        },
     },
 };
 

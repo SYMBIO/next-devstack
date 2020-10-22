@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MainMenu as MainMenuComponent, MainMenuI } from './MainMenu';
 import { Story } from '@storybook/react/types-6-0';
@@ -6,11 +5,13 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: MainMenuComponent,
     title: 'Organisms/MainMenu',
-    argTypes: {
-        children: { name: 'text' },
-    },
     args: {
-        children: 'I am a MainMenu',
+        menu: {
+            links: [
+                { __typename: 'PageRecord', id: '4085953', url: 'homepage', title: 'Homepage' },
+                { __typename: 'PageRecord', id: '4086002', url: 'aktuality', title: 'Aktuality' },
+            ],
+        },
     },
 };
 

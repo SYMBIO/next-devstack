@@ -11,6 +11,7 @@ export interface GalleryI {
 const Gallery = ({ images }: GalleryI): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
     const [active, setActive] = useState(0);
+    console.log(JSON.stringify(images));
 
     return (
         <>

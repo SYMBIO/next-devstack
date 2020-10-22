@@ -5,11 +5,14 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: ListComponent,
     title: 'Primitives/List',
-    argTypes: {
-        children: [],
-    },
     args: {
-        children: ['Položka 1', 'Položka 2', 'Položka 3'],
+        children: (
+            <>
+                <li>Položka 1</li>
+                <li>Položka 2</li>
+                <li>Položka 3</li>
+            </>
+        ),
     },
 };
 

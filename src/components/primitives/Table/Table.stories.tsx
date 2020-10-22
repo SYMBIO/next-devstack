@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Table as TableComponent, TableI } from './Table';
 import { Story } from '@storybook/react/types-6-0';
@@ -6,11 +5,22 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: TableComponent,
     title: 'Primitives/Table',
-    argTypes: {
-        children: { name: 'text' },
+    argType: {
+        children: { table: { disable: true } },
     },
     args: {
-        children: 'I am a Table',
+        children: (
+            <>
+                <tr>
+                    <th>Table header 1</th>
+                    <th>Table header 2</th>
+                </tr>
+                <tr>
+                    <td>Table cell 1</td>
+                    <td>Table cell 2</td>
+                </tr>
+            </>
+        ),
     },
 };
 

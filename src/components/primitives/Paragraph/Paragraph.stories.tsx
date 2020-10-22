@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Paragraph as ParagraphComponent, ParagraphI } from './Paragraph';
 import { Story } from '@storybook/react/types-6-0';
@@ -6,11 +5,8 @@ import { Story } from '@storybook/react/types-6-0';
 export default {
     component: ParagraphComponent,
     title: 'Primitives/Paragraph',
-    argTypes: {
-        children: { name: 'text' },
-    },
     args: {
-        children: 'I am a Paragraph',
+        children: 'I am Paragraph',
     },
 };
 
