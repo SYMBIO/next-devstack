@@ -65,7 +65,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
             {preview && page && <PreviewToolbar page={page} />}
 
-            <Navbar />
+            <Navbar sticky="top" variant="light" expand="lg" />
             <Blocks blocksData={blocksData} initialProps={blocksProps} />
 
             {gtm.code && (

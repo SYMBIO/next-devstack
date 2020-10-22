@@ -17,6 +17,8 @@ graphql`
                     title
                 }
                 ... on MenuRecord {
+                    id
+                    title
                     links {
                         __typename
                         ... on PageRecord {
