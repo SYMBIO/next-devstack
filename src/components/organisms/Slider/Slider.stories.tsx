@@ -6,7 +6,7 @@ export default {
     component: SliderComponent,
     title: 'Organisms/Slider',
     argTypes: {
-        textAlign: TextAlignT,
+        textAlign: 'vlevo',
     },
     args: {
         banners: [
