@@ -10,15 +10,16 @@ import { FindResponse } from './AbstractDatoCMSProvider';
 export default abstract class AbstractElasticProvider<
     TOne extends OperationType,
     TFind extends OperationType,
-    TItem extends DatoCMSRecord = DatoCMSRecord
-> extends AbstractDatoCMSProvider<TOne, TFind> {
+    TItem extends DatoCMSRecord = DatoCMSRecord,
+    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>
+> extends AbstractDatoCMSProvider<TOne, TFind, TItem, TItems> {
     /**
      * Find items by querying elastic search
      * @param id
      * @param locale
      * @param preview
      */
-    async findOneByElastic(id: string, locale?: string, preview = false): Promise<unknown | null> {
+    async findOneByElastic(id: string, locale?: string, preview = false): Promise<TItem | null> {
         const options = {
             index: this.getIndex(locale, !preview),
             body: {
@@ -46,7 +47,7 @@ export default abstract class AbstractElasticProvider<
      * @param locale
      * @param preview
      */
-    async findByElastic(options: Search, locale?: string, preview = false): Promise<FindResponse<TItem>> {
+    async findByElastic(options: Search, locale?: string, preview = false): Promise<FindResponse<TItem[]>> {
         options.index = this.getIndex(locale, !preview);
         options._source = options._source || this.getSource();
         try {

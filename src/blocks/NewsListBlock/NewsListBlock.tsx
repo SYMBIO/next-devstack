@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
-import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
+import { newsListQueryResponse } from '../../relay/__generated__/newsListQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
 import styles from './NewsListBlock.module.scss';
 import { NewsList } from '../../components/blocks/NewsList/NewsList';
 
-type StaticProps = FindResponse<NonNullable<newsDetailQueryResponse['item']>>;
+type StaticProps = FindResponse<newsListQueryResponse['items']>;
 
 type NewsListBlockProps = BaseBlockProps & StaticProps;
 
