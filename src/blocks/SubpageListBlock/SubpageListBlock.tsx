@@ -91,19 +91,21 @@ if (typeof window === 'undefined') {
                 locale,
             });
 
+            const items: Subpage[] = [];
+            for (const item of result.data) {
+                if (item && item.title && item.url) {
+                    items.push({
+                        __typename: 'PageRecord',
+                        id: item.id,
+                        title: item.title,
+                        url: item.url,
+                    });
+                }
+            }
+
             return {
                 count: result.count,
-                items: result.data
-                    .map(
-                        (item: Subpage) =>
-                            item && {
-                                __typename: 'PageRecord',
-                                id: item.id,
-                                title: item.title,
-                                url: item.url,
-                            },
-                    )
-                    .filter((item: Subpage) => item) as Subpage[],
+                items,
             };
         } else {
             return {
