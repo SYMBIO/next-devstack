@@ -3,11 +3,12 @@ import parse from 'html-react-parser';
 import styles from './GoogleMap.module.scss';
 import { GoogleMap as GoogleMapComponent, Marker, LoadScript, InfoBox } from '@react-google-maps/api';
 
-interface MapProps {
+export interface GoogleMapI {
     readonly isMarkerShown: boolean;
     readonly latitude: string;
     readonly longitude: string;
     readonly bubbleText: string;
+    readonly apiKey?: string;
 }
 
 interface TooltipProps {
@@ -27,13 +28,14 @@ const GoogleMap = ({
     bubbleText,
     latitude,
     longitude,
-}: MapProps): ReactElement<MapProps, 'div'> | null => {
+    apiKey,
+}: GoogleMapI): ReactElement<GoogleMapI, 'div'> | null => {
     const [visible, setVisible] = useState(false);
     return (
         <div>
             <LoadScript
                 id="script-loader"
-                googleMapsApiKey="PUT_YOUR_API_KEY_HERE"
+                googleMapsApiKey={apiKey || ''}
                 loadingElement={<div className={styles.loading} />}
             >
                 <GoogleMapComponent

@@ -16,7 +16,7 @@ export default {
         iconPosition: { control: 'select' },
     },
     args: {
-        children: 'I am a button',
+        children: 'I am button',
         icon: 'symbio',
     },
 };

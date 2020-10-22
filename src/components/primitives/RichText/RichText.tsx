@@ -10,9 +10,8 @@ import { Heading } from '../Heading/Heading';
 import { Table } from '../Table/Table';
 import { Paragraph } from '../Paragraph/Paragraph';
 import { Blockquote } from '../Blockquote/Blockquote';
-import { Image } from '../Image/Image';
 
-export interface RichTextProps {
+export interface RichTextI {
     content: string;
 }
 
@@ -144,7 +143,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
     }
 })();
 
-const RichText = ({ content }: RichTextProps): ReactElement<RichTextProps, 'div'> | null => (
+const RichText = ({ content }: RichTextI): ReactElement<RichTextI, 'div'> | null => (
     <>{parse(content, parserOptions)}</>
 );
 

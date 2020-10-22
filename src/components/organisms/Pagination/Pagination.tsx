@@ -3,7 +3,7 @@ import styles from './Pagination.module.scss';
 import condCls from '../../../utils/conditionalClasses';
 import { Link } from '../../primitives/Link/Link';
 
-interface PaginationProps {
+export interface PaginationI {
     page?: number;
     total?: number;
     className?: string;
@@ -41,7 +41,7 @@ function renderPagination(page: number, total: number, callback: (page: number) 
     return result;
 }
 
-const Pagination = ({ className, page = 1, total = 0, callback }: PaginationProps): ReactElement | null => {
+const Pagination = ({ className, page = 1, total = 0, callback }: PaginationI): ReactElement | null => {
     if (total <= 1) {
         return null;
     }
