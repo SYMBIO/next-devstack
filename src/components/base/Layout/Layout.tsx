@@ -1,10 +1,6 @@
-import React, { ReactElement, ReactNode } from 'react';
-import styles from './Layout.module.scss';
+import React, { ReactNode } from 'react';
+import { Container, ContainerProps } from 'react-bootstrap';
 
-interface Props {
-    children: ReactNode;
-}
-
-export const Layout = ({ children }: Props): ReactElement<Props, 'div'> | null => {
-    return <div className={styles.grid}>{children}</div>;
+export const Layout = (props: ContainerProps): ReactNode => {
+    return props.children;
 };

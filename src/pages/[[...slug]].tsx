@@ -63,10 +63,8 @@ const Page = (props: MyPageProps): ReactElement => {
 
             {preview && page && <PreviewToolbar page={page} />}
 
-            <Layout>
-                <Navbar />
-                <Blocks blocksData={blocksData} initialProps={blocksProps} />
-            </Layout>
+            <Navbar />
+            <Blocks blocksData={blocksData} initialProps={blocksProps} />
 
             {gtm.code && (
                 <noscript

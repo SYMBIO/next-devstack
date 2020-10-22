@@ -52,12 +52,7 @@ function SubpageListBlock({
     const [page, setPage] = useState(1);
 
     return (
-        <BlockWrapper
-            marginTop={'xl'}
-            tooltip={'SubpageListBlock'}
-            className={condCls(styles.wrapper, className)}
-            {...rest}
-        >
+        <BlockWrapper tooltip={'SubpageListBlock'} className={condCls(styles.wrapper, className)} {...rest}>
             {content.heading && <Heading tag={'h2'}>{content.heading}</Heading>}
             <SubpageList
                 items={items}

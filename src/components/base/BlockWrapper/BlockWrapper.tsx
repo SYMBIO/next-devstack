@@ -1,21 +1,20 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
+import Col from 'react-bootstrap/Col';
+import Container, { ContainerProps } from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './BlockWrapper.module.scss';
 
-export interface BlockWrapperProps {
-    tooltip: string;
-    children?: ReactNode;
-    className?: string;
-    marginTop?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginBottom?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginLeft?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginRight?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    margin?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export interface BlockWrapperProps extends ContainerProps {
+    tooltip?: string;
 }
 
-export const BlockWrapper = ({
-    children,
-    className,
-}: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
-    return <div className={condCls(styles.block, className)}>{children}</div>;
+export const BlockWrapper = ({ children, tooltip, className, ...props }: BlockWrapperProps): ReactElement => {
+    return (
+        <Container {...props} className={condCls(className, styles.wrapper)}>
+            <Row>
+                <Col>{children}</Col>
+            </Row>
+        </Container>
+    );
 };
