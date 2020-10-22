@@ -20,7 +20,6 @@ export interface SubpageListI {
 
 const SubpageList = ({ page, count, items, setPage, pages }: SubpageListI): ReactElement => (
     <div className={styles.list}>
-        {console.log(page, count, items, setPage, pages)}
         {count > 0 && (
             <>
                 {items.map((item, i) => (
