@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Logger } from '../src/services';
+
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
 const fs = require('fs');
@@ -43,7 +45,7 @@ async function createItemType(itemType, pluginMap) {
         tree,
     } = itemType;
 
-    console.log('CREATE ITEM TYPE', {
+    Logger.log('CREATE ITEM TYPE', {
         allLocalesRequired,
         apiKey,
         collectionAppeareance,
@@ -72,7 +74,7 @@ async function createItemType(itemType, pluginMap) {
         fieldIdMap[field.id] = newField.id;
     }
 
-    console.log('UPDATE ITEM TYPE', newItemType.id, {
+    Logger.log('UPDATE ITEM TYPE', newItemType.id, {
         allLocalesRequired,
         apiKey,
         collectionAppeareance,
@@ -112,7 +114,7 @@ async function createField(field, itemType, pluginMap) {
     if (field.fieldType === 'rich_text') {
         for (const modBlock of field.validators.richTextBlocks.itemTypes) {
             const newModBlock = await createItemType(modBlock, pluginMap);
-            console.log(newModBlock);
+            Logger.log(newModBlock);
             modBlockMap[modBlock.id] = newModBlock.id;
         }
         field.validators.richTextBlocks.itemTypes = field.validators.richTextBlocks.itemTypes.map(
@@ -133,7 +135,7 @@ async function createField(field, itemType, pluginMap) {
         })
         .filter((a) => a);
 
-    console.log('CREATE FIELD', itemType.id, {
+    Logger.log('CREATE FIELD', itemType.id, {
         apiKey,
         appeareance,
         defaultValue,

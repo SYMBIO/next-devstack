@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { Logger } from '../src/services';
+
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
 const symbio = require('../symbio.config.json');
@@ -27,7 +29,7 @@ fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl').then((blockTemplate) 
                 await fs.promises.access(dir, fs.constants.R_OK);
             } catch (e) {
                 if (e.code === 'ENOENT') {
-                    console.log('Creating block ' + name);
+                    Logger.error('Creating block ' + name);
                     await fs.promises.mkdir(`./src/blocks/${name}`);
                 }
             }

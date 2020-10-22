@@ -58,8 +58,8 @@ export default abstract class AbstractElasticProvider<
                 data: hits.map((h: { _source: unknown }) => h._source),
             };
         } catch (e) {
-            console.log('ELASTIC ERROR:', JSON.stringify(options));
-            console.error(e.meta.body.error);
+            Logger.log('ELASTIC ERROR:', JSON.stringify(options));
+            Logger.error(e.meta.body.error);
             return {
                 count: 0,
                 data: [],
@@ -113,8 +113,8 @@ export default abstract class AbstractElasticProvider<
             const result = await getElastic().search(options);
             return result.body.aggregations;
         } catch (e) {
-            console.log('ELASTIC ERROR:', JSON.stringify(options));
-            console.error(e.meta.body.error);
+            Logger.log('ELASTIC ERROR:', JSON.stringify(options));
+            Logger.error(e.meta.body.error);
             return null;
         }
     }
@@ -189,7 +189,7 @@ export default abstract class AbstractElasticProvider<
                 // @ts-ignore
                 const { data } = await this.find({ locale, limit: Infinity }, !prod);
 
-                console.log('indexing', this.getApiKey(), 'count', data.length);
+                Logger.log('indexing', this.getApiKey(), 'count', data.length);
 
                 if (!simple) {
                     await this.createAndReindex(locale, prod);
@@ -233,10 +233,10 @@ export default abstract class AbstractElasticProvider<
      * @param prod
      */
     async deleteRelics(prod = false): Promise<void> {
-        console.log('Deleting relics for', this.getApiKey(), prod);
+        Logger.log('Deleting relics for', this.getApiKey(), prod);
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
-                console.log('Getting data for', this.getApiKey(), locale);
+                Logger.log('Getting data for', this.getApiKey(), locale);
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const { data } = await this.find({ locale, limit: Infinity });
@@ -247,15 +247,15 @@ export default abstract class AbstractElasticProvider<
 
                 for (const id of elasticIds) {
                     if (id && cmsIds.indexOf(id) === -1) {
-                        console.log('Unindexing ' + id);
+                        Logger.log('Unindexing ' + id);
                         await this.unindex(id, locale, prod);
                     }
                 }
 
-                console.log('Done');
+                Logger.log('Done');
             }
         } else {
-            console.log('Getting data for', this.getApiKey());
+            Logger.log('Getting data for', this.getApiKey());
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -268,12 +268,12 @@ export default abstract class AbstractElasticProvider<
 
             for (const id of elasticIds) {
                 if (id && cmsIds.indexOf(id) === -1) {
-                    console.log('Unindexing ' + id);
+                    Logger.log('Unindexing ' + id);
                     await this.unindex(id, undefined, prod);
                 }
             }
 
-            console.log('Done');
+            Logger.log('Done');
         }
     }
 
@@ -285,7 +285,7 @@ export default abstract class AbstractElasticProvider<
             });
 
             if (!result.body) {
-                console.info('Creating index ' + index);
+                Logger.info('Creating index ' + index);
                 await getElastic().indices.create({
                     index,
                     body: {
@@ -334,7 +334,7 @@ export default abstract class AbstractElasticProvider<
                     },
                 });
 
-                console.info('Creating mapping for index ' + index);
+                Logger.info('Creating mapping for index ' + index);
                 try {
                     await getElastic().indices.putMapping({
                         index,
@@ -400,7 +400,7 @@ export default abstract class AbstractElasticProvider<
                         },
                     });
                 } catch (e) {
-                    console.error(e.meta.body.error);
+                    Logger.error(e.meta.body.error);
                 }
 
                 if (this.getIndexVersion() > 1 || prod) {
@@ -432,7 +432,7 @@ export default abstract class AbstractElasticProvider<
                         return false;
                     })();
                     if (sourceIndex) {
-                        console.info('Reindexing ' + sourceIndex + ' to ' + index);
+                        Logger.info('Reindexing ' + sourceIndex + ' to ' + index);
                         await getElastic().reindex({
                             body: {
                                 source: {
@@ -445,10 +445,10 @@ export default abstract class AbstractElasticProvider<
                         });
                     }
                 }
-                console.log('Done');
+                Logger.log('Done');
             }
         } catch (e) {
-            console.error(e.meta.body.error);
+            Logger.error(e.meta.body.error);
         }
     }
 
