@@ -29,7 +29,6 @@ const Slider = ({
                     interval={video?.video?.duration ? video.video.duration * 1000 : undefined}
                     className={styles.item}
                 >
-                    {console.log(video?.video?.duration)}
                     {video ? (
                         <Video video={{ uploadedVideo: video }} autoPlay loop />
                     ) : (

@@ -18,7 +18,6 @@ const Navbar = (props: NavbarProps): ReactElement => {
         <BsNavbar
             {...props}
             onSelect={(eventKey) => {
-                console.log(eventKey);
                 eventKey && router.push('/[[...slug]]', eventKey);
             }}
         >
