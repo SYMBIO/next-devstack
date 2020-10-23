@@ -31,20 +31,24 @@ const Navbar = (props: NavbarProps): ReactElement => {
             <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
 
             <Container>
-                <BsNavbar.Collapse id="basic-navbar-nav">{mainMenu && <MainMenu menu={mainMenu} />}</BsNavbar.Collapse>
+                <BsNavbar.Collapse id="basic-navbar-nav">
+                    {mainMenu && <MainMenu menu={mainMenu} />}
+                    {locales && locales.length > 1 && (
+                        <NavDropdown id={'languageSelector'} title={locale}>
+                            {locales
+                                .filter((loc) => loc !== locale)
+                                .map((loc) => (
+                                    <Dropdown.Item
+                                        key={`Dropdown_locale_${loc}`}
+                                        href={`/${loc !== defaultLocale ? loc : ''}`}
+                                    >
+                                        {loc}
+                                    </Dropdown.Item>
+                                ))}
+                        </NavDropdown>
+                    )}
+                </BsNavbar.Collapse>
             </Container>
-
-            {locales && locales.length > 1 && (
-                <NavDropdown id={'languageSelector'} title={locale}>
-                    {locales
-                        .filter((loc) => loc !== locale)
-                        .map((loc) => (
-                            <Dropdown.Item key={`Dropdown_locale_${loc}`} href={`/${loc !== defaultLocale ? loc : ''}`}>
-                                {loc}
-                            </Dropdown.Item>
-                        ))}
-                </NavDropdown>
-            )}
         </BsNavbar>
     );
 };
