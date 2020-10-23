@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styles from './Paragraph.module.scss';
 
-interface ParagraphProps {
+export interface ParagraphProps {
     children: ReactNode;
 }
 

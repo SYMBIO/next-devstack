@@ -57,6 +57,7 @@ export interface VideoInterface {
     readonly width: number | null;
     readonly height: number | null;
     readonly video: {
+        readonly duration: number;
         readonly streamingUrl: string;
         readonly thumbnailUrl: string;
     } | null;

@@ -58,6 +58,7 @@ graphql`
         width
         height
         video {
+            duration
             streamingUrl
             thumbnailUrl
         }

@@ -4,7 +4,7 @@ import condCls from '../../../utils/conditionalClasses';
 import styles from './Textarea.module.scss';
 import { Icon, Icons } from '../Icon/Icon';
 
-interface Props extends FieldProps {
+export interface TextareaI extends FieldProps {
     readonly label?: string;
     readonly icon?: Icons;
     readonly id?: string;
@@ -18,9 +18,9 @@ const Textarea = ({
     icon,
     id,
     ...props
-}: Props): ReactElement<TextareaHTMLAttributes<HTMLTextAreaElement>, 'textarea'> => {
+}: TextareaI): ReactElement<TextareaHTMLAttributes<HTMLTextAreaElement>, 'textarea'> => {
     const isIcon = !!(icon && icon.length > 0);
-    const isError = !!(errors[field.name] && touched[field.name]);
+    const isError = !!(errors && errors.field && errors[field.name] && touched[field.name]);
     const ref = React.useRef<HTMLTextAreaElement>(null);
 
     function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void {
@@ -36,7 +36,7 @@ const Textarea = ({
                 <label
                     className={condCls(
                         styles.label,
-                        field.value && field.value.length === 0 && styles.emptyLabel,
+                        field && field.value && field.value.length === 0 && styles.emptyLabel,
                         isIcon && styles.iconLabel,
                         isError && styles.errorLabel,
                     )}

@@ -6,4 +6,9 @@ export const parameters = {
         viewports: INITIAL_VIEWPORTS,
         initialViewport: 'iphone6',
     },
+    options: {
+        storySort: {
+            order: ['Primitives', 'Organisms'],
+        },
+    },
 };

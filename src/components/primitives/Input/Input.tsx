@@ -3,32 +3,53 @@ import { FieldProps } from 'formik';
 import { Icon, Icons } from '../Icon/Icon';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './Input.module.scss';
+export type InputT =
+    | 'button'
+    | 'checkbox'
+    | 'color'
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'file'
+    | 'hidden'
+    | 'image'
+    | 'month'
+    | 'number'
+    | 'password'
+    | 'radio'
+    | 'range'
+    | 'reset'
+    | 'search'
+    | 'submit'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week';
 
-interface Props extends FieldProps {
+export interface InputI extends FieldProps {
     readonly label?: string | React.ReactNode;
     readonly icon?: Icons;
-    readonly type: string;
+    readonly type: InputT;
     readonly id?: string;
     readonly name?: string;
     readonly checked?: boolean;
-    readonly width?: 'narrow' | 'normal' | 'wide';
 }
 
 const Input = ({
     field,
-    form: { errors, touched },
     label,
     icon,
     type,
     id,
     checked,
-    width,
+    form: { errors, touched },
     ...props
-}: Props): ReactElement => {
+}: InputI): ReactElement => {
     const [showPassword, setShowPassword] = useState(false);
 
     const hasIcon = !!(icon && icon.length > 0);
-    const hasError = !!(errors[field.name] && touched[field.name]);
+    const hasError = !!(errors && errors.field && errors[field.name] && touched[field.name]);
     const isPassword = type === 'password';
 
     return (
@@ -39,9 +60,8 @@ const Input = ({
                 type === 'checkbox' && styles.isCheckbox,
                 hasIcon && styles.hasIcon,
                 hasError && styles.hasError,
-                (width === 'narrow' && styles.narrow) || (width === 'wide' && styles.wide),
                 !checked || styles.isActive,
-                field.value && field.value.length === 0 && styles.isEmpty,
+                field && field.value && field.value.length === 0 && styles.isEmpty,
             )}
         >
             {label && (
@@ -68,7 +88,7 @@ const Input = ({
                 checked={checked}
                 id={id}
             />
-            {hasError && <p className={styles.error}>{errors[field.name]}</p>}
+            {hasError && <p className={styles.error}>{errors.field && errors[field.name]}</p>}
         </div>
     );
 };

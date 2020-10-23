@@ -4,28 +4,31 @@ import { Image } from '../Image/Image';
 const Lightbox = dynamic(() => import('react-image-lightbox'));
 import { ImageInterface } from '../../../types/app';
 
-export interface GalleryI {
+export interface GalleryProps {
     images: ReadonlyArray<ImageInterface>;
 }
 
-const Gallery = ({ images }: GalleryI): JSX.Element => {
+const Gallery = ({ images }: GalleryProps): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
     const [active, setActive] = useState(0);
 
     return (
         <>
             {Array.isArray(images) &&
-                images.map((image, index) => (
-                    <div
-                        key={image.id}
-                        onClick={() => {
-                            setIsOpen(true);
-                            setActive(index);
-                        }}
-                    >
-                        <Image data={image.responsiveImage} />
-                    </div>
-                ))}
+                images.map(
+                    (image, index) =>
+                        image.responsiveImage && (
+                            <div
+                                key={image.id}
+                                onClick={() => {
+                                    setIsOpen(true);
+                                    setActive(index);
+                                }}
+                            >
+                                <Image data={image.responsiveImage} />
+                            </div>
+                        ),
+                )}
             {isOpen && (
                 <Lightbox
                     mainSrc={images[active].url}

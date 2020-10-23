@@ -1,26 +1,42 @@
 import React, { ReactElement } from 'react';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import NextLink from 'next/link';
 import { MainMenu as MainMenuType } from '../../../types/app';
 import { Link } from '../../primitives/Link/Link';
-import styles from './MainMenu.module.scss';
 
-interface MainMenuProps {
+export interface MainMenuProps {
     menu: MainMenuType;
 }
 
-function renderMenu(menu: MainMenuType, level = 1): ReactElement {
-    return (
-        <ul className={styles['menu' + level]}>
-            {menu?.links.map((link, i: number) => (
-                <li key={`Mainmenu_${i}`}>
-                    {link.__typename === 'PageRecord' && <Link page={link} />}
-                    {link.__typename === 'MenuRecord' && renderMenu(link, level + 1)}
-                </li>
-            ))}
-        </ul>
-    );
-}
-
-const MainMenu = ({ menu }: MainMenuProps): ReactElement => renderMenu(menu, 1);
+const MainMenu = ({ menu }: MainMenuProps): ReactElement => (
+    <Nav className="mr-auto">
+        {menu?.links.map((link) => {
+            if (link.__typename === 'PageRecord' && link.url) {
+                return (
+                    <NextLink key={link.id} href={'[[...slug]]'} as={link.url.replace('homepage', '/')} passHref>
+                        <Nav.Link key={link.id}>{link.title}</Nav.Link>
+                    </NextLink>
+                );
+            }
+            if (link.__typename === 'MenuRecord') {
+                return (
+                    <NavDropdown title={link.title} id={link.id}>
+                        {link.links.map(
+                            (item) =>
+                                item.__typename === 'PageRecord' &&
+                                item.url && (
+                                    <Link key={item.id} page={item} withoutAnchor>
+                                        <NavDropdown.Item>{item.title}</NavDropdown.Item>
+                                    </Link>
+                                ),
+                        )}
+                    </NavDropdown>
+                );
+            }
+        })}
+    </Nav>
+);
 
 MainMenu.whyDidYouRender = true;
 

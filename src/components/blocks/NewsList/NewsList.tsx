@@ -1,26 +1,22 @@
 import React, { ReactElement, useContext } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { newsListQueryResponse } from '../../../relay/__generated__/newsListQuery.graphql';
 import { Page } from '../../../types/app';
-import { AppContext } from '../../../utils/app-context/AppContext';
-import styles from './NewsList.module.scss';
+import { AppContext } from '../../../contexts/app-context/AppContext';
+import { CardImg } from '../../primitives/CardImg/CardImg';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
 import { RichText } from '../../primitives/RichText/RichText';
 
 interface NewsListProps {
     headline?: string;
-    items: ReadonlyArray<NewsItem>;
+    items: newsListQueryResponse['items'];
     allNewsLinkText?: string;
     allNewsPage?: Page;
-}
-
-interface NewsItem {
-    id: string;
-    dateFrom: string | null;
-    title: string | null;
-    slug: string | null;
-    perex: string | null;
 }
 
 const NewsList = ({
@@ -33,33 +29,48 @@ const NewsList = ({
     dayjs.extend(Calendar);
 
     return (
-        <div className={styles.newsList}>
+        <>
             {headline && (
-                <Heading tag={'h2'} className={styles.headline}>
-                    {headline}
-                </Heading>
+                <Row>
+                    <Col>
+                        <Heading tag={'h2'}>{headline}</Heading>
+                    </Col>
+                </Row>
             )}
 
-            <ul className={styles.newsList__items}>
-                {Array.isArray(items) &&
-                    items.map(
+            {Array.isArray(items) && (
+                <Row>
+                    {items.map(
                         (item) =>
                             item.slug &&
                             newsPage && (
-                                <li key={`NewsList_item_${item.id}`} className={styles.newsList__item}>
-                                    <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
-                                        <article>
-                                            <Heading tag={`h3`}>{item.title}</Heading>
-                                            <p>{dayjs(item.dateFrom).calendar()}</p>
-                                            {item.perex && <RichText content={item.perex} />}
-                                        </article>
-                                    </Link>
-                                </li>
+                                <Col key={`NewsList_item_${item.id}`}>
+                                    <Card>
+                                        <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
+                                            {item.image?.responsiveImage && (
+                                                <CardImg variant="top" data={item.image.responsiveImage} />
+                                            )}
+                                            <Card.Body>
+                                                <Card.Title>{item.title}</Card.Title>
+                                                <Card.Subtitle className="mb-2 text-muted">
+                                                    {dayjs(item.dateFrom).calendar()}
+                                                </Card.Subtitle>
+                                                {item.perex && (
+                                                    <Card.Text>
+                                                        <RichText content={item.perex} />
+                                                    </Card.Text>
+                                                )}
+                                            </Card.Body>
+                                        </Link>
+                                    </Card>
+                                </Col>
                             ),
                     )}
-            </ul>
+                </Row>
+            )}
+
             {allNewsLinkText && allNewsPage && <Link page={allNewsPage}>{allNewsLinkText}</Link>}
-        </div>
+        </>
     );
 };
 

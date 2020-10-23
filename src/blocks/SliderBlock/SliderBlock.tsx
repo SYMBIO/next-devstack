@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Slider } from '../../components/organisms/Slider/Slider';
-import { BaseBlockProps } from '../../types/block';
 import condCls from '../../utils/conditionalClasses';
+import { SliderBlock_content } from './__generated__/SliderBlock_content.graphql';
 import styles from './SliderBlock.module.scss';
 
 graphql`
@@ -27,7 +27,7 @@ graphql`
     }
 `;
 
-function SliderBlock({ content }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function SliderBlock({ content }: { content: SliderBlock_content }): ReactElement {
     return (
         <BlockWrapper tooltip={'SliderBlock'} className={condCls('px-0', styles.wrapper)} fluid>
             <Slider {...content} />
