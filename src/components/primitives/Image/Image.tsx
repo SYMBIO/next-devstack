@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { Image as DatoCMSImage } from 'react-datocms';
 import { ResponsiveImageType } from 'react-datocms/dist/Image';
 
-export declare type ImageT = {
+export declare type ImageProps = {
     data: ResponsiveImageType;
     className?: string;
     pictureClassName?: string;
@@ -15,7 +15,7 @@ export declare type ImageT = {
     explicitWidth?: boolean;
 };
 
-export const Image = (props: ImageT): ReactElement => {
+export const Image = (props: ImageProps): ReactElement => {
     return <DatoCMSImage {...props} />;
 };
 

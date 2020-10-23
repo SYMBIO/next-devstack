@@ -1,5 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
 import { useRouter } from 'next/router';
+import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BsNavbar, { NavbarProps } from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -9,11 +10,18 @@ import { Link } from '../../primitives/Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (props: NavbarProps): ReactElement => {
-    const { locale, locales, defaultLocale } = useRouter();
+    const router = useRouter();
+    const { locale, locales, defaultLocale } = router;
     const { mainMenu, logo, homepage, site } = useContext(AppContext);
 
     return (
-        <BsNavbar {...props}>
+        <BsNavbar
+            {...props}
+            onSelect={(eventKey) => {
+                console.log(eventKey);
+                eventKey && router.push('/[[...slug]]', eventKey);
+            }}
+        >
             <BsNavbar.Brand>
                 <Link plain page={homepage || undefined}>
                     {logo && logo.responsiveImage ? <Image data={logo.responsiveImage} /> : site?.globalSeo?.siteName}
@@ -22,7 +30,9 @@ const Navbar = (props: NavbarProps): ReactElement => {
 
             <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
 
-            <BsNavbar.Collapse id="basic-navbar-nav">{mainMenu && <MainMenu menu={mainMenu} />}</BsNavbar.Collapse>
+            <Container>
+                <BsNavbar.Collapse id="basic-navbar-nav">{mainMenu && <MainMenu menu={mainMenu} />}</BsNavbar.Collapse>
+            </Container>
 
             {locales && locales.length > 1 && (
                 <NavDropdown id={'languageSelector'} title={locale}>
