@@ -1,16 +1,17 @@
 import React, { ReactElement } from 'react';
-import Nav from 'react-bootstrap/Nav';
+import classNames from 'classnames';
+import Nav, { NavProps } from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import NextLink from 'next/link';
 import { MainMenu as MainMenuType } from '../../../types/app';
 import { Link } from '../../primitives/Link/Link';
 
-export interface MainMenuProps {
+export interface MainMenuProps extends NavProps {
     menu: MainMenuType;
 }
 
-const MainMenu = ({ menu }: MainMenuProps): ReactElement => (
-    <Nav className="mr-auto">
+const MainMenu = ({ menu, className }: MainMenuProps): ReactElement => (
+    <Nav className={classNames('m-auto', className)}>
         {menu?.links.map((link) => {
             if (link.__typename === 'PageRecord' && link.url) {
                 return (
