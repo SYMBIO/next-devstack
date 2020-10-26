@@ -16,11 +16,11 @@ interface BannerInterface {
     video?: VideoInterface;
 }
 
-export type TextAlignT = 'vlevo' | 'vpravo';
+export type TextAlignCms = 'vlevo' | 'vpravo';
 
 export interface SliderProps {
     banners: BannerInterface[];
-    textAlign?: TextAlignT;
+    textAlign?: TextAlignCms;
     autoplay?: boolean;
     interval?: number;
 }

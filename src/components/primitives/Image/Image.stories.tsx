@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image as ImageComponent, ImageT } from './Image';
+import { Image as ImageComponent, ImageProps } from './Image';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -24,6 +24,6 @@ export default {
     },
 };
 
-const Template: Story<ImageT> = (args) => <ImageComponent {...args} />;
+const Template: Story<ImageProps> = (args) => <ImageComponent {...args} />;
 
 export const Image = Template.bind({});

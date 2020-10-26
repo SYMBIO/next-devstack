@@ -3,7 +3,7 @@ import { FieldProps } from 'formik';
 import { Icon, Icons } from '../Icon/Icon';
 import condCls from '../../../utils/conditionalClasses';
 import styles from './Input.module.scss';
-export type InputT =
+export type InputType =
     | 'button'
     | 'checkbox'
     | 'color'
@@ -27,10 +27,10 @@ export type InputT =
     | 'url'
     | 'week';
 
-export interface InputI extends FieldProps {
+export interface InputProps extends FieldProps {
     readonly label?: string | React.ReactNode;
     readonly icon?: Icons;
-    readonly type: InputT;
+    readonly type: InputType;
     readonly id?: string;
     readonly name?: string;
     readonly checked?: boolean;
@@ -45,7 +45,7 @@ const Input = ({
     checked,
     form: { errors, touched },
     ...props
-}: InputI): ReactElement => {
+}: InputProps): ReactElement => {
     const [showPassword, setShowPassword] = useState(false);
 
     const hasIcon = !!(icon && icon.length > 0);

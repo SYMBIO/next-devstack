@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input as InputComponent, InputI } from './Input';
+import { Input as InputComponent, InputProps } from './Input';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -18,6 +18,6 @@ export default {
     },
 };
 
-const Template: Story<InputI> = (args) => <InputComponent {...args} />;
+const Template: Story<InputProps> = (args) => <InputComponent {...args} />;
 
 export const Input = Template.bind({});
