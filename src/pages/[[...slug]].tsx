@@ -83,13 +83,13 @@ const Page = (props: MyPageProps): ReactElement => {
     );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    if (ssg.staticGeneration) {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+    if (ssg.staticGeneration && locales) {
         const paths: GetStaticPathsResult['paths'] = [];
         const provider = providers.page;
 
         // loop over all locales
-        for (const locale of i18n.locales) {
+        for (const locale of locales) {
             const localePaths = await provider.getStaticPaths(locale);
             paths.push(...localePaths);
         }
