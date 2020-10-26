@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider as SliderComponent, SliderProps, TextAlignT } from './Slider';
+import { Slider as SliderComponent, SliderProps, TextAlignCms } from './Slider';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
