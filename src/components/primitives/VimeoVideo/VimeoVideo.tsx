@@ -10,14 +10,16 @@ export interface VimeoVideoProps {
 }
 
 const VimeoVideo = ({ uid, className, width, height }: VimeoVideoProps) => (
-    <iframe
-        src={`https://player.vimeo.com/video/${uid}`}
-        className={condCls(styles.iframe, className)}
-        width={width}
-        height={height}
-        frameBorder={0}
-        allowFullScreen
-    />
+    <div className={styles.wrapper}>
+        <iframe
+            src={`https://player.vimeo.com/video/${uid}`}
+            className={condCls(styles.iframe, className)}
+            width={width}
+            height={height}
+            frameBorder={0}
+            allowFullScreen
+        />
+    </div>
 );
 
 VimeoVideo.whyDidYouRender = true;
