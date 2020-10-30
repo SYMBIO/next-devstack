@@ -49,7 +49,7 @@ export const getBlocksProps = async (
                 preview: !!context.preview,
             },
             revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-            unstable_notFound: notFound,
+            notFound: notFound,
         };
     } catch (e) {
         if (e.code === 'ENOENT') {
@@ -61,7 +61,7 @@ export const getBlocksProps = async (
                     preview: !!context.preview,
                 },
                 revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-                unstable_notFound: true,
+                notFound: true,
             };
         } else {
             throw e;
