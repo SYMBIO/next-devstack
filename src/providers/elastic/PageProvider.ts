@@ -3,6 +3,7 @@ import symbio from '../../../symbio.config.json';
 import blocks from '../../blocks';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import { pageListQueryResponse } from '../../relay/__generated__/pageListQuery.graphql';
+import { redirectListQueryResponse } from '../../relay/__generated__/redirectListQuery.graphql';
 import { siteQueryResponse } from '../../relay/__generated__/siteQuery.graphql';
 import { webSettingQueryResponse } from '../../relay/__generated__/webSettingQuery.graphql';
 import { pageDetailQuery, pageListQuery } from '../../relay/page';
@@ -11,6 +12,7 @@ import * as l from '../../relay/__generated__/pageListQuery.graphql';
 import { AppData } from '../../types/app';
 import AbstractElasticProvider from '../../lib/provider/AbstractElasticProvider';
 import { pageDetailQueryResponse } from '../../relay/__generated__/pageDetailQuery.graphql';
+import RedirectProvider from './RedirectProvider';
 import providers from '../index';
 import SiteProvider from './SiteProvider';
 import WebSettingProvider from './WebSettingProvider';
@@ -78,12 +80,33 @@ class PageProvider extends AbstractElasticProvider<
                 },
                 locale,
             ),
+            RedirectProvider.findByElastic({
+                body: {
+                    query: {
+                        bool: {
+                            should: [
+                                {
+                                    term: {
+                                        from: {
+                                            value: '/' + slug.join('/'),
+                                            boost: 5,
+                                        },
+                                    },
+                                },
+                            ],
+                            minimum_should_match: 1,
+                        },
+                    },
+                    size: 1,
+                },
+            }),
         ];
 
-        const [site, webSetting, { data }] = (await Promise.all(promises)) as [
+        const [site, webSetting, { data }, { data: redirects }] = (await Promise.all(promises)) as [
             siteQueryResponse['_site'],
             webSettingQueryResponse['item'],
-            { data: d.pageDetailQueryResponse['item'][] },
+            { data: l.pageListQueryResponse['items'] },
+            { data: redirectListQueryResponse['items'] },
         ];
 
         const blocksData: AppData['blocksData'] = (data[0] || null)?.content || [];
@@ -93,6 +116,7 @@ class PageProvider extends AbstractElasticProvider<
             site,
             webSetting,
             page: page as AppData['page'],
+            redirect: Array.isArray(redirects) && redirects.length > 0 ? redirects[0] : null,
             blocksData,
         };
     }

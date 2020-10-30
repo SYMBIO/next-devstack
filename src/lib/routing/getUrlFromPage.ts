@@ -3,7 +3,6 @@ import { Page } from '../../types/app';
 
 export function getUrlFromPage(
     page: Page,
-    locale: string,
     params: Record<string, string | number> | ParsedUrlQuery | undefined,
 ): string {
     let url = page.url?.substr(0, 1) === '?' ? page.url : page.url && page.url !== 'homepage' ? '/' + page.url : '/';

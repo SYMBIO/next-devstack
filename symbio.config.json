@@ -8,8 +8,7 @@
     },
     "i18n": {
         "locales": ["cs", "en"],
-        "defaultLocale": "cs",
-        "localeDetection": true
+        "defaultLocale": "cs"
     },
     "mailer": {
         "from": "no-reply@example.com",

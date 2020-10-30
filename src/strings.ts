@@ -1,6 +1,5 @@
 /* eslint-disable */
-import { useContext } from 'react';
-import { AppContext } from './contexts/app-context/AppContext';
+import { useRouter } from 'next/router';
 
 const data: Record<string, Record<string, string>> = {};
 
@@ -18,6 +17,10 @@ export function transCount(cnt: number) {
 }
 
 export default function trans(key: string): string {
-    const { locale } = useContext(AppContext);
-    return data[locale][key] || data.cs[key] || key;
+    const { locale } = useRouter();
+    if (locale) {
+        return data[locale][key] || data.cs[key] || key;
+    } else {
+        return key;
+    }
 }

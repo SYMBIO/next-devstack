@@ -15,7 +15,7 @@ import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/Pre
 import { CALENDAR_FORMATS } from '../constants';
 import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
-import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
+import { gtm, ssg, tz } from '../../symbio.config.json';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
@@ -25,9 +25,9 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 );
 
 const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, blocksData, locale, webSetting, blocksProps, preview } = props;
-
+    const { hostname, site, page, blocksData, webSetting, blocksProps, preview } = props;
     const router = useRouter();
+    const locale = router.locale || router.defaultLocale;
     const currentUrl =
         '/' + (router.locale === router.defaultLocale ? '' : router.locale) + router.asPath !== '/'
             ? router.asPath
@@ -39,8 +39,10 @@ const Page = (props: MyPageProps): ReactElement => {
 
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
-    dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
-    dayjs.locale(locale);
+    if (locale) {
+        dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+        dayjs.locale(locale);
+    }
     dayjs.tz.setDefault(tz);
 
     useEffect(() => {
@@ -51,7 +53,6 @@ const Page = (props: MyPageProps): ReactElement => {
         <ContextsProvider.Provider
             value={{
                 appContext: {
-                    locale,
                     currentUrl,
                     hostname,
                     page,
@@ -107,12 +108,14 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const locale = context.locale || i18n.defaultLocale;
+    const locale = context.locale || context.defaultLocale;
 
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
-    dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
-    dayjs.locale(locale);
+    if (locale) {
+        dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
+        dayjs.locale(locale);
+    }
     dayjs.tz.setDefault(tz);
 
     return await getBlocksProps(context, providers, blocks);

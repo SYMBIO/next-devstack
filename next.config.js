@@ -8,9 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const nextConfig = {
-    experimental: {
-        i18n,
-    },
+    i18n,
     target: 'serverless',
     webpack: (config, { isServer }) => {
         config.module.rules.push({
