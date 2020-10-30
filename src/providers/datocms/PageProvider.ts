@@ -39,11 +39,11 @@ class PageProvider extends AbstractDatoCMSProvider<
      * @param slug
      * @param preview
      */
-    async getPageBySlug(locale: string, slug: string[], preview = false): Promise<AppData> {
+    async getPageBySlug(locale: string | undefined, slug: string[], preview = false): Promise<AppData> {
         const pattern = getPagePattern(slug);
         const redirectPattern = slug.join('/');
         const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
-            locale: getSiteLocale(locale),
+            ...(locale ? { locale: getSiteLocale(locale) } : {}),
             pattern,
             redirectPattern,
         });

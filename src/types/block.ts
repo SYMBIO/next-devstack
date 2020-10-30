@@ -14,7 +14,7 @@ export interface StaticBlockContext {
     params?: ParsedUrlQuery;
     preview?: boolean;
     previewData?: any;
-    locale: string;
+    locale?: string;
     page?: {
         readonly id: unknown;
         readonly url: string | null;

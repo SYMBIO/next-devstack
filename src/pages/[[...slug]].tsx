@@ -15,7 +15,7 @@ import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/Pre
 import { CALENDAR_FORMATS } from '../constants';
 import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
-import { gtm, i18n, ssg, tz } from '../../symbio.config.json';
+import { gtm, ssg, tz } from '../../symbio.config.json';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
@@ -36,8 +36,6 @@ const Page = (props: MyPageProps): ReactElement => {
     if (router.isFallback) {
         return <div>Loading...</div>;
     }
-
-    console.log(router);
 
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
@@ -111,8 +109,6 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const locale = context.locale || context.defaultLocale;
-
-    console.log(context);
 
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);

@@ -2,7 +2,7 @@ import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
-import { i18n, ssg } from '../../../symbio.config.json';
+import { ssg } from '../../../symbio.config.json';
 
 export const getBlocksProps = async (
     context: GetStaticPropsContext,
@@ -10,7 +10,7 @@ export const getBlocksProps = async (
     blocks: Record<string, BlockType>,
 ): Promise<GetStaticPropsResult<{ [key: string]: unknown }>> => {
     const provider = providers.page;
-    const locale = context.locale || i18n.defaultLocale;
+    const locale = context.locale || context.defaultLocale;
     const slug = context.params?.slug;
     const props = await provider.getPageBySlug(locale, Array.isArray(slug) ? slug : slug ? [slug] : ['homepage']);
     const blocksPropsPromises = [];

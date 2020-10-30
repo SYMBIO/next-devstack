@@ -10,8 +10,6 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
     const { mainMenu, logo, homepage } = useContext(AppContext);
     const { locale, locales } = useRouter();
 
-    console.log(locale, locales);
-
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
     return (
