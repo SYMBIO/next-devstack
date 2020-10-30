@@ -41,9 +41,11 @@ class PageProvider extends AbstractDatoCMSProvider<
      */
     async getPageBySlug(locale: string, slug: string[], preview = false): Promise<AppData> {
         const pattern = getPagePattern(slug);
+        const redirectPattern = slug.join('/');
         const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
             locale: getSiteLocale(locale),
             pattern,
+            redirectPattern,
         });
 
         const blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> = data.page?.content || [];

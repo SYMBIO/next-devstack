@@ -19,7 +19,6 @@ export type BaseDatoCMSProps =
     | 'updatedAt';
 
 export interface MyPageProps extends AppData {
-    locale: string;
     hostname: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     blocksProps?: any;

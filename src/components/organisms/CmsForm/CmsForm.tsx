@@ -1,9 +1,9 @@
 import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import React, { ReactElement, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { ReactElement, useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 import { CmsFormBlock_content } from '../../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
-import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './CmsForm.module.scss';
 import trans from '../../../strings';
 import { Input } from '../../primitives/Input/Input';
@@ -13,9 +13,9 @@ import { Textarea } from '../../primitives/Textarea/Textarea';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Button } from '../../primitives/Button/Button';
 
-interface FormValues extends Record<string, string | number | string[] | number[]> {
+interface FormValues extends Record<string, undefined | string | number | string[] | number[]> {
     formId: string;
-    locale: string;
+    locale: string | undefined;
 }
 
 interface SingleLineInput {
@@ -60,7 +60,7 @@ type FormField = SingleLineInput | Textarea | Fieldset | Checkbox | Choice | { r
 type RealField = SingleLineInput | Textarea | Checkbox | Choice;
 
 const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement => {
-    const { locale } = useContext(AppContext);
+    const { locale } = useRouter();
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const form = data.form;

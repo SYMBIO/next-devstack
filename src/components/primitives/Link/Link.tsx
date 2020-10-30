@@ -1,20 +1,22 @@
 import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'react';
-import NextLink from 'next/link';
+import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
+import { UrlObject } from 'url';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
 import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './Link.module.scss';
 
-export interface LinkI extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
-    page?: Page;
-    params?: Record<string, string | number> | ParsedUrlQuery;
-    locale?: string;
-    plain?: boolean;
-}
+export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> &
+    Partial<NextLinkProps> & {
+        href?: string | UrlObject;
+        page?: Page;
+        params?: Record<string, string | number> | ParsedUrlQuery;
+        plain?: boolean;
+    };
 
-const Link = ({ className, href, page, params, locale, children, target, plain, ...rest }: LinkI): JSX.Element => {
-    const { absoluteLinks, hostname, locale: ctxLocale } = useContext(AppContext);
+const Link = ({ className, href, page, params, children, target, plain, ...rest }: LinkProps): JSX.Element => {
+    const { absoluteLinks, hostname } = useContext(AppContext);
 
     if (typeof href === 'string') {
         if (absoluteLinks && href.substr(0, 1) === '/') {
@@ -41,8 +43,7 @@ const Link = ({ className, href, page, params, locale, children, target, plain, 
     }
 
     if (page) {
-        const targetLocale = locale || ctxLocale;
-        let href = getLinkParamsFromPage(page, targetLocale, params).as;
+        let href = getLinkParamsFromPage(page, params).as;
 
         if (absoluteLinks && href.substr(0, 1) === '/') {
             href = '//' + hostname + href;

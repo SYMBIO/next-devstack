@@ -1,14 +1,16 @@
+import { useRouter } from 'next/router';
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../contexts/app-context/AppContext';
 import styles from './Navbar.module.scss';
-import { i18n } from '../../../../symbio.config.json';
 import { Link } from '../../primitives/Link/Link';
 import { Image } from '../../primitives/Image/Image';
 import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
-    const { locales } = i18n;
-    const { locale, mainMenu, logo, homepage } = useContext(AppContext);
+    const { mainMenu, logo, homepage } = useContext(AppContext);
+    const { locale, locales } = useRouter();
+
+    console.log(locale, locales);
 
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
 
@@ -22,7 +24,7 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
                 </div>
             )}
             {mainMenu && <MainMenu menu={mainMenu} />}
-            {locales.length > 1 ? (
+            {Array.isArray(locales) && locales.length > 1 ? (
                 <div className={styles.languageSelector}>
                     {locale}
                     <span

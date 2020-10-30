@@ -16,6 +16,21 @@ export const getBlocksProps = async (
     const blocksPropsPromises = [];
     const notFound = !props.page || undefined;
 
+    if (props.redirect && props.redirect.to && typeof props.redirect.permanent === 'boolean') {
+        return {
+            props: {
+                ...props,
+                locale,
+                preview: !!context.preview,
+            },
+            revalidate: ssg.staticGeneration ? false : ssg.revalidate,
+            redirect: {
+                destination: props.redirect.to,
+                permanent: props.redirect.permanent,
+            },
+        };
+    }
+
     if (props.blocksData && props.blocksData.length > 0) {
         for (const block of props.blocksData) {
             const blockName = getBlockName(block);
@@ -49,7 +64,7 @@ export const getBlocksProps = async (
                 preview: !!context.preview,
             },
             revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-            unstable_notFound: notFound,
+            notFound: notFound,
         };
     } catch (e) {
         if (e.code === 'ENOENT') {
@@ -61,7 +76,7 @@ export const getBlocksProps = async (
                     preview: !!context.preview,
                 },
                 revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-                unstable_notFound: true,
+                notFound: true,
             };
         } else {
             throw e;

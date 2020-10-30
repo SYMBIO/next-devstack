@@ -5,8 +5,7 @@ import { getUrlFromPage } from './getUrlFromPage';
 
 export function getLinkParamsFromPage(
     page: Page,
-    locale: string,
     params: Record<string, string | number> | ParsedUrlQuery | undefined,
 ): LinkParams {
-    return getLinkParamsFromUrl(getUrlFromPage(page, locale, params));
+    return getLinkParamsFromUrl(getUrlFromPage(page, params));
 }

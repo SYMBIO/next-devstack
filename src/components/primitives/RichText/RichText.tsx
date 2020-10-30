@@ -25,7 +25,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
                         delete linkParams.style;
                         if (isInternalLink(linkParams.href)) {
                             return (
-                                <Link {...linkParams} key={v4()}>
+                                <Link key={v4()} {...linkParams}>
                                     {domNode.children ? <>{domToReact(domNode.children, parserOptions)}</> : <></>}
                                 </Link>
                             );
