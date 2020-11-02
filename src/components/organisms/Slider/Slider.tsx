@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import { ImageInterface, VideoInterface } from '../../../types/app';
 import condCls from '../../../utils/conditionalClasses';
-import { Image, ImageLayoutFill } from '../../primitives/Image/Image';
+import { Image, ImageLayout } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Slider.module.scss';
 import { RichText } from '../../primitives/RichText/RichText';
@@ -50,9 +50,7 @@ const Banner = ({
         {video ? (
             <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />
         ) : (
-            image?.responsiveImage && (
-                <Image image={image} layout={'fill' as ImageLayoutFill} className={styles.image} />
-            )
+            image?.responsiveImage && <Image image={image} layout={'fill' as ImageLayout} className={styles.image} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>
