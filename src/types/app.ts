@@ -1,3 +1,4 @@
+import { ResponsiveImageType } from 'react-datocms';
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
 import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
 
@@ -37,18 +38,11 @@ export interface Page {
 export interface ImageInterface {
     readonly id: number;
     readonly url: string;
-    readonly responsiveImage: {
-        readonly srcSet: string;
-        readonly webpSrcSet: string;
-        readonly sizes: string;
-        readonly src: string;
-        readonly width: number;
-        readonly height: number;
-        readonly aspectRatio: number;
-        readonly alt: string | null;
-        readonly title: string | null;
-        readonly base64: string | null;
-    } | null;
+    readonly width: number | null;
+    readonly height: number | null;
+    readonly alt: string | null;
+    readonly title: string | null;
+    readonly responsiveImage: ResponsiveImageType | null;
 }
 
 export interface VideoInterface {

@@ -5,7 +5,7 @@
 
 .banner {
     width: 100%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 5rem);
     position: relative;
     background-color: black;
 }
@@ -13,7 +13,7 @@
 .textBox {
     background-color: rgba(255, 255, 255, 0.8);
     position: absolute;
-    padding: 32px;
+    padding: 2rem;
     top: 50%;
     transform: translateY(-50%);
 
@@ -37,7 +37,7 @@
     .progressHolder {
         background-color: var(--secondary);
         height: 80%;
-        width: 8px;
+        width: 0.5rem;
         border-radius: 2px;
         overflow: hidden;
         opacity: 0.6;

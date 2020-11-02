@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../contexts/app-context/AppContext';
+import { Image } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { Link } from '../../primitives/Link/Link';
-import { Image } from '../../primitives/Image/Image';
 import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
@@ -14,12 +14,10 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
 
     return (
         <div className={styles.navbar}>
-            {logo && logo.responsiveImage && (
-                <div className={styles.logo}>
-                    <Link plain page={homepage || undefined}>
-                        <Image data={logo.responsiveImage} />
-                    </Link>
-                </div>
+            {logo && (
+                <Link plain page={homepage || undefined}>
+                    <Image image={logo} width={32} height={32} />
+                </Link>
             )}
             {mainMenu && <MainMenu menu={mainMenu} />}
             {Array.isArray(locales) && locales.length > 1 ? (

@@ -2,6 +2,7 @@ import React, { Fragment, ReactElement } from 'react';
 import parse from 'html-react-parser';
 import { DomElement, domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import { v4 } from 'uuid';
+import Image from 'next/image';
 import { isInternalLink } from '../../../lib/routing/isInternalLink';
 import nbsp from '../../../utils/nbsp';
 import { List } from '../List/List';
@@ -10,6 +11,7 @@ import { Heading } from '../Heading/Heading';
 import { Table } from '../Table/Table';
 import { Paragraph } from '../Paragraph/Paragraph';
 import { Blockquote } from '../Blockquote/Blockquote';
+import styles from './RichText.module.scss';
 
 export interface RichTextProps {
     content: string;
@@ -117,9 +119,9 @@ const parserOptions = new (class implements HTMLReactParserOptions {
                         delete attribs.src;
                         delete attribs.alt;
                         return (
-                            <span key={v4()} style={{ padding: '16px', display: 'inline-block' }}>
-                                <img src={src} alt={alt} {...attribs} />
-                            </span>
+                            <div className={styles.image}>
+                                <Image src={src} alt={alt} layout={'fill'} {...attribs} />
+                            </div>
                         );
                     }
                     break;

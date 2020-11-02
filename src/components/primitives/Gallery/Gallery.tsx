@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Image } from '../Image/Image';
 const Lightbox = dynamic(() => import('react-image-lightbox'));
 import { ImageInterface } from '../../../types/app';
+import { Image } from '../Image/Image';
+import styles from './Gallery.module.scss';
 
 export interface GalleryProps {
     images: ReadonlyArray<ImageInterface>;
@@ -13,7 +14,7 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
     const [active, setActive] = useState(0);
 
     return (
-        <>
+        <div className={styles.gallery}>
             {Array.isArray(images) &&
                 images.map(
                     (image, index) =>
@@ -24,8 +25,9 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
                                     setIsOpen(true);
                                     setActive(index);
                                 }}
+                                className={styles.photo}
                             >
-                                <Image data={image.responsiveImage} />
+                                <Image image={image} layout={'intrinsic'} sizes={'25vw'} />
                             </div>
                         ),
                 )}
@@ -39,7 +41,7 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
                     onMoveNextRequest={() => active < images.length - 1 && setActive(active + 1)}
                 />
             )}
-        </>
+        </div>
     );
 };
 

@@ -1,10 +1,10 @@
 .list {
-    margin-bottom: 48px;
+    margin-bottom: 3rem;
     counter-reset: list;
 
     li {
-        margin-bottom: 16px;
-        padding-left: 32px;
+        margin-bottom: 1rem;
+        padding-left: 2rem;
         position: relative;
 
         &:last-child {
@@ -16,11 +16,11 @@
 .ul {
     li {
         &:before {
-            width: 16px;
+            width: 1rem;
             height: 1px;
             position: absolute;
             left: 0;
-            top: 10px;
+            top: 1rem;
             background: #000000;
             content: '';
         }

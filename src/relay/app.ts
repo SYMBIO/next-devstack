@@ -21,6 +21,10 @@ graphql`
     fragment appImageBaseFragment on FileField {
         id
         url
+        width
+        height
+        alt
+        title
     }
 `;
 

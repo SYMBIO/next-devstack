@@ -3,8 +3,8 @@
 .container {
     position: relative;
     z-index: 1;
-    margin-bottom: 55px;
-    margin-top: 20px;
+    margin-bottom: 4rem;
+    margin-top: 2rem;
 }
 
 .label {
@@ -16,7 +16,7 @@
     transition: all 0.25s ease;
 
     &.iconLabel {
-        left: 32px;
+        left: 2rem;
     }
 
     &.emptyLabel {
@@ -37,10 +37,10 @@
     width: 100%;
     outline: none;
     padding: 8px 0;
-    height: 53px;
+    height: 4rem;
 
     &.iconTextarea {
-        padding-left: 32px;
+        padding-left: 2rem;
     }
 
     &.errorTextarea {

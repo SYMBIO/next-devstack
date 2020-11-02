@@ -5,29 +5,29 @@
     margin: 0 auto;
     grid-template-columns: repeat(6, 1fr [col]);
     grid-column-gap: 2.22222222vw;
-    padding-top: 80px;
-    max-width: calc(100vw - 16px);
+    padding-top: 5rem;
+    max-width: calc(100vw - 1rem);
 
     @include tablet {
-        max-width: calc(100vw - 32px);
+        max-width: calc(100vw - 2rem);
         grid-template-columns: repeat(12, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include tablet-landscape {
-        max-width: calc(100vw - 48px);
+        max-width: calc(100vw - 3rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include desktop {
-        max-width: calc(100vw - 48px);
+        max-width: calc(100vw - 3rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include large-desktop {
-        max-width: calc(100vw - 48px);
+        max-width: calc(100vw - 3rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }

@@ -62,9 +62,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 20px;
-  height: 34px;
-  padding: 40px 30px;
+  width: 2rem;
+  height: 2rem;
+  padding: 3rem 2rem;
   margin: auto;
   cursor: pointer;
   opacity: 0.7;
@@ -112,27 +112,27 @@
 
 .ril__caption {
   bottom: 0;
-  max-height: 150px;
+  max-height: 9rem;
   overflow: auto;
 }
 
 .ril__captionContent {
-  padding: 10px 20px;
+  padding: 1rem 2rem;
   color: #fff;
 }
 
 .ril__toolbar {
   top: 0;
-  height: 50px;
+  height: 3rem;
 }
 
 .ril__toolbarSide {
-  height: 50px;
+  height: 3rem;
   margin: 0;
 }
 
 .ril__toolbarLeftSide {
-  padding-left: 20px;
+  padding-left: 1.25rem;
   padding-right: 0;
   flex: 0 1 auto;
   overflow: hidden;
@@ -141,13 +141,13 @@
 
 .ril__toolbarRightSide {
   padding-left: 0;
-  padding-right: 20px;
+  padding-right: 1.25rem;
   flex: 0 0 auto;
 }
 
 .ril__toolbarItem {
   display: inline-block;
-  line-height: 50px;
+  line-height: 3rem;
   padding: 0;
   color: #fff;
   font-size: 120%;
@@ -162,8 +162,8 @@
 }
 
 .ril__builtinButton {
-  width: 40px;
-  height: 35px;
+  width: 3rem;
+  height: 2rem;
   cursor: pointer;
   border: none;
   opacity: 0.7;
@@ -214,8 +214,8 @@
 }
 
 .ril__loadingCircle {
-  width: 60px;
-  height: 60px;
+  width: 4rem;
+  height: 4rem;
   position: relative;
 }
 
