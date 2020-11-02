@@ -40,10 +40,7 @@
     height: 100%;
     color: inherit;
     align-items: center;
-
-    &.hasLink {
-        padding: 1rem 2rem;
-    }
+    padding: 1rem 2rem;
 
     &.simple {
         &:before,
@@ -95,13 +92,13 @@
 .wrapper {
     composes: transparent;
     display: inline-flex;
-    padding: 0;
     transition: all 200ms;
     justify-content: center;
     text-decoration: none !important;
     position: relative;
     cursor: pointer;
     outline: 0;
+    padding: 0;
 
     &.disabled {
         cursor: default;

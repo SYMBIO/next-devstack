@@ -1,4 +1,4 @@
-@import "../../../styles/functions/rem";
+@import '../../../styles/functions/rem';
 
 .navbar {
     display: flex;
@@ -9,15 +9,15 @@
     left: 0;
     right: 0;
     top: 0;
-    height: 5rem;
-    padding: rem(24);
+    height: var(--navbar-height);
+    padding: 1.5rem;
     background-color: #000;
     color: #fff;
 }
 
 .logo {
-    height: 2rem;
-    width: auto;
+    height: var(--logo-height);
+    width: var(--logo-width);
 }
 
 .languageSelector {

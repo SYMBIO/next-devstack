@@ -1,15 +1,6 @@
 @import "../../styles/mixins/responsive";
 
 .wrapper {
-  grid-column: 1 / span 6;
   max-width: 40rem;
   margin: 0 auto 2rem;
-
-  @include tablet {
-    grid-column: 1 / span 12;
-  }
-
-  @include from-tablet-landscape {
-    grid-column: 1 / span 16;
-  }
 }

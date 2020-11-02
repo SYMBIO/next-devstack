@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BaseBlockProps } from '../../types/block';
-import styles from './MapBlock.module.scss';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { GoogleMap } from '../../components/primitives/GoogleMap/GoogleMap';
 
@@ -18,7 +17,7 @@ graphql`
 
 function MapBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
-        <BlockWrapper tooltip={'MapBlock'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'MapBlock'} {...rest}>
             <GoogleMap
                 isMarkerShown
                 latitude={content.gps ? content.gps.latitude : 0}

@@ -29,7 +29,7 @@ graphql`
 function SliderBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'SliderBlock'} className={styles.wrapper} {...rest}>
-            <Slider {...content} />
+            <Slider {...content} className={styles.slider} />
         </BlockWrapper>
     );
 }

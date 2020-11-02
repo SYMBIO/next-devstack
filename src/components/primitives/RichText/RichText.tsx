@@ -113,6 +113,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
 
                 case 'img': {
                     const attribs = domNode.attribs;
+                    const layout: 'fill' | 'intrinsic' | 'responsive' | 'fixed' = 'fill';
                     if (attribs) {
                         const src = attribs.src;
                         const alt = attribs.alt;
@@ -120,7 +121,7 @@ const parserOptions = new (class implements HTMLReactParserOptions {
                         delete attribs.alt;
                         return (
                             <div className={styles.image}>
-                                <Image src={src} alt={alt} layout={'fill'} {...attribs} />
+                                <Image src={src} alt={alt} layout={layout} {...attribs} />
                             </div>
                         );
                     }

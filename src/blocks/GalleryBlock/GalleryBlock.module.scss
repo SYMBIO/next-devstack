@@ -1,15 +1,6 @@
 @import "../../styles/mixins/responsive";
 
 .wrapper {
-  grid-column: 1 / span 6;
   margin-bottom: 2rem;
   align-items: center;
-
-  @include tablet {
-    grid-column: 1 / span 12;
-  }
-
-  @include from-tablet-landscape {
-    grid-column: 1 / span 16;
-  }
 }

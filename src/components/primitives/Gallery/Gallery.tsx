@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 const Lightbox = dynamic(() => import('react-image-lightbox'));
 import { ImageInterface } from '../../../types/app';
-import { Image } from '../Image/Image';
+import { Image, ImageLayout } from '../Image/Image';
 import styles from './Gallery.module.scss';
 
 export interface GalleryProps {
@@ -27,7 +27,7 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
                                 }}
                                 className={styles.photo}
                             >
-                                <Image image={image} layout={'intrinsic'} sizes={'25vw'} />
+                                <Image image={image} layout={'fill' as ImageLayout} />
                             </div>
                         ),
                 )}

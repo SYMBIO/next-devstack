@@ -6,7 +6,7 @@
     grid-template-columns: repeat(6, 1fr [col]);
     grid-column-gap: 2.22222222vw;
     padding-top: 5rem;
-    max-width: calc(100vw - 1rem);
+    max-width: calc(100vw - 2rem);
 
     @include tablet {
         max-width: calc(100vw - 2rem);
@@ -15,19 +15,19 @@
     }
 
     @include tablet-landscape {
-        max-width: calc(100vw - 3rem);
+        max-width: calc(100vw - 4rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include desktop {
-        max-width: calc(100vw - 3rem);
+        max-width: calc(100vw - 4rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }
 
     @include large-desktop {
-        max-width: calc(100vw - 3rem);
+        max-width: calc(100vw - 6rem);
         grid-template-columns: repeat(16, 1fr [col]);
         grid-column-gap: 2.22222222vw;
     }

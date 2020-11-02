@@ -1,17 +1,16 @@
 @import "../../styles/mixins/responsive";
 
 .wrapper {
-  grid-column: 1 / span 6;
-  height: calc(100vh - 5rem);
-  margin: 0 -0.5rem 2rem;
+  margin: 0 -1rem;
+  width: 100vw;
+  height: calc(100vh - 10rem);
+  max-height: 56.25vw;
 
-  @include tablet {
-    grid-column: 1 / span 12;
-    margin: 0 -1rem 3rem;
+  @include from-tablet-landscape{
+    margin: 0 -2rem;
   }
 
-  @include from-tablet-landscape {
-    grid-column: 1 / span 16;
-    margin: 0 -1.5rem 4rem;
+  @include large-desktop {
+    margin: 0 -3rem;
   }
 }

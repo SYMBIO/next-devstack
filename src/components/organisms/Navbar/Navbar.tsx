@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../contexts/app-context/AppContext';
-import { Image } from '../../primitives/Image/Image';
+import { Image, ImageLayout } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { Link } from '../../primitives/Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
@@ -14,9 +14,9 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
 
     return (
         <div className={styles.navbar}>
-            {logo && (
-                <Link plain page={homepage || undefined}>
-                    <Image image={logo} width={32} height={32} />
+            {logo && logo.width && logo.height && (
+                <Link plain page={homepage || undefined} className={styles.logo}>
+                    <Image image={logo} sizes={'3rem'} />
                 </Link>
             )}
             {mainMenu && <MainMenu menu={mainMenu} />}
