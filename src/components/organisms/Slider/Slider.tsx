@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import { ImageInterface, VideoInterface } from '../../../types/app';
-import { Image } from '../../primitives/Image/Image';
+import condCls from '../../../utils/conditionalClasses';
+import { Image, ImageLayoutFill } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Slider.module.scss';
 import { RichText } from '../../primitives/RichText/RichText';
@@ -23,6 +24,7 @@ export interface SliderProps {
     textAlign?: TextAlignCms;
     autoplay?: boolean;
     interval?: number;
+    className?: string;
 }
 
 function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): string {
@@ -33,6 +35,7 @@ function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): str
 }
 
 const Video = dynamic<VideoComponentProps>(() => import('../Video/Video').then((mod) => mod.Video));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CarouselComponent = dynamic<any>(() => import('react-responsive-carousel').then((mod: any) => mod.Carousel));
 
 const Banner = ({
@@ -45,9 +48,11 @@ const Banner = ({
 }: BannerInterface & { sliderTextAlign: string }): ReactElement => (
     <article className={styles.banner}>
         {video ? (
-            <Video video={{ uploadedVideo: video }} autoPlay loop />
+            <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />
         ) : (
-            image?.responsiveImage && <Image image={image} />
+            image?.responsiveImage && (
+                <Image image={image} layout={'fill' as ImageLayoutFill} className={styles.image} />
+            )
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>
@@ -56,36 +61,40 @@ const Banner = ({
     </article>
 );
 
-const renderIndicator = (
-    onClickHandler: (e: React.MouseEvent | React.KeyboardEvent) => void,
-    isSelected: boolean,
-    index: number,
-    label: string,
-): ReactNode => {
-    return (
-        <li
-            className={isSelected ? styles.selected : styles.indicator}
-            onClick={onClickHandler}
-            onKeyDown={onClickHandler}
-            value={index}
-            key={index}
-            role="button"
-            tabIndex={0}
-            aria-label={`${label} ${index + 1}`}
-        >
-            <p>{label}</p>
-            <span className={styles.progressHolder}>
-                <span className={styles.progress} />
-            </span>
-        </li>
-    );
-};
+const renderIndicator = (interval: number) =>
+    function Indicator(
+        onClickHandler: (e: React.MouseEvent | React.KeyboardEvent) => void,
+        isSelected: boolean,
+        index: number,
+        label: string,
+    ): ReactNode {
+        return (
+            <li
+                className={condCls(isSelected ? styles.selected : '', styles.indicator)}
+                onClick={onClickHandler}
+                onKeyDown={onClickHandler}
+                value={index}
+                key={index}
+                role="button"
+                tabIndex={0}
+                aria-label={`${label} ${index + 1}`}
+            >
+                <span className={styles.progressHolder}>
+                    <span
+                        className={styles.progress}
+                        style={{ transitionDuration: isSelected ? interval + 's' : '0s' }}
+                    />
+                </span>
+            </li>
+        );
+    };
 
 const Slider = ({
     banners,
     textAlign = 'vlevo',
     autoplay = true,
     interval = 10,
+    className,
 }: SliderProps): ReactElement<SliderProps, 'div'> | null => {
     if (!Array.isArray(banners) || banners.length < 1) {
         return null;
@@ -96,7 +105,7 @@ const Slider = ({
     } else {
         return (
             <CarouselComponent
-                className={styles.slider}
+                className={condCls(styles.slider, className)}
                 showArrows={true}
                 autoPlay={autoplay}
                 interval={interval * 1000}
@@ -104,7 +113,7 @@ const Slider = ({
                 useKeyboardArrows={true}
                 swipeable={true}
                 showStatus={false}
-                renderIndicator={renderIndicator}
+                renderIndicator={renderIndicator(interval)}
                 showThumbs={false}
             >
                 {banners.map((banner) => (

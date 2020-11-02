@@ -4,7 +4,6 @@ import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
 import { newsListQueryResponse } from '../../relay/__generated__/newsListQuery.graphql';
 import { BaseBlockProps, StaticBlockContext } from '../../types/block';
-import styles from './NewsListFloorBlock.module.scss';
 import { NewsList } from '../../components/blocks/NewsList/NewsList';
 
 type StaticProps = FindResponse<newsListQueryResponse['items']>;
@@ -34,7 +33,7 @@ function NewsListFloorBlock({
     const { heading, allNewsLinkText, allNewsPage } = content;
 
     return (
-        <BlockWrapper tooltip={'NewsListFloorBlock'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'NewsListFloorBlock'} {...rest}>
             <NewsList headline={heading} items={data} allNewsPage={allNewsPage} allNewsLinkText={allNewsLinkText} />
         </BlockWrapper>
     );

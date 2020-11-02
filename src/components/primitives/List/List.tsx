@@ -8,11 +8,8 @@ export interface ListProps {
 }
 
 const List = ({ tag, children }: ListProps): JSX.Element => {
-    return (
-        <span as={tag} className={condCls(styles.list, styles[tag])}>
-            {children}
-        </span>
-    );
+    const Tag = tag;
+    return <Tag className={condCls(styles.list, styles[tag])}>{children}</Tag>;
 };
 
 List.whyDidYouRender = true;

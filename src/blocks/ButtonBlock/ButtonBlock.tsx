@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { Button } from '../../components/primitives/Button/Button';
 import { BaseBlockProps } from '../../types/block';
-import condCls from '../../utils/conditionalClasses';
-import styles from './ButtonBlock.module.scss';
 import { ButtonBlock_content } from './__generated__/ButtonBlock_content.graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -28,15 +27,20 @@ graphql`
         }
         page {
             id
+            url
         }
         label
     }
 `;
 
-function ButtonBlock({ content, className, ...rest }: ButtonBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function ButtonBlock({ content, className, ...rest }: ButtonBlockProps): ReactElement | null {
+    if (!content.label) {
+        return null;
+    }
+
     return (
-        <BlockWrapper tooltip={'ButtonBlock'} className={condCls(styles.wrapper, className)} {...rest}>
-            <div>ButtonBlock: {JSON.stringify(content)}</div>
+        <BlockWrapper tooltip={'ButtonBlock'} className={className} {...rest}>
+            <Button page={content.page}>{content.label}</Button>
         </BlockWrapper>
     );
 }

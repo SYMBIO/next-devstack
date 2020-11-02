@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { i18n } = require('./symbio.config');
+const { i18n, images } = require('./symbio.config');
 const withPWA = require('next-pwa');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -9,12 +9,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = {
     i18n,
-    images: {
-        imageSizes: [16, 32, 64, 96, 128],
-        domains: ['www.datocms-assets.com'],
-        loader: 'imgix',
-        path: '',
-    },
+    images,
     target: 'serverless',
     webpack: (config, { isServer }) => {
         config.module.rules.push({

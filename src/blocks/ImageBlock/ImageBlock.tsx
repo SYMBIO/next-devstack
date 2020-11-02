@@ -17,13 +17,14 @@ graphql`
 function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     const { image } = content;
 
-    if (!image.responsiveImage) {
-        return <></>;
-    }
-
     return (
         <BlockWrapper tooltip={'ImageBlock'} className={styles.wrapper} {...rest}>
-            <Image image={image} layout={'fill'} />
+            <div
+                className={styles.imageWrapper}
+                style={{ width: '100%', height: 100 * (image.height / image.width) + '%' }}
+            >
+                <Image image={image} />
+            </div>
         </BlockWrapper>
     );
 }

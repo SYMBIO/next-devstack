@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BaseBlockProps } from '../../types/block';
-import styles from './YoutubeVimeoBlock.module.scss';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Video } from '../../components/organisms/Video/Video';
 
@@ -21,7 +20,7 @@ function YoutubeVimeoBlock({ content, ...rest }: BaseBlockProps): ReactElement<B
     const { video } = content;
 
     return (
-        <BlockWrapper tooltip={'YoutubeVimeoBlock'} className={styles.wrapper} {...rest}>
+        <BlockWrapper tooltip={'YoutubeVimeoBlock'} {...rest}>
             <Video video={{ embeddedVideo: video }} />
         </BlockWrapper>
     );
