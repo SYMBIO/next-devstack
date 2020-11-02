@@ -3,34 +3,46 @@
 
 .heading {
     margin-bottom: 1em;
+    margin-top: 2rem;
 }
 
 .xl {
     font-size: rem(60);
+    margin-bottom: 2em;
+    margin-top: 4rem;
     @include from-tablet {
         font-size: rem(60);
     }
 }
 .lg {
     font-size: rem(24);
+    margin-bottom: 2em;
+    margin-top: 3rem;
+
     @include from-tablet {
         font-size: rem(40);
     }
 }
 .md {
     font-size: rem(20);
+    margin-bottom: 1em;
+    margin-top: 2rem;
     @include from-tablet {
         font-size: rem(32);
     }
 }
 .sm {
     font-size: rem(18);
+    margin-bottom: 1em;
+    margin-top: 2rem;
     @include from-tablet {
         font-size: rem(24);
     }
 }
 .xs {
     font-size: rem(16);
+    margin-bottom: 1em;
+    margin-top: 2rem;
     @include from-tablet {
         font-size: rem(18);
     }

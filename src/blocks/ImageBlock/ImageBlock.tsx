@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { Image } from '../../components/primitives/Image/Image';
 import { BaseBlockProps } from '../../types/block';
 import styles from './ImageBlock.module.scss';
-import { Image } from '../../components/primitives/Image/Image';
 
 graphql`
     fragment ImageBlock_content on ImageBlockRecord {
@@ -23,7 +23,7 @@ function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBloc
 
     return (
         <BlockWrapper tooltip={'ImageBlock'} className={styles.wrapper} {...rest}>
-            <Image data={image.responsiveImage} />
+            <Image image={image} layout={'fill'} />
         </BlockWrapper>
     );
 }

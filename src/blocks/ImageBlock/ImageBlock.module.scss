@@ -1,28 +1,35 @@
-@import "../../styles/mixins/responsive";
+@import '../../styles/mixins/responsive';
 
 .wrapper {
-  grid-column: 1 / span 6;
-  margin-bottom: 32px;
-  display: flex;
-  justify-content: center;
-
-  @include mobile-landscape {
     grid-column: 1 / span 6;
-  }
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    max-height: 80vh;
+    height: 100%;
 
-  @include tablet {
-    grid-column: 1 / span 12;
-  }
+    img {
+      object-fit: contain;
+    }
 
-  @include tablet-landscape {
-    grid-column: 1 / span 16;
-  }
+    @include mobile-landscape {
+        grid-column: 1 / span 6;
+    }
 
-  @include desktop {
-    grid-column: 3 / span 12;
-  }
+    @include tablet {
+        grid-column: 1 / span 12;
+        max-height: 90vh;
+    }
 
-  @include large-desktop {
-    grid-column: 3 / span 12;
-  }
+    @include tablet-landscape {
+        grid-column: 1 / span 16;
+    }
+
+    @include desktop {
+        grid-column: 3 / span 12;
+    }
+
+    @include large-desktop {
+        grid-column: 3 / span 12;
+    }
 }

@@ -1,11 +1,11 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import { ImageInterface, VideoInterface } from '../../../types/app';
+import { Image } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Slider.module.scss';
 import { RichText } from '../../primitives/RichText/RichText';
 import { Heading } from '../../primitives/Heading/Heading';
-import { Image } from '../../primitives/Image/Image';
 
 interface BannerInterface {
     id: string;
@@ -47,7 +47,7 @@ const Banner = ({
         {video ? (
             <Video video={{ uploadedVideo: video }} autoPlay loop />
         ) : (
-            image?.responsiveImage && <Image data={image.responsiveImage} />
+            image?.responsiveImage && <Image image={image} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>

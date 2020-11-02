@@ -1,5 +1,5 @@
 .link {
-    padding: 13px 24px;
+    padding: 1rem 3rem;
 }
 
 .inner {
@@ -9,7 +9,7 @@
     height: 100%;
 
     &.hasLink {
-        padding: 13px 31px;
+        padding: 1rem 2rem;
     }
 
     &.simple {
@@ -42,7 +42,7 @@
     align-items: center;
 
     &.hasLink {
-        padding: 13px 31px;
+        padding: 1rem 2rem;
     }
 
     &.simple {
@@ -142,15 +142,15 @@
 }
 
 .icon {
-    margin-left: 16px;
+    margin-left: 1rem;
     margin-right: 0;
 
     &.iconOnLeft {
         margin-left: 0;
-        margin-right: 16px;
+        margin-right: 1rem;
     }
 
     &.isFilter {
-        margin: 8px 0 0 0;
+        margin: 0.75rem 0 0 0;
     }
 }

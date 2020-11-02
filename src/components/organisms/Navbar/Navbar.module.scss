@@ -16,12 +16,8 @@
 }
 
 .logo {
-    height: 100%;
-
-    img {
-        height: 100%;
-
-    }
+    height: 2rem;
+    width: auto;
 }
 
 .languageSelector {
@@ -30,9 +26,9 @@
     text-transform: uppercase;
 
     .opener {
-        margin-left: 8px;
-        width: 12px;
-        height: 12px;
+        margin-left: 0.5rem;
+        width: 0.75rem;
+        height: 0.75rem;
         border-bottom: solid 2px #ffffff;
         border-right: solid 2px #ffffff;
         transform: rotate(45deg);
@@ -48,7 +44,7 @@
         flex-flow: column;
         justify-items: center;
         margin: 0;
-        padding: 16px;
+        padding: 1rem;
         border: solid 2px #ffffff;
         z-index: 1;
 

@@ -2,8 +2,8 @@
 
 .wrapper {
   grid-column: 1 / span 6;
-  max-width: 750px;
-  margin: 0 auto 32px;
+  max-width: 40rem;
+  margin: 0 auto 2rem;
 
   @include tablet {
     grid-column: 1 / span 12;
