@@ -44,7 +44,7 @@ if (typeof window === 'undefined') {
         return provider.getStaticPaths(locale);
     };
 
-    NewsDetailBlock.getStaticProps = NewsDetailBlock.getServerSideProps = async ({
+    NewsDetailBlock.getStaticProps = async ({
         locale,
         params,
         providers,
@@ -55,8 +55,7 @@ if (typeof window === 'undefined') {
             throw err;
         }
 
-        const slug = params.slug;
-        const id = getId(slug);
+        const id = getId(params.slug);
 
         if (!id) {
             const err = new Error('Page not found') as Error & { code: string };
@@ -64,8 +63,7 @@ if (typeof window === 'undefined') {
             throw err;
         }
 
-        const provider = providers.news;
-        const item = (await provider.findOne(id, locale)) as newsDetailQueryResponse['item'];
+        const item = (await providers.news.findOne(id, locale)) as newsDetailQueryResponse['item'];
 
         return {
             item,

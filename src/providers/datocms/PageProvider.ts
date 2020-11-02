@@ -18,6 +18,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
 import blocks from '../../blocks';
+import { BlockType } from '../../types/block';
 
 class PageProvider extends AbstractDatoCMSProvider<
     d.pageDetailQuery,
@@ -56,7 +57,7 @@ class PageProvider extends AbstractDatoCMSProvider<
         };
     }
 
-    async getStaticPaths(locale: string): Promise<GetStaticPathsResult['paths']> {
+    async getStaticPaths(locale: string, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
         let cnt = -1;

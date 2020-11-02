@@ -91,7 +91,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
         // loop over all locales
         for (const locale of locales) {
-            const localePaths = await provider.getStaticPaths(locale);
+            const localePaths = await provider.getStaticPaths(locale, blocks);
             paths.push(...localePaths);
         }
 
