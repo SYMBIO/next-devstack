@@ -20,7 +20,7 @@ graphql`
         ...YoutubeVimeoBlock_content @relay(mask: false)
         ...MapBlock_content @relay(mask: false)
         ...ButtonBlock_content @relay(mask: false)
-        ...SliderBlock_content @relay(mask: false)
+        ...CarouselBlock_content @relay(mask: false)
         ...NewsListFloorBlock_content @relay(mask: false)
         ...SubpageListBlock_content @relay(mask: false)
     }
@@ -37,7 +37,7 @@ const blocks: { [name: string]: BlockType } = {
     ButtonBlock: dynamic(() => import('./ButtonBlock/ButtonBlock')),
     HorizontalRuleBlock: dynamic(() => import('./HorizontalRuleBlock/HorizontalRuleBlock')),
     NewsListBlock: dynamic(() => import('./NewsListBlock/NewsListBlock')),
-    SliderBlock: dynamic(() => import('./SliderBlock/SliderBlock')),
+    CarouselBlock: dynamic(() => import('./CarouselBlock/CarouselBlock')),
     NewsDetailBlock: dynamic(() => import('./NewsDetailBlock/NewsDetailBlock')),
     NewsListFloorBlock: dynamic(() => import('./NewsListFloorBlock/NewsListFloorBlock')),
     SubpageListBlock: dynamic(() => import('./SubpageListBlock/SubpageListBlock')),

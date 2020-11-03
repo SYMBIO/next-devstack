@@ -1,10 +1,10 @@
 import React from 'react';
-import { Slider as SliderComponent, SliderProps, TextAlignCms } from './Slider';
+import { Carousel as CarouselComponent, CarouselProps, TextAlignCms } from './Carousel';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
-    component: SliderComponent,
-    title: 'Organisms/Slider',
+    component: CarouselComponent,
+    title: 'Organisms/Carousel',
     argTypes: {
         textAlign: 'vlevo',
     },
@@ -40,6 +40,6 @@ export default {
     },
 };
 
-const Template: Story<SliderProps> = (args) => <SliderComponent {...args} />;
+const Template: Story<CarouselProps> = (args) => <CarouselComponent {...args} />;
 
-export const Slider = Template.bind({});
+export const Carousel = Template.bind({});

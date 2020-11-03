@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
+import { CmsForm } from '../../components/organisms/CmsForm/CmsForm';
 import { BaseBlockProps } from '../../types/block';
 import styles from './CmsFormBlock.module.scss';
-import { Slider } from '../../components/organisms/Slider/Slider';
 
 graphql`
     fragment CmsFormBlock_content on CmsFormBlockRecord {
@@ -50,7 +50,7 @@ graphql`
 function CmsFormBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'CmsFormBlock'} className={styles.wrapper} {...rest}>
-            <Slider {...content} />
+            <CmsForm {...content} />
         </BlockWrapper>
     );
 }
