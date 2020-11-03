@@ -4,7 +4,7 @@ import { ImageInterface, VideoInterface } from '../../../types/app';
 import condCls from '../../../utils/conditionalClasses';
 import { Image, ImageLayout } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
-import styles from './Slider.module.scss';
+import styles from './Carousel.module.scss';
 import { RichText } from '../../primitives/RichText/RichText';
 import { Heading } from '../../primitives/Heading/Heading';
 
@@ -19,7 +19,7 @@ interface BannerInterface {
 
 export type TextAlignCms = 'vlevo' | 'vpravo';
 
-export interface SliderProps {
+export interface CarouselProps {
     banners: BannerInterface[];
     textAlign?: TextAlignCms;
     autoplay?: boolean;
@@ -87,13 +87,13 @@ const renderIndicator = (interval: number) =>
         );
     };
 
-const Slider = ({
+const Carousel = ({
     banners,
     textAlign = 'vlevo',
     autoplay = true,
     interval = 10,
     className,
-}: SliderProps): ReactElement<SliderProps, 'div'> | null => {
+}: CarouselProps): ReactElement | null => {
     if (!Array.isArray(banners) || banners.length < 1) {
         return null;
     }
@@ -122,6 +122,6 @@ const Slider = ({
     }
 };
 
-Slider.whyDidYouRender = true;
+Carousel.whyDidYouRender = true;
 
-export { Slider };
+export { Carousel };

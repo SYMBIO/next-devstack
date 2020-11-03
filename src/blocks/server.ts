@@ -13,7 +13,7 @@ import MapBlock from './MapBlock/MapBlock';
 import ButtonBlock from './ButtonBlock/ButtonBlock';
 import HorizontalRuleBlock from './HorizontalRuleBlock/HorizontalRuleBlock';
 import NewsListBlock from './NewsListBlock/NewsListBlock';
-import SliderBlock from './SliderBlock/SliderBlock';
+import CarouselBlock from './CarouselBlock/CarouselBlock';
 import NewsDetailBlock from './NewsDetailBlock/NewsDetailBlock';
 import NewsListFloorBlock from './NewsListFloorBlock/NewsListFloorBlock';
 import SubpageListBlock from './SubpageListBlock/SubpageListBlock';
@@ -34,7 +34,7 @@ graphql`
         ...YoutubeVimeoBlock_content @relay(mask: false)
         ...MapBlock_content @relay(mask: false)
         ...ButtonBlock_content @relay(mask: false)
-        ...SliderBlock_content @relay(mask: false)
+        ...CarouselBlock_content @relay(mask: false)
         ...NewsListFloorBlock_content @relay(mask: false)
         ...SubpageListBlock_content @relay(mask: false)
     }
@@ -51,7 +51,7 @@ const blocks: { [name: string]: BlockType } = {
     ButtonBlock,
     HorizontalRuleBlock,
     NewsListBlock,
-    SliderBlock,
+    CarouselBlock,
     NewsDetailBlock,
     NewsListFloorBlock,
     SubpageListBlock,
