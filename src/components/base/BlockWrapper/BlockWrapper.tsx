@@ -17,5 +17,5 @@ export const BlockWrapper = ({
     children,
     className,
 }: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
-    return <div className={condCls(styles.block, className)}>{children}</div>;
+    return <section className={condCls(styles.block, className)}>{children}</section>;
 };
