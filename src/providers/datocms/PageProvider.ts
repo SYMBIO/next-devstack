@@ -49,12 +49,7 @@ class PageProvider extends AbstractDatoCMSProvider<
             redirectPattern,
         });
 
-        const blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> = data.page?.content || [];
-
-        return {
-            ...data,
-            blocksData,
-        };
+        return data;
     }
 
     async getStaticPaths(locale: string, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {

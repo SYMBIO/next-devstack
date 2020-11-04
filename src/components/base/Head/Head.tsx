@@ -3,25 +3,25 @@ import NextHead from 'next/head';
 import symbio from '../../../../symbio.config.json';
 import { AppContext } from '../../../contexts/app-context/AppContext';
 
-const APP_NAME = 'Next devstack';
-
 export const Head = (): ReactElement => {
     const { page, site } = useContext(AppContext);
 
     return (
         <NextHead>
-            <title>
-                {page && page.title}
-                {site && site.globalSeo && site.globalSeo.titleSuffix}
-            </title>
+            {page?.title && (
+                <title>
+                    {page.title}
+                    {site?.globalSeo?.titleSuffix}
+                </title>
+            )}
             <link rel="manifest" href="/manifest.json" />
             <link rel="shortcut icon" href="/favicon.ico" />
             <meta name="msapplication-TileColor" content="#00aba9" />
             <meta name="theme-color" content="#61279e" />
-            <meta name="application-name" content={APP_NAME} />
+            {site?.globalSeo?.siteName && <meta name="application-name" content={site.globalSeo.siteName} />}
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-            <meta name="apple-mobile-web-app-title" content={APP_NAME} />
+            {site?.globalSeo?.siteName && <meta name="apple-mobile-web-app-title" content={site.globalSeo.siteName} />}
             <meta name="format-detection" content="telephone=no" />
             <meta name="mobile-web-app-capable" content="yes" />
             <meta

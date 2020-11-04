@@ -1,10 +1,7 @@
 import { ResponsiveImageType } from 'react-datocms';
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
-import { blocksContent } from '../blocks/__generated__/blocksContent.graphql';
 
-export interface AppData extends appQueryResponse {
-    blocksData: ReadonlyArray<Omit<blocksContent, ' $refType'> | null> | null;
-}
+export type AppData = appQueryResponse;
 
 export type BaseDatoCMSProps =
     | '_createdAt'
