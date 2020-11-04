@@ -3,6 +3,7 @@ import { graphql } from 'react-relay';
 graphql`
     fragment webSettingFragment on WebSettingRecord {
         logo {
+            format
             ...appImageBaseFragment @relay(mask: false)
             responsiveImage(imgixParams: { w: 32 }) {
                 ...appResponsiveImageFragment @relay(mask: false)

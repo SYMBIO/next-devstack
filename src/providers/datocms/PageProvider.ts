@@ -13,11 +13,9 @@ import { appQuery } from '../../relay/__generated__/appQuery.graphql';
 import { AppQuery } from '../../relay/app';
 import { getPagePattern } from '../../lib/routing/getPagePattern';
 import { AppData } from '../../types/app';
-import { blocksContent } from '../../blocks/__generated__/blocksContent.graphql';
 import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
-import blocks from '../../blocks';
 import { BlockType } from '../../types/block';
 
 class PageProvider extends AbstractDatoCMSProvider<
@@ -49,7 +47,13 @@ class PageProvider extends AbstractDatoCMSProvider<
             redirectPattern,
         });
 
-        return data;
+        return {
+            ...data,
+            svgLogo:
+                data.webSetting?.logo?.format === 'svg'
+                    ? await (await fetch(data.webSetting.logo.url)).text()
+                    : undefined,
+        };
     }
 
     async getStaticPaths(locale: string, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {

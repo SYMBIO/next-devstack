@@ -1,7 +1,9 @@
 import { ResponsiveImageType } from 'react-datocms';
 import { appQueryResponse } from '../relay/__generated__/appQuery.graphql';
 
-export type AppData = appQueryResponse;
+export type AppData = appQueryResponse & {
+    svgLogo?: string;
+};
 
 export type BaseDatoCMSProps =
     | '_createdAt'

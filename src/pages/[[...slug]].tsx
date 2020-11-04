@@ -26,7 +26,7 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 );
 
 const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, webSetting, blocksProps, preview } = props;
+    const { hostname, site, page, webSetting, blocksProps, preview, svgLogo } = props;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
     const currentUrl =
@@ -59,6 +59,7 @@ const Page = (props: MyPageProps): ReactElement => {
                     page,
                     site,
                     absoluteLinks: false,
+                    svgLogo,
                     ...webSetting,
                 },
             }}
