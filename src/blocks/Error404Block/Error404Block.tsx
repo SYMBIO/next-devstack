@@ -6,9 +6,9 @@ import { BaseBlockProps } from '../../types/block';
 import { Error404Block_content } from './__generated__/Error404Block_content.graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ServerProps {}
+interface StaticProps {}
 
-type Error404BlockProps = ServerProps & {
+type Error404BlockProps = StaticProps & {
     content: Error404Block_content;
     className?: string;
 };
@@ -21,7 +21,7 @@ graphql`
     }
 `;
 
-function Error404Block({ content, className, ...rest }: Error404BlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function Error404Block({ content, className, ...rest }: Error404BlockProps): ReactElement {
     return (
         <BlockWrapper tooltip={'Error404Block'} className={className} {...rest}>
             <Error404 headline={content.headline} description={content.description} />
@@ -35,7 +35,7 @@ if (typeof window === 'undefined') {
     Error404Block.getStaticProps = async ({
         locale,
         providers,
-    }: StaticBlockContext): Promise<ServerProps> => {
+    }: StaticBlockContext): Promise<StaticProps> => {
         const provider = providers.x;
 
         return {};
