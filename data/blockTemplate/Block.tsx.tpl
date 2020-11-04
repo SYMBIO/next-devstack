@@ -7,7 +7,7 @@ import { {NAME}_content } from './__generated__/{NAME}_content.graphql';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface StaticProps {}
 
-type {NAME}Props = ServerProps & {
+type {NAME}Props = StaticProps & {
     content: {NAME}_content;
     className?: string
 };
