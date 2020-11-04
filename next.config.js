@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { i18n, images } = require('./symbio.config');
+const { i18n, images, ssg } = require('./symbio.config');
 const withPWA = require('next-pwa');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -48,10 +48,6 @@ const nextConfig = {
                 source: '/(.*)',
                 headers: [
                     {
-                        key: 'Cache-Control',
-                        value: 's-maxage=1, stale-while-revalidate',
-                    },
-                    {
                         key: 'X-Frame-Options',
                         value: 'DENY',
                     },
@@ -79,6 +75,15 @@ const nextConfig = {
                     {
                         key: 'Strict-Transport-Security',
                         value: 'max-age=31536000; includeSubDomains; preload',
+                    },
+                ],
+            },
+            {
+                source: '/storybook/(.*)',
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'SAMEORIGIN',
                     },
                 ],
             },
