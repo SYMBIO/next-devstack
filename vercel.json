@@ -1,15 +1,6 @@
 {
   "headers": [
     {
-      "source": "/assets/(.*)/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000"
-        }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
         {
@@ -46,12 +37,6 @@
           "value": "SAMEORIGIN"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/assets/(.*)/(.*)",
-      "destination": "https://www.datocms-assets.com/$1/$2"
     }
   ]
 }

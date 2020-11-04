@@ -42,6 +42,48 @@ const nextConfig = {
         dest: 'public',
         disable: process.env.NODE_ENV === 'development',
     },
+    async headers() {
+        return [
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 's-maxage=1, stale-while-revalidate',
+                    },
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY',
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff',
+                    },
+                    {
+                        key: 'X-XSS-Protection',
+                        value: '1; mode=block',
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "default-src https: blob: data: 'unsafe-inline' 'unsafe-eval' http://localhost:3000",
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'no-referrer-when-downgrade',
+                    },
+                    {
+                        key: 'Permissions-Policy',
+                        value:
+                            'geolocation=(self); notifications=(self); push=(self); sync-xhr=(self); speaker=(self); vibrate=(self); fullscreen=(self)',
+                    },
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=31536000; includeSubDomains; preload',
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 module.exports = withBundleAnalyzer(withPWA(nextConfig));
