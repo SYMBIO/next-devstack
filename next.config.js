@@ -48,10 +48,6 @@ const nextConfig = {
                 source: '/(.*)',
                 headers: [
                     {
-                        key: 'Cache-Control',
-                        value: 's-maxage=' + ssg.revalidate + ', stale-while-revalidate',
-                    },
-                    {
                         key: 'X-Frame-Options',
                         value: 'DENY',
                     },
