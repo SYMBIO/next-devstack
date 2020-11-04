@@ -2,6 +2,7 @@ import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useState } from 'react';
 import axios from 'axios';
+import { MixedSchema, Ref, Schema } from 'yup';
 import * as yup from 'yup';
 import { CmsFormBlock_content } from '../../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
 import styles from './CmsForm.module.scss';
@@ -59,11 +60,10 @@ interface Choice {
 type FormField = SingleLineInput | Textarea | Fieldset | Checkbox | Choice | { readonly __typename: '%other' } | null;
 type RealField = SingleLineInput | Textarea | Checkbox | Choice;
 
-const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement => {
+const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
     const { locale } = useRouter();
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const form = data.form;
 
     if (!form) {
         return <></>;
@@ -198,7 +198,12 @@ const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement => {
                 }
             }}
             validationSchema={yup.object().shape(
-                required.reduce<Record<string, any>>((acc, field) => {
+                required.reduce<
+                    Record<
+                        string,
+                        Ref | Schema<unknown, Record<string, unknown>> | MixedSchema<unknown, Record<string, unknown>>
+                    >
+                >((acc, field) => {
                     acc[String(field?.id)] = yup.string().required(trans('form.required'));
                     return acc;
                 }, {}),
@@ -221,7 +226,7 @@ const CmsForm = ({ data }: { data: CmsFormBlock_content }): ReactElement => {
                             }
                         }}
                     >
-                        {String(data.form?.submitLabel)}
+                        {String(form?.submitLabel)}
                     </Button>
                 </Form>
             )}

@@ -1,4 +1,5 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { Logger } from '../../services';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
@@ -13,10 +14,10 @@ export const getBlocksProps = async (
     const locale = context.locale || context.defaultLocale;
     const slug = context.params?.slug;
     const props = await provider.getPageBySlug(locale, Array.isArray(slug) ? slug : slug ? [slug] : ['homepage']);
-    const blocksPropsPromises = [];
     const notFound = !props.page || undefined;
 
     if (props.redirect && props.redirect.to && typeof props.redirect.permanent === 'boolean') {
+        Logger.info('Matched redirect ' + props.redirect.from + ' -> ' + props.redirect.to);
         return {
             props: {
                 ...props,
@@ -31,8 +32,9 @@ export const getBlocksProps = async (
         };
     }
 
-    if (props.blocksData && props.blocksData.length > 0) {
-        for (const block of props.blocksData) {
+    const blocksPropsPromises = [];
+    if (props.page?.content && props.page.content.length > 0) {
+        for (const block of props.page.content) {
             const blockName = getBlockName(block);
             if (blockName && Object.prototype.hasOwnProperty.call(blocks, blockName)) {
                 const blk = blocks[blockName];
@@ -56,6 +58,7 @@ export const getBlocksProps = async (
 
     try {
         const blocksProps = await Promise.all(blocksPropsPromises);
+        notFound && Logger.warn('Forwarding to 404');
         return {
             props: {
                 ...props,
@@ -64,10 +67,11 @@ export const getBlocksProps = async (
                 preview: !!context.preview,
             },
             revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-            notFound: notFound,
+            notFound,
         };
     } catch (e) {
         if (e.code === 'ENOENT') {
+            Logger.warn('Forwarding to 404');
             return {
                 props: {
                     ...props,

@@ -15,7 +15,7 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
     return (
         <div className={styles.navbar}>
             {logo && logo.width && logo.height && (
-                <Link plain page={homepage || undefined} className={styles.logo}>
+                <Link page={homepage || undefined} className={styles.logo}>
                     <Image image={logo} sizes={'3rem'} />
                 </Link>
             )}

@@ -2,12 +2,10 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { BaseBlockProps } from '../../types/block';
-import condCls from '../../utils/conditionalClasses';
-import styles from './{NAME}.module.scss';
 import { {NAME}_content } from './__generated__/{NAME}_content.graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ServerProps {}
+interface StaticProps {}
 
 type {NAME}Props = ServerProps & {
     content: {NAME}_content;
@@ -21,21 +19,21 @@ graphql`
     }
 `;
 
-function {NAME}({ content, className, ...rest }: {NAME}Props): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function {NAME}({ content, className, ...rest }: {NAME}Props): ReactElement {
     return (
-        <BlockWrapper tooltip={'{NAME}'} className={condCls(styles.wrapper, className)} {...rest}>
+        <BlockWrapper tooltip={'{NAME}'} className={className} {...rest}>
             <div>{NAME}: {JSON.stringify(content)}</div>
         </BlockWrapper>
     );
 }
 
 if (typeof window === 'undefined') {
-    // put your getStaticProps or getStaticPaths
+    // put your getStaticProps or getStaticPaths here
     /*
     {NAME}.getStaticProps = async ({
         locale,
         providers,
-    }: StaticBlockContext): Promise<ServerProps> => {
+    }: StaticBlockContext): Promise<StaticProps> => {
         const provider = providers.x;
 
         return {};

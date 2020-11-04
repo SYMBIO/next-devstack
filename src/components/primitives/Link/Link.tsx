@@ -5,6 +5,7 @@ import { UrlObject } from 'url';
 import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
 import { Page } from '../../../types/app';
 import { AppContext } from '../../../contexts/app-context/AppContext';
+import condCls from '../../../utils/conditionalClasses';
 import styles from './Link.module.scss';
 
 export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> &
@@ -36,7 +37,7 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
         }
 
         return (
-            <a className={styles.wrapper} href={href} target={target}>
+            <a className={condCls(styles.wrapper, className)} href={href} target={target}>
                 <span className={styles.inner}>{children}</span>
             </a>
         );
@@ -58,7 +59,7 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
         }
         return (
             <NextLink href={'/[[...slug]]'} as={href}>
-                <a className={styles.wrapper} target={target} {...rest}>
+                <a className={condCls(styles.wrapper, className)} target={target} {...rest}>
                     {children || page.title}
                 </a>
             </NextLink>

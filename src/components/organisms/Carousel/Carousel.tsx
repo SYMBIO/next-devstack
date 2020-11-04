@@ -20,18 +20,53 @@ interface BannerInterface {
 export type TextAlignCms = 'vlevo' | 'vpravo';
 
 export interface CarouselProps {
-    banners: BannerInterface[];
-    textAlign?: TextAlignCms;
-    autoplay?: boolean;
-    interval?: number;
+    readonly id: string;
+    readonly textAlign: string | null;
+    readonly autoplay: boolean | null;
+    readonly interval: number | null;
+    readonly banners: ReadonlyArray<{
+        readonly id: string;
+        readonly image: {
+            readonly id: number;
+            readonly url: string;
+            readonly width: number | null;
+            readonly height: number | null;
+            readonly alt: string | null;
+            readonly title: string | null;
+            readonly responsiveImage: {
+                readonly srcSet: string;
+                readonly webpSrcSet: string;
+                readonly sizes: string;
+                readonly src: string;
+                readonly width: number;
+                readonly height: number;
+                readonly aspectRatio: number;
+                readonly alt: string | null;
+                readonly title: string | null;
+                readonly base64: string | null;
+            } | null;
+        } | null;
+        readonly video: {
+            readonly id: number;
+            readonly width: number | null;
+            readonly height: number | null;
+            readonly video: {
+                readonly streamingUrl: string;
+                readonly thumbnailUrl: string;
+            } | null;
+        } | null;
+        readonly headline: string | null;
+        readonly description: string | null;
+        readonly textAlign: string | null;
+    }>;
     className?: string;
 }
 
 function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): string {
-    if (bannerAlign === 'dědit') {
-        return sliderAlign === 'vlevo' ? styles.left : styles.right;
+    if (bannerAlign === 'dědit' || bannerAlign === 'inherit') {
+        return sliderAlign === 'vlevo' || sliderAlign === 'left' ? styles.left : styles.right;
     }
-    return bannerAlign === 'vlevo' ? styles.left : styles.right;
+    return bannerAlign === 'vlevo' || bannerAlign === 'left' ? styles.left : styles.right;
 }
 
 const Video = dynamic<VideoComponentProps>(() => import('../Video/Video').then((mod) => mod.Video));
@@ -59,7 +94,7 @@ const Banner = ({
     </article>
 );
 
-const renderIndicator = (interval: number) =>
+const renderIndicator = (interval: number | null) =>
     function Indicator(
         onClickHandler: (e: React.MouseEvent | React.KeyboardEvent) => void,
         isSelected: boolean,
@@ -80,7 +115,7 @@ const renderIndicator = (interval: number) =>
                 <span className={styles.progressHolder}>
                     <span
                         className={styles.progress}
-                        style={{ transitionDuration: isSelected ? interval + 's' : '0s' }}
+                        style={{ transitionDuration: isSelected && interval ? interval + 's' : '0s' }}
                     />
                 </span>
             </li>
@@ -89,7 +124,7 @@ const renderIndicator = (interval: number) =>
 
 const Carousel = ({
     banners,
-    textAlign = 'vlevo',
+    textAlign = 'left',
     autoplay = true,
     interval = 10,
     className,
@@ -106,7 +141,7 @@ const Carousel = ({
                 className={condCls(styles.slider, className)}
                 showArrows={true}
                 autoPlay={autoplay}
-                interval={interval * 1000}
+                interval={interval ? interval * 1000 : undefined}
                 infiniteLoop={true}
                 useKeyboardArrows={true}
                 swipeable={true}

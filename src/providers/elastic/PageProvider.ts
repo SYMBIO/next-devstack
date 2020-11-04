@@ -109,7 +109,6 @@ class PageProvider extends AbstractElasticProvider<
             { data: redirectListQueryResponse['items'] },
         ];
 
-        const blocksData: AppData['blocksData'] = (data[0] || null)?.content || [];
         const page = data[0] || null;
 
         return {
@@ -117,7 +116,6 @@ class PageProvider extends AbstractElasticProvider<
             webSetting,
             page: page as AppData['page'],
             redirect: Array.isArray(redirects) && redirects.length > 0 ? redirects[0] : null,
-            blocksData,
         };
     }
 

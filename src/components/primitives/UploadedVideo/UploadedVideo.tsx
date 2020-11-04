@@ -33,7 +33,7 @@ const UploadedVideo = ({ video, objectFit, objectPosition, autoPlay, ...rest }: 
             id={`video-${video?.id || rest.id}`}
             ref={videoRef}
             className={classNames.join(' ')}
-            poster={video?.video?.thumbnailUrl + '?time=0'}
+            poster={video?.video?.thumbnailUrl ? video.video.thumbnailUrl + '?time=0' : undefined}
             autoPlay={autoPlay}
             muted={autoPlay}
             controls={!autoPlay}

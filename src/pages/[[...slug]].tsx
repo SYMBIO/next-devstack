@@ -16,6 +16,7 @@ import { CALENDAR_FORMATS } from '../constants';
 import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
 import { gtm, ssg, tz } from '../../symbio.config.json';
+import { Logger } from '../services';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
@@ -25,7 +26,7 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 );
 
 const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, blocksData, webSetting, blocksProps, preview } = props;
+    const { hostname, site, page, webSetting, blocksProps, preview } = props;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
     const currentUrl =
@@ -68,7 +69,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
             <Layout>
                 <Navbar />
-                <Blocks blocksData={blocksData} initialProps={blocksProps} />
+                {page?.content && <Blocks blocksData={page.content} initialProps={blocksProps} />}
             </Layout>
 
             {gtm.code && (
@@ -108,8 +109,10 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const locale = context.locale || context.defaultLocale;
+    const p = context.params;
+    Logger.info('GET ' + '/' + (p && Array.isArray(p.slug) ? p.slug : []).join('/'));
 
+    const locale = context.locale || context.defaultLocale;
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
     if (locale) {
