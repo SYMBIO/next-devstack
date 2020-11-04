@@ -37,9 +37,11 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
         }
 
         return (
-            <a className={condCls(styles.wrapper, className)} href={href} target={target}>
-                <span className={styles.inner}>{children}</span>
-            </a>
+            <NextLink href={href}>
+                <a className={condCls(styles.wrapper, className)} target={target} {...rest}>
+                    {children}
+                </a>
+            </NextLink>
         );
     }
 
