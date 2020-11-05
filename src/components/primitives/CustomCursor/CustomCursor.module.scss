@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 100%;
+    position: fixed;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background: #ff6600;
+    opacity: 0.8;
+    text-transform: uppercase;
+
+    &:hover {
+        opacity: 1;
+    }
+}

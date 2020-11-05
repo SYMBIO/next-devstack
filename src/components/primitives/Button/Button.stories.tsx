@@ -21,6 +21,6 @@ export default {
     },
 };
 
-const Template: Story<ButtonProps> = (args) => <ButtonComponent {...args} />;
+const Template: Story<ButtonProps> = (args) => <ButtonComponent {...args} onClick={() => alert('xxx')} />;
 
 export const Button = Template.bind({});
