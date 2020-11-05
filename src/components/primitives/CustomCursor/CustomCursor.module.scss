@@ -2,16 +2,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 6rem;
-    height: 6rem;
     border-radius: 100%;
     position: fixed;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
+    z-index: 999;
+    transform: translate3d(-50%, -50%, 0);
     color: #fff;
-    background: #ff6600;
+    border: 2px solid #ff6600;
     opacity: 0.8;
     text-transform: uppercase;
+    pointer-events: none;
+    transition: width 250ms, height 250ms, background 250ms;
 
     &:hover {
         opacity: 1;
