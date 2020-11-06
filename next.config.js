@@ -10,7 +10,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
     i18n,
     images,
-    target: 'serverless',
+    target: 'server',
     webpack: (config, { isServer }) => {
         config.module.rules.push({
             test: /\.svg$/,
