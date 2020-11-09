@@ -15,7 +15,7 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     let clickables: NodeListOf<Element> | [] = [];
 
     const setBackground = (color: string) => {
-        if (cursorRef && cursorRef.current) {
+        if (cursorRef?.current) {
             cursorRef.current.style.background = color;
             cursorRef.current.style.width = BIG_SIZE;
             cursorRef.current.style.height = BIG_SIZE;
@@ -25,21 +25,21 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     const setSolidBackground = () => setBackground(HOVER_BG_COLOR);
 
     const handleMouseMove = (e: MouseEvent) => {
-        if (cursorRef && cursorRef.current) {
+        if (cursorRef?.current) {
             cursorRef.current.style.left = `${e.clientX.toString()}px`;
             cursorRef.current.style.top = `${e.clientY.toString()}px`;
         }
     };
 
     const handleMouseDown = () => {
-        if (cursorRef && cursorRef.current) {
+        if (cursorRef?.current) {
             cursorRef.current.style.width = SMALL_SIZE;
             cursorRef.current.style.height = SMALL_SIZE;
         }
     };
 
     const handleMouseUp = () => {
-        if (cursorRef && cursorRef.current) {
+        if (cursorRef?.current) {
             cursorRef.current.style.width = BIG_SIZE;
             cursorRef.current.style.height = BIG_SIZE;
         }
@@ -48,7 +48,6 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     const addEventListeners = () => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('click', handleMouseUp);
         window.addEventListener('mouseup', handleMouseUp);
 
         clickables.forEach((el: Element) => {
@@ -60,7 +59,6 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     const removeEventListeners = () => {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mousedown', handleMouseDown);
-        window.removeEventListener('click', handleMouseUp);
         window.removeEventListener('mouseup', handleMouseUp);
 
         clickables.forEach((el: Element) => {
@@ -72,7 +70,7 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     useEffect(() => {
         clickables = document.querySelectorAll('a, input[type="submit"], label[for], select, button, .link');
 
-        if (cursorRef && cursorRef.current) {
+        if (cursorRef?.current) {
             cursorRef.current.style.width = BIG_SIZE;
             cursorRef.current.style.height = BIG_SIZE;
             document.body.style.cursor = 'none';
@@ -83,7 +81,7 @@ export const CustomCursor = ({ children }: CustomCursorProps): ReactElement => {
     }, []);
 
     return (
-        <div ref={cursorRef} className={styles.wrapper} style={{ left: 0, top: 0 }}>
+        <div ref={cursorRef} className={styles.wrapper}>
             {children}
         </div>
     );
