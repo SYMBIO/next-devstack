@@ -9,4 +9,5 @@ export type AppContextProps = Partial<WebSetting> & {
     currentUrl?: string;
     site?: AppData['site'];
     page?: AppData['page'];
+    svgLogo?: string;
 };

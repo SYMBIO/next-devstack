@@ -37,7 +37,7 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
         }
 
         return (
-            <NextLink href={href}>
+            <NextLink href={href} passHref>
                 <a className={condCls(styles.wrapper, className)} target={target} {...rest}>
                     {children}
                 </a>
@@ -54,14 +54,25 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
 
         if (plain) {
             return (
-                <a href={href} className={className}>
+                <a
+                    href={href}
+                    className={className}
+                    target={target}
+                    {...rest}
+                    title={rest.title || page.title || undefined}
+                >
                     {children || page.title}
                 </a>
             );
         }
         return (
-            <NextLink href={'/[[...slug]]'} as={href}>
-                <a className={condCls(styles.wrapper, className)} target={target} {...rest}>
+            <NextLink href={'/[[...slug]]'} as={href} passHref>
+                <a
+                    className={condCls(styles.wrapper, className)}
+                    target={target}
+                    {...rest}
+                    title={rest.title || page.title || undefined}
+                >
                     {children || page.title}
                 </a>
             </NextLink>
