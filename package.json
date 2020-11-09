@@ -17,7 +17,7 @@
         "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
         "relay": "relay-compiler",
         "start": "NODE_ENV=production next start",
-        "storybook": "start-storybook",
+        "storybook": "start-storybook --no-dll",
         "test": "jest",
         "test:watch": "jest --watch",
         "update-strings": "env-cmd node scripts/updateStrings.js"
