@@ -6,7 +6,8 @@ const SMALL_SIZE = '1.5rem';
 const HOVER_BG_COLOR = '#ff6600';
 const DEFAULT_BG_COLOR = 'transparent';
 
-export const CustomCursor = ({ component }: any): ReactElement => {
+export const CustomCursor = ({ component, targetRef }: any): ReactElement => {
+    console.log(targetRef);
     const cursorRef = useRef<HTMLDivElement>(null);
     let pointerElements: NodeListOf<Element> | [] = [];
 
@@ -42,16 +43,16 @@ export const CustomCursor = ({ component }: any): ReactElement => {
         }
     };
 
-    const addEventListeners = () => {
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mouseup', handleMouseUp);
+    const addEventListeners = (el: any) => {
+        el.addEventListener('mousemove', handleMouseMove);
+        el.addEventListener('mousedown', handleMouseDown);
+        el.addEventListener('mouseup', handleMouseUp);
     };
 
-    const removeEventListeners = () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mousedown', handleMouseDown);
-        window.removeEventListener('mouseup', handleMouseUp);
+    const removeEventListeners = (el: any) => {
+        el.removeEventListener('mousemove', handleMouseMove);
+        el.removeEventListener('mousedown', handleMouseDown);
+        el.removeEventListener('mouseup', handleMouseUp);
     };
 
     useEffect(() => {
@@ -63,8 +64,10 @@ export const CustomCursor = ({ component }: any): ReactElement => {
             document.body.style.cursor = 'none';
         }
 
-        addEventListeners();
-        return () => removeEventListeners();
+        if (targetRef && targetRef.current) {
+            addEventListeners(targetRef.current);
+            return () => removeEventListeners(targetRef.current);
+        }
     }, []);
 
     const Cursor = component;
