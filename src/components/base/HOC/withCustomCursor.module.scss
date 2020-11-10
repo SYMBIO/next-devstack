@@ -1,0 +1,11 @@
+.wrapper {
+    position: relative;
+
+    &:hover > .cursor {
+        display: block;
+    }
+}
+
+.cursor {
+    display: none;
+}

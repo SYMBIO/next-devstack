@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { CustomCursor } from '../../primitives/CustomCursor/CustomCursor';
+import styles from './withCustomCursor.module.scss';
 
 const withCustomCursor = (Component: any, Cursor: any): any => {
     const EnhancedComponent = (props) => {
@@ -11,9 +12,9 @@ const withCustomCursor = (Component: any, Cursor: any): any => {
         }, [targetRef]);
 
         return (
-            <div ref={targetRef}>
+            <div className={styles.wrapper} ref={targetRef}>
                 <Component {...props} />
-                <CustomCursor component={Cursor} targetRef={target} />
+                <CustomCursor className={styles.cursor} component={Cursor} targetRef={target} />
             </div>
         );
     };
