@@ -7,6 +7,8 @@ import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
 import { RichText } from '../../primitives/RichText/RichText';
+import withCustomCursor from '../../base/HOC/withCustomCursor';
+import { NewsListCursor } from '../../cursors/NewsListCursor';
 
 interface NewsListProps {
     headline?: string;
@@ -23,7 +25,7 @@ interface NewsItem {
     perex: string | null;
 }
 
-const NewsList = ({
+const NewsListComponent = ({
     headline,
     allNewsLinkText,
     allNewsPage,
@@ -63,6 +65,6 @@ const NewsList = ({
     );
 };
 
-NewsList.whyDidYouRender = true;
-
+NewsListComponent.whyDidYouRender = true;
+const NewsList = withCustomCursor(NewsListComponent, NewsListCursor);
 export { NewsList };
