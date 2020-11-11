@@ -6,9 +6,9 @@
 @import './mixins/responsive.scss';
 
 html, body {
-    overflow-x: hidden;
     font-size: 100%;
     font-family: 'Hind', sans-serif;
+    cursor: none;
 
     @include large-desktop {
         font-size: 0.8333333333vw;
@@ -30,4 +30,12 @@ html, body {
 
 .infoBox {
     transform: translate3d(-50%, 0, 0) !important;
+}
+
+.noCursor {
+    cursor: none !important;
+
+    * {
+        cursor: none !important;
+    }
 }
