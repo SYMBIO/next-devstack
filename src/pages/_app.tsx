@@ -13,6 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 import { AppProps, NextWebVitalsMetric } from 'next/app';
 import '../styles/global.scss';
+import { CustomCursorProvider } from '../components/primitives/CustomCursor/CustomCursorProvider';
 import { reportLogging } from '../utils/metricsReport';
 
 export function reportWebVitals(metrics: NextWebVitalsMetric): void {
@@ -20,7 +21,11 @@ export function reportWebVitals(metrics: NextWebVitalsMetric): void {
 }
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
-    return <Component {...pageProps} />;
+    return (
+        <CustomCursorProvider>
+            <Component {...pageProps} />;
+        </CustomCursorProvider>
+    );
 }
 
 export default MyApp;

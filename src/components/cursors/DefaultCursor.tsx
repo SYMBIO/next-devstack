@@ -3,9 +3,9 @@ import styles from './DefaultCursor.module.scss';
 import condCls from '../../utils/conditionalClasses';
 
 interface DefaultCursorProps {
-    readonly className?: string;
+    className?: string;
 }
 
-export const DefaultCursor = ({ className }: DefaultCursorProps): ReactElement | null => {
-    return <div className={condCls(styles.wrapper, className)}></div>;
+export const DefaultCursor = ({ className }: DefaultCursorProps): ReactElement => {
+    return <div className={condCls(styles.wrapper, className)}>Default Cursor</div>;
 };

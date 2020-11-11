@@ -3,9 +3,9 @@ import styles from './NewsListCursor.module.scss';
 import condCls from '../../utils/conditionalClasses';
 
 interface NewsListCursorProps {
-    readonly className?: string;
+    className?: string;
 }
 
-export const NewsListCursor = ({ className }: NewsListCursorProps): ReactElement | null => {
-    return <div className={condCls(styles.wrapper, className)}></div>;
+export const NewsListCursor = (): ReactElement => {
+    return <div className={condCls(styles.wrapper)}>NewsList Cursor</div>;
 };

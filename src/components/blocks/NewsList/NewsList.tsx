@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
 import { Page } from '../../../types/app';
 import { AppContext } from '../../../contexts/app-context/AppContext';
+import { CustomCursor } from '../../primitives/CustomCursor/CustomCursor';
 import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
 import { RichText } from '../../primitives/RichText/RichText';
-import withCustomCursor from '../../base/HOC/withCustomCursor';
 import { NewsListCursor } from '../../cursors/NewsListCursor';
 
 interface NewsListProps {
@@ -25,7 +25,7 @@ interface NewsItem {
     perex: string | null;
 }
 
-const NewsListComponent = ({
+const NewsList = ({
     headline,
     allNewsLinkText,
     allNewsPage,
@@ -48,15 +48,19 @@ const NewsListComponent = ({
                         (item) =>
                             item.slug &&
                             newsPage && (
-                                <li key={`NewsList_item_${item.id}`} className={styles.newsList__item}>
-                                    <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
-                                        <article>
-                                            <Heading tag={`h3`}>{item.title}</Heading>
-                                            <p>{dayjs(item.dateFrom).calendar()}</p>
-                                            {item.perex && <RichText content={item.perex} />}
-                                        </article>
-                                    </Link>
-                                </li>
+                                <CustomCursor component={NewsListCursor} key={`NewsList_item_${item.id}`}>
+                                    {(ref) => (
+                                        <li className={styles.newsList__item} ref={ref}>
+                                            <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
+                                                <article>
+                                                    <Heading tag={`h3`}>{item.title}</Heading>
+                                                    <p>{dayjs(item.dateFrom).calendar()}</p>
+                                                    {item.perex && <RichText content={item.perex} />}
+                                                </article>
+                                            </Link>
+                                        </li>
+                                    )}
+                                </CustomCursor>
                             ),
                     )}
             </ul>
@@ -65,6 +69,6 @@ const NewsListComponent = ({
     );
 };
 
-NewsListComponent.whyDidYouRender = true;
-const NewsList = withCustomCursor(NewsListComponent, NewsListCursor);
+NewsList.whyDidYouRender = true;
+
 export { NewsList };

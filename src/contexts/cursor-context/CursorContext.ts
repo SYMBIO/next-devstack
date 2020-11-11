@@ -1,12 +1,9 @@
 import { createContext } from 'react';
+import { CursorContextProps } from '../../types/cursorContext';
 
 export type CursorContextState = unknown;
 
-export const cursorDefaultValue = {
-    state: {},
-    setState: (state: CursorContextState): any => {
-        // setState
-    },
-};
-
-export const CursorContext = createContext(cursorDefaultValue);
+export const CursorContext = createContext<CursorContextProps>({
+    addCursor: () => ({}),
+    removeCursor: () => ({}),
+});

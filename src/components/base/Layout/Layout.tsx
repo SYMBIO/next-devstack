@@ -1,21 +1,22 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
+import { CustomCursor } from '../../primitives/CustomCursor/CustomCursor';
 import styles from './Layout.module.scss';
-import withCustomCursor from '../HOC/withCustomCursor';
 import { DefaultCursor } from '../../cursors/DefaultCursor';
-import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
-import { cursorDefaultValue } from '../../../contexts/cursor-context/CursorContext';
 
 interface LayoutProps {
-    children: ReactElement;
+    children: ReactNode;
 }
 
-const LayoutComponent = ({ children }: LayoutProps): ReactElement<LayoutProps, 'div'> | null => {
-    const [state, setState] = useState<any>(cursorDefaultValue.state);
+const LayoutComponent = ({ children }: LayoutProps): ReactElement | null => {
     return (
-        <CursorContext.Provider value={{ state, setState }}>
-            <div className={styles.grid}>{children}</div>
-        </CursorContext.Provider>
+        <CustomCursor component={DefaultCursor}>
+            {(ref) => (
+                <div className={styles.grid} ref={ref}>
+                    {children}
+                </div>
+            )}
+        </CustomCursor>
     );
 };
 
-export const Layout = withCustomCursor(LayoutComponent, DefaultCursor);
+export const Layout = LayoutComponent;
