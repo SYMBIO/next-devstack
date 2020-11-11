@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story } from '@storybook/react/types-6-0';
+import { Story, Meta } from '@storybook/react/types-6-0';
 import { CustomCursor as CustomCursorComponent } from '../../primitives/CustomCursor/CustomCursor';
 import { CustomCursorProvider } from '../CustomCursor/CustomCursorProvider';
 import { DefaultCursor } from '../../cursors/DefaultCursor';
@@ -16,9 +16,9 @@ export default {
             );
         },
     ],
-};
+} as Meta;
 
-const Template: Story = (args) => (
+const Template: Story = () => (
     <>
         <CustomCursorComponent component={<DefaultCursor />}>
             {(ref) => (
