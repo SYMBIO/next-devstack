@@ -1,11 +1,21 @@
 import React from 'react';
 import { Story } from '@storybook/react/types-6-0';
 import { CustomCursor as CustomCursorComponent } from '../../primitives/CustomCursor/CustomCursor';
+import { CustomCursorProvider } from '../CustomCursor/CustomCursorProvider';
 import { DefaultCursor } from '../../cursors/DefaultCursor';
 
 export default {
     component: CustomCursorComponent,
     title: 'Primitives/CustomCursor',
+    decorators: [
+        (StoryFn) => {
+            return (
+                <CustomCursorProvider>
+                    <StoryFn />
+                </CustomCursorProvider>
+            );
+        },
+    ],
 };
 
 const Template: Story = (args) => (
