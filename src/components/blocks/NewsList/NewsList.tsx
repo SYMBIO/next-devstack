@@ -54,7 +54,7 @@ const NewsList = ({
                                             <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
                                                 <article>
                                                     <Heading tag={`h3`}>{item.title}</Heading>
-                                                    <p>{dayjs(item.dateFrom).calendar()}</p>
+                                                    {item.dateFrom && <p>{dayjs(item.dateFrom).calendar()}</p>}
                                                     {item.perex && <RichText content={item.perex} />}
                                                 </article>
                                             </Link>
