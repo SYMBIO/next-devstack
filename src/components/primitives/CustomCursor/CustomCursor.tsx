@@ -8,7 +8,7 @@ interface CustomCursorProps {
 
 export const CustomCursor = ({ component, children }: CustomCursorProps): ReactElement => {
     const { addCursor, removeCursor } = useContext(CursorContext);
-    const ref = React.createRef<HTMLElement>();
+    const ref = React.useRef<HTMLElement>();
 
     useEffect(() => {
         if (ref.current) {

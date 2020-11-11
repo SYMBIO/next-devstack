@@ -28,18 +28,13 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     const cursorRef = useRef<HTMLDivElement>(null);
     const [activeCursor, setActiveCursor] = useState<ReactNode>();
 
-    const buildEvents = (componentEl: HTMLElement): CursorEvents<any> => ({});
-
     const addCursor = (componentEl: HTMLElement, cursor: ReactNode) => {
-        componentEl.classList.add('noCursor');
         componentEl.addEventListener('mouseenter', handleMouseEnter);
         componentEl.addEventListener('mouseleave', handleMouseLeave);
         cursors.set(componentEl, cursor);
-        return buildEvents(componentEl);
     };
 
     const removeCursor = (componentEl: HTMLElement) => {
-        componentEl.style.removeProperty('cursor');
         componentEl.removeEventListener('mouseenter', handleMouseEnter);
         componentEl.removeEventListener('mouseleave', handleMouseLeave);
         cursors.delete(componentEl);
@@ -64,7 +59,6 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
-        console.log('handleMouseLeave', cursors, e);
         e.stopPropagation();
         if (e.target) {
             const nextCursor = cursors.get(e.relatedTarget as EventTarget);
