@@ -9,7 +9,7 @@ interface LayoutProps {
 
 const LayoutComponent = ({ children }: LayoutProps): ReactElement | null => {
     return (
-        <CustomCursor component={DefaultCursor}>
+        <CustomCursor component={<DefaultCursor />}>
             {(ref) => (
                 <div className={styles.grid} ref={ref}>
                     {children}

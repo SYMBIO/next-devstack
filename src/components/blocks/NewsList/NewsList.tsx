@@ -48,7 +48,7 @@ const NewsList = ({
                         (item) =>
                             item.slug &&
                             newsPage && (
-                                <CustomCursor component={NewsListCursor} key={`NewsList_item_${item.id}`}>
+                                <CustomCursor component={<NewsListCursor />} key={`NewsList_item_${item.id}`}>
                                     {(ref) => (
                                         <li className={styles.newsList__item} ref={ref}>
                                             <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>

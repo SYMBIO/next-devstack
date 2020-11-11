@@ -1,8 +1,8 @@
-import React, { ReactElement, RefObject, useContext, useEffect } from 'react';
+import React, { ReactElement, ReactNode, RefObject, useContext, useEffect } from 'react';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 
 interface CustomCursorProps {
-    component: React.FC<any>;
+    component: ReactNode;
     children: (ref: RefObject<any>) => ReactElement;
 }
 

@@ -6,6 +6,6 @@ interface NewsListCursorProps {
     className?: string;
 }
 
-export const NewsListCursor = (): ReactElement => {
-    return <div className={condCls(styles.wrapper)}>NewsList Cursor</div>;
+export const NewsListCursor = ({ className }: NewsListCursorProps): ReactElement => {
+    return <div className={condCls(styles.wrapper, className)}></div>;
 };

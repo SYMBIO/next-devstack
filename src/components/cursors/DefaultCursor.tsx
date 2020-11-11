@@ -7,5 +7,5 @@ interface DefaultCursorProps {
 }
 
 export const DefaultCursor = ({ className }: DefaultCursorProps): ReactElement => {
-    return <div className={condCls(styles.wrapper, className)}>Default Cursor</div>;
+    return <div className={condCls(styles.wrapper, className)}></div>;
 };

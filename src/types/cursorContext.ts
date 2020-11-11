@@ -1,4 +1,4 @@
-import { DragEventHandler, JSXElementConstructor, MouseEventHandler } from 'react';
+import { DragEventHandler, JSXElementConstructor, MouseEventHandler, ReactNode } from 'react';
 
 export interface CursorEvents<T> {
     onAuxClick?: MouseEventHandler<T>;
@@ -23,6 +23,6 @@ export interface CursorEvents<T> {
 }
 
 export interface CursorContextProps<T = JSXElementConstructor<any>> {
-    addCursor: (el: HTMLElement, component: React.FC<any>) => CursorEvents<any>;
+    addCursor: (el: HTMLElement, component: ReactNode) => CursorEvents<any>;
     removeCursor: (el: HTMLElement) => void;
 }

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 import { CursorEvents } from '../../../types/cursorContext';
 
@@ -12,28 +12,29 @@ const CustomCursorRenderer = React.forwardRef<HTMLDivElement, CustomCursorProvid
         ref={ref}
         style={{
             position: 'fixed',
-            border: 'solid 1px red',
-            zIndex: 100000,
-            backgroundColor: 'blue',
+            zIndex: 99999999999,
             pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)',
         }}
-        className={'cursor'}
     >
         {/* eslint-disable-next-line react/prop-types */}
         {props.children}
     </div>
 ));
 
+const cursors = new Map<EventTarget, ReactNode>();
+
 export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): ReactElement => {
-    const [cursor, setCursor] = useState<Array<React.FC<any>>>([]);
-    const cursorRef = React.createRef<HTMLDivElement>();
+    const cursorRef = useRef<HTMLDivElement>(null);
+    const [activeCursor, setActiveCursor] = useState<ReactNode>();
 
     const buildEvents = (componentEl: HTMLElement): CursorEvents<any> => ({});
 
-    const addCursor = (componentEl: HTMLElement, component: React.FC<any>) => {
+    const addCursor = (componentEl: HTMLElement, cursor: ReactNode) => {
         componentEl.classList.add('noCursor');
         componentEl.addEventListener('mouseenter', handleMouseEnter);
         componentEl.addEventListener('mouseleave', handleMouseLeave);
+        cursors.set(componentEl, cursor);
         return buildEvents(componentEl);
     };
 
@@ -53,12 +54,16 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
-        console.log('handleMouseEnter', e.target);
+        if (e.target) {
+            const nextCursor = cursors.get(e.target);
+            if (nextCursor) {
+                setActiveCursor(nextCursor);
+            }
+        }
         e.stopPropagation();
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
-        console.log('handleMouseLeave', e.target);
         e.stopPropagation();
     };
 
@@ -76,7 +81,7 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
                 removeCursor,
             }}
         >
-            {cursor && <CustomCursorRenderer ref={cursorRef}>a</CustomCursorRenderer>}
+            <CustomCursorRenderer ref={cursorRef}>{activeCursor}</CustomCursorRenderer>
             {children}
         </CursorContext.Provider>
     );
