@@ -1,22 +1,14 @@
-import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
+import styles from './CustomCursor.module.scss';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
-import { CursorEvents } from '../../../types/cursorContext';
 
 interface CustomCursorProviderProps {
     children: ReactNode;
 }
 
 // eslint-disable-next-line react/display-name
-const CustomCursorRenderer = React.forwardRef<HTMLDivElement, CustomCursorProviderProps>((props, ref) => (
-    <div
-        ref={ref}
-        style={{
-            position: 'fixed',
-            zIndex: 99999999999,
-            pointerEvents: 'none',
-            transform: 'translate(-50%, -50%)',
-        }}
-    >
+const CustomCursorRenderer = forwardRef<HTMLDivElement, CustomCursorProviderProps>((props, ref) => (
+    <div ref={ref} className={styles.wrapper}>
         {/* eslint-disable-next-line react/prop-types */}
         {props.children}
     </div>
@@ -69,6 +61,7 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     };
 
     useEffect(() => {
+        document.body.classList.add('customCursor');
         window.addEventListener('mousemove', handleMouseMove);
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);

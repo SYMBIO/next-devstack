@@ -1,14 +1,14 @@
-@import "normalize";
-@import "reset";
-@import "carousel";
-@import "lightbox";
-@import "typography";
+@import 'normalize';
+@import 'reset';
+@import 'carousel';
+@import 'lightbox';
+@import 'typography';
 @import './mixins/responsive.scss';
 
-html, body {
+html,
+body {
     font-size: 100%;
     font-family: 'Hind', sans-serif;
-    cursor: none;
 
     @include large-desktop {
         font-size: 0.8333333333vw;
@@ -32,7 +32,7 @@ html, body {
     transform: translate3d(-50%, 0, 0) !important;
 }
 
-.noCursor {
+.customCursor {
     cursor: none !important;
 
     * {

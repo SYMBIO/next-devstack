@@ -1,19 +1,16 @@
 .wrapper {
+    position: fixed;
+    z-index: 9999;
+    transform: translate3d(-50%, -50%, 0);
+    pointer-events: none;
+}
+
+.cursor {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 3rem;
+    height: 3rem;
     border-radius: 100%;
-    position: fixed;
-    z-index: 999;
-    transform: translate3d(-50%, -50%, 0);
-    color: #000;
-    border: 2px solid #ff6600;
     opacity: 0.8;
-    text-transform: uppercase;
-    pointer-events: none;
-    transition: width 250ms, height 250ms, background 250ms;
-
-    &:hover {
-        opacity: 1;
-    }
 }
