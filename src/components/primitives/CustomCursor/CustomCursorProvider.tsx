@@ -38,11 +38,11 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
         return buildEvents(componentEl);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const removeCursor = (componentEl: HTMLElement) => {
         componentEl.style.removeProperty('cursor');
         componentEl.removeEventListener('mouseenter', handleMouseEnter);
         componentEl.removeEventListener('mouseleave', handleMouseLeave);
+        cursors.delete(componentEl);
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -54,17 +54,24 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
+        e.stopPropagation();
         if (e.target) {
             const nextCursor = cursors.get(e.target);
             if (nextCursor) {
                 setActiveCursor(nextCursor);
             }
         }
-        e.stopPropagation();
     };
 
     const handleMouseLeave = (e: MouseEvent) => {
+        console.log('handleMouseLeave', cursors, e);
         e.stopPropagation();
+        if (e.target) {
+            const nextCursor = cursors.get(e.relatedTarget as EventTarget);
+            if (nextCursor) {
+                setActiveCursor(nextCursor);
+            }
+        }
     };
 
     useEffect(() => {
