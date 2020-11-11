@@ -5,6 +5,34 @@ import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
 import { ssg } from '../../../symbio.config.json';
 
+/**
+ * Returns normalized (array-ized) slug.
+ * If slug is empty, it means it's homepage.
+ * If first item of slug array equalscurrent locale, remove it.
+ * @param {GetStaticPropsContext} context
+ * @returns {string[]}
+ */
+function getNormalizedSlug(context: GetStaticPropsContext): string[] {
+    const slug = context.params?.slug;
+    if (Array.isArray(slug)) {
+        if (slug[0] === context.locale) {
+            return slug.slice(1);
+        }
+        return slug;
+    }
+    if (slug && slug !== context.locale) {
+        return [slug];
+    }
+    return ['homepage'];
+}
+
+/**
+ * Get static props for current page and it's blocks
+ * @param {GetStaticPropsContext} context
+ * @param {Providers} providers
+ * @param {Record<string, BlockType>} blocks
+ * @returns {Promise<GetStaticPropsResult<{[p: string]: unknown}>>}
+ */
 export const getBlocksProps = async (
     context: GetStaticPropsContext,
     providers: Providers,
@@ -12,8 +40,7 @@ export const getBlocksProps = async (
 ): Promise<GetStaticPropsResult<{ [key: string]: unknown }>> => {
     const provider = providers.page;
     const locale = context.locale || context.defaultLocale;
-    const slug = context.params?.slug;
-    const props = await provider.getPageBySlug(locale, Array.isArray(slug) ? slug : slug ? [slug] : ['homepage']);
+    const props = await provider.getPageBySlug(locale, getNormalizedSlug(context));
     const notFound = !props.page || undefined;
 
     if (props.redirect && props.redirect.to && typeof props.redirect.permanent === 'boolean') {
