@@ -1,6 +1,7 @@
 import React from 'react';
-import { CustomCursor as CustomCursorComponent } from './CustomCursor';
 import { Story } from '@storybook/react/types-6-0';
+import { CustomCursor as CustomCursorComponent } from '../../primitives/CustomCursor/CustomCursor';
+import { DefaultCursor } from '../../cursors/DefaultCursor';
 
 export default {
     component: CustomCursorComponent,
@@ -9,13 +10,15 @@ export default {
 
 const Template: Story = (args) => (
     <>
-        <input type="text" />
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, delectus ut voluptas dolorum animi sit?
-            Saepe, voluptate <a href="/">asperiores</a> quis deserunt temporibus, voluptatibus eligendi quaerat
-            provident reprehenderit ducimus nisi aperiam harum?
-        </p>
-        <CustomCursorComponent {...args} />
+        <CustomCursorComponent component={<DefaultCursor />}>
+            {(ref) => (
+                <p ref={ref}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, delectus ut voluptas dolorum animi
+                    sit? Saepe, voluptate <a href="/">asperiores</a> quis deserunt temporibus, voluptatibus eligendi
+                    quaerat provident reprehenderit ducimus nisi aperiam harum?
+                </p>
+            )}
+        </CustomCursorComponent>
     </>
 );
 
