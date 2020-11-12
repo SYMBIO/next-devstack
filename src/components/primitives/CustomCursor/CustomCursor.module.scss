@@ -1,0 +1,16 @@
+.wrapper {
+    position: fixed;
+    z-index: 9999;
+    transform: translate3d(-50%, -50%, 0);
+    pointer-events: none;
+}
+
+.cursor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    opacity: 0.8;
+}

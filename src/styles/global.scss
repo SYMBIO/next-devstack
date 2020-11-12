@@ -1,12 +1,12 @@
-@import "normalize";
-@import "reset";
-@import "carousel";
-@import "lightbox";
-@import "typography";
+@import 'normalize';
+@import 'reset';
+@import 'carousel';
+@import 'lightbox';
+@import 'typography';
 @import './mixins/responsive.scss';
 
-html, body {
-    overflow-x: hidden;
+html,
+body {
     font-size: 100%;
     font-family: 'Hind', sans-serif;
 
@@ -30,4 +30,12 @@ html, body {
 
 .infoBox {
     transform: translate3d(-50%, 0, 0) !important;
+}
+
+.customCursor {
+    cursor: none !important;
+
+    * {
+        cursor: none !important;
+    }
 }
