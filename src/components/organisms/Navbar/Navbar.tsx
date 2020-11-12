@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../contexts/app-context/AppContext';
-import { Image, ImageLayout } from '../../primitives/Image/Image';
+import { Image } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { Link } from '../../primitives/Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
-    const { mainMenu, logo, homepage } = useContext(AppContext);
+    const { mainMenu, logo, homepage, page } = useContext(AppContext);
     const { locale, locales } = useRouter();
 
     const [languageSelectorOpen, setLanguageSelectorOpen] = useState<boolean>(false);
@@ -33,7 +33,9 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
                                 (loc: string, i: number) =>
                                     loc !== locale && (
                                         <li key={`LanguageSelector_${i}`}>
-                                            <Link href={`/${loc}`}>{loc}</Link>
+                                            <Link page={page || homepage || { url: '' }} locale={loc}>
+                                                {loc}
+                                            </Link>
                                         </li>
                                     ),
                             )}
