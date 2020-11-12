@@ -76,6 +76,9 @@ class PageProvider extends AbstractDatoCMSProvider<
                     params.push({ slug: [] });
                     continue;
                 }
+                if (String(page.url) === '404') {
+                    continue;
+                }
                 const url = page.url;
                 if (url) {
                     const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);

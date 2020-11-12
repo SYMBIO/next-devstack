@@ -130,6 +130,9 @@ class PageProvider extends AbstractElasticProvider<
                 params.push({ slug: locale === defaultLocale ? [] : [locale] });
                 continue;
             }
+            if (String(page.url) === '404') {
+                continue;
+            }
             const url = (locale === defaultLocale ? '/' : `/${locale}/`) + page.url;
             const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
             if (blocksParams.length > 0) {
