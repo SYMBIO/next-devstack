@@ -15,12 +15,9 @@ import { ssg } from '../../../symbio.config.json';
 function getNormalizedSlug(context: GetStaticPropsContext): string[] {
     const slug = context.params?.slug;
     if (Array.isArray(slug)) {
-        if (slug[0] === context.locale) {
-            return slug.slice(1);
-        }
         return slug;
     }
-    if (slug && slug !== context.locale) {
+    if (slug) {
         return [slug];
     }
     return ['homepage'];
