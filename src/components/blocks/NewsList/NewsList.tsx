@@ -8,7 +8,7 @@ import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
 import { RichText } from '../../primitives/RichText/RichText';
-import { NewsListCursor } from '../../cursors/NewsListCursor';
+import { NewsListCursor } from '../../cursors/NewsListCursor/NewsListCursor';
 
 interface NewsListProps {
     headline?: string;

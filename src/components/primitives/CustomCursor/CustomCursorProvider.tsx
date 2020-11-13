@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
-import styles from './CustomCursor.module.scss';
+import styles from './CustomCursorProvider.module.scss';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 
 interface CustomCursorProviderProps {
