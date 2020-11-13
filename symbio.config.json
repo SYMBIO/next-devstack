@@ -28,7 +28,7 @@
     },
     "ssg": {
         "revalidate": 10,
-        "staticGeneration": false
+        "staticGeneration": true
     },
     "tz": "Europe/Prague"
 }
