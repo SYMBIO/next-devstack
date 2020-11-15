@@ -29,7 +29,8 @@ export const Head = (): ReactElement => {
                 content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
             />
             <meta name="msapplication-config" content="/browserconfig.xml" />
-            {site && <link rel="icon" type="image/x-icon" href={site.favicon?.url + '?w='} />}
+            {site && <link rel="icon" href={site.favicon?.url} />}
+            {site && <link rel="apple-touch-icon" href={site.favicon?.url} />}
             {site?.faviconMetaTags.map((favicon, i) => {
                 const { tag: Tag, attributes } = favicon;
                 return <Tag key={`Favicon_${i}`} {...attributes} />;
