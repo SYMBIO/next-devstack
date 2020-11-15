@@ -33,7 +33,11 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
                                 (loc: string, i: number) =>
                                     loc !== locale && (
                                         <li key={`LanguageSelector_${i}`}>
-                                            <Link page={page || homepage || { url: '' }} locale={loc}>
+                                            <Link
+                                                page={page || homepage || { url: '' }}
+                                                locale={loc}
+                                                onClick={() => setLanguageSelectorOpen(false)}
+                                            >
                                                 {loc}
                                             </Link>
                                         </li>

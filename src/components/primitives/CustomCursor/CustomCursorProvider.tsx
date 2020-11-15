@@ -18,6 +18,7 @@ const cursors = new Map<EventTarget, ReactNode>();
 
 export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): ReactElement => {
     const cursorRef = useRef<HTMLDivElement>(null);
+    const mouseEnterStack: Array<EventTarget> = [];
     const [activeCursor, setActiveCursor] = useState<ReactNode>();
 
     const addCursor = (componentEl: HTMLElement, cursor: ReactNode) => {
@@ -45,6 +46,9 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
         if (e.target) {
             const nextCursor = cursors.get(e.target);
             if (nextCursor) {
+                if (mouseEnterStack[mouseEnterStack.length - 1] !== e.target) {
+                    mouseEnterStack.push(e.target);
+                }
                 setActiveCursor(nextCursor);
             }
         }
@@ -52,11 +56,18 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
 
     const handleMouseLeave = (e: MouseEvent) => {
         e.stopPropagation();
-        if (e.target) {
-            const nextCursor = cursors.get(e.relatedTarget as EventTarget);
-            if (nextCursor) {
-                setActiveCursor(nextCursor);
+        let nextCursor;
+        if (mouseEnterStack.length > 1) {
+            mouseEnterStack.pop();
+            const nextEl = mouseEnterStack[mouseEnterStack.length - 1];
+            if (nextEl) {
+                nextCursor = cursors.get(nextEl);
             }
+        }
+        if (nextCursor) {
+            setActiveCursor(nextCursor);
+        } else {
+            setActiveCursor(null);
         }
     };
 

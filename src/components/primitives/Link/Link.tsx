@@ -16,7 +16,7 @@ export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement
         plain?: boolean;
     };
 
-const Link = ({ className, href, page, params, children, target, plain, ...rest }: LinkProps): JSX.Element => {
+const Link = ({ className, href, page, locale, params, children, target, plain, ...rest }: LinkProps): JSX.Element => {
     const { absoluteLinks, hostname } = useContext(AppContext);
 
     if (typeof href === 'string') {
@@ -37,7 +37,7 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
         }
 
         return (
-            <NextLink href={href}>
+            <NextLink href={href} locale={locale}>
                 <a className={condCls(styles.wrapper, className)} target={target} {...rest}>
                     {children}
                 </a>
@@ -60,7 +60,7 @@ const Link = ({ className, href, page, params, children, target, plain, ...rest 
             );
         }
         return (
-            <NextLink href={'/[[...slug]]'} as={href}>
+            <NextLink href={'/[[...slug]]'} as={href} locale={locale}>
                 <a
                     className={condCls(styles.wrapper, className)}
                     title={page.title || undefined}

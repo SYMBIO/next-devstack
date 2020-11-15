@@ -86,7 +86,7 @@ const Page = (props: MyPageProps): ReactElement => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-    if (ssg.staticGeneration && locales) {
+    if (process.env.NODE_ENV !== 'development' && ssg.staticGeneration && locales) {
         const paths: GetStaticPathsResult['paths'] = [];
         const provider = providers.page;
 
