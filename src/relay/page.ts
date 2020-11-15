@@ -4,6 +4,10 @@ graphql`
     fragment pageFragment on PageRecord {
         id
         url
+        _allUrlLocales {
+            locale
+            value
+        }
         title
         metaTags {
             title

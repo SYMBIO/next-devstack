@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { ReactElement, useContext, useState } from 'react';
 import { AppContext } from '../../../contexts/app-context/AppContext';
-import { Image } from '../../primitives/Image/Image';
 import styles from './Navbar.module.scss';
 import { Link } from '../../primitives/Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
+import Logo from '../../../../public/svg/symbio.svg';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
     const { mainMenu, logo, homepage, page } = useContext(AppContext);
@@ -16,7 +16,7 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
         <div className={styles.navbar}>
             {logo && logo.width && logo.height && (
                 <Link page={homepage || undefined} className={styles.logo}>
-                    <Image image={logo} sizes={'3rem'} />
+                    <Logo />
                 </Link>
             )}
             {mainMenu && <MainMenu menu={mainMenu} />}
@@ -34,7 +34,11 @@ const Navbar = (): ReactElement<null, 'div'> | null => {
                                     loc !== locale && (
                                         <li key={`LanguageSelector_${i}`}>
                                             <Link
-                                                page={page || homepage || { url: '' }}
+                                                page={{
+                                                    url:
+                                                        page?._allUrlLocales?.find((l) => l?.locale === loc)?.value ||
+                                                        '',
+                                                }}
                                                 locale={loc}
                                                 onClick={() => setLanguageSelectorOpen(false)}
                                             >
