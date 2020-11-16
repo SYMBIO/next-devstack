@@ -1,5 +1,4 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
-import { useRouter } from 'next/router';
 import styles from './CustomCursorProvider.module.scss';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 
