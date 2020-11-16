@@ -24,12 +24,14 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     const addCursor = (componentEl: HTMLElement, cursor: ReactNode) => {
         componentEl.addEventListener('mouseenter', handleMouseEnter);
         componentEl.addEventListener('mouseleave', handleMouseLeave);
+        componentEl.classList.add('customCursor');
         cursors.set(componentEl, cursor);
     };
 
     const removeCursor = (componentEl: HTMLElement) => {
         componentEl.removeEventListener('mouseenter', handleMouseEnter);
         componentEl.removeEventListener('mouseleave', handleMouseLeave);
+        componentEl.classList.remove('customCursor');
         cursors.delete(componentEl);
     };
 
@@ -72,7 +74,6 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     };
 
     useEffect(() => {
-        document.body.classList.add('customCursor');
         window.addEventListener('mousemove', handleMouseMove);
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
