@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, RefObject, useContext, useEffect } from 'react';
+import React, { ReactElement, ReactNode, RefObject, useContext, useEffect, useState } from 'react';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 
 interface CustomCursorProps {
@@ -7,7 +7,7 @@ interface CustomCursorProps {
 }
 
 export const CustomCursor = ({ component, children }: CustomCursorProps): ReactElement => {
-    const { addCursor, removeCursor } = useContext(CursorContext);
+    const { addCursor, removeUnusedCursors } = useContext(CursorContext);
     const ref = React.useRef<HTMLElement>();
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export const CustomCursor = ({ component, children }: CustomCursorProps): ReactE
             addCursor(ref.current, component);
         }
         return () => {
-            ref.current && removeCursor(ref.current);
+            removeUnusedCursors();
         };
     }, [ref]);
 

@@ -1,4 +1,5 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
+import { useRouter } from 'next/router';
 import styles from './CustomCursorProvider.module.scss';
 import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
 
@@ -17,8 +18,9 @@ const CustomCursorRenderer = forwardRef<HTMLDivElement, CustomCursorProviderProp
 const cursors = new Map<EventTarget, ReactNode>();
 
 export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): ReactElement => {
+    const router = useRouter();
     const cursorRef = useRef<HTMLDivElement>(null);
-    const mouseEnterStack: Array<EventTarget> = [];
+    const [mouseEnterStack, setMouseEnterStack] = useState<Array<EventTarget>>([]);
     const [activeCursor, setActiveCursor] = useState<ReactNode>();
 
     const addCursor = (componentEl: HTMLElement, cursor: ReactNode) => {
@@ -28,11 +30,16 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
         cursors.set(componentEl, cursor);
     };
 
-    const removeCursor = (componentEl: HTMLElement) => {
-        componentEl.removeEventListener('mouseenter', handleMouseEnter);
-        componentEl.removeEventListener('mouseleave', handleMouseLeave);
-        componentEl.classList.remove('customCursor');
-        cursors.delete(componentEl);
+    const removeUnusedCursors = () => {
+        setMouseEnterStack(
+            mouseEnterStack.filter((c) => {
+                if (!document.body.contains(c as Node)) {
+                    cursors.delete(c);
+                    return false;
+                }
+                return true;
+            }),
+        );
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -84,7 +91,7 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
         <CursorContext.Provider
             value={{
                 addCursor,
-                removeCursor,
+                removeUnusedCursors,
             }}
         >
             <CustomCursorRenderer ref={cursorRef}>{activeCursor}</CustomCursorRenderer>

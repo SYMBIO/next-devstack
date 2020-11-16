@@ -5,5 +5,5 @@ export type CursorContextState = unknown;
 
 export const CursorContext = createContext<CursorContextProps>({
     addCursor: () => ({}),
-    removeCursor: () => ({}),
+    removeUnusedCursors: () => ({}),
 });

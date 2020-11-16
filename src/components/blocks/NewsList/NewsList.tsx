@@ -51,7 +51,7 @@ const NewsList = ({
                                 <CustomCursor component={<NewsListCursor />} key={`NewsList_item_${item.id}`}>
                                     {(ref) => (
                                         <li className={styles.newsList__item} ref={ref}>
-                                            <Link page={newsPage} plain params={{ slug: item.id + '-' + item.slug }}>
+                                            <Link page={newsPage} params={{ slug: item.id + '-' + item.slug }}>
                                                 <article>
                                                     <Heading tag={`h3`}>{item.title}</Heading>
                                                     {item.dateFrom && <p>{dayjs(item.dateFrom).calendar()}</p>}
