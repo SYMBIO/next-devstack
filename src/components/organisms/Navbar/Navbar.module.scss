@@ -19,6 +19,10 @@
     height: var(--logo-height);
     width: var(--logo-width);
     align-self: center;
+
+    svg {
+        color: #f60;
+    }
 }
 
 .languageSelector {
