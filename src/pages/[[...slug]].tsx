@@ -28,7 +28,6 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, webSetting, blocksProps, preview } = props;
     const item = Array.isArray(blocksProps) && blocksProps.length > 0 ? blocksProps[0].item : undefined;
-    console.log(item);
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
     const currentUrl =
