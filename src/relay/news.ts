@@ -19,6 +19,11 @@ export const newsDetailQuery = graphql`
             dateFrom
             title
             slug
+            _seoMetaTags {
+                tag
+                content
+                attributes
+            }
             perex
             image {
                 ...appImageFragment @relay(mask: false)
@@ -35,6 +40,8 @@ export const newsDetailQuery = graphql`
             content {
                 ...newsContentFragment @relay(mask: false)
             }
+            __typename
+            _status
         }
     }
 `;

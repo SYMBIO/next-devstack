@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import providers from '../../providers';
 import AbstractElasticProvider from '../../lib/provider/AbstractElasticProvider';
+import { findProvider } from '../../utils/findProvider';
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const isPost = req.method === 'POST';
@@ -10,23 +10,18 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     const simple = !req.query.create;
 
     try {
-        let provider;
-        const providerIndex = Object.keys(providers).indexOf(typeId);
-        if (providerIndex === -1) {
-            provider = Object.values(providers).find((p) => p.getId() === typeId || p.getApiKey() === typeId);
-            if (!provider) {
-                res.setHeader('Content-Type', 'application/json');
-                res.statusCode = 200;
-                res.end(
-                    JSON.stringify({
-                        status: 'ERROR',
-                        message: 'Provider not found',
-                    }),
-                );
-                return;
-            }
-        } else {
-            provider = Object.values(providers)[providerIndex];
+        const provider = findProvider(typeId);
+
+        if (!provider) {
+            res.setHeader('Content-Type', 'application/json');
+            res.statusCode = 200;
+            res.end(
+                JSON.stringify({
+                    status: 'ERROR',
+                    message: 'Provider not found',
+                }),
+            );
+            return;
         }
 
         try {

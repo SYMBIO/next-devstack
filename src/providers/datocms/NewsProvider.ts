@@ -9,7 +9,6 @@ import { newsDetailQuery, newsListQuery, newsStaticPathsQuery } from '../../rela
 import * as d from '../../relay/__generated__/newsDetailQuery.graphql';
 import * as l from '../../relay/__generated__/newsListQuery.graphql';
 import * as s from '../../relay/__generated__/newsStaticPathsQuery.graphql';
-import { Logger } from '../../services';
 
 class NewsProvider extends AbstractDatoCMSProvider<
     d.newsDetailQuery,

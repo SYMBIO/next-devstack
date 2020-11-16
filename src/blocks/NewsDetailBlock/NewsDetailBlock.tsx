@@ -26,7 +26,6 @@ function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<BaseBlock
                 <NewsDetail
                     news={{
                         ...item,
-                        id: item.id,
                         dateFrom: String(item.dateFrom),
                         title: String(item.title),
                         slug: String(item.slug),
