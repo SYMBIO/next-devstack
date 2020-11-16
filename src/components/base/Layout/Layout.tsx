@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { CustomCursor } from '../../primitives/CustomCursor/CustomCursor';
 import styles from './Layout.module.scss';
-import { DefaultCursor } from '../../cursors/DefaultCursor';
+import { DefaultCursor } from '../../cursors/DefaultCursor/DefaultCursor';
 
 interface LayoutProps {
     children: ReactNode;

@@ -24,5 +24,5 @@ export interface CursorEvents<T> {
 
 export interface CursorContextProps<T = JSXElementConstructor<any>> {
     addCursor: (el: HTMLElement, component: ReactNode) => void;
-    removeCursor: (el: HTMLElement) => void;
+    removeUnusedCursors: () => void;
 }
