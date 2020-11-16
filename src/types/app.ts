@@ -39,7 +39,6 @@ export interface ImageInterface {
     readonly height: number | null;
     readonly alt: string | null;
     readonly title: string | null;
-    readonly responsiveImage: ResponsiveImageType | null;
 }
 
 export interface VideoInterface {

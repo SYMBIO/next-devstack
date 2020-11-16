@@ -85,7 +85,7 @@ const Banner = ({
         {video ? (
             <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />
         ) : (
-            image?.responsiveImage && <Image image={image} layout={'fill' as ImageLayout} className={styles.image} />
+            image && <Image image={image} layout={'fill' as ImageLayout} className={styles.image} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>

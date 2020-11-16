@@ -1,21 +1,28 @@
 import React, { ReactElement, useContext } from 'react';
 import NextHead from 'next/head';
+import { renderMetaTags } from 'react-datocms';
+import { SeoMetaTagType } from 'react-datocms/dist/Seo';
 import symbio from '../../../../symbio.config.json';
 import { AppContext } from '../../../contexts/app-context/AppContext';
 
 export const Head = (): ReactElement => {
-    const { page, site } = useContext(AppContext);
+    const { item, page, site } = useContext(AppContext);
+
+    const metaTags: SeoMetaTagType[] = (item?._seoMetaTags || page?._seoMetaTags || []).concat(
+        site?.faviconMetaTags || [],
+    ) as SeoMetaTagType[];
 
     return (
         <NextHead>
-            {page?.title && (
-                <title>
-                    {page.title}
-                    {site?.globalSeo?.titleSuffix}
-                </title>
-            )}
+            {renderMetaTags(metaTags)}
+
+            <meta
+                name="viewport"
+                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
+            />
+
+            {/* APP */}
             <link rel="manifest" href="/manifest.json" />
-            <link rel="shortcut icon" href="/favicon.ico" />
             <meta name="msapplication-TileColor" content="#00aba9" />
             <meta name="theme-color" content="#61279e" />
             {site?.globalSeo?.siteName && <meta name="application-name" content={site.globalSeo.siteName} />}
@@ -24,23 +31,9 @@ export const Head = (): ReactElement => {
             {site?.globalSeo?.siteName && <meta name="apple-mobile-web-app-title" content={site.globalSeo.siteName} />}
             <meta name="format-detection" content="telephone=no" />
             <meta name="mobile-web-app-capable" content="yes" />
-            <meta
-                name="viewport"
-                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
-            />
             <meta name="msapplication-config" content="/browserconfig.xml" />
-            {site && <link rel="icon" type="image/x-icon" href={site.favicon?.url + '?w='} />}
-            {site?.faviconMetaTags.map((favicon, i) => {
-                const { tag: Tag, attributes } = favicon;
-                return <Tag key={`Favicon_${i}`} {...attributes} />;
-            })}
-            {site?.globalSeo?.siteName && <meta property="og:site_name" content={site.globalSeo?.siteName} />}
-            <meta
-                name="description"
-                content={String(page?.metaTags?.description || site?.globalSeo?.fallbackSeo?.description || '')}
-            />
 
-            {site?.globalSeo?.twitterAccount && <meta name="twitter:site" content={site.globalSeo?.twitterAccount} />}
+            {/* GTM */}
             {symbio.gtm.code && (
                 <script
                     dangerouslySetInnerHTML={{

@@ -5,6 +5,12 @@ graphql`
         id
         url
         title
+        _status
+        _seoMetaTags {
+            tag
+            content
+            attributes
+        }
         metaTags {
             title
             image {

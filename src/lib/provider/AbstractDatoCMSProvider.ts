@@ -5,6 +5,7 @@ import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
 import { DATOCMS_MAX_LIMIT } from '../../constants';
 import { sleep } from '../../utils/sleep';
+import { i18n } from '../../../symbio.config.json';
 
 export type DatoCMSRecord = {
     id: string;
@@ -48,22 +49,33 @@ export default abstract class AbstractDatoCMSProvider<
 
     abstract getId(): string;
 
-    async findOne(id: string, locale?: string, preview = false): Promise<TItem | null> {
-        const variables: { filter: { id: { eq: string }; title: { exists: boolean } }; locale?: string } = {
-            filter: {
-                id: { eq: id },
-                title: { exists: true },
-                ...this.getFilterParams(),
-            },
-        };
-
-        if (this.isLocalizable()) {
-            variables.locale = locale;
-        }
+    async findOne(
+        options: string | Omit<TFind['variables'], 'locale'>,
+        locale?: string,
+        preview = false,
+    ): Promise<TItem | null> {
+        const variables: TOne['variables'] =
+            typeof options === 'string'
+                ? {
+                      filter: {
+                          id: { eq: options },
+                          title: { exists: true },
+                          ...this.getFilterParams(),
+                      },
+                      locale,
+                  }
+                : {
+                      ...options,
+                      limit: 1,
+                      offset: 0,
+                      filter: options.filter
+                          ? { ...options.filter, ...this.getFilterParams() }
+                          : this.getFilterParams(),
+                      locale,
+                  };
 
         const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
-
-        return (result as { item: TItem }).item;
+        return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
     }
 
     async find(
@@ -115,5 +127,37 @@ export default abstract class AbstractDatoCMSProvider<
             };
         }
         return {};
+    }
+
+    async getPreviewUrl(id: string, locale?: string): Promise<string | null> {
+        const item = await this.findOne(id, locale);
+        if (locale !== i18n.defaultLocale) {
+            if (item) {
+                if (item.url) {
+                    return `/${locale}/${item.url}`;
+                }
+                if (item.slug) {
+                    return `/${locale}/${item.id}-${item.slug}`;
+                }
+                if (item.id) {
+                    return `/${locale}/${item.id}`;
+                }
+            }
+            return null;
+        } else {
+            const item = await this.findOne(id);
+            if (item) {
+                if (item.url) {
+                    return `/${item.url}`;
+                }
+                if (item.slug) {
+                    return `/${item.id}-${item.slug}`;
+                }
+                if (item.id) {
+                    return `/${item.id}`;
+                }
+            }
+            return null;
+        }
     }
 }

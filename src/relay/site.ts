@@ -22,6 +22,7 @@ graphql`
         faviconMetaTags {
             tag
             attributes
+            content
         }
     }
 `;
