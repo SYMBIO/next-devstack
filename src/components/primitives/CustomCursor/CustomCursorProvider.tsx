@@ -18,7 +18,6 @@ const CustomCursorRenderer = forwardRef<HTMLDivElement, CustomCursorProviderProp
 const cursors = new Map<EventTarget, ReactNode>();
 
 export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): ReactElement => {
-    const router = useRouter();
     const cursorRef = useRef<HTMLDivElement>(null);
     const [mouseEnterStack, setMouseEnterStack] = useState<Array<EventTarget>>([]);
     const [activeCursor, setActiveCursor] = useState<ReactNode>();
