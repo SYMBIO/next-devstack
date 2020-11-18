@@ -3,10 +3,9 @@ import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
-import 'dayjs/locale/cs';
-import 'dayjs/locale/en';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import blocks from '../blocks/server';
 import { Blocks } from '../components/base/Blocks/Blocks';
 import { Head } from '../components/base/Head/Head';
@@ -42,6 +41,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
+    dayjs.extend(localizedFormat);
     if (locale) {
         dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
         dayjs.locale(locale);
@@ -118,6 +118,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const locale = context.locale || context.defaultLocale;
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
+    dayjs.extend(localizedFormat);
     if (locale) {
         dayjs.updateLocale(locale, { calendar: CALENDAR_FORMATS[locale] });
         dayjs.locale(locale);

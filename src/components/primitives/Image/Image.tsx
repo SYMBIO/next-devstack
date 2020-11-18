@@ -37,8 +37,6 @@ export declare type ImageProps = Omit<NextImageProps, 'src'> &
     );
 
 export const Image = ({ image, src, alt, title, layout, width, height, ...props }: ImageProps): ReactElement | null => {
-    console.log(image, layout);
-
     // 1) if no image is passed, use src and directly next/image
     if (!image?.url) {
         if (src) {
