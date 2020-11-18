@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Button } from '../../components/primitives/Button/Button';
-import { BaseBlockProps } from '../../types/block';
 import { ButtonBlock_content } from './__generated__/ButtonBlock_content.graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -40,7 +39,9 @@ function ButtonBlock({ content, className, ...rest }: ButtonBlockProps): ReactEl
 
     return (
         <BlockWrapper tooltip={'ButtonBlock'} className={className} {...rest}>
-            <Button page={content.page}>{content.label}</Button>
+            <Button page={content.page || undefined} href={content.file?.url}>
+                {content.label}
+            </Button>
         </BlockWrapper>
     );
 }

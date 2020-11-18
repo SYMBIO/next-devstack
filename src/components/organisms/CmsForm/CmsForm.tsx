@@ -65,6 +65,8 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    console.log(form);
+
     if (!form) {
         return <></>;
     }
@@ -220,7 +222,9 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
                     {renderForm(helpers)}
 
                     <Button
-                        onClick={(): void => {
+                        type="submit"
+                        onClick={(e): void => {
+                            e.preventDefault();
                             if (!helpers.isSubmitting) {
                                 helpers.submitForm();
                             }

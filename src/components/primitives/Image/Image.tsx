@@ -22,47 +22,79 @@ export const Image = ({ image, ...props }: ImageProps): ReactElement | null => {
 };
 */
 
-import NextImage from 'next/image';
+import NextImage, { ImageProps as NextImageProps } from 'next/image';
 
-declare const VALID_LOADING_VALUES: readonly ['lazy', 'eager', undefined];
-declare type LoadingValue = typeof VALID_LOADING_VALUES[number];
+export declare type ImageProps = Omit<NextImageProps, 'src'> &
+    (
+        | {
+              image: ImageInterface;
+              src?: never;
+          }
+        | {
+              image?: never;
+              src: string;
+          }
+    );
 
-export type ImageLayout = 'fixed' | 'intrinsic' | 'responsive' | 'fill';
-
-export declare type ImageProps = Omit<
-    JSX.IntrinsicElements['img'],
-    'src' | 'srcSet' | 'ref' | 'width' | 'height' | 'loading'
-> & {
-    image: ImageInterface;
-    quality?: number | string;
-    priority?: boolean;
-    loading?: LoadingValue;
-    unoptimized?: boolean;
-    width?: number | string;
-    height?: number | string;
-    layout?: 'fill' | 'fixed' | 'intrinsic' | 'responsive' | undefined;
-};
-
-export const Image = ({ image, alt, title, layout, width, height, ...props }: ImageProps): ReactElement | null => {
+export const Image = ({ image, src, alt, title, layout, width, height, ...props }: ImageProps): ReactElement | null => {
+    // 1) if no image is passed, use src and directly next/image
     if (!image?.url) {
-        return null;
+        if (src) {
+            const nextImageProps: NextImageProps = {
+                ...props,
+                src,
+                alt,
+                title,
+                layout,
+                ...(typeof width === 'string' || typeof width === 'number' ? { width } : {}),
+                ...(typeof height === 'string' || typeof height === 'number' ? { height } : {}),
+            };
+            return <NextImage {...nextImageProps} />;
+        } else {
+            return null;
+        }
     }
 
-    const sizeParams =
-        width && height
-            ? { width, height, layout }
-            : layout === 'fill'
-            ? { layout }
-            : image.width && image.height
-            ? { width: image.width, height: image.height, layout: 'responsive' }
-            : { layout: 'fill' };
+    // 2) if width and height are passed use it to size image
+    if (
+        (typeof width === 'string' || typeof width === 'number') &&
+        (typeof height === 'string' || typeof height === 'number')
+    ) {
+        return (
+            <NextImage
+                src={image.url}
+                alt={alt || image.alt || ''}
+                title={title || image.title || undefined}
+                layout={layout}
+                width={width}
+                height={height}
+                {...props}
+            />
+        );
+    }
 
+    // 3) if image has width and height, pass it to the next image with default layout responsive
+    if (typeof image.width === 'number' && typeof image.height === 'number') {
+        return (
+            <NextImage
+                src={image.url}
+                alt={alt || image.alt || ''}
+                title={title || image.title || undefined}
+                layout={layout}
+                width={image.width}
+                height={image.height}
+                {...props}
+            />
+        );
+    }
+
+    // 4) otherwise (no width & height) use layout fill
     return (
         <NextImage
             src={image.url}
             alt={alt || image.alt || ''}
             title={title || image.title || undefined}
-            {...sizeParams}
+            layout={'fill' as ImageProps['layout']}
             {...props}
         />
     );
