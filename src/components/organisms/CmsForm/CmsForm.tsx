@@ -65,8 +65,6 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
     const [globalError, setGlobalError] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    console.log(form);
-
     if (!form) {
         return <></>;
     }
