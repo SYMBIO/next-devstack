@@ -8,7 +8,6 @@ import CarouselBlock from './CarouselBlock/CarouselBlock';
 import CmsFormBlock from './CmsFormBlock/CmsFormBlock';
 import Error404Block from './Error404Block/Error404Block';
 import GalleryBlock from './GalleryBlock/GalleryBlock';
-import HorizontalRuleBlock from './HorizontalRuleBlock/HorizontalRuleBlock';
 import ImageBlock from './ImageBlock/ImageBlock';
 import MapBlock from './MapBlock/MapBlock';
 import NewsDetailBlock from './NewsDetailBlock/NewsDetailBlock';
@@ -48,7 +47,6 @@ const blocks: { [name: string]: BlockType } = {
     CmsFormBlock,
     Error404Block,
     GalleryBlock,
-    HorizontalRuleBlock,
     ImageBlock,
     MapBlock,
     NewsDetailBlock,

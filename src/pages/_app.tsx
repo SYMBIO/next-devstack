@@ -23,7 +23,7 @@ export function reportWebVitals(metrics: NextWebVitalsMetric): void {
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
     return (
         <CustomCursorProvider>
-            <Component {...pageProps} />;
+            <Component {...pageProps} />
         </CustomCursorProvider>
     );
 }

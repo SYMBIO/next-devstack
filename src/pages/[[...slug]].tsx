@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
+import 'dayjs/locale/en';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import timeZone from 'dayjs/plugin/timezone';
 import blocks from '../blocks/server';

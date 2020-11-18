@@ -24,8 +24,8 @@ class NewsProvider extends AbstractDatoCMSProvider<
         return '208392';
     }
 
-    getFilterParams(): Record<string, Record<string, string>> {
-        return { dateFrom: { lte: dayjs().format() }, slug: { neq: 'null' } };
+    getFilterParams(): Record<string, Record<string, string | boolean>> {
+        return { dateFrom: { lte: dayjs().format() }, slug: { neq: 'null' }, title: { exists: true } };
     }
 
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
