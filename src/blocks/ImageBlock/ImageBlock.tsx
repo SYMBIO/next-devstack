@@ -2,31 +2,36 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Image } from '../../components/primitives/Image/Image';
-import { BaseBlockProps } from '../../types/block';
+import { ImageBlock_content } from './__generated__/ImageBlock_content.graphql';
 import styles from './ImageBlock.module.scss';
+
+interface ImageBlockProps {
+    content: ImageBlock_content;
+}
 
 graphql`
     fragment ImageBlock_content on ImageBlockRecord {
         id
         image {
-            ...appImageFragment @relay(mask: false)
+            ...appImageBaseFragment @relay(mask: false)
         }
     }
 `;
 
-function ImageBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function ImageBlock({ content }: ImageBlockProps): ReactElement | null {
     const { image } = content;
 
-    return (
-        <BlockWrapper tooltip={'ImageBlock'} className={styles.wrapper} {...rest}>
-            <div
-                className={styles.imageWrapper}
-                style={{ width: '100%', height: 100 * (image.height / image.width) + '%' }}
-            >
-                <Image image={image} />
-            </div>
-        </BlockWrapper>
-    );
+    if (image) {
+        return (
+            <BlockWrapper tooltip={'ImageBlock'}>
+                <div className={styles.imageWrapper}>
+                    <Image image={image} />
+                </div>
+            </BlockWrapper>
+        );
+    }
+
+    return null;
 }
 
 ImageBlock.whyDidYouRender = true;

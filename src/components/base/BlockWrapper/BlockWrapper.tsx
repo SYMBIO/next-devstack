@@ -6,16 +6,11 @@ export interface BlockWrapperProps {
     tooltip: string;
     children?: ReactNode;
     className?: string;
-    marginTop?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginBottom?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginLeft?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    marginRight?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    margin?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export const BlockWrapper = ({
-    children,
-    className,
-}: BlockWrapperProps): ReactElement<BlockWrapperProps, 'div'> | null => {
-    return <section className={condCls(styles.block, className)}>{children}</section>;
+export const BlockWrapper = ({ children, className }: BlockWrapperProps): ReactElement | null => {
+    if (children || (Array.isArray(children) && children.length > 0)) {
+        return <section className={condCls(styles.block, className)}>{children}</section>;
+    }
+    return null;
 };

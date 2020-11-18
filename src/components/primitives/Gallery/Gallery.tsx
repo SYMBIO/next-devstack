@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-const Lightbox = dynamic(() => import('react-image-lightbox'));
 import { ImageInterface } from '../../../types/app';
-import { Image, ImageLayout } from '../Image/Image';
+import { Image } from '../Image/Image';
 import styles from './Gallery.module.scss';
+
+const Lightbox = dynamic(() => import('react-image-lightbox'));
 
 export interface GalleryProps {
     images: ReadonlyArray<ImageInterface>;
@@ -27,7 +28,7 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
                                 }}
                                 className={styles.photo}
                             >
-                                <Image image={image} layout={'fill' as ImageLayout} />
+                                <Image image={image} layout="fill" />
                             </div>
                         ),
                 )}

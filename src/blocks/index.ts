@@ -3,11 +3,22 @@
  */
 import dynamic from 'next/dynamic';
 import { BlockType } from '../types/block';
-
-/**
- * Define fragment for blocks to load with app data
- */
 import { graphql } from 'relay-runtime';
+import ButtonBlock from './ButtonBlock/ButtonBlock';
+import CarouselBlock from './CarouselBlock/CarouselBlock';
+import CmsFormBlock from './CmsFormBlock/CmsFormBlock';
+import Error404Block from './Error404Block/Error404Block';
+import GalleryBlock from './GalleryBlock/GalleryBlock';
+import HorizontalRuleBlock from './HorizontalRuleBlock/HorizontalRuleBlock';
+import ImageBlock from './ImageBlock/ImageBlock';
+import MapBlock from './MapBlock/MapBlock';
+import NewsDetailBlock from './NewsDetailBlock/NewsDetailBlock';
+import NewsListBlock from './NewsListBlock/NewsListBlock';
+import NewsListFloorBlock from './NewsListFloorBlock/NewsListFloorBlock';
+import RichTextBlock from './RichTextBlock/RichTextBlock';
+import SubpageListBlock from './SubpageListBlock/SubpageListBlock';
+import VideoBlock from './VideoBlock/VideoBlock';
+import YoutubeVimeoBlock from './YoutubeVimeoBlock/YoutubeVimeoBlock';
 
 graphql`
     fragment blocksContent on PageModelContentField {
@@ -27,22 +38,41 @@ graphql`
     }
 `;
 
-const blocks: { [name: string]: BlockType } = {
-    ButtonBlock: dynamic(() => import('./ButtonBlock/ButtonBlock')),
-    CarouselBlock: dynamic(() => import('./CarouselBlock/CarouselBlock')),
-    CmsFormBlock: dynamic(() => import('./CmsFormBlock/CmsFormBlock')),
-    Error404Block: dynamic(() => import('./Error404Block/Error404Block')),
-    GalleryBlock: dynamic(() => import('./GalleryBlock/GalleryBlock')),
-    HorizontalRuleBlock: dynamic(() => import('./HorizontalRuleBlock/HorizontalRuleBlock')),
-    ImageBlock: dynamic(() => import('./ImageBlock/ImageBlock')),
-    MapBlock: dynamic(() => import('./MapBlock/MapBlock')),
-    NewsDetailBlock: dynamic(() => import('./NewsDetailBlock/NewsDetailBlock')),
-    NewsListBlock: dynamic(() => import('./NewsListBlock/NewsListBlock')),
-    NewsListFloorBlock: dynamic(() => import('./NewsListFloorBlock/NewsListFloorBlock')),
-    RichTextBlock: dynamic(() => import('./RichTextBlock/RichTextBlock')),
-    SubpageListBlock: dynamic(() => import('./SubpageListBlock/SubpageListBlock')),
-    VideoBlock: dynamic(() => import('./VideoBlock/VideoBlock')),
-    YoutubeVimeoBlock: dynamic(() => import('./YoutubeVimeoBlock/YoutubeVimeoBlock')),
-};
+const blocks: { [name: string]: BlockType } =
+    process.env.NODE_ENV === 'production'
+        ? {
+              ButtonBlock: dynamic(() => import('./ButtonBlock/ButtonBlock')),
+              CarouselBlock: dynamic(() => import('./CarouselBlock/CarouselBlock')),
+              CmsFormBlock: dynamic(() => import('./CmsFormBlock/CmsFormBlock')),
+              Error404Block: dynamic(() => import('./Error404Block/Error404Block')),
+              GalleryBlock: dynamic(() => import('./GalleryBlock/GalleryBlock')),
+              HorizontalRuleBlock: dynamic(() => import('./HorizontalRuleBlock/HorizontalRuleBlock')),
+              ImageBlock: dynamic(() => import('./ImageBlock/ImageBlock')),
+              MapBlock: dynamic(() => import('./MapBlock/MapBlock')),
+              NewsDetailBlock: dynamic(() => import('./NewsDetailBlock/NewsDetailBlock')),
+              NewsListBlock: dynamic(() => import('./NewsListBlock/NewsListBlock')),
+              NewsListFloorBlock: dynamic(() => import('./NewsListFloorBlock/NewsListFloorBlock')),
+              RichTextBlock: dynamic(() => import('./RichTextBlock/RichTextBlock')),
+              SubpageListBlock: dynamic(() => import('./SubpageListBlock/SubpageListBlock')),
+              VideoBlock: dynamic(() => import('./VideoBlock/VideoBlock')),
+              YoutubeVimeoBlock: dynamic(() => import('./YoutubeVimeoBlock/YoutubeVimeoBlock')),
+          }
+        : {
+              ButtonBlock,
+              CarouselBlock,
+              CmsFormBlock,
+              Error404Block,
+              GalleryBlock,
+              HorizontalRuleBlock,
+              ImageBlock,
+              MapBlock,
+              NewsDetailBlock,
+              NewsListBlock,
+              NewsListFloorBlock,
+              RichTextBlock,
+              SubpageListBlock,
+              VideoBlock,
+              YoutubeVimeoBlock,
+          };
 
 export default blocks;

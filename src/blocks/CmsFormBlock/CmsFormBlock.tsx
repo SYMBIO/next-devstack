@@ -2,8 +2,12 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { CmsForm } from '../../components/organisms/CmsForm/CmsForm';
-import { BaseBlockProps } from '../../types/block';
+import { CmsFormBlock_content } from './__generated__/CmsFormBlock_content.graphql';
 import styles from './CmsFormBlock.module.scss';
+
+interface CmsFormBlockProps {
+    content: CmsFormBlock_content;
+}
 
 graphql`
     fragment CmsFormBlock_content on CmsFormBlockRecord {
@@ -47,12 +51,16 @@ graphql`
     }
 `;
 
-function CmsFormBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
-    return (
-        <BlockWrapper tooltip={'CmsFormBlock'} className={styles.wrapper} {...rest}>
-            <CmsForm {...content} />
-        </BlockWrapper>
-    );
+function CmsFormBlock({ content }: CmsFormBlockProps): ReactElement | null {
+    if (content.form?.content && content.form?.submitLabel && content.form.successMessage) {
+        return (
+            <BlockWrapper tooltip={'CmsFormBlock'}>
+                <CmsForm {...content} />
+            </BlockWrapper>
+        );
+    }
+
+    return null;
 }
 
 CmsFormBlock.whyDidYouRender = true;

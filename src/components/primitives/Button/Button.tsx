@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
+import { Page } from '../../../types/app';
 import condCls from '../../../utils/conditionalClasses';
 import { Link } from '../Link/Link';
-import styles from './Button.module.scss';
 import { Icon, Icons } from '../Icon/Icon';
+import styles from './Button.module.scss';
 
 type IconPosition = 'left' | 'right';
 
-export interface ButtonProps {
-    children: string | JSX.Element | (string | JSX.Element | number)[];
-    onClick?: () => void;
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     href?: string;
-    page?: { url: string | null } | null;
-    icon?: Icons;
+    page?: Page;
     params?: Record<string, string | number>;
-    disabled?: boolean;
-    external?: boolean;
+    icon?: Icons;
     iconPosition?: IconPosition;
-    submit?: boolean;
 }
 
 const Button = ({
@@ -24,41 +20,16 @@ const Button = ({
     href,
     page,
     params,
-    disabled,
     icon,
-    external,
-    submit,
-    onClick,
     iconPosition = 'left',
+    disabled,
+    type,
     ...rest
 }: ButtonProps): JSX.Element => {
-    if (href || page) {
+    if ((href || page) && type !== 'submit') {
         return (
-            <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest}>
-                <div className={styles.inner}>
-                    <Link
-                        className={styles.link}
-                        href={href}
-                        page={{ url: (page && page.url) || '' }}
-                        target={external ? '_blank' : '_self'}
-                        params={params}
-                        plain
-                    >
-                        {icon && iconPosition === 'left' && (
-                            <Icon className={condCls(styles.icon, styles.iconOnLeft)} name={icon} />
-                        )}
-                        {children}
-                        {icon && iconPosition === 'right' && (
-                            <Icon className={condCls(styles.icon, styles.iconOnRight)} name={icon} />
-                        )}
-                    </Link>
-                </div>
-            </div>
-        );
-    } else {
-        return (
-            <div className={condCls(styles.wrapper, disabled && styles.disabled)} {...rest} onClick={onClick}>
-                <button className={styles.innerButton} type={submit ? 'submit' : 'button'} disabled={disabled}>
+            <div className={condCls(styles.button, styles.hasLink, disabled && styles.disabled)}>
+                <Link className={styles.link} href={href} page={page} target={rest.target} params={params}>
                     {icon && iconPosition === 'left' && (
                         <Icon className={condCls(styles.icon, styles.iconOnLeft)} name={icon} />
                     )}
@@ -66,8 +37,25 @@ const Button = ({
                     {icon && iconPosition === 'right' && (
                         <Icon className={condCls(styles.icon, styles.iconOnRight)} name={icon} />
                     )}
-                </button>
+                </Link>
             </div>
+        );
+    } else {
+        return (
+            <button
+                className={condCls(styles.button, disabled && styles.disabled)}
+                type={type}
+                disabled={disabled}
+                {...rest}
+            >
+                {icon && iconPosition === 'left' && (
+                    <Icon className={condCls(styles.icon, styles.iconOnLeft)} name={icon} />
+                )}
+                {children}
+                {icon && iconPosition === 'right' && (
+                    <Icon className={condCls(styles.icon, styles.iconOnRight)} name={icon} />
+                )}
+            </button>
         );
     }
 };

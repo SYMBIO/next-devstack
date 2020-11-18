@@ -220,7 +220,9 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
                     {renderForm(helpers)}
 
                     <Button
-                        onClick={(): void => {
+                        type="submit"
+                        onClick={(e): void => {
+                            e.preventDefault();
                             if (!helpers.isSubmitting) {
                                 helpers.submitForm();
                             }
