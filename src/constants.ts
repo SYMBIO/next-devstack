@@ -3,9 +3,9 @@ export const CALENDAR_FORMATS: Record<string, unknown> = {
         lastDay: '[Včera]',
         sameDay: '[Dnes]',
         nextDay: '[Zítra]',
-        lastWeek: 'D. M. YYYY',
-        nextWeek: 'dddd',
-        sameElse: 'D. M. YYYY',
+        lastWeek: 'l',
+        nextWeek: 'l',
+        sameElse: 'l',
     },
     en: {
         lastDay: '[Yesterday]',

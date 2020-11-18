@@ -1,16 +1,6 @@
-@import "../../styles/mixins/responsive";
-
 .wrapper {
-  margin: 0 -1rem;
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 10rem);
   max-height: 56.25vw;
-
-  @include from-tablet-landscape{
-    margin: 0 -2rem;
-  }
-
-  @include large-desktop {
-    margin: 0 -3rem;
-  }
+  padding: 0;
 }

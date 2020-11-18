@@ -33,18 +33,6 @@ export interface CarouselProps {
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
-            } | null;
         } | null;
         readonly video: {
             readonly id: number;
@@ -85,7 +73,7 @@ const Banner = ({
         {video ? (
             <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />
         ) : (
-            image && <Image image={image} layout={'fill'} className={styles.image} />
+            image && <Image image={image} layout="fill" className={styles.image} />
         )}
         <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
             <Heading tag={'h1'}>{headline}</Heading>

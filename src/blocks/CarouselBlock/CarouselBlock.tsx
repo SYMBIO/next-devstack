@@ -19,7 +19,7 @@ graphql`
         banners {
             id
             image {
-                ...appImageFragment @relay(mask: false)
+                ...appImageBaseFragment @relay(mask: false)
             }
             video {
                 ...appVideoFragment @relay(mask: false)

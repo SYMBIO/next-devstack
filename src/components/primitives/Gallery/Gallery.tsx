@@ -17,21 +17,18 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
     return (
         <div className={styles.gallery}>
             {Array.isArray(images) &&
-                images.map(
-                    (image, index) =>
-                        image.responsiveImage && (
-                            <div
-                                key={image.id}
-                                onClick={() => {
-                                    setIsOpen(true);
-                                    setActive(index);
-                                }}
-                                className={styles.photo}
-                            >
-                                <Image image={image} layout="fill" />
-                            </div>
-                        ),
-                )}
+                images.map((image, index) => (
+                    <div
+                        key={image.id}
+                        onClick={() => {
+                            setIsOpen(true);
+                            setActive(index);
+                        }}
+                        className={styles.photo}
+                    >
+                        <Image image={image} layout="fill" />
+                    </div>
+                ))}
             {isOpen && (
                 <Lightbox
                     mainSrc={images[active].url}

@@ -46,8 +46,8 @@ export const Image = ({ image, src, alt, title, layout, width, height, ...props 
                 alt,
                 title,
                 layout,
-                ...(typeof width === 'string' || typeof width === 'number' ? { width } : {}),
-                ...(typeof height === 'string' || typeof height === 'number' ? { height } : {}),
+                ...((typeof width === 'string' || typeof width === 'number') && layout !== 'fill' ? { width } : {}),
+                ...((typeof height === 'string' || typeof height === 'number') && layout !== 'fill' ? { height } : {}),
             };
             return <NextImage {...nextImageProps} />;
         } else {
@@ -55,37 +55,39 @@ export const Image = ({ image, src, alt, title, layout, width, height, ...props 
         }
     }
 
-    // 2) if width and height are passed use it to size image
-    if (
-        (typeof width === 'string' || typeof width === 'number') &&
-        (typeof height === 'string' || typeof height === 'number')
-    ) {
-        return (
-            <NextImage
-                src={image.url}
-                alt={alt || image.alt || ''}
-                title={title || image.title || undefined}
-                layout={layout}
-                width={width}
-                height={height}
-                {...props}
-            />
-        );
-    }
+    if (layout !== 'fill') {
+        // 2) if width and height are passed use it to size image
+        if (
+            (typeof width === 'string' || typeof width === 'number') &&
+            (typeof height === 'string' || typeof height === 'number')
+        ) {
+            return (
+                <NextImage
+                    src={image.url}
+                    alt={alt || image.alt || ''}
+                    title={title || image.title || undefined}
+                    layout={layout}
+                    width={width}
+                    height={height}
+                    {...props}
+                />
+            );
+        }
 
-    // 3) if image has width and height, pass it to the next image with default layout responsive
-    if (typeof image.width === 'number' && typeof image.height === 'number') {
-        return (
-            <NextImage
-                src={image.url}
-                alt={alt || image.alt || ''}
-                title={title || image.title || undefined}
-                layout={layout}
-                width={image.width}
-                height={image.height}
-                {...props}
-            />
-        );
+        // 3) if image has width and height, pass it to the next image with default layout responsive
+        if (typeof image.width === 'number' && typeof image.height === 'number') {
+            return (
+                <NextImage
+                    src={image.url}
+                    alt={alt || image.alt || ''}
+                    title={title || image.title || undefined}
+                    layout={layout}
+                    width={image.width}
+                    height={image.height}
+                    {...props}
+                />
+            );
+        }
     }
 
     // 4) otherwise (no width & height) use layout fill
