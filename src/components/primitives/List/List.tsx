@@ -4,7 +4,7 @@ import styles from './List.module.scss';
 
 export interface ListProps {
     tag: 'ol' | 'ul';
-    children: ReactElement[] | ReactElement;
+    children: ReactElement[] | ReactElement | string;
 }
 
 const List = ({ tag, children }: ListProps): JSX.Element => {

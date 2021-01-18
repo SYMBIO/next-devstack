@@ -13,8 +13,8 @@ interface BannerInterface {
     headline?: string | null;
     description?: string | null;
     textAlign?: string | null;
-    image?: ImageInterface;
-    video?: VideoInterface;
+    image?: ImageInterface | null;
+    video?: VideoInterface | null;
 }
 
 export type TextAlignCms = 'vlevo' | 'vpravo';
@@ -68,7 +68,7 @@ const Banner = ({
     description,
     textAlign,
     sliderTextAlign,
-}: BannerInterface & { sliderTextAlign: string }): ReactElement => (
+}: BannerInterface & { sliderTextAlign: string | null }): ReactElement => (
     <article className={styles.banner}>
         {video ? (
             <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />

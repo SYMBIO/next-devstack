@@ -48,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     const csv = data
         .map((d) => {
-            const form = d.language === 'en' ? formEn : formCs;
+            const form = d.locale === 'en' ? formEn : formCs;
             if (form?.content) {
                 return form.content
                     .reduce(
@@ -66,7 +66,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                             }
                             return acc;
                         },
-                        [dayjs(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.language],
+                        [dayjs(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.locale],
                     )
                     .map((a) =>
                         a

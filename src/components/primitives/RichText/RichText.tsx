@@ -1,6 +1,6 @@
 import React, { Fragment, ReactElement } from 'react';
 import parse from 'html-react-parser';
-import { DomElement, domToReact, HTMLReactParserOptions } from 'html-react-parser';
+import { DOMNode, domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import { v4 } from 'uuid';
 import Image from 'next/image';
 import { isInternalLink } from '../../../lib/routing/isInternalLink';
@@ -18,7 +18,7 @@ export interface RichTextProps {
 }
 
 const parserOptions = new (class implements HTMLReactParserOptions {
-    public replace(domNode: DomElement): React.ReactElement | Record<string, unknown> | false | undefined {
+    public replace(domNode: DOMNode): React.ReactElement | Record<string, unknown> | false | undefined {
         if (domNode.type === 'tag') {
             switch (domNode.name) {
                 case 'a': {
