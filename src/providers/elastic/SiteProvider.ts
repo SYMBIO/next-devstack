@@ -2,7 +2,7 @@ import Provider from '../../lib/provider/Provider';
 import { Environment, fetchQuery } from 'relay-runtime';
 import { siteFragment } from '../../relay/__generated__/siteFragment.graphql';
 import * as d from '../../relay/site';
-import { siteQuery } from '../../relay/__generated__/siteQuery.graphql';
+import { siteQuery, siteQueryResponse } from '../../relay/__generated__/siteQuery.graphql';
 import { createRelayEnvironment } from '../../lib/relay/createRelayEnvironment';
 import { getSiteLocale } from '../../lib/routing/getSiteLocale';
 import getElastic from '../../lib/elastic';
@@ -21,7 +21,9 @@ class SiteProvider implements Provider {
     }
 
     async get(locale: string): Promise<Site> {
-        return (await fetchQuery<siteQuery>(this.environment, d.siteQuery, { locale: getSiteLocale(locale) }))._site;
+        return (((await fetchQuery<siteQuery>(this.environment, d.siteQuery, {
+            locale: getSiteLocale(locale),
+        })) as unknown) as siteQueryResponse)._site;
     }
 
     async getByElastic(locale: string): Promise<Site> {
