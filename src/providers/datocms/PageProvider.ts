@@ -9,7 +9,7 @@ import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../../rela
 import * as d from '../../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../../relay/__generated__/pageListQuery.graphql';
 import * as s from '../../relay/__generated__/pageStaticPathsQuery.graphql';
-import { appQuery } from '../../relay/__generated__/appQuery.graphql';
+import { appQuery, appQueryResponse } from '../../relay/__generated__/appQuery.graphql';
 import { AppQuery } from '../../relay/app';
 import { getPagePattern } from '../../lib/routing/getPagePattern';
 import { AppData } from '../../types/app';
@@ -17,6 +17,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
 import { BlockType } from '../../types/block';
+import { pageStaticPathsQueryResponse } from '../../relay/__generated__/pageStaticPathsQuery.graphql';
 
 class PageProvider extends AbstractDatoCMSProvider<
     d.pageDetailQuery,
@@ -41,11 +42,11 @@ class PageProvider extends AbstractDatoCMSProvider<
     async getPageBySlug(locale: string | undefined, slug: string[], preview = false): Promise<AppData> {
         const pattern = getPagePattern(slug);
         const redirectPattern = slug.join('/');
-        const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
+        const data = ((await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
             ...(locale ? { locale: getSiteLocale(locale) } : {}),
             pattern,
             redirectPattern,
-        });
+        })) as unknown) as appQueryResponse;
 
         return data;
     }
@@ -56,7 +57,7 @@ class PageProvider extends AbstractDatoCMSProvider<
         let cnt = -1;
         let done = 0;
         do {
-            const { allPages, _allPagesMeta } = await fetchQuery<s.pageStaticPathsQuery>(
+            const { allPages, _allPagesMeta } = ((await fetchQuery<s.pageStaticPathsQuery>(
                 this.getEnvironment(false),
                 pageStaticPathsQuery,
                 {
@@ -64,7 +65,7 @@ class PageProvider extends AbstractDatoCMSProvider<
                     first: 100,
                     skip: done,
                 },
-            );
+            )) as unknown) as pageStaticPathsQueryResponse;
             if (cnt === -1) {
                 cnt = Number(_allPagesMeta.count);
             }
