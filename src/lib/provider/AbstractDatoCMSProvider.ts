@@ -75,7 +75,20 @@ export default abstract class AbstractDatoCMSProvider<
                   };
 
         const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
-        return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
+        return await this.transformResult(result, locale);
+    }
+
+    /**
+     * Transform result of one query into an item
+     * @param result
+     * @param locale
+     */
+    async transformResult(result: TOne['response'], locale?: string): Promise<TItem | null> {
+        if (result) {
+            return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
+        } else {
+            return null;
+        }
     }
 
     async find(
@@ -93,7 +106,11 @@ export default abstract class AbstractDatoCMSProvider<
             variables.locale = options.locale;
         }
 
-        const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
+        const result = ((await fetchQuery<TFind>(
+            this.getEnvironment(preview),
+            this.findNode,
+            variables,
+        )) as unknown) as {
             items: TItems;
             meta: { count: number };
         };
@@ -104,7 +121,11 @@ export default abstract class AbstractDatoCMSProvider<
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
-                const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
+                const result = ((await fetchQuery<TFind>(
+                    this.getEnvironment(preview),
+                    this.findNode,
+                    variables,
+                )) as unknown) as {
                     items: TItems;
                 };
                 data.push(...result.items);
