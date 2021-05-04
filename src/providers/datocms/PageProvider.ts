@@ -9,7 +9,7 @@ import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../../rela
 import * as d from '../../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../../relay/__generated__/pageListQuery.graphql';
 import * as s from '../../relay/__generated__/pageStaticPathsQuery.graphql';
-import { appQuery, appQueryResponse } from '../../relay/__generated__/appQuery.graphql';
+import { appQuery } from '../../relay/__generated__/appQuery.graphql';
 import { AppQuery } from '../../relay/app';
 import { getPagePattern } from '../../lib/routing/getPagePattern';
 import { AppData } from '../../types/app';
@@ -17,7 +17,6 @@ import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
 import providers from '../../providers';
 import { BlockType } from '../../types/block';
-import { pageStaticPathsQueryResponse } from '../../relay/__generated__/pageStaticPathsQuery.graphql';
 
 class PageProvider extends AbstractDatoCMSProvider<
     d.pageDetailQuery,
@@ -39,14 +38,14 @@ class PageProvider extends AbstractDatoCMSProvider<
      * @param slug
      * @param preview
      */
-    async getPageBySlug(locale: string | undefined, slug: string[], preview = false): Promise<AppData> {
+    async getPageBySlug(locale: string | undefined, slug: string[], preview = false): Promise<AppData | undefined> {
         const pattern = getPagePattern(slug);
         const redirectPattern = slug.join('/');
-        const data = ((await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
+        const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
             ...(locale ? { locale: getSiteLocale(locale) } : {}),
             pattern,
             redirectPattern,
-        })) as unknown) as appQueryResponse;
+        }).toPromise();
 
         return data;
     }
@@ -57,58 +56,58 @@ class PageProvider extends AbstractDatoCMSProvider<
         let cnt = -1;
         let done = 0;
         do {
-            const { allPages, _allPagesMeta } = ((await fetchQuery<s.pageStaticPathsQuery>(
-                this.getEnvironment(false),
-                pageStaticPathsQuery,
-                {
-                    locale: getSiteLocale(locale),
-                    first: 100,
-                    skip: done,
-                },
-            )) as unknown) as pageStaticPathsQueryResponse;
-            if (cnt === -1) {
-                cnt = Number(_allPagesMeta.count);
-            }
-            // loop over all pages
-            for (const page of allPages) {
-                if (String(page.url) === 'homepage') {
-                    params.push({ slug: [] });
-                    continue;
+            const data = await fetchQuery<s.pageStaticPathsQuery>(this.getEnvironment(false), pageStaticPathsQuery, {
+                locale: getSiteLocale(locale),
+                first: 100,
+                skip: done,
+            }).toPromise();
+
+            if (data) {
+                const { allPages, _allPagesMeta } = data;
+                if (cnt === -1) {
+                    cnt = Number(_allPagesMeta.count);
                 }
-                if (String(page.url) === '404') {
-                    continue;
-                }
-                const url = page.url;
-                if (url) {
-                    const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
-                    if (blocksParams.length > 0) {
-                        for (const blockParams of blocksParams) {
-                            let newUrl = url;
-                            for (const key in blockParams) {
-                                if (Object.prototype.hasOwnProperty.call(blockParams, key)) {
-                                    if (key === '*') {
-                                        newUrl = newUrl.replace('/*', '/' + String(blockParams[key]));
-                                    } else {
-                                        newUrl = newUrl?.replace(
-                                            new RegExp('/:' + key + '(\\/|$)'),
-                                            String('/' + blockParams[key] + '$1'),
-                                        );
+                // loop over all pages
+                for (const page of allPages) {
+                    if (String(page.url) === 'homepage') {
+                        params.push({ slug: [] });
+                        continue;
+                    }
+                    if (String(page.url) === '404') {
+                        continue;
+                    }
+                    const url = page.url;
+                    if (url) {
+                        const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
+                        if (blocksParams.length > 0) {
+                            for (const blockParams of blocksParams) {
+                                let newUrl = url;
+                                for (const key in blockParams) {
+                                    if (Object.prototype.hasOwnProperty.call(blockParams, key)) {
+                                        if (key === '*') {
+                                            newUrl = newUrl.replace('/*', '/' + String(blockParams[key]));
+                                        } else {
+                                            newUrl = newUrl?.replace(
+                                                new RegExp('/:' + key + '(\\/|$)'),
+                                                String('/' + blockParams[key] + '$1'),
+                                            );
+                                        }
                                     }
                                 }
+                                // build slug array
+                                const pathParts = newUrl.split('/');
+                                params.push({ slug: pathParts, locale });
                             }
+                        } else {
                             // build slug array
-                            const pathParts = newUrl.split('/');
+                            const pathParts = url.split('/');
                             params.push({ slug: pathParts, locale });
                         }
-                    } else {
-                        // build slug array
-                        const pathParts = url.split('/');
-                        params.push({ slug: pathParts, locale });
                     }
                 }
-            }
 
-            done += allPages.length;
+                done += allPages.length;
+            }
         } while (done < cnt);
 
         return params.map((p) => ({

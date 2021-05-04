@@ -74,7 +74,8 @@ export default abstract class AbstractDatoCMSProvider<
                       locale,
                   };
 
-        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
+        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables).toPromise();
+
         return await this.transformResult(result, locale);
     }
 
@@ -110,7 +111,7 @@ export default abstract class AbstractDatoCMSProvider<
             this.getEnvironment(preview),
             this.findNode,
             variables,
-        )) as unknown) as {
+        ).toPromise()) as unknown) as {
             items: TItems;
             meta: { count: number };
         };
@@ -125,7 +126,7 @@ export default abstract class AbstractDatoCMSProvider<
                     this.getEnvironment(preview),
                     this.findNode,
                     variables,
-                )) as unknown) as {
+                ).toPromise()) as unknown) as {
                     items: TItems;
                 };
                 data.push(...result.items);

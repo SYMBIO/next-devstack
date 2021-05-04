@@ -40,6 +40,7 @@ export const getPageStaticProps = async (
     const locale = context.locale || context.defaultLocale;
     const props = await provider.getPageBySlug(locale, getNormalizedSlug(context));
     const notFound = !props.page || undefined;
+    const slug = context.params?.slug;
 
     if (props.redirect && props.redirect.to && typeof props.redirect.permanent === 'boolean') {
         Logger.info('Matched redirect ' + props.redirect.from + ' -> ' + props.redirect.to);
@@ -70,7 +71,7 @@ export const getPageStaticProps = async (
                 preview: !!context.preview,
             },
             revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-            notFound,
+            ...((slug && slug.length === 1 && slug[0] === '404') || !!props.page ? {} : { notFound }),
         };
     } catch (e) {
         if (e.code === 'ENOENT') {
@@ -83,7 +84,7 @@ export const getPageStaticProps = async (
                     preview: !!context.preview,
                 },
                 revalidate: ssg.staticGeneration ? false : ssg.revalidate,
-                notFound: true,
+                ...(slug && slug.length === 1 && slug[0] === '404' ? {} : { notFound: true }),
             };
         } else {
             throw e;

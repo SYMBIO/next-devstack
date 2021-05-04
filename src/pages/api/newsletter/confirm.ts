@@ -5,10 +5,7 @@ import { fetchQuery } from 'relay-runtime';
 import { Mandrill } from 'mandrill-api';
 import { createRelayEnvironment } from '../../../lib/relay/createRelayEnvironment';
 import { confirmSubscriberQuery } from '../../../relay/api/newsletter/confirm';
-import {
-    confirmSubscriberQuery as q,
-    confirmSubscriberQueryResponse,
-} from '../../../relay/api/newsletter/__generated__/confirmSubscriberQuery.graphql';
+import { confirmSubscriberQuery as q } from '../../../relay/api/newsletter/__generated__/confirmSubscriberQuery.graphql';
 import symbio from '../../../../symbio.config.json';
 
 dotenv.config();
@@ -39,18 +36,20 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     try {
         const environment = createRelayEnvironment({}, false);
-        const { newsletterSubscriber } = ((await fetchQuery<q>(environment, confirmSubscriberQuery, {
+        const newsletterSubscriberData = await fetchQuery<q>(environment, confirmSubscriberQuery, {
             filter: {
                 hash: { eq: hash },
             },
-        })) as unknown) as confirmSubscriberQueryResponse;
+        }).toPromise();
 
-        if (!newsletterSubscriber) {
+        if (!newsletterSubscriberData?.newsletterSubscriber) {
             res.statusCode = 404;
             res.statusMessage = 'Page not found';
             res.end();
             return;
         }
+
+        const { newsletterSubscriber } = newsletterSubscriberData;
 
         if (!newsletterSubscriber.confirmed) {
             const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
