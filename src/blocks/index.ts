@@ -29,6 +29,7 @@ graphql`
         ...GalleryBlock_content @relay(mask: false)
         ...ImageBlock_content @relay(mask: false)
         ...MapBlock_content @relay(mask: false)
+        ...NewsDetailBlock_content @relay(mask: false)
         ...NewsListFloorBlock_content @relay(mask: false)
         ...RichTextBlock_content @relay(mask: false)
         ...SubpageListBlock_content @relay(mask: false)

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import getBlockName from '../../../utils/getBlockName';
 import blocks from '../../../blocks';
 
-interface BlocksProps {
+export interface BlocksProps {
     blocksData: readonly any[] | null;
     initialProps?: any[];
 }
@@ -21,6 +21,6 @@ export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement 
                 // @ts-ignore
                 <BlockComponent key={`block_${i}`} content={block} {...blockInitialProps} />
             );
-        })}{' '}
+        })}
     </>
 );

@@ -1,7 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
 import NextHead from 'next/head';
-import { renderMetaTags } from 'react-datocms';
-import { SeoMetaTagType } from 'react-datocms/dist/Seo';
+import { renderMetaTags, SeoMetaTagType } from 'react-datocms';
 import symbio from '../../../../symbio.config.json';
 import { AppContext } from '../../../contexts/app-context/AppContext';
 

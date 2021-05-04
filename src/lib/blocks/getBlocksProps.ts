@@ -3,7 +3,7 @@ import { Logger } from '../../services';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 import { Providers } from '../../types/provider';
-import { ssg } from '../../../symbio.config.json';
+import symbio from '../../../symbio.config.json';
 
 /**
  * Returns normalized (array-ized) slug.
@@ -35,6 +35,7 @@ export const getBlocksProps = async (
     providers: Providers,
     blocks: Record<string, BlockType>,
 ): Promise<GetStaticPropsResult<{ [key: string]: unknown }>> => {
+    const { ssg } = symbio;
     const provider = providers.page;
     const locale = context.locale || context.defaultLocale;
     const props = await provider.getPageBySlug(locale, getNormalizedSlug(context));

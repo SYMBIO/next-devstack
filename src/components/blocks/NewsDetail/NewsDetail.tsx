@@ -2,13 +2,16 @@ import dayjs from 'dayjs';
 import timeZone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import React, { ReactElement } from 'react';
+import dynamic from 'next/dynamic';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
 import { ImageInterface } from '../../../types/app';
 import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
 import { Heading } from '../../primitives/Heading/Heading';
 import { RichText } from '../../primitives/RichText/RichText';
-import { Blocks } from '../../base/Blocks/Blocks';
+import { BlocksProps } from '../../base/Blocks/Blocks';
+
+const Blocks = dynamic<BlocksProps>(() => import('../../base/Blocks/Blocks').then((mod) => mod.Blocks));
 
 interface NewsDetailProps {
     news: Readonly<{

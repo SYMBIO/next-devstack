@@ -5,7 +5,7 @@ import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
 import { DATOCMS_MAX_LIMIT } from '../../constants';
 import { sleep } from '../../utils/sleep';
-import { i18n } from '../../../symbio.config.json';
+import symbio from '../../../symbio.config.json';
 
 export type DatoCMSRecord = {
     id: string;
@@ -131,6 +131,7 @@ export default abstract class AbstractDatoCMSProvider<
 
     async getPreviewUrl(id: string, locale?: string): Promise<string | null> {
         const item = await this.findOne(id, locale);
+        const { i18n } = symbio;
         if (locale !== i18n.defaultLocale) {
             if (item) {
                 if (item.url) {

@@ -2,7 +2,7 @@ import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
 import { Logger } from '../../services';
 import getElastic from '../elastic';
-import { i18n } from '../../../symbio.config.json';
+import config from '../../../symbio.config.json';
 import AbstractSingletonDatoCMSProvider from './AbstractSingletonDatoCMSProvider';
 
 export default abstract class AbstractSingletonElasticProvider<
@@ -56,6 +56,7 @@ export default abstract class AbstractSingletonElasticProvider<
      * @param prod
      */
     async index(simple = false, prod = false): Promise<void> {
+        const { i18n } = config;
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
                 const item = await this.getForIndex(locale, !prod);
@@ -209,6 +210,7 @@ export default abstract class AbstractSingletonElasticProvider<
      * @param prod
      */
     async unindex(locale?: string, prod?: boolean): Promise<void> {
+        const { i18n } = config;
         const unindexItem = async (locale: string) => {
             try {
                 await getElastic().delete({

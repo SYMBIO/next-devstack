@@ -15,7 +15,7 @@ import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/Pre
 import { CALENDAR_FORMATS } from '../constants';
 import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
-import { gtm, ssg, tz } from '../../symbio.config.json';
+import symbio from '../../symbio.config.json';
 import { Logger } from '../services';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
@@ -27,6 +27,7 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, webSetting, blocksProps, preview } = props;
+    const { gtm, tz } = symbio;
     const item = Array.isArray(blocksProps) && blocksProps.length > 0 ? blocksProps[0].item : undefined;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
@@ -89,6 +90,7 @@ const Page = (props: MyPageProps): ReactElement => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+    const { ssg } = symbio;
     if (process.env.NODE_ENV !== 'development' && ssg.staticGeneration && locales) {
         const paths: GetStaticPathsResult['paths'] = [];
         const provider = providers.page;
@@ -112,6 +114,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+    const { tz } = symbio;
     const p = context.params;
     Logger.info('GET ' + '/' + (p && Array.isArray(p.slug) ? p.slug : []).join('/'));
 
