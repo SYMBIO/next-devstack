@@ -9,6 +9,7 @@ import { newsDetailQuery, newsListQuery, newsStaticPathsQuery } from '../../rela
 import * as d from '../../relay/__generated__/newsDetailQuery.graphql';
 import * as l from '../../relay/__generated__/newsListQuery.graphql';
 import * as s from '../../relay/__generated__/newsStaticPathsQuery.graphql';
+import { newsStaticPathsQueryResponse } from '../../relay/__generated__/newsStaticPathsQuery.graphql';
 
 class NewsProvider extends AbstractDatoCMSProvider<
     d.newsDetailQuery,
@@ -31,9 +32,9 @@ class NewsProvider extends AbstractDatoCMSProvider<
     async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
         const params: ParsedUrlQuery[] = [];
 
-        const data = await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
+        const data = ((await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
             locale: getSiteLocale(locale),
-        });
+        })) as unknown) as newsStaticPathsQueryResponse;
 
         for (const news of data.allNews) {
             params.push({
