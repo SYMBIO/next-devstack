@@ -13,13 +13,13 @@ import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/PreviewToolbar';
 import { CALENDAR_FORMATS } from '../constants';
-import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
-import { gtm, ssg, tz } from '../../symbio.config.json';
+import symbio from '../../symbio.config.json';
 import { Logger } from '../services';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
+import { getPageStaticProps } from '../lib/blocks/getPageStaticProps';
 
 const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
@@ -27,6 +27,7 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
 
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, webSetting, blocksProps, preview } = props;
+    const { gtm, tz } = symbio;
     const item = Array.isArray(blocksProps) && blocksProps.length > 0 ? blocksProps[0].item : undefined;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
@@ -89,6 +90,7 @@ const Page = (props: MyPageProps): ReactElement => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+    const { ssg } = symbio;
     if (process.env.NODE_ENV !== 'development' && ssg.staticGeneration && locales) {
         const paths: GetStaticPathsResult['paths'] = [];
         const provider = providers.page;
@@ -112,6 +114,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+    const { tz } = symbio;
     const p = context.params;
     Logger.info('GET ' + '/' + (p && Array.isArray(p.slug) ? p.slug : []).join('/'));
 
@@ -125,7 +128,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
     dayjs.tz.setDefault(tz);
 
-    return await getBlocksProps(context, providers, blocks);
+    return await getPageStaticProps(context, providers, blocks);
 };
 
 export default Page;

@@ -33,12 +33,14 @@ class NewsProvider extends AbstractDatoCMSProvider<
 
         const data = await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
             locale: getSiteLocale(locale),
-        });
+        }).toPromise();
 
-        for (const news of data.allNews) {
-            params.push({
-                slug: news.id + '-' + news.slug,
-            });
+        if (data) {
+            for (const news of data.allNews) {
+                params.push({
+                    slug: news.id + '-' + news.slug,
+                });
+            }
         }
 
         return params;

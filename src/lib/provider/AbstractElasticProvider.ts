@@ -4,7 +4,7 @@ import { Logger } from '../../services';
 import AbstractDatoCMSProvider, { DatoCMSRecord } from './AbstractDatoCMSProvider';
 import getElastic from '../elastic';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
-import { i18n } from '../../../symbio.config.json';
+import symbio from '../../../symbio.config.json';
 import { FindResponse } from './AbstractDatoCMSProvider';
 
 export default abstract class AbstractElasticProvider<
@@ -136,6 +136,7 @@ export default abstract class AbstractElasticProvider<
      * @param prod
      */
     async indexOne(id: string, simple = false, prod = false): Promise<void> {
+        const { i18n } = symbio;
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
                 const item = await this.findOneForIndex(id, locale, !prod);
@@ -183,6 +184,7 @@ export default abstract class AbstractElasticProvider<
      * @param prod
      */
     async indexAll(simple = false, prod = false): Promise<void> {
+        const { i18n } = symbio;
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -234,6 +236,7 @@ export default abstract class AbstractElasticProvider<
      */
     async deleteRelics(prod = false): Promise<void> {
         Logger.log('Deleting relics for', this.getApiKey(), prod);
+        const { i18n } = symbio;
         if (this.isLocalizable()) {
             for (const locale of i18n.locales) {
                 Logger.log('Getting data for', this.getApiKey(), locale);
@@ -459,6 +462,7 @@ export default abstract class AbstractElasticProvider<
      * @param prod
      */
     async unindex(id: string, locale?: string, prod?: boolean): Promise<void> {
+        const { i18n } = symbio;
         const unindexItem = async (locale: string) => {
             try {
                 await getElastic().delete({

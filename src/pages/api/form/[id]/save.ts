@@ -40,10 +40,16 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
             }
 
             const environment = createRelayEnvironment({}, !!req.preview);
-            const { form } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+            const formData = await fetchQuery<saveFormQuery>(environment, formQuery, {
                 locale: getSiteLocale(data.locale),
                 filter: { id: { eq: data.formId } },
-            });
+            }).toPromise();
+
+            if (!formData) {
+                return;
+            }
+
+            const { form } = formData;
 
             const humanData: Record<string, string> = {};
 

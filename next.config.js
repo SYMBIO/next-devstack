@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { i18n, images, ssg } = require('./symbio.config');
+const { i18n, images } = require('./symbio.config');
 const withPWA = require('next-pwa');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -11,30 +11,14 @@ const nextConfig = {
     i18n,
     images,
     target: 'serverless',
-    webpack: (config, { isServer }) => {
+    future: {
+        webpack5: true,
+    },
+    webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
             use: ['@svgr/webpack'],
         });
-
-        const originalEntry = config.entry;
-        config.entry = async () => {
-            const entries = await originalEntry();
-
-            if (entries['main.js'] && !entries['main.js'].includes('./polyfills.js')) {
-                entries['main.js'].unshift('./polyfills.js');
-            }
-
-            return entries;
-        };
-
-        if (!isServer) {
-            config.node = {
-                fs: 'empty',
-                net: 'empty',
-                tls: 'empty',
-            };
-        }
 
         return config;
     },

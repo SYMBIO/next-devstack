@@ -4,7 +4,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
-import { gtm, tz } from '../../symbio.config.json';
+import symbio from '../../symbio.config.json';
 import blocks from '../blocks/server';
 import { Blocks } from '../components/base/Blocks/Blocks';
 import { Head } from '../components/base/Head/Head';
@@ -12,14 +12,14 @@ import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { CALENDAR_FORMATS } from '../constants';
 import { ContextsProvider } from '../contexts';
-import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
-import { Logger } from '../services';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
+import { getPageStaticProps } from '../lib/blocks/getPageStaticProps';
 
 const Page = (props: MyPageProps): ReactElement => {
     const { hostname, site, page, webSetting, blocksProps } = props;
+    const { gtm, tz } = symbio;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
     const currentUrl =
@@ -78,7 +78,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const locale = context.locale || context.defaultLocale;
-
+    const { tz } = symbio;
     dayjs.extend(updateLocale);
     dayjs.extend(timeZone);
     if (locale) {
@@ -88,7 +88,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
     dayjs.tz.setDefault(tz);
 
     try {
-        return await getBlocksProps({ ...context, params: { ...context.params, slug: ['404'] } }, providers, blocks);
+        return await getPageStaticProps(
+            { ...context, params: { ...context.params, slug: ['404'] } },
+            providers,
+            blocks,
+        );
     } catch (e) {
         return {
             props: {},

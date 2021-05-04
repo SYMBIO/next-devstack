@@ -26,29 +26,29 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     const environment = createRelayEnvironment({}, false);
 
-    const { form: formCs } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+    const formCsData = await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'cs',
         filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
-    const { form: formEn } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+    }).toPromise();
+    const formEnData = await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'en',
         filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
+    }).toPromise();
 
-    const { allDataForms: data } = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
+    const allDataFormsData = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
         filter: { form: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
+    }).toPromise();
 
-    if ((!formCs && !formEn) || !Array.isArray(data)) {
+    if ((!formCsData?.form && !formEnData?.form) || !Array.isArray(allDataFormsData?.allDataForms)) {
         res.statusCode = 404;
         res.statusMessage = 'Page not found';
         res.end();
         return;
     }
 
-    const csv = data
+    const csv = allDataFormsData?.allDataForms
         .map((d) => {
-            const form = d.language === 'en' ? formEn : formCs;
+            const form = d.locale === 'en' ? formEnData?.form : formCsData?.form;
             if (form?.content) {
                 return form.content
                     .reduce(
@@ -66,7 +66,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                             }
                             return acc;
                         },
-                        [dayjs(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.language],
+                        [dayjs(d.createdAt).tz('Europe/Prague').format('DD. MM. YYYY HH:mm:ss'), d.locale],
                     )
                     .map((a) =>
                         a

@@ -36,18 +36,20 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     try {
         const environment = createRelayEnvironment({}, false);
-        const { newsletterSubscriber } = await fetchQuery<q>(environment, confirmSubscriberQuery, {
+        const newsletterSubscriberData = await fetchQuery<q>(environment, confirmSubscriberQuery, {
             filter: {
                 hash: { eq: hash },
             },
-        });
+        }).toPromise();
 
-        if (!newsletterSubscriber) {
+        if (!newsletterSubscriberData?.newsletterSubscriber) {
             res.statusCode = 404;
             res.statusMessage = 'Page not found';
             res.end();
             return;
         }
+
+        const { newsletterSubscriber } = newsletterSubscriberData;
 
         if (!newsletterSubscriber.confirmed) {
             const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);

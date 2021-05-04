@@ -5,7 +5,7 @@ import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
 import { DATOCMS_MAX_LIMIT } from '../../constants';
 import { sleep } from '../../utils/sleep';
-import { i18n } from '../../../symbio.config.json';
+import symbio from '../../../symbio.config.json';
 
 export type DatoCMSRecord = {
     id: string;
@@ -74,8 +74,22 @@ export default abstract class AbstractDatoCMSProvider<
                       locale,
                   };
 
-        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
-        return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
+        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables).toPromise();
+
+        return await this.transformResult(result, locale);
+    }
+
+    /**
+     * Transform result of one query into an item
+     * @param result
+     * @param locale
+     */
+    async transformResult(result: TOne['response'], locale?: string): Promise<TItem | null> {
+        if (result) {
+            return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
+        } else {
+            return null;
+        }
     }
 
     async find(
@@ -93,7 +107,11 @@ export default abstract class AbstractDatoCMSProvider<
             variables.locale = options.locale;
         }
 
-        const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
+        const result = ((await fetchQuery<TFind>(
+            this.getEnvironment(preview),
+            this.findNode,
+            variables,
+        ).toPromise()) as unknown) as {
             items: TItems;
             meta: { count: number };
         };
@@ -104,7 +122,11 @@ export default abstract class AbstractDatoCMSProvider<
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
-                const result = (await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables)) as {
+                const result = ((await fetchQuery<TFind>(
+                    this.getEnvironment(preview),
+                    this.findNode,
+                    variables,
+                ).toPromise()) as unknown) as {
                     items: TItems;
                 };
                 data.push(...result.items);
@@ -131,6 +153,7 @@ export default abstract class AbstractDatoCMSProvider<
 
     async getPreviewUrl(id: string, locale?: string): Promise<string | null> {
         const item = await this.findOne(id, locale);
+        const { i18n } = symbio;
         if (locale !== i18n.defaultLocale) {
             if (item) {
                 if (item.url) {

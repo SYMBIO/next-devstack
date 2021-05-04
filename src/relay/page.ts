@@ -67,7 +67,7 @@ export const pageDetailQuery = graphql`
 
 export const pageStaticPathsQuery = graphql`
     query pageStaticPathsQuery($locale: SiteLocale!, $skip: IntType!, $first: IntType!) {
-        _allPagesMeta(locale: $locale) {
+        _allPagesMeta(locale: $locale, filter: { url: { exists: true } }) {
             count
         }
         allPages(locale: $locale, skip: $skip, first: $first, filter: { url: { exists: true } }) {

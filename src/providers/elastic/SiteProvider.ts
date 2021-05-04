@@ -20,8 +20,12 @@ class SiteProvider implements Provider {
         return 'site';
     }
 
-    async get(locale: string): Promise<Site> {
-        return (await fetchQuery<siteQuery>(this.environment, d.siteQuery, { locale: getSiteLocale(locale) }))._site;
+    async get(locale: string): Promise<Site | undefined> {
+        const site = await fetchQuery<siteQuery>(this.environment, d.siteQuery, {
+            locale: getSiteLocale(locale),
+        }).toPromise();
+
+        return site?._site;
     }
 
     async getByElastic(locale: string): Promise<Site> {

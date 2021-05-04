@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
         titleColor: 'green',
         diffNameColor: 'aqua',
         trackAllPureComponents: true,
-        logOnDifferentValues: true,
+        logOnDifferentValues: false,
     });
 }
 

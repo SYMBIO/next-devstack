@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { datocms } from '../../../symbio.config.json';
+import symbio from '../../../symbio.config.json';
 import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
 import Provider from '../../lib/provider/Provider';
 import { findProvider } from '../../utils/findProvider';
@@ -13,6 +13,7 @@ interface getDestinationProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getDestination({ locale, type, id, provider }: getDestinationProps): Promise<string> {
+    const { datocms } = symbio;
     switch (type) {
         case datocms.pageTypeId: {
             if (provider instanceof AbstractDatoCMSProvider) {
