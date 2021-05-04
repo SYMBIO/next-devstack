@@ -39,6 +39,18 @@ export const getPageStaticProps = async (
     const provider = providers.page;
     const locale = context.locale || context.defaultLocale;
     const props = await provider.getPageBySlug(locale, getNormalizedSlug(context));
+
+    if (!props) {
+        return {
+            props: {
+                locale,
+                preview: !!context.preview,
+            },
+            revalidate: ssg.staticGeneration ? false : ssg.revalidate,
+            notFound: true,
+        };
+    }
+
     const notFound = !props.page || undefined;
     const slug = context.params?.slug;
 
