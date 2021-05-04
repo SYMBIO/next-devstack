@@ -8,7 +8,10 @@ import { Mandrill } from 'mandrill-api';
 import { createRelayEnvironment } from '../../../../lib/relay/createRelayEnvironment';
 import { formQuery } from '../../../../relay/api/form/[id]/save';
 import { getSiteLocale } from '../../../../lib/routing/getSiteLocale';
-import { saveFormQuery } from '../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
+import {
+    saveFormQuery,
+    saveFormQueryResponse,
+} from '../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
 import symbio from '../../../../../symbio.config.json';
 
 dotenv.config();
@@ -40,10 +43,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
             }
 
             const environment = createRelayEnvironment({}, !!req.preview);
-            const { form } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+            const { form } = ((await fetchQuery<saveFormQuery>(environment, formQuery, {
                 locale: getSiteLocale(data.locale),
                 filter: { id: { eq: data.formId } },
-            });
+            })) as unknown) as saveFormQueryResponse;
 
             const humanData: Record<string, string> = {};
 
