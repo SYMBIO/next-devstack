@@ -2,7 +2,6 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { NextComponentType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { BlockWrapperProps } from '../components/base/BlockWrapper/BlockWrapper';
-import { ImageInterface } from './app';
 import { Providers } from './provider';
 
 export interface BaseBlockProps extends Omit<BlockWrapperProps, 'tooltip'> {
@@ -16,9 +15,9 @@ export interface StaticBlockContext {
     previewData?: any;
     locale?: string;
     page?: {
-        readonly id: unknown;
+        readonly id?: unknown;
         readonly url: string | null;
-        readonly title: string | null;
+        readonly title?: string | null;
     } | null;
     block?: any;
     providers: Providers;

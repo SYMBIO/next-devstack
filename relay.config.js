@@ -12,5 +12,6 @@ module.exports = {
         IntType: 'number',
         FloatType: 'number',
         DateTime: 'string',
+        JsonField: 'any',
     },
 };

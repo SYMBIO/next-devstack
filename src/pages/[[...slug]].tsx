@@ -13,13 +13,13 @@ import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/PreviewToolbar';
 import { CALENDAR_FORMATS } from '../constants';
-import { getBlocksProps } from '../lib/blocks/getBlocksProps';
 import providers from '../providers';
 import symbio from '../../symbio.config.json';
 import { Logger } from '../services';
 import { MyPageProps } from '../types/app';
 import { trackPage } from '../utils/gtm';
 import { ContextsProvider } from '../contexts';
+import { getPageStaticProps } from '../lib/blocks/getPageStaticProps';
 
 const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
     dayjs.tz.setDefault(tz);
 
-    return await getBlocksProps(context, providers, blocks);
+    return await getPageStaticProps(context, providers, blocks);
 };
 
 export default Page;

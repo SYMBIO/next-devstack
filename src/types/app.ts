@@ -30,6 +30,7 @@ export type MainMenu = WebSetting['mainMenu'];
 export interface Page {
     url: string | null;
     title?: string | null;
+    id?: unknown;
 }
 
 export interface ImageInterface {
@@ -50,3 +51,5 @@ export interface VideoInterface {
         readonly thumbnailUrl: string;
     } | null;
 }
+
+export type OMIT_REFTYPE<T> = Omit<T, ' $refType'>;
