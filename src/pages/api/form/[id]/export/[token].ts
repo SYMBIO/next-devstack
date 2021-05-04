@@ -4,9 +4,15 @@ import dayjs from 'dayjs';
 import timeZone from 'dayjs/plugin/timezone';
 import { createRelayEnvironment } from '../../../../../lib/relay/createRelayEnvironment';
 import { formQuery } from '../../../../../relay/api/form/[id]/save';
-import { saveFormQuery } from '../../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
+import {
+    saveFormQuery,
+    saveFormQueryResponse,
+} from '../../../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
 import { exportFormQuery } from '../../../../../relay/api/form/[id]/export/[token]';
-import { TokenExportFormQuery } from '../../../../../relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
+import {
+    TokenExportFormQuery,
+    TokenExportFormQueryResponse,
+} from '../../../../../relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
 
 dayjs.extend(timeZone);
 
@@ -26,18 +32,18 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     const environment = createRelayEnvironment({}, false);
 
-    const { form: formCs } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+    const { form: formCs } = ((await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'cs',
         filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
-    const { form: formEn } = await fetchQuery<saveFormQuery>(environment, formQuery, {
+    })) as unknown) as saveFormQueryResponse;
+    const { form: formEn } = ((await fetchQuery<saveFormQuery>(environment, formQuery, {
         locale: 'en',
         filter: { id: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
+    })) as unknown) as saveFormQueryResponse;
 
-    const { allDataForms: data } = await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
+    const { allDataForms: data } = ((await fetchQuery<TokenExportFormQuery>(environment, exportFormQuery, {
         filter: { form: { eq: Array.isArray(req.query.id) ? req.query.id.join(' ') : req.query.id } },
-    });
+    })) as unknown) as TokenExportFormQueryResponse;
 
     if ((!formCs && !formEn) || !Array.isArray(data)) {
         res.statusCode = 404;
