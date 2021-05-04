@@ -48,7 +48,7 @@ export const Image = ({ image, src, alt, title, layout, width, height, ...props 
                 layout,
                 ...((typeof width === 'string' || typeof width === 'number') && layout !== 'fill' ? { width } : {}),
                 ...((typeof height === 'string' || typeof height === 'number') && layout !== 'fill' ? { height } : {}),
-            };
+            } as NextImageProps;
             return <NextImage {...nextImageProps} />;
         } else {
             return null;
