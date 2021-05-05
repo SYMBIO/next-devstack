@@ -1,4 +1,0 @@
-// Accepts line-height in pixels, font-size in pixels (you can write without px), returns line-height (valueless)
-@function lh($lineheight, $fontsize){
-    @return $lineheight / $fontsize;
-}
