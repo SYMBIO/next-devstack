@@ -1,6 +1,6 @@
 {
     "name": "@symbio/devstack",
-    "version": "1.0.0-canary.13",
+    "version": "1.0.0-canary.14",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -63,5 +63,6 @@
         "relay-compiler-language-typescript": "^14.0.0",
         "relay-config": "^11.0.2",
         "rimraf": "^3.0.2"
-    }
+    },
+    "gitHead": "4c95748733c65ef398bb086e807360aa8d8c6ff7"
 }

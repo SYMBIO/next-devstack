@@ -1,6 +1,6 @@
 {
     "name": "create-symbio-app",
-    "version": "1.0.0-canary.13",
+    "version": "1.0.0-canary.14",
     "description": "Create SYMBIO apps with one command",
     "repository": {
         "type": "git",
@@ -17,7 +17,6 @@
         "export": "NODE_ENV=production next export",
         "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
         "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-        "prepare": "husky install",
         "relay": "relay-compiler",
         "start": "NODE_ENV=production next start",
         "storybook": "start-storybook --no-dll",
@@ -158,5 +157,6 @@
                 "version": "detect"
             }
         }
-    }
+    },
+    "gitHead": "4c95748733c65ef398bb086e807360aa8d8c6ff7"
 }
