@@ -14,7 +14,7 @@
     ],
     "scripts": {
         "build": "rimraf dist && babel -d dist --ignore node_modules,types ./",
-        "dev": "npm run build",
+        "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore node_modules,types --watch ./\"",
         "prepublish": "npm run build && npm run types",
         "relay": "relay-compiler",
         "test": "jest",
@@ -58,6 +58,7 @@
         "@typescript-eslint/parser": "^4.22.0",
         "babel-loader": "^8.2.2",
         "babel-plugin-relay": "^11.0.2",
+        "concurrently": "^6.0.2",
         "dotenv": "^8.2.0",
         "relay-compiler": "^11.0.2",
         "relay-compiler-language-typescript": "^14.0.0",
