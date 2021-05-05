@@ -1,6 +1,6 @@
 {
     "name": "create-symbio-app",
-    "version": "1.0.0-canary.14",
+    "version": "1.0.0-canary.15",
     "description": "Create SYMBIO apps with one command",
     "repository": {
         "type": "git",
@@ -158,5 +158,5 @@
             }
         }
     },
-    "gitHead": "4c95748733c65ef398bb086e807360aa8d8c6ff7"
+    "gitHead": "2c0aa85fa5fb6a6ed7a7adea0590ba7b16940228"
 }
