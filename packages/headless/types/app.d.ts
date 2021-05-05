@@ -54,7 +54,8 @@ export type Redirect = {
 export interface BasePage {
     url: string | null;
     title?: string | null;
-    content: { __typename: string; id: string }[];
+    id: string;
+    content: ReadonlyArray<{ __typename: string; id?: string } | null> | null;
 }
 
 export interface ImageInterface {

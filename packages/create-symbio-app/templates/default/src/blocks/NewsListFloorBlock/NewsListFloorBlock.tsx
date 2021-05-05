@@ -1,14 +1,16 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'relay-runtime';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
 import { newsListQueryResponse } from '../../relay/__generated__/newsListQuery.graphql';
-import { BaseBlockProps, StaticBlockContext } from '../../types/block';
+import { StaticBlockContext } from '@symbio/headless/types/block';
 import { NewsList } from '../../components/blocks/NewsList/NewsList';
+import { PageProps } from '../../types/page';
+import { WebSettingsProps } from '../../types/webSettings';
 
 type StaticProps = FindResponse<newsListQueryResponse['items']>;
 
-type NewsListFloorBlockProps = BaseBlockProps & StaticProps;
+type NewsListFloorBlockProps = StaticProps;
 
 graphql`
     fragment NewsListFloorBlock_content on NewsListFloorBlockRecord {
@@ -29,7 +31,7 @@ function NewsListFloorBlock({
     content,
     data,
     ...rest
-}: NewsListFloorBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+}: NewsListFloorBlockProps): ReactElement<NewsListFloorBlockProps, 'BaseBlock'> {
     const { heading, allNewsLinkText, allNewsPage } = content;
 
     return (
@@ -40,7 +42,7 @@ function NewsListFloorBlock({
 }
 
 if (typeof window === 'undefined') {
-    NewsListFloorBlock.getStaticProps = async ({ locale, providers }: StaticBlockContext): Promise<StaticProps> =>
+    NewsListFloorBlock.getStaticProps = async ({ locale, providers }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<StaticProps> =>
         await providers.news.find({
             locale,
             limit: 3,

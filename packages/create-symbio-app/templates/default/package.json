@@ -34,6 +34,7 @@
         "core-js": "^3.11.2",
         "dayjs": "^1.10.4",
         "formik": "^2.2.6",
+        "graphql-tag": "^2.12.4",
         "hls.js": "^1.0.2",
         "html-react-parser": "^1.2.6",
         "html-to-text": "^7.1.1",

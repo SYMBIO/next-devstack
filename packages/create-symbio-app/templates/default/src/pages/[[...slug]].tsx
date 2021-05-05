@@ -15,20 +15,22 @@ import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/Pre
 import { CALENDAR_FORMATS } from '../constants';
 import providers from '../providers';
 import symbio from '../../symbio.config.json';
-import { Logger } from '../services';
-import { MyPageProps } from '../types/app';
-import { trackPage } from '../utils/gtm';
-import { ContextsProvider } from '../contexts';
-import { getPageStaticProps } from '../lib/blocks/getPageStaticProps';
+import { Logger } from '@symbio/headless/services';
+import { MyPageProps } from '@symbio/headless';
+import { trackPage } from '@symbio/headless/utils/gtm';
+import { ContextsProvider } from '@symbio/headless/contexts';
+import { getBlocksProps } from '@symbio/headless/lib/blocks/getBlocksProps';
+import { PageProps } from '../types/page';
+import { WebSettingsProps } from '../types/webSettings';
 
 const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
 );
 
-const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, webSetting, blocksProps, preview } = props;
+const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => {
+    const { hostname, site, page, webSetting, blocksPropsMap, preview } = props;
     const { gtm, tz } = symbio;
-    const item = Array.isArray(blocksProps) && blocksProps.length > 0 ? blocksProps[0].item : undefined;
+    const item = Array.isArray(blocksPropsMap) && blocksPropsMap.length > 0 ? blocksPropsMap[0].item : undefined;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
     const currentUrl =
@@ -71,7 +73,7 @@ const Page = (props: MyPageProps): ReactElement => {
 
             <Layout>
                 <Navbar />
-                {page?.content && <Blocks blocksData={page.content} initialProps={blocksProps} />}
+                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} />}
             </Layout>
 
             {preview && page && <PreviewToolbar page={page} item={item} />}
@@ -128,7 +130,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
     dayjs.tz.setDefault(tz);
 
-    return await getPageStaticProps(context, providers, blocks);
+    return await getBlocksProps(context, providers, blocks, symbio.ssg);
 };
 
 export default Page;

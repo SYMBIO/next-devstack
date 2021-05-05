@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import clsx from 'clsx';
-import { ImageInterface, VideoInterface } from '../../../types/app';
+import { ImageInterface, VideoInterface } from '@symbio/headless/types/app';
 import { Image } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Carousel.module.scss';

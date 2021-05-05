@@ -1,9 +1,13 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Video } from '../../components/organisms/Video/Video';
-import { BaseBlockProps } from '../../types/block';
 import styles from './VideoBlock.module.scss';
+import { VideoBlock_content } from './__generated__/VideoBlock_content.graphql';
+
+export interface VideoBlockProps {
+    content: VideoBlock_content;
+}
 
 graphql`
     fragment VideoBlock_content on VideoBlockRecord {
@@ -15,7 +19,7 @@ graphql`
     }
 `;
 
-function VideoBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function VideoBlock({ content, ...rest }: VideoBlockProps): ReactElement<VideoBlockProps, 'BaseBlock'> {
     const { autoplay, video } = content;
     return (
         <BlockWrapper tooltip={'VideoBlock'} className={styles.wrapper} {...rest}>

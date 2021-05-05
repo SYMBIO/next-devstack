@@ -5,9 +5,9 @@ import { GoogleMap as GoogleMapComponent, Marker, LoadScript, InfoBox } from '@r
 
 export interface GoogleMapProps {
     readonly isMarkerShown: boolean;
-    readonly latitude: string;
-    readonly longitude: string;
-    readonly bubbleText: string;
+    readonly latitude: number;
+    readonly longitude: number;
+    readonly bubbleText: string | null;
     readonly apiKey?: string;
 }
 

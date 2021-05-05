@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, ReactElement, useEffect, useRef, VideoHTMLAttributes } from 'react';
-import { VideoInterface } from '../../../types/app';
-import capitalize from '../../../utils/capitalize';
-import getHLSVideo from '../../../utils/getHLSVideo';
+import { VideoInterface } from '@symbio/headless';
+import capitalize from '@symbio/headless/utils/capitalize';
+import getHLSVideo from '@symbio/headless/utils/getHLSVideo';
 import styles from './UploadedVideo.module.scss';
 
 export interface UploadedVideoI extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {

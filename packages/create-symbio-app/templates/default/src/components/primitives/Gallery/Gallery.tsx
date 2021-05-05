@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ImageInterface } from '../../../types/app';
+import { ImageInterface } from '@symbio/headless';
 import { Image } from '../Image/Image';
 import styles from './Gallery.module.scss';
 

@@ -3,26 +3,23 @@ import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { UrlObject } from 'url';
 import clsx from 'clsx';
-import { getLinkParamsFromPage } from '../../../lib/routing/getLinkParamsFromPage';
-import { Page } from '../../../types/app';
-import { AppContext } from '../../../contexts/app-context/AppContext';
+import { getLinkParamsFromPage } from '@symbio/headless/lib/routing/getLinkParamsFromPage';
+import { BasePage } from '@symbio/headless';
 import styles from './Link.module.scss';
 
 export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> &
     Partial<NextLinkProps> & {
         href?: string | UrlObject;
-        page?: Page;
+        page?: BasePage;
         params?: Record<string, string | number> | ParsedUrlQuery;
         plain?: boolean;
     };
 
 const Link = ({ className, href, page, locale, params, children, target, plain, ...rest }: LinkProps): JSX.Element => {
-    const { absoluteLinks, hostname } = useContext(AppContext);
-
     if (typeof href === 'string') {
-        if (absoluteLinks && href.substr(0, 1) === '/') {
-            href = '//' + hostname + href;
-        }
+        // if (absoluteLinks && href.substr(0, 1) === '/') {
+        //     href = '//' + hostname + href;
+        // }
 
         if (!children) {
             throw new Error('Link with href without children!');
@@ -48,9 +45,9 @@ const Link = ({ className, href, page, locale, params, children, target, plain, 
     if (page) {
         let href = getLinkParamsFromPage(page, params).as;
 
-        if (absoluteLinks && href.substr(0, 1) === '/') {
-            href = '//' + hostname + href;
-        }
+        // if (absoluteLinks && href.substr(0, 1) === '/') {
+        //     href = '//' + hostname + href;
+        // }
 
         if (plain) {
             return (

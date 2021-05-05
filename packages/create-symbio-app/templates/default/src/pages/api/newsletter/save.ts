@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SiteClient } from 'datocms-client';
+// import { SiteClient } from 'datocms-client';
 import { Mandrill } from 'mandrill-api';
 import Busboy from 'busboy';
 import dotenv from 'dotenv';
-import randomString from '../../../utils/randomString';
+import randomString from '@symbio/headless/utils/randomString';
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
         return;
     }
 
-    const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
+    // const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
 
     if (req.method == 'POST') {
         const busboy = new Busboy({ headers: req.headers });
@@ -37,13 +37,13 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
             const subject =
                 data.locale === 'cs' ? 'Novinky e-mailem z Národního divadla' : 'The National Theatre Newsletter';
 
-            await client.items.create({
-                itemType: '178672',
-                language: data.locale,
-                email: data.email,
-                confirmed: false,
-                hash,
-            });
+            // await client.items.create({
+            //     itemType: '178672',
+            //     language: data.locale,
+            //     email: data.email,
+            //     confirmed: false,
+            //     hash,
+            // });
 
             const mandrillClient = new Mandrill(process.env.MANDRILL_API_KEY);
             const url = 'https://' + req.headers.host + '/api/newsletter/confirm?hash=' + hash;

@@ -1,17 +1,20 @@
 import { ParsedUrlQuery } from 'querystring';
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
-import { BaseBlockProps, StaticBlockContext } from '../../types/block';
-import getId from '../../utils/getId';
+import { StaticBlockContext } from '@symbio/headless/types/block';
+import getId from '@symbio/headless/utils/getId';
 import styles from './NewsDetailBlock.module.scss';
-import { Providers } from '../../types/provider';
+import { Providers } from '@symbio/headless/types/app';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { NewsDetail } from '../../components/blocks/NewsDetail/NewsDetail';
+import { PageProps } from '../../types/page';
+import { WebSettingsProps } from '../../types/webSettings';
+import symbio from '../../../symbio.config.json';
 
 type ServerProps = newsDetailQueryResponse;
 
-type NewsDetailBlockProps = BaseBlockProps & ServerProps;
+type NewsDetailBlockProps = ServerProps;
 
 graphql`
     fragment NewsDetailBlock_content on NewsDetailBlockRecord {
@@ -19,7 +22,7 @@ graphql`
     }
 `;
 
-function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<NewsDetailBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'NewsDetailBlock'} className={styles.wrapper}>
             {item && item.content && (
@@ -38,16 +41,19 @@ function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<BaseBlock
 }
 
 if (typeof window === 'undefined') {
-    NewsDetailBlock.getStaticPaths = async (locale: string, providers: Providers): Promise<ParsedUrlQuery[]> => {
+    NewsDetailBlock.getStaticPaths = async (
+        locale: string | undefined,
+        providers: Providers<PageProps, WebSettingsProps>,
+    ): Promise<ParsedUrlQuery[]> => {
         const provider = providers.news;
-        return provider.getStaticPaths(locale);
+        return provider.getStaticPaths(locale || symbio.i18n.defaultLocale);
     };
 
     NewsDetailBlock.getStaticProps = async ({
         locale,
-        params,
+        context: { params },
         providers,
-    }: StaticBlockContext): Promise<ServerProps> => {
+    }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<ServerProps> => {
         if (!params || !params.slug) {
             const err = new Error('Page not found') as Error & { code: string };
             err.code = 'ENOENT';

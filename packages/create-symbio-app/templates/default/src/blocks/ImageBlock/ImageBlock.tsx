@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Image } from '../../components/primitives/Image/Image';
 import { ImageBlock_content } from './__generated__/ImageBlock_content.graphql';

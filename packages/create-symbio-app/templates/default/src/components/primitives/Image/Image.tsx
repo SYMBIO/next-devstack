@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ImageInterface } from '../../../types/app';
+import { ImageInterface } from '@symbio/headless';
 
 /*
 import { Image as DatoCMSImage } from 'react-datocms';

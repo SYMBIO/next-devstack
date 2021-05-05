@@ -1,7 +1,7 @@
 /**
  * Import blocks which should be included in SSR
  */
-import { BlockType } from '../types/block';
+import { BlockType } from '@symbio/headless/types/block';
 
 import ButtonBlock from './ButtonBlock/ButtonBlock';
 import CarouselBlock from './CarouselBlock/CarouselBlock';
@@ -21,7 +21,9 @@ import YoutubeVimeoBlock from './YoutubeVimeoBlock/YoutubeVimeoBlock';
 /**
  * Define fragment for blocks to load with app data
  */
-import { graphql } from 'relay-runtime';
+import graphql from 'graphql-tag';
+import { PageProps } from '../types/page';
+import { WebSettingsProps } from '../types/webSettings';
 
 graphql`
     fragment serverBlocksContent on PageModelContentField {
@@ -42,7 +44,7 @@ graphql`
     }
 `;
 
-const blocks: { [name: string]: BlockType } = {
+const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps> } = {
     ButtonBlock,
     CarouselBlock,
     CmsFormBlock,

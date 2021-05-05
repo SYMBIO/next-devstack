@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import isMobile from '../../../utils/userAgent/isMobile';
+// import isMobile from '@symbio/headless/dist/utils/userAgent/isMobile';
 
 interface ImportProps {
     touch: () => Promise<any>;
@@ -12,7 +12,8 @@ export function Import({ touch, desktop, children }: ImportProps) {
 
     useEffect(() => {
         // Assign a callback with an import() call
-        const importCallback = isMobile() ? touch : desktop;
+        // const importCallback = isMobile() ? touch : desktop;
+        const importCallback = desktop;
 
         // Executes the 'import()' call that returns a promise with
         // component details passed as an argument

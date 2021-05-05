@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
 import { newsListQueryResponse } from '../../relay/__generated__/newsListQuery.graphql';
-import { BaseBlockProps, StaticBlockContext } from '../../types/block';
+import { StaticBlockContext } from '@symbio/headless/types/block';
 import styles from './NewsListBlock.module.scss';
 import { NewsList } from '../../components/blocks/NewsList/NewsList';
 
 type StaticProps = FindResponse<newsListQueryResponse['items']>;
 
-type NewsListBlockProps = BaseBlockProps & StaticProps;
+type NewsListBlockProps = StaticProps;
 
 graphql`
     fragment NewsListBlock_content on NewsListBlockRecord {
@@ -17,7 +17,7 @@ graphql`
     }
 `;
 
-function NewsListBlock({ data, ...rest }: NewsListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function NewsListBlock({ data, ...rest }: NewsListBlockProps): ReactElement<NewsListBlockProps, 'BaseBlock'> {
     return (
         <BlockWrapper tooltip={'NewsListBlock'} className={styles.wrapper} {...rest}>
             <NewsList items={data} />

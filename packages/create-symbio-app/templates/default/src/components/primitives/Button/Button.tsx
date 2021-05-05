@@ -1,15 +1,15 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
-import { Page } from '../../../types/app';
 import { Link } from '../Link/Link';
 import { Icon, Icons } from '../Icon/Icon';
 import styles from './Button.module.scss';
+import { PageProps } from '../../../types/page';
 
 type IconPosition = 'left' | 'right';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     href?: string;
-    page?: Page;
+    page?: PageProps;
     params?: Record<string, string | number>;
     icon?: Icons;
     iconPosition?: IconPosition;

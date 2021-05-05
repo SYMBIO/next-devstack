@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Error404 } from '../../components/blocks/Error404/Error404';
-import { BaseBlockProps } from '../../types/block';
 import { Error404Block_content } from './__generated__/Error404Block_content.graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

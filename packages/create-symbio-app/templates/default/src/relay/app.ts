@@ -1,4 +1,4 @@
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 
 export const AppQuery = graphql`
     query appQuery($locale: SiteLocale, $pattern: String!) {

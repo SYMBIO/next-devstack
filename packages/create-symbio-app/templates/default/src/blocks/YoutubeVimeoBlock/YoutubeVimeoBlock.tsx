@@ -1,8 +1,12 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
-import { BaseBlockProps } from '../../types/block';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Video } from '../../components/organisms/Video/Video';
+import { YoutubeVimeoBlock_content } from './__generated__/YoutubeVimeoBlock_content.graphql';
+
+export interface YoutubeVimeoBlockProps {
+    content: YoutubeVimeoBlock_content;
+}
 
 graphql`
     fragment YoutubeVimeoBlock_content on YoutubeVimeoBlockRecord {
@@ -16,7 +20,10 @@ graphql`
     }
 `;
 
-function YoutubeVimeoBlock({ content, ...rest }: BaseBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+function YoutubeVimeoBlock({
+    content,
+    ...rest
+}: YoutubeVimeoBlockProps): ReactElement<YoutubeVimeoBlockProps, 'BaseBlock'> {
     const { video } = content;
 
     return (

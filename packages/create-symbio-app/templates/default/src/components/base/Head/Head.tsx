@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import NextHead from 'next/head';
-import { renderMetaTags, SeoMetaTagType } from 'react-datocms';
 import symbio from '../../../../symbio.config.json';
 import { AppContextProps } from '@symbio/headless/types/appContext';
 import { PageProps } from '../../../types/page';
@@ -13,13 +12,13 @@ export interface HeadProps {
 }
 
 export const Head = ({ item, page, site }: HeadProps): ReactElement => {
-    const metaTags: SeoMetaTagType[] = (item?._seoMetaTags || page?._seoMetaTags || []).concat(
-        site?.faviconMetaTags || [],
-    ) as SeoMetaTagType[];
+    // const metaTags: SeoMetaTagType[] = (item?._seoMetaTags || page?._seoMetaTags || []).concat(
+    //     site?.faviconMetaTags || [],
+    // ) as SeoMetaTagType[];
 
     return (
         <NextHead>
-            {renderMetaTags(metaTags)}
+            {/*{renderMetaTags(metaTags)}*/}
 
             <meta
                 name="viewport"

@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
-import { ImageInterface } from '../../../types/app';
+import { ImageInterface } from '@symbio/headless';
 import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
 import { Heading } from '../../primitives/Heading/Heading';

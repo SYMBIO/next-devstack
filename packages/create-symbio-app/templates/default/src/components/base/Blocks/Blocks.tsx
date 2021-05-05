@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react';
 import getBlockName from '@symbio/headless/dist/utils/getBlockName';
 import blocks from '../../../blocks';
+import { BlocksPropsMap } from '@symbio/headless/types/block';
 
 export interface BlocksProps {
     blocksData: readonly any[] | null;
-    initialProps?: any[];
+    initialProps?: BlocksPropsMap;
 }
 
 export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement => (

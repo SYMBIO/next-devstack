@@ -1,4 +1,4 @@
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 
 graphql`
     fragment pageFragment on PageRecord {

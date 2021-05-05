@@ -1,12 +1,14 @@
 import React, { ReactElement, useState } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import clsx from 'clsx';
-import { BaseBlockProps, StaticBlockContext } from '../../types/block';
+import { StaticBlockContext } from '@symbio/headless/types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { SubpageList } from '../../components/organisms/SubpageList/SubpageList';
 import { Heading } from '../../components/primitives/Heading/Heading';
+import { PageProps } from '../../types/page';
+import { WebSettingsProps } from '../../types/webSettings';
 
 interface Subpage {
     __typename: 'PageRecord';
@@ -20,8 +22,7 @@ interface ServerProps {
     items: Subpage[];
 }
 
-type SubpageListBlockProps = BaseBlockProps &
-    ServerProps & {
+type SubpageListBlockProps = ServerProps & {
         content: SubpageListBlock_content;
         className?: string;
     };
@@ -48,7 +49,7 @@ function SubpageListBlock({
     count,
     className,
     ...rest
-}: SubpageListBlockProps): ReactElement<BaseBlockProps, 'BaseBlock'> {
+}: SubpageListBlockProps): ReactElement<SubpageListBlockProps, 'BaseBlock'> {
     const [page, setPage] = useState(1);
 
     return (
@@ -59,8 +60,8 @@ function SubpageListBlock({
                 page={page}
                 setPage={setPage}
                 count={count}
-                pages={!!content.pages}
-                showImages={content.showImages}
+                pages={!!content.page}
+                showImages={false}
             />
         </BlockWrapper>
     );
@@ -72,7 +73,7 @@ if (typeof window === 'undefined') {
         page,
         block,
         providers,
-    }: StaticBlockContext): Promise<ServerProps> => {
+    }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<ServerProps> => {
         const parentId: string = block.page?.id || page?.id;
 
         if (page?.id) {

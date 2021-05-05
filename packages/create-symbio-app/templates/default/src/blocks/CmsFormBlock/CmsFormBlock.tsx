@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { graphql } from 'react-relay';
+import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { CmsForm } from '../../components/organisms/CmsForm/CmsForm';
 import { CmsFormBlock_content } from './__generated__/CmsFormBlock_content.graphql';

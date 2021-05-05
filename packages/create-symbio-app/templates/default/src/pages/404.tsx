@@ -11,14 +11,16 @@ import { Head } from '../components/base/Head/Head';
 import { Layout } from '../components/base/Layout/Layout';
 import { Navbar } from '../components/organisms/Navbar/Navbar';
 import { CALENDAR_FORMATS } from '../constants';
-import { ContextsProvider } from '../contexts';
+import { ContextsProvider } from '@symbio/headless/contexts';
 import providers from '../providers';
-import { MyPageProps } from '../types/app';
-import { trackPage } from '../utils/gtm';
-import { getPageStaticProps } from '../lib/blocks/getPageStaticProps';
+import { MyPageProps } from '@symbio/headless';
+import { trackPage } from '@symbio/headless/utils/gtm';
+import { getBlocksProps } from '@symbio/headless/lib/blocks/getBlocksProps';
+import { PageProps } from '../types/page';
+import { WebSettingsProps } from '../types/webSettings';
 
-const Page = (props: MyPageProps): ReactElement => {
-    const { hostname, site, page, webSetting, blocksProps } = props;
+const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => {
+    const { hostname, site, page, webSetting, blocksPropsMap } = props;
     const { gtm, tz } = symbio;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
@@ -56,11 +58,11 @@ const Page = (props: MyPageProps): ReactElement => {
                 },
             }}
         >
-            <Head />
+            <Head site={site} page={page}/>
 
             <Layout>
                 <Navbar />
-                {page?.content && <Blocks blocksData={page.content} initialProps={blocksProps} />}
+                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} />}
             </Layout>
 
             {gtm.code && (
@@ -88,10 +90,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
     dayjs.tz.setDefault(tz);
 
     try {
-        return await getPageStaticProps(
+        return await getBlocksProps(
             { ...context, params: { ...context.params, slug: ['404'] } },
             providers,
             blocks,
+            symbio.ssg,
         );
     } catch (e) {
         return {

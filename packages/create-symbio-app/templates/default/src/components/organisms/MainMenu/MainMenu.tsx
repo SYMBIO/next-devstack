@@ -1,7 +1,9 @@
 import React, { ReactElement } from 'react';
-import { MainMenu as MainMenuType } from '../../../types/app';
 import { Link } from '../../primitives/Link/Link';
 import styles from './MainMenu.module.scss';
+import { WebSettingsProps } from '../../../types/webSettings';
+
+type MainMenuType = NonNullable<WebSettingsProps>['mainMenu'];
 
 export interface MainMenuProps {
     menu: MainMenuType;

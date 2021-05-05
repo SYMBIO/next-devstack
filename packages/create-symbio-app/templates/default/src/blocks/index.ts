@@ -3,7 +3,7 @@
  */
 import dynamic from 'next/dynamic';
 import { BlockType } from '@symbio/headless/types/block';
-import { graphql } from 'relay-runtime';
+import graphql from 'graphql-tag';
 import ButtonBlock from './ButtonBlock/ButtonBlock';
 import CarouselBlock from './CarouselBlock/CarouselBlock';
 import CmsFormBlock from './CmsFormBlock/CmsFormBlock';

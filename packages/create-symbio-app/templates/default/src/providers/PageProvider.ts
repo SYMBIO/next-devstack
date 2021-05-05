@@ -50,7 +50,7 @@ class PageProvider extends AbstractDatoCMSProvider<
         return data;
     }
 
-    async getStaticPaths(locale: string, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {
+    async getStaticPaths(locale: string | undefined, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
         let cnt = -1;
