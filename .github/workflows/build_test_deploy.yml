@@ -10,7 +10,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            NEXT_TELEMETRY_DISABLED: 1
+            NODE_ENV: production
         outputs:
             docsChange: ${{ steps.docs-change.outputs.DOCS_CHANGE }}
         steps:
