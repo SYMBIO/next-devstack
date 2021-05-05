@@ -8,6 +8,10 @@
     },
     "license": "MIT",
     "types": "types/app.ts",
+    "files": [
+        "dist",
+        "types"
+    ],
     "scripts": {
         "build": "rimraf dist && NODE_ENV=production babel -d dist --ignore node_modules,types ./",
         "dev": "npm run build",

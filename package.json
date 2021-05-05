@@ -8,12 +8,13 @@
     "scripts": {
         "lerna": "lerna",
         "dev": "lerna run dev --stream --parallel",
-        "prepublish": "lerna run prepublish"
+        "prepublish": "lerna run prepublish",
+        "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre --skip-questions",
+        "publish-stable": "lerna version --force-publish"
     },
     "engines": {
         "node": ">=14.0.0"
     },
-    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.14.0",
         "@types/jest": "^26.0.23",
