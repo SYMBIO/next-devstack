@@ -1,5 +1,5 @@
 {
-    "name": "@symbio/devstack",
+    "name": "@symbio/headless",
     "version": "1.0.0-canary.15",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
