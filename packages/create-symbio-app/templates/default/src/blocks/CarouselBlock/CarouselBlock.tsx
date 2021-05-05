@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { graphql } from 'react-relay';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Carousel } from '../../components/organisms/Carousel/Carousel';
-import { BaseBlockProps } from '../../types/block';
+import { BaseBlockProps } from '@symbio/headless';
 import { CarouselBlock_content } from './__generated__/CarouselBlock_content.graphql';
 import styles from './CarouselBlock.module.scss';
 

@@ -2,12 +2,14 @@ import React, { ReactElement } from 'react';
 import NextHead from 'next/head';
 import { renderMetaTags, SeoMetaTagType } from 'react-datocms';
 import symbio from '../../../../symbio.config.json';
-import { AppContextProps } from '../../../types/appContext';
+import { AppContextProps } from '@symbio/headless/types/appContext';
+import { PageProps } from '../../../types/page';
+import { WebSettingsProps } from '../../../types/webSettings';
 
 export interface HeadProps {
-    item?: AppContextProps['item'];
-    page?: AppContextProps['page'];
-    site: AppContextProps['site'];
+    item?: AppContextProps<PageProps, WebSettingsProps>['item'];
+    page?: AppContextProps<PageProps, WebSettingsProps>['page'];
+    site: AppContextProps<PageProps, WebSettingsProps>['site'];
 }
 
 export const Head = ({ item, page, site }: HeadProps): ReactElement => {

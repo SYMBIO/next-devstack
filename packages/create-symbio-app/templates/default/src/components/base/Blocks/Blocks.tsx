@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import getBlockName from '../../../utils/getBlockName';
+import getBlockName from '@symbio/headless/dist/utils/getBlockName';
 import blocks from '../../../blocks';
 
 export interface BlocksProps {
