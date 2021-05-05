@@ -7,7 +7,7 @@
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
-    "types": "types/app.ts",
+    "types": "types/app.d.ts",
     "files": [
         "dist",
         "types"
