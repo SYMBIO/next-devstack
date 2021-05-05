@@ -15,6 +15,7 @@
     "scripts": {
         "build": "rimraf dist && babel -d dist --ignore node_modules,types ./",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore node_modules,types --watch ./\"",
+        "graphql-codegen": "env-cmd -f ../../.env graphql-codegen --config codegen.yml",
         "prepublish": "npm run build && npm run types",
         "relay": "relay-compiler",
         "test": "jest",
