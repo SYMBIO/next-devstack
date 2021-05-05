@@ -1,6 +1,4 @@
 {
-    "name": "@symbio/devstack",
-    "version": "1.0.0-canary.1",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -22,27 +20,19 @@
         "storybook": "start-storybook --no-dll",
         "test": "jest",
         "test:watch": "jest --watch",
-        "update-strings": "env-cmd node scripts/updateStrings.js",
-
-        "release": "taskr release",
-        "prepublish": "npm run release && yarn types",
-        "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
-        "typescript": "tsc --noEmit --declaration",
-        "ncc-compiled": "ncc cache clean && taskr ncc"
+        "update-strings": "env-cmd node scripts/updateStrings.js"
     },
     "engines": {
         "node": ">=14.0.0"
     },
     "dependencies": {
-        "@elastic/elasticsearch": "^7.12.0",
         "@react-google-maps/api": "^2.1.1",
         "axios": "^0.21.1",
         "busboy": "^0.3.1",
+        "clsx": "^1.1.1",
         "core-js": "^3.11.2",
-        "datocms-client": "^3.4.7",
         "dayjs": "^1.10.4",
         "formik": "^2.2.6",
-        "graphql": "^15.5.0",
         "hls.js": "^1.0.2",
         "html-react-parser": "^1.2.6",
         "html-to-text": "^7.1.1",
@@ -51,7 +41,6 @@
         "next-pwa": "^5.2.21",
         "path-to-regexp": "^6.2.0",
         "react": "^16.14.0",
-        "react-datocms": "^1.6.3",
         "react-dom": "^16.14.0",
         "react-image-lightbox": "^5.1.1",
         "react-relay": "^11.0.2",
@@ -63,9 +52,6 @@
     },
     "devDependencies": {
         "@babel/core": "^7.14.0",
-        "@graphql-codegen/cli": "^1.21.4",
-        "@graphql-codegen/introspection": "1.18.2",
-        "@graphql-codegen/schema-ast": "^1.18.2",
         "@next/bundle-analyzer": "^10.2.0",
         "@storybook/addon-a11y": "^6.2.9",
         "@storybook/addon-actions": "^6.2.9",
@@ -88,8 +74,6 @@
         "@types/object-fit-images": "^3.2.0",
         "@types/react": "^17.0.4",
         "@types/react-dom": "^17.0.3",
-        "@types/react-relay": "^11.0.1",
-        "@types/relay-runtime": "^11.0.0",
         "@types/uuid": "^8.3.0",
         "@types/yup": "^0.29.11",
         "@typescript-eslint/eslint-plugin": "^4.22.0",
@@ -97,7 +81,6 @@
         "@welldone-software/why-did-you-render": "^6.1.1",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.2.2",
-        "babel-plugin-relay": "^11.0.2",
         "dotenv": "^8.2.0",
         "env-cmd": "^10.1.0",
         "eslint": "^7.25.0",
@@ -108,9 +91,6 @@
         "lint-staged": "^10.5.4",
         "prettier": "^2.2.1",
         "react-docgen-typescript-loader": "^3.7.2",
-        "relay-compiler": "^11.0.2",
-        "relay-compiler-language-typescript": "^14.0.0",
-        "relay-config": "^11.0.2",
         "sass": "^1.32.12",
         "ts-jest": "^26.5.5",
         "typescript": "^4.2.4"
