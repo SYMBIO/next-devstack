@@ -1,0 +1,42 @@
+on:
+    push:
+        branches: [canary]
+    pull_request:
+        types: [opened, synchronize]
+
+name: Build, test, and deploy
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            NEXT_TELEMETRY_DISABLED: 1
+        outputs:
+            docsChange: ${{ steps.docs-change.outputs.DOCS_CHANGE }}
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 25
+
+            #- run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+            - run: npm install
+            - uses: actions/cache@v2
+              id: cache-build
+              with:
+                  path: ./*
+                  key: ${{ github.sha }}
+
+    publishRelease:
+        name: Potentially publish release
+        runs-on: ubuntu-latest
+        needs: build
+        env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        steps:
+            - uses: actions/cache@v2
+              id: restore-build
+              with:
+                  path: ./*
+                  key: ${{ github.sha }}
+
+            - run: ./publish-release.sh

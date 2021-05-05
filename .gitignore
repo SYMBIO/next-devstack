@@ -3,6 +3,7 @@ node_modules/
 
 # NextJS
 .next/
+dist/
 
 # IDEs
 .idea/
@@ -12,7 +13,7 @@ node_modules/
 
 # graphql/relay
 schema.graphql
-/src/types/graphql.ts
+/packages/headless/types/graphql.ts
 /src/schema/graphql.schema.json
 __generated__/
 
@@ -22,6 +23,7 @@ fixtures/
 
 sitemap.xml
 .vercel
+
 /public/storybook/
 /public/workbox-*.js
 /public/workbox-*.js.map
