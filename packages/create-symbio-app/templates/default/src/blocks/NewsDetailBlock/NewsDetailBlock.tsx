@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import graphql from 'graphql-tag';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
 import { StaticBlockContext } from '@symbio/headless/types/block';
-import getId from '@symbio/headless/utils/getId';
+import getId from '@symbio/headless/dist/utils/getId';
 import styles from './NewsDetailBlock.module.scss';
 import { Providers } from '@symbio/headless/types/app';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';

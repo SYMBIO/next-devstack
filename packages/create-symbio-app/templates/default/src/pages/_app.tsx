@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 import { AppProps, NextWebVitalsMetric } from 'next/app';
 import '../styles/global.scss';
 import { CustomCursorProvider } from '../components/primitives/CustomCursor/CustomCursorProvider';
-import { reportLogging } from '@symbio/headless/utils/metricsReport';
+import { reportLogging } from '@symbio/headless/dist/utils/metricsReport';
 
 export function reportWebVitals(metrics: NextWebVitalsMetric): void {
     reportLogging(metrics);

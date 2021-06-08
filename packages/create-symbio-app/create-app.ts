@@ -39,7 +39,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     await cpy('**', root, {
         parents: true,
         cwd: path.join(__dirname, 'templates', 'default'),
-        rename: (name) => {
+        rename: (name: string) => {
             switch (name) {
                 case 'gitignore': {
                     return '.'.concat(name);

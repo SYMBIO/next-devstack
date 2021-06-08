@@ -3,7 +3,7 @@ import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { UrlObject } from 'url';
 import clsx from 'clsx';
-import { getLinkParamsFromPage } from '@symbio/headless/lib/routing/getLinkParamsFromPage';
+import { getLinkParamsFromPage } from '@symbio/headless/dist/lib/routing/getLinkParamsFromPage';
 import { BasePage } from '@symbio/headless';
 import styles from './Link.module.scss';
 

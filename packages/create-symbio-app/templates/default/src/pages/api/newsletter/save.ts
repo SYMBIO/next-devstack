@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Mandrill } from 'mandrill-api';
 import Busboy from 'busboy';
 import dotenv from 'dotenv';
-import randomString from '@symbio/headless/utils/randomString';
+import randomString from '@symbio/headless/dist/utils/randomString';
 
 dotenv.config();
 
