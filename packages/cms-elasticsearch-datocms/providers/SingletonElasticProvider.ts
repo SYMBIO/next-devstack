@@ -1,12 +1,12 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
 import { Logger } from '@symbio/headless/dist/services';
-import AbstractSingletonDatoCMSProvider from '@symbio/cms-datocms/dist/providers/AbstractSingletonDatoCMSProvider';
+import SingletonDatoCMSProvider from '@symbio/cms-datocms/dist/providers/SingletonDatoCMSProvider';
 import getElastic from '../elastic';
 
-export default abstract class AbstractSingletonElasticProvider<
-    TOperation extends OperationType
-> extends AbstractSingletonDatoCMSProvider<TOperation> {
+export default abstract class SingletonElasticProvider<
+    TOperation extends OperationType,
+> extends SingletonDatoCMSProvider<TOperation> {
     /**
      * Get item from elastic search
      * @param locale

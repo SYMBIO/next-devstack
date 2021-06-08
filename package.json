@@ -7,7 +7,7 @@
     },
     "license": "MIT",
     "scripts": {
-        "lerna": "lerna",
+        "bootstrap": "lerna bootstrap",
         "dev": "lerna run dev --stream --parallel",
         "graphql-codegen": "lerna run graphql-codegen",
         "prepublish": "lerna run prepublish",
