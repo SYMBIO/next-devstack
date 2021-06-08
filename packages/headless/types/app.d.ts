@@ -1,3 +1,4 @@
+import { AppData, BasePage } from '@symbio/cms';
 import { BlocksPropsMap } from './block';
 
 export type OmitRefType<T> = Omit<T, ' $refType'>;

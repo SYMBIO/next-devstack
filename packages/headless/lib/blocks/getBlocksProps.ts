@@ -1,7 +1,7 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { AppData, BasePage, Providers } from '@symbio/cms';
 import { BlocksPropsMap, BlocksPropsPromisesMap, BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
-import { AppData, BasePage, Providers } from '../../types/app';
 
 /**
  * Returns normalized (array-ized) slug.
