@@ -1,4 +1,4 @@
 {
     "presets": ["next/babel"],
-    "ignore": ["/node_modules/", "/types/"]
+    "ignore": ["/node_modules/", "/types/", "/dist/"]
 }
