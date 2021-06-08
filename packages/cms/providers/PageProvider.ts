@@ -1,7 +1,6 @@
-import { AppData, BasePage } from '../types';
-import AbstractProvider from './Provider';
+import { AppData, BasePage, Provider } from '../types';
 
-export default interface PageProvider<P extends BasePage, W> extends AbstractProvider {
+export default interface PageProvider<P extends BasePage, W> extends Provider {
     getPageBySlug: (
         locale: string | undefined,
         slug: string[],
