@@ -10,7 +10,8 @@
       "npmClient": "npm",
       "allowBranch": [
         "master",
-        "canary"
+        "canary",
+        "dev-von-cms"
       ],
       "registry": "https://registry.npmjs.org/"
     }
