@@ -1,5 +1,3 @@
-import PageProvider from '../dist/providers/PageProvider';
-
 export type ItemId = string;
 
 export type FindParams = {
@@ -33,6 +31,14 @@ export interface ProviderOptions {
 export interface Provider {
     getId: () => string;
     getApiKey: () => string;
+}
+
+export default interface PageProvider<P extends BasePage, W> extends Provider {
+    getPageBySlug: (
+        locale: string | undefined,
+        slug: string[],
+        preview?: boolean,
+    ) => Promise<AppData<P, W> | undefined>;
 }
 
 export type Providers<P extends BasePage, W> = { page: PageProvider<P, W> } & Record<string, Provider>;
