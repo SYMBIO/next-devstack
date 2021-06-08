@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { GetStaticPropsContext, NextComponentType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { BasePage, Providers } from './app';
+import { BasePage, Providers } from '@symbio/cms';
 
 export type BlocksPropsPromisesMap = Record<string, Promise<unknown>>;
 export type BlocksPropsMap = Record<string, unknown>;

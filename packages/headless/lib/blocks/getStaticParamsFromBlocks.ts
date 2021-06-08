@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import { BasePage, Providers } from '../../types/app';
+import { BasePage, Providers } from '@symbio/cms';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 

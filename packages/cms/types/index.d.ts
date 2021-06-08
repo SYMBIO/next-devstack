@@ -1,4 +1,4 @@
-import PageProvider from '../providers/PageProvider';
+import PageProvider from '../dist/providers/PageProvider';
 
 export type ItemId = string;
 
