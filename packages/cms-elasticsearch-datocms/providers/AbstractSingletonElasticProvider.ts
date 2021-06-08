@@ -1,7 +1,7 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
-import { Logger } from '../../services';
-import getElastic from '../elastic';
+import { Logger } from '../../headless/services';
+import getElastic from '../../headless/lib/elastic';
 import AbstractSingletonDatoCMSProvider from './AbstractSingletonDatoCMSProvider';
 
 export default abstract class AbstractSingletonElasticProvider<

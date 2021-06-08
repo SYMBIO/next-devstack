@@ -1,11 +1,11 @@
-import Provider from '../../lib/provider/Provider';
+import Provider from '../../cms/lib/Provider';
 import { Environment, fetchQuery } from 'relay-runtime';
-import { siteFragment } from '../../relay/__generated__/siteFragment.graphql';
-import * as d from '../../relay/site';
-import { siteQuery } from '../../relay/__generated__/siteQuery.graphql';
-import { createRelayEnvironment } from '../../lib/relay/createRelayEnvironment';
-import { getSiteLocale } from '../../lib/routing/getSiteLocale';
-import getElastic from '../../lib/elastic';
+import { siteFragment } from '../../headless/relay/__generated__/siteFragment.graphql';
+import * as d from '../../headless/relay/site';
+import { siteQuery } from '../../headless/relay/__generated__/siteQuery.graphql';
+import { createRelayEnvironment } from '../../cms-datocms/relay/createRelayEnvironment';
+import { getSiteLocale } from '../../headless/lib/routing/getSiteLocale';
+import getElastic from '../../headless/lib/elastic';
 
 export type Site = Omit<siteFragment, ' $refType'>;
 

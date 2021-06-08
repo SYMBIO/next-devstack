@@ -1,0 +1,13 @@
+# NodeJS
+node_modules/
+
+# NextJS
+.next/
+dist/
+
+# graphql/relay
+types/graphql.ts
+__generated__/
+
+# build
+*.js

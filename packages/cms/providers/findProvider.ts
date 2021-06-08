@@ -1,4 +1,4 @@
-import { BasePage, Providers } from '../../types/app';
+import { BasePage, Providers } from '../types';
 
 export function findProvider<P extends BasePage, W>(
     typeId: string,

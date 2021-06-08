@@ -1,10 +1,10 @@
 import { ProviderOptions } from './AbstractDatoCMSProvider';
 import Provider from './Provider';
 import { Environment, GraphQLTaggedNode } from 'relay-runtime';
-import { createRelayEnvironment } from '../relay/createRelayEnvironment';
+import { createRelayEnvironment } from '../../cms-datocms/relay/createRelayEnvironment';
 import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
 import { fetchQuery } from 'react-relay';
-import { getSiteLocale } from '../routing/getSiteLocale';
+import { getSiteLocale } from '../../headless/lib/routing/getSiteLocale';
 
 export default abstract class AbstractSingletonDatoCMSProvider<TOperation extends OperationType> implements Provider {
     protected environment: Record<string, Environment> = {

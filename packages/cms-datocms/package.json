@@ -15,7 +15,9 @@
     "scripts": {
         "build": "rimraf dist && babel -d dist --ignore dist,node_modules,types ./",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
+        "graphql-codegen": "env-cmd -f ../../.env graphql-codegen --config codegen.yml",
         "prepublish": "npm run build && npm run types",
+        "relay": "relay-compiler",
         "test": "jest",
         "test:watch": "jest --watch",
         "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
@@ -25,7 +27,12 @@
         "node": ">=14.0.0"
     },
     "dependencies": {
+        "@elastic/elasticsearch": "^7.12.0",
+        "axios": "^0.21.1",
+        "core-js": "^3.11.2",
+        "datocms-client": "^3.4.7",
         "dayjs": "^1.10.4",
+        "graphql": "^15.5.0",
         "hls.js": "^1.0.2",
         "html-react-parser": "^1.2.6",
         "html-to-text": "^7.1.1",

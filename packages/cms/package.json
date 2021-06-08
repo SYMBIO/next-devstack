@@ -1,16 +1,16 @@
 {
-    "name": "@symbio/headless",
+    "name": "@symbio/cms",
     "version": "1.0.0-canary.17",
-    "description": "SYMBIO Next.js Devstack",
+    "description": "Abstract adapter for headless CMS for SYMBIO devstack",
     "repository": {
         "type": "git",
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
-    "types": "types/app.d.ts",
+    "types": "index.d.ts",
     "files": [
         "dist",
-        "types"
+        "index.d.ts"
     ],
     "scripts": {
         "build": "rimraf dist && babel -d dist --ignore dist,node_modules,types ./",
@@ -24,40 +24,16 @@
     "engines": {
         "node": ">=14.0.0"
     },
-    "dependencies": {
-        "dayjs": "^1.10.4",
-        "hls.js": "^1.0.2",
-        "html-react-parser": "^1.2.6",
-        "html-to-text": "^7.1.1",
-        "next": "^10.2.0",
-        "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "react-relay": "^11.0.2",
-        "relay-runtime": "^11.0.2",
-        "slugify": "^1.5.1"
-    },
     "devDependencies": {
         "@babel/cli": "^7.13.16",
         "@babel/core": "^7.14.0",
-        "@graphql-codegen/cli": "^1.21.4",
-        "@graphql-codegen/introspection": "1.18.2",
-        "@graphql-codegen/schema-ast": "^1.18.2",
-        "@types/hls.js": "^1.0.0",
         "@types/node": "^15.0.1",
-        "@types/react": "^16.14.5",
-        "@types/react-dom": "^16.9.12",
-        "@types/react-relay": "^11.0.1",
-        "@types/relay-runtime": "^11.0.0",
         "@typescript-eslint/eslint-plugin": "^4.22.0",
         "@typescript-eslint/parser": "^4.22.0",
         "babel-loader": "^8.2.2",
         "babel-plugin-relay": "^11.0.2",
         "concurrently": "^6.0.2",
         "dotenv": "^8.2.0",
-        "relay-compiler": "^11.0.2",
-        "relay-compiler-language-typescript": "^14.0.0",
-        "relay-config": "^11.0.2",
         "rimraf": "^3.0.2"
-    },
-    "gitHead": "2c0aa85fa5fb6a6ed7a7adea0590ba7b16940228"
+    }
 }
