@@ -1,0 +1,40 @@
+{
+    "name": "@symbio/cms",
+    "version": "1.0.0-canary.22",
+    "description": "Abstract adapter for headless CMS for SYMBIO devstack",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SYMBIO/next-devstack"
+    },
+    "license": "MIT",
+    "types": "types/index.d.ts",
+    "files": [
+        "dist",
+        "types"
+    ],
+    "scripts": {
+        "build": "rimraf dist && babel -d dist -x .ts,.tsx,.js --ignore dist,node_modules,types ./",
+        "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
+        "prepublish": "npm run build && npm run types",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
+        "typescript": "tsc --noEmit --declaration"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.14.3",
+        "@babel/core": "^7.14.3",
+        "@types/node": "^15.12.2",
+        "@typescript-eslint/eslint-plugin": "^4.26.1",
+        "@typescript-eslint/parser": "^4.26.1",
+        "babel-loader": "^8.2.2",
+        "babel-plugin-relay": "^11.0.2",
+        "concurrently": "^6.2.0",
+        "dotenv": "^10.0.0",
+        "next": "^10.2.3",
+        "rimraf": "^3.0.2"
+    }
+}

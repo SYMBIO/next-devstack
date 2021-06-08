@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring';
-import { BasePage } from '../../types/app';
+import { BasePage } from '@symbio/cms';
 
 export function getUrlFromPage(
     page: BasePage,

@@ -1,4 +1,4 @@
-import { AppData, BasePage } from './app';
+import { AppData, BasePage } from '@symbio/cms';
 
 export type AppContextProps<P extends BasePage, W> = AppData<P, W> & {
     hostname?: string;

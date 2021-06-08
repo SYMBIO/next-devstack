@@ -1,4 +1,4 @@
-import { BasePage, Route } from '../../types/app';
+import { BasePage, Route } from '@symbio/cms';
 import { getLinkParamsFromPage } from './getLinkParamsFromPage';
 import AppStore from '../store/AppStore';
 

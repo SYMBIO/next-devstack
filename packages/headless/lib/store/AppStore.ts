@@ -1,4 +1,4 @@
-import { BasePage } from '../../types/app';
+import { BasePage } from '@symbio/cms';
 import { AppContextProps } from '../../types/appContext';
 
 export class AppStore<P extends BasePage, W> {
