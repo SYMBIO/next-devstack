@@ -28,7 +28,7 @@ export interface IndexingResultItem {
     id: string;
 }
 
-export default abstract class AbstractElasticProvider<
+export default abstract class ElasticProvider<
     TOne extends OperationType,
     TFind extends OperationType,
     TItem extends DatoCMSRecord = DatoCMSRecord,

@@ -1,9 +1,9 @@
 import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
 import { Provider } from '@symbio/cms';
-import { ProviderOptions } from './AbstractDatoCMSProvider';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
+import { ProviderOptions } from '../types/provider';
 
-export default abstract class AbstractSingletonDatoCMSProvider<TOperation extends OperationType> implements Provider {
+export default class SingletonDatoCMSProvider<TOperation extends OperationType> implements Provider {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
         production: createRelayEnvironment({}, false),

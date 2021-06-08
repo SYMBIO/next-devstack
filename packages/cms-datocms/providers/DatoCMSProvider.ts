@@ -2,24 +2,9 @@ import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay
 import { Provider } from '@symbio/cms';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
+import { DatoCMSRecord, FindResponse, ProviderOptions } from '../types/provider';
 
-export type DatoCMSRecord = {
-    id: string;
-    [key: string]: unknown;
-} | null;
-
-export interface FindResponse<T> {
-    count: number;
-    data: T;
-}
-
-export interface ProviderOptions {
-    locales: string[];
-    apiKey: string;
-    id: string;
-}
-
-export default abstract class AbstractDatoCMSProvider<
+export default class DatoCMSProvider<
     TOne extends OperationType,
     TFind extends OperationType,
     TItem extends DatoCMSRecord = DatoCMSRecord,
