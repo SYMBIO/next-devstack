@@ -1,6 +1,6 @@
 {
     "name": "@symbio/headless",
-    "version": "1.0.0-canary.23",
+    "version": "1.0.0-canary.24",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
