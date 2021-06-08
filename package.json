@@ -1,5 +1,6 @@
 {
     "description": "SYMBIO Next.js Devstack",
+    "version": "1.0.0-canary.25",
     "repository": {
         "type": "git",
         "url": "https://github.com/SYMBIO/next-devstack"
