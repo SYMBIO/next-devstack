@@ -1,10 +1,9 @@
-import Provider from '../../cms/lib/Provider';
+import { Provider } from '@symbio/cms';
 import { Environment, fetchQuery } from 'relay-runtime';
 import { siteFragment } from '../../headless/relay/__generated__/siteFragment.graphql';
 import * as d from '../../headless/relay/site';
 import { siteQuery } from '../../headless/relay/__generated__/siteQuery.graphql';
 import { createRelayEnvironment } from '../../cms-datocms/relay/createRelayEnvironment';
-import { getSiteLocale } from '../../headless/lib/routing/getSiteLocale';
 import getElastic from '../../headless/lib/elastic';
 
 export type Site = Omit<siteFragment, ' $refType'>;
@@ -26,7 +25,7 @@ class SiteProvider implements Provider {
 
     async get(locale: string): Promise<Site | undefined> {
         const site = await fetchQuery<siteQuery>(this.environment, d.siteQuery, {
-            locale: getSiteLocale(locale),
+            locale,
         }).toPromise();
 
         return site?._site;

@@ -1,10 +1,7 @@
+import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
+import { Provider } from '@symbio/cms';
 import { ProviderOptions } from './AbstractDatoCMSProvider';
-import Provider from './Provider';
-import { Environment, GraphQLTaggedNode } from 'relay-runtime';
-import { createRelayEnvironment } from '../../cms-datocms/relay/createRelayEnvironment';
-import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
-import { fetchQuery } from 'react-relay';
-import { getSiteLocale } from '../../headless/lib/routing/getSiteLocale';
+import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 
 export default abstract class AbstractSingletonDatoCMSProvider<TOperation extends OperationType> implements Provider {
     protected environment: Record<string, Environment> = {
@@ -49,7 +46,7 @@ export default abstract class AbstractSingletonDatoCMSProvider<TOperation extend
             this.node,
             this.isLocalizable()
                 ? {
-                      locale: getSiteLocale(locale),
+                      locale,
                   }
                 : {},
         );

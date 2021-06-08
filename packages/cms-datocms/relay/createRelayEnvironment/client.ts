@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 import { RecordMap } from 'relay-runtime/lib/store/RelayStoreTypes';
-import { Logger } from '../../../headless/services';
+import { Logger } from '@symbio/headless/dist/services';
 
 export const createRelayEnvironment = (records: RecordMap, preview = false): Environment =>
     new Environment({

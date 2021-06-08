@@ -1,10 +1,7 @@
-import Provider from './Provider';
-import { Environment, GraphQLTaggedNode } from 'relay-runtime';
-import { createRelayEnvironment } from '../../cms-datocms/relay/createRelayEnvironment';
-import { OperationType } from 'relay-runtime/lib/util/RelayRuntimeTypes';
-import { fetchQuery } from 'react-relay';
-import { DATOCMS_MAX_LIMIT } from '../../headless/constants';
-import { sleep } from '../../headless/utils/sleep';
+import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
+import { Provider } from '@symbio/cms';
+import { createRelayEnvironment } from '../relay/createRelayEnvironment';
+import { DATOCMS_MAX_LIMIT } from '../constants';
 
 export type DatoCMSRecord = {
     id: string;
@@ -148,7 +145,6 @@ export default abstract class AbstractDatoCMSProvider<
                     items: TItems;
                 };
                 data.push(...result.items);
-                await sleep();
             }
         }
 
