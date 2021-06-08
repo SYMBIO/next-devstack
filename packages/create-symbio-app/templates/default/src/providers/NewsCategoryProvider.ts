@@ -1,4 +1,4 @@
-import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
+import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/AbstractDatoCMSProvider';
 import * as d from '../relay/__generated__/newsCategoryDetailQuery.graphql';
 import * as l from '../relay/__generated__/newsCategoryListQuery.graphql';
 import { newsDetailQueryResponse } from '../relay/__generated__/newsDetailQuery.graphql';
@@ -12,17 +12,13 @@ class NewsCategoryProvider extends AbstractDatoCMSProvider<
     newsDetailQueryResponse['item'],
     newsListQueryResponse['items']
 > {
-    getApiKey(): string {
-        return 'news_category';
-    }
-
-    getId(): string {
-        return '208391';
-    }
-
     async getStaticPaths(): Promise<ParsedUrlQuery[]> {
         return Promise.resolve([]);
     }
 }
 
-export default new NewsCategoryProvider(newsCategoryDetailQuery, newsCategoryListQuery);
+export default new NewsCategoryProvider(newsCategoryDetailQuery, newsCategoryListQuery, {
+    id: '208391',
+    apiKey: 'news_category',
+    locales: ['cs', 'en'],
+});

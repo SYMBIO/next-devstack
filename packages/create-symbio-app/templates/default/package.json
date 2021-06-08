@@ -13,14 +13,15 @@
         "create-story": "node scripts/createStory.js $F $N",
         "dev": "next dev",
         "export": "NODE_ENV=production next export",
-        "graphql-codegen": "env-cmd graphql-codegen --config codegen.yml",
+        "generate-models": "env-cmd -f ../../../../.env node node_modules/@symbio/headless/dist/scripts/generateModels.js",
+        "graphql-codegen": "env-cmd -f ../../../../.env graphql-codegen --config codegen.yml",
         "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
         "relay": "relay-compiler",
         "start": "NODE_ENV=production next start",
         "storybook": "start-storybook --no-dll",
         "test": "jest",
         "test:watch": "jest --watch",
-        "update-strings": "env-cmd node scripts/updateStrings.js"
+        "update-strings": "env-cmd -f ../../../../.env node node_modules/@symbio/headless/dist/scripts/updateStrings.js"
     },
     "engines": {
         "node": ">=14.0.0"
@@ -28,6 +29,7 @@
     "dependencies": {
         "@react-google-maps/api": "^2.1.1",
         "@symbio/cms": "canary",
+        "@symbio/cms-datocms": "*",
         "@symbio/headless": "canary",
         "axios": "^0.21.1",
         "busboy": "^0.3.1",
@@ -55,6 +57,9 @@
     },
     "devDependencies": {
         "@babel/core": "^7.14.0",
+        "@graphql-codegen/cli": "^1.21.4",
+        "@graphql-codegen/introspection": "1.18.2",
+        "@graphql-codegen/schema-ast": "^1.18.2",
         "@next/bundle-analyzer": "^10.2.0",
         "@storybook/addon-a11y": "^6.2.9",
         "@storybook/addon-actions": "^6.2.9",

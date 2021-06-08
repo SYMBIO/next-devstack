@@ -1,8 +1,6 @@
 import { GetStaticPathsResult } from 'next';
 import { fetchQuery } from 'react-relay';
-import symbio from '../../symbio.config.json';
-import AbstractDatoCMSProvider from '../../lib/provider/AbstractDatoCMSProvider';
-import { getSiteLocale } from '../../lib/routing/getSiteLocale';
+import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/AbstractDatoCMSProvider';
 import { pageDetailQueryResponse } from '../relay/__generated__/pageDetailQuery.graphql';
 import { pageListQueryResponse } from '../relay/__generated__/pageListQuery.graphql';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
@@ -11,12 +9,12 @@ import * as l from '../relay/__generated__/pageListQuery.graphql';
 import * as s from '../relay/__generated__/pageStaticPathsQuery.graphql';
 import { appQuery } from '../relay/__generated__/appQuery.graphql';
 import { AppQuery } from '../relay/app';
-import { getPagePattern } from '../../lib/routing/getPagePattern';
-import { AppData } from '../../types/app';
+import { getPagePattern } from '@symbio/headless/dist/lib/routing/getPagePattern';
+import { AppData } from '@symbio/cms';
 import { ParsedUrlQuery } from 'querystring';
-import { getStaticParamsFromBlocks } from '../../lib/blocks/getStaticParamsFromBlocks';
+import { getStaticParamsFromBlocks } from '@symbio/headless/dist/lib/blocks/getStaticParamsFromBlocks';
 import providers from './index';
-import { BlockType } from '../../types/block';
+import { BlockType } from '@symbio/headless/types/block';
 
 class PageProvider extends AbstractDatoCMSProvider<
     d.pageDetailQuery,
@@ -24,14 +22,6 @@ class PageProvider extends AbstractDatoCMSProvider<
     pageDetailQueryResponse['item'],
     pageListQueryResponse['items']
 > {
-    getApiKey(): string {
-        return 'page';
-    }
-
-    getId(): string {
-        return symbio.datocms.pageTypeId;
-    }
-
     /**
      * Special function returning Page and Site data
      * @param locale
@@ -42,7 +32,7 @@ class PageProvider extends AbstractDatoCMSProvider<
         const pattern = getPagePattern(slug);
         const redirectPattern = slug.join('/');
         const data = await fetchQuery<appQuery>(this.getEnvironment(preview), AppQuery, {
-            ...(locale ? { locale: getSiteLocale(locale) } : {}),
+            ...(locale ? { locale } : {}),
             pattern,
             redirectPattern,
         }).toPromise();
@@ -50,14 +40,17 @@ class PageProvider extends AbstractDatoCMSProvider<
         return data;
     }
 
-    async getStaticPaths(locale: string | undefined, blocks: Record<string, BlockType>): Promise<GetStaticPathsResult['paths']> {
+    async getStaticPaths(
+        locale: string | undefined,
+        blocks: Record<string, BlockType>,
+    ): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
         let cnt = -1;
         let done = 0;
         do {
             const data = await fetchQuery<s.pageStaticPathsQuery>(this.getEnvironment(false), pageStaticPathsQuery, {
-                locale: getSiteLocale(locale),
+                locale,
                 first: 100,
                 skip: done,
             }).toPromise();
@@ -117,4 +110,8 @@ class PageProvider extends AbstractDatoCMSProvider<
     }
 }
 
-export default new PageProvider(pageDetailQuery, pageListQuery);
+export default new PageProvider(pageDetailQuery, pageListQuery, {
+    id: '184261',
+    apiKey: 'page',
+    locales: ['cs', 'en'],
+});
