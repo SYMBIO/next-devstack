@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
 import styles from './CustomCursorProvider.module.scss';
-import { CursorContext } from '@symbio/headless/contexts/cursor-context/CursorContext';
+// import { CursorContext } from '@symbio/headless/contexts/cursor-context/CursorContext';
 
 interface CustomCursorProviderProps {
     children: ReactNode;
@@ -86,14 +86,16 @@ export const CustomCursorProvider = ({ children }: CustomCursorProviderProps): R
     }, []);
 
     return (
-        <CursorContext.Provider
-            value={{
-                addCursor,
-                removeUnusedCursors,
-            }}
-        >
+        // <CursorContext.Provider
+        //     value={{
+        //         addCursor,
+        //         removeUnusedCursors,
+        //     }}
+        // >
+        <>
             <CustomCursorRenderer ref={cursorRef}>{activeCursor}</CustomCursorRenderer>
             {children}
-        </CursorContext.Provider>
+        </>
+        // </CursorContext.Provider>
     );
 };

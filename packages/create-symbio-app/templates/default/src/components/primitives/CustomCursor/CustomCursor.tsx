@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, RefObject, useContext, useEffect } from 'react';
-import { CursorContext } from '../../../contexts/cursor-context/CursorContext';
+// import { CursorContext } from '@symbio/headless/contexts/cursor-context/CursorContext';
 
 interface CustomCursorProps {
     component: ReactNode;
@@ -7,17 +7,17 @@ interface CustomCursorProps {
 }
 
 export const CustomCursor = ({ component, children }: CustomCursorProps): ReactElement => {
-    const { addCursor, removeUnusedCursors } = useContext(CursorContext);
+    // const { addCursor, removeUnusedCursors } = useContext(CursorContext);
     const ref = React.useRef<HTMLElement>();
 
-    useEffect(() => {
-        if (ref.current) {
-            addCursor(ref.current, component);
-        }
-        return () => {
-            removeUnusedCursors();
-        };
-    }, [ref]);
+    // useEffect(() => {
+    //     if (ref.current) {
+    //         addCursor(ref.current, component);
+    //     }
+    //     return () => {
+    //         removeUnusedCursors();
+    //     };
+    // }, [ref]);
 
     return children(ref);
 };

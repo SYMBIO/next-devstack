@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import styles from './Navbar.module.scss';
 import { Link } from '../../primitives/Link/Link';
 import { MainMenu } from '../MainMenu/MainMenu';
-import Logo from '../../../../public/svg/symbio.svg';
+// import Logo from '../../../../public/svg/symbio.svg';
 
 const Navbar = (): ReactElement<null, 'div'> | null => {
     const { locale, locales } = useRouter();
