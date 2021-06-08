@@ -1,11 +1,13 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
-import { Logger } from '../../headless/services';
-import AbstractDatoCMSProvider, { DatoCMSRecord } from './AbstractDatoCMSProvider';
-import getElastic from '../../headless/lib/elastic';
+import { Logger } from '@symbio/headless/dist/services';
+import AbstractDatoCMSProvider, {
+    DatoCMSRecord,
+    FindResponse,
+} from '@symbio/cms-datocms/dist/providers/AbstractDatoCMSProvider';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
-import { FindResponse } from './AbstractDatoCMSProvider';
-import { AggregatedType, ElasticType } from '../../headless/types/elastic';
+import getElastic from '../elastic';
+import { AggregatedType, ElasticType } from '../types/elastic';
 
 export interface GetBodyProps {
     size?: number;

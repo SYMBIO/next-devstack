@@ -1,8 +1,8 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { OperationType } from 'relay-runtime';
-import { Logger } from '../../headless/services';
-import getElastic from '../../headless/lib/elastic';
-import AbstractSingletonDatoCMSProvider from './AbstractSingletonDatoCMSProvider';
+import { Logger } from '@symbio/headless/dist/services';
+import AbstractSingletonDatoCMSProvider from '@symbio/cms-datocms/dist/providers/AbstractSingletonDatoCMSProvider';
+import getElastic from '../elastic';
 
 export default abstract class AbstractSingletonElasticProvider<
     TOperation extends OperationType
