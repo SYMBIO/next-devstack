@@ -18,8 +18,8 @@ jobs:
               with:
                   fetch-depth: 25
 
-            #- run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-            - run: npm install
+            - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+            - run: npm ci
             - uses: actions/cache@v2
               id: cache-build
               with:
