@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms-datocms",
-    "version": "1.0.0-canary.25",
+    "version": "1.0.0-canary.26",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -48,8 +48,8 @@
         "@graphql-codegen/cli": "^1.21.5",
         "@graphql-codegen/introspection": "1.18.2",
         "@graphql-codegen/schema-ast": "^1.18.3",
-        "@symbio/cms": "1.0.0-canary.25",
-        "@symbio/headless": "1.0.0-canary.25",
+        "@symbio/cms": "1.0.0-canary.26",
+        "@symbio/headless": "1.0.0-canary.26",
         "@types/hls.js": "^1.0.0",
         "@types/node": "^15.12.2",
         "@types/react": "^17.0.9",
