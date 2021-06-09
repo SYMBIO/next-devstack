@@ -11,6 +11,9 @@ graphql`
 
 export const redirectListQuery = graphql`
     query redirectListQuery($filter: RedirectModelFilter, $limit: IntType, $offset: IntType) {
+        meta: _allRedirectsMeta(filter: $filter) {
+            count
+        }
         items: allRedirects(filter: $filter, first: $limit, skip: $offset) {
             ...redirectFragment @relay(mask: false)
         }

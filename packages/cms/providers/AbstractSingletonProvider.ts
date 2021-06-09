@@ -1,6 +1,6 @@
-import { CmsItem, Provider, ProviderOptions, CmsAttributes } from '../types';
+import { Provider, ProviderOptions, CmsItem, SingletonBaseRecord } from '../types';
 
-export default abstract class AbstractSingletonProvider<ItemType extends CmsItem> implements Provider {
+export default abstract class AbstractSingletonProvider implements Provider {
     protected options: ProviderOptions;
 
     public constructor(options: ProviderOptions) {
@@ -23,16 +23,19 @@ export default abstract class AbstractSingletonProvider<ItemType extends CmsItem
      * Get one item by id or filter
      * @param options
      */
-    abstract get(options?: { locale?: string; preview?: boolean }): Promise<ItemType | null>;
+    abstract get<T extends SingletonBaseRecord = SingletonBaseRecord>(options?: {
+        locale?: string;
+        preview?: boolean;
+    }): Promise<CmsItem<T> | null>;
 
     /**
      * Transform item of one query into an item
      * @param item
      * @param locale
      */
-    async transformResult(item: Omit<ItemType, keyof CmsAttributes> | null, locale?: string): Promise<ItemType | null> {
+    async transformResult<T = SingletonBaseRecord>(item: T | null, locale?: string): Promise<CmsItem<T> | null> {
         if (item) {
-            return { ...item, cmsTypeId: this.getId() } as ItemType;
+            return { ...item, cmsTypeId: this.getId() } as CmsItem<T>;
         } else {
             return null;
         }

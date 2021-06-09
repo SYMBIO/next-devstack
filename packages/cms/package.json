@@ -7,12 +7,9 @@
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
-    "main": "index.js",
-    "types": "types/index.d.ts",
+    "types": "dist/types/index.d.ts",
     "files": [
-        "dist",
-        "types/index.d.ts",
-        "providers.js"
+        "dist"
     ],
     "scripts": {
         "build": "rimraf dist && babel -d dist -x .ts,.tsx,.js --ignore dist,node_modules,types ./",

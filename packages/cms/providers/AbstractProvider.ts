@@ -4,12 +4,12 @@ import {
     ItemId,
     Provider,
     ProviderOptions,
-    CmsAttributes,
     FindResponse,
     FindOneParams,
+    BaseRecord,
 } from '../types';
 
-export default abstract class AbstractProvider<ItemType extends CmsItem> implements Provider {
+export default abstract class AbstractProvider implements Provider {
     protected options: ProviderOptions;
 
     public constructor(options: ProviderOptions) {
@@ -32,30 +32,38 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
      * Get one item by id or filter
      * @param options
      */
-    abstract findOne(options: FindOneParams | FindParams): Promise<ItemType | null>;
+    abstract findOne<T extends BaseRecord = BaseRecord>(
+        options: FindOneParams | FindParams,
+    ): Promise<CmsItem<T> | null>;
 
     /**
-     * Transform item of one query into an item
+     * Transform item of one query into an CmsItem
      * @param item
      * @param locale
      */
-    async transformResult(item: Omit<ItemType, keyof CmsAttributes> | null, locale?: string): Promise<ItemType | null> {
+    async transformResult<T extends BaseRecord = BaseRecord>(
+        item: T | null,
+        locale?: string,
+    ): Promise<CmsItem<T> | null> {
         if (item) {
-            return { ...item, cmsTypeId: this.getId() } as ItemType;
+            return { ...item, cmsTypeId: this.getId() } as CmsItem<T>;
         } else {
             return null;
         }
     }
 
-    abstract find(options: FindParams): Promise<FindResponse<ItemType[]>>;
+    abstract find<T = BaseRecord>(options: FindParams): Promise<FindResponse<T>>;
 
     /**
      * Transform find results into array of items
      * @param items
      * @param locale
      */
-    async transformResults(items: Array<Omit<ItemType, keyof CmsAttributes>>, locale?: string): Promise<ItemType[]> {
-        return items.map((item) => ({ ...item, cmsTypeId: this.getId() })) as ItemType[];
+    async transformResults<T extends BaseRecord>(
+        items: ReadonlyArray<T>,
+        locale?: string,
+    ): Promise<ReadonlyArray<CmsItem<T>>> {
+        return items.map((item) => ({ ...item, cmsTypeId: this.getId() }));
     }
 
     /**

@@ -1,4 +1,5 @@
 import { AbstractProvider, AbstractSingletonProvider } from '../providers/index';
+import { findProvider } from '../utils/findProvider';
 
 export type ItemId = string;
 
@@ -15,19 +16,24 @@ export type FindParams<T = Record<string, unknown>> = {
 
 export type ItemStatus = 'draft' | 'updated' | 'published';
 
+export type BaseRecord =
+    | ({
+          id: string;
+      } & Record<string, unknown>)
+    | null;
+
+export type SingletonBaseRecord = Record<string, unknown> | null;
+
 export type CmsAttributes = {
     cmsTypeId: string;
     status?: ItemStatus;
 };
 
-export type CmsItem = {
-    id: ItemId;
-} & CmsAttributes &
-    Record<string, unknown>;
+export type CmsItem<T = BaseRecord> = T & CmsAttributes;
 
 export interface FindResponse<T> {
     count: number;
-    data: T;
+    data: ReadonlyArray<CmsItem<T>>;
 }
 
 export interface ProviderOptions {
@@ -131,4 +137,4 @@ export type Route<ObjectType> = {
     readonly parameters?: string | null;
 };
 
-export { AbstractProvider, AbstractSingletonProvider };
+export { AbstractProvider, AbstractSingletonProvider, findProvider };

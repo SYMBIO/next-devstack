@@ -1,8 +1,6 @@
-import { BasePage, Providers } from '../types';
-
-export function findProvider<P extends BasePage, W>(
+export function findProvider<Providers>(
     typeId: string,
-    providers: Providers<P, W>,
+    providers: Providers,
 ): typeof providers[keyof typeof providers] | undefined {
     let provider;
     const providerIndex = Object.keys(providers).indexOf(typeId);

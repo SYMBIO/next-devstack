@@ -1,14 +1,13 @@
-import { AbstractProvider, FindOneParams, FindParams } from '@symbio/cms';
-import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
+import { AbstractProvider, BaseRecord, CmsItem, FindOneParams, FindParams } from '@symbio/cms';
+import { Environment, GraphQLTaggedNode, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
-import { DatoCMSRecord, FindResponse, ProviderOptions } from '../types/provider';
+import { FindOperationType, FindResponse, OneOperationType, ProviderOptions } from '../types';
 
 export default class DatoCMSProvider<
-    TOne extends OperationType,
-    TFind extends OperationType,
-    TItem extends DatoCMSRecord = DatoCMSRecord,
-> extends AbstractProvider<TItem> {
+    TOne extends OneOperationType,
+    TFind extends FindOperationType,
+> extends AbstractProvider {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
         production: createRelayEnvironment({}, false),
@@ -47,7 +46,9 @@ export default class DatoCMSProvider<
      * Get one item by id or filter
      * @param options
      */
-    async findOne(options: FindOneParams | FindParams<TFind['variables']>): Promise<TItem | null> {
+    async findOne<TItem extends BaseRecord = TOne['response']['item']>(
+        options: FindOneParams | FindParams<TFind['variables']>,
+    ): Promise<CmsItem<TItem> | null> {
         const { locale, preview, id, ...other } = options;
         let variables: TOne['variables'];
 
@@ -72,25 +73,20 @@ export default class DatoCMSProvider<
             };
         }
 
-        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
+        const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables).toPromise();
 
-        return await this.transformResult(result, locale);
-    }
-
-    /**
-     * Transform result of one query into an item
-     * @param result
-     * @param locale
-     */
-    async transformResult(result: TOne['response'], locale?: string): Promise<TItem | null> {
-        if (result) {
-            return { ...(result as { item: TItem }).item, cmsTypeId: this.getId() };
-        } else {
+        if (!result?.item) {
             return null;
         }
+
+        return await this.transformResult<TItem>(result.item as TItem, locale);
     }
 
-    async find(options: FindParams<TFind['variables']>): Promise<FindResponse<TItem[]>> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    async find<TItem extends BaseRecord = TFind['response']['items'][number]>(
+        options: FindParams<TFind['variables']>,
+    ): Promise<FindResponse<TItem>> {
         const { preview, ...other } = options;
         const variables = {
             ...other,
@@ -99,29 +95,26 @@ export default class DatoCMSProvider<
             filter: options.filter ? { ...options.filter, ...this.getFilterParams() } : this.getFilterParams(),
         };
 
-        const result = (await fetchQuery<TFind>(
-            this.getEnvironment(preview),
-            this.findNode,
-            variables,
-        ).toPromise()) as unknown as {
-            items: TItem[];
-            meta: { count: number };
-        };
+        const result = await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables).toPromise();
+
+        if (!result) {
+            return {
+                count: 0,
+                data: [],
+            };
+        }
 
         const count = result.meta.count;
-        const data: TItem[] = [...result.items];
+        const data = [...result.items];
 
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
-                const result = (await fetchQuery<TFind>(
+                const result = await fetchQuery<TFind>(
                     this.getEnvironment(preview),
                     this.findNode,
                     variables,
-                ).toPromise()) as unknown as {
-                    items: TItem[];
-                    meta: { count: number };
-                };
+                ).toPromise();
                 if (result) {
                     data.push(...result.items);
                 }
@@ -130,17 +123,8 @@ export default class DatoCMSProvider<
 
         return {
             count,
-            data: await this.transformResults(data, options.locale),
+            data: await this.transformResults<TItem>(data as ReadonlyArray<TItem>, options.locale),
         };
-    }
-
-    /**
-     * Transform find results into array of items
-     * @param items
-     * @param locale
-     */
-    async transformResults(items: TItem[], locale?: string): Promise<TItem[]> {
-        return items.map((item) => ({ ...item, cmsTypeId: this.getId() })) as unknown as TItem[];
     }
 
     getFilterParams(): Record<string, unknown> {

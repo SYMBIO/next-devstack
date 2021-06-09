@@ -8,7 +8,7 @@ export type siteQueryVariables = {
     locale?: SiteLocale | null;
 };
 export type siteQueryResponse = {
-    readonly _site: {
+    readonly item: {
         readonly globalSeo: {
             readonly siteName: string | null;
             readonly titleSuffix: string | null;
@@ -44,7 +44,7 @@ export type siteQuery = {
 query siteQuery(
   $locale: SiteLocale
 ) {
-  _site(locale: $locale) {
+  item: _site(locale: $locale) {
     globalSeo {
       siteName
       titleSuffix
@@ -90,7 +90,7 @@ v1 = [
 ],
 v2 = [
   {
-    "alias": null,
+    "alias": "item",
     "args": [
       {
         "kind": "Variable",
@@ -248,14 +248,14 @@ return {
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "f40291d18e85f5ab2b98dbd9ca2f5a3f",
+    "cacheID": "72c47035875d8275d5c61ab158a3e91a",
     "id": null,
     "metadata": {},
     "name": "siteQuery",
     "operationKind": "query",
-    "text": "query siteQuery(\n  $locale: SiteLocale\n) {\n  _site(locale: $locale) {\n    globalSeo {\n      siteName\n      titleSuffix\n      facebookPageUrl\n      fallbackSeo {\n        description\n        title\n        image {\n          url\n        }\n        twitterCard\n      }\n      twitterAccount\n    }\n    favicon {\n      url\n    }\n    faviconMetaTags {\n      tag\n      attributes\n      content\n    }\n  }\n}\n"
+    "text": "query siteQuery(\n  $locale: SiteLocale\n) {\n  item: _site(locale: $locale) {\n    globalSeo {\n      siteName\n      titleSuffix\n      facebookPageUrl\n      fallbackSeo {\n        description\n        title\n        image {\n          url\n        }\n        twitterCard\n      }\n      twitterAccount\n    }\n    favicon {\n      url\n    }\n    faviconMetaTags {\n      tag\n      attributes\n      content\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'ff39756f5af51c6a9562abc115c9a21c';
+(node as any).hash = '5dceed82875d758584b8f8b15079302b';
 export default node;

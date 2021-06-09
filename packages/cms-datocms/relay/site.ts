@@ -29,7 +29,7 @@ graphql`
 
 export const siteQuery = graphql`
     query siteQuery($locale: SiteLocale) {
-        _site(locale: $locale) {
+        item: _site(locale: $locale) {
             ...siteFragment @relay(mask: false)
         }
     }

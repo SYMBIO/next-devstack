@@ -1,12 +1,9 @@
-import { AbstractSingletonProvider } from '@symbio/cms';
-import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
+import { AbstractSingletonProvider, SingletonBaseRecord } from '@symbio/cms';
+import { Environment, GraphQLTaggedNode, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
-import { DatoCMSRecord, ProviderOptions } from '../types/provider';
+import { ProviderOptions, SingletonOperationType } from '../types';
 
-export default class SingletonDatoCMSProvider<
-    TOperation extends OperationType,
-    TItem extends DatoCMSRecord = DatoCMSRecord,
-> extends AbstractSingletonProvider<TItem> {
+export default class SingletonDatoCMSProvider<TOne extends SingletonOperationType> extends AbstractSingletonProvider {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
         production: createRelayEnvironment({}, false),
@@ -43,8 +40,11 @@ export default class SingletonDatoCMSProvider<
      * Get item
      * @param options
      */
-    async get(options?: { locale?: string; preview?: boolean }): Promise<TItem | null> {
-        const result = await fetchQuery<TOperation>(
+    async get<TItem extends SingletonBaseRecord = TOne['response']['item']>(options?: {
+        locale?: string;
+        preview?: boolean;
+    }): Promise<TItem | null> {
+        const result = await fetchQuery<TOne>(
             this.getEnvironment(!!options?.preview),
             this.node,
             this.isLocalizable()
@@ -52,16 +52,12 @@ export default class SingletonDatoCMSProvider<
                       locale: options?.locale,
                   }
                 : {},
-        );
+        ).toPromise();
 
-        return await this.transformResult(result);
-    }
-
-    async transformResult(result: TOperation['response']): Promise<TItem | null> {
-        if (result) {
-            return (result as { item: TItem }).item;
-        } else {
+        if (!result?.item) {
             return null;
         }
+
+        return await this.transformResult<TItem>(result.item as TItem);
     }
 }
