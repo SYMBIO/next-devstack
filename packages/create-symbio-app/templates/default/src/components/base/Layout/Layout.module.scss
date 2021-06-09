@@ -1,0 +1,19 @@
+@import "../../../styles/mixins/responsive";
+
+.grid {
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: repeat(6, 1fr [col]);
+    grid-column-gap: 0.5rem;
+    padding-top: 5rem;
+
+    @include tablet {
+        grid-template-columns: repeat(12, 1fr [col]);
+        grid-column-gap: 1rem;
+    }
+
+    @include from-tablet-landscape {
+        grid-template-columns: repeat(16, 1fr [col]);
+        grid-column-gap: 2rem;
+    }
+}

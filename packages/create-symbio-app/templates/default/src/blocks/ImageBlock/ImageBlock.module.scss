@@ -1,0 +1,8 @@
+@import '../../styles/mixins/responsive';
+
+.imageWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

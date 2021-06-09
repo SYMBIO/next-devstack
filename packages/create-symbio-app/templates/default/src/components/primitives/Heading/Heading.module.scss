@@ -1,0 +1,43 @@
+@import "../../../styles/mixins/responsive";
+@import "../../../styles/functions/rem";
+
+.heading {
+    margin: 1rem auto;
+}
+
+.xl {
+    font-size: 2rem;
+    margin: 2rem auto;
+
+    @include from-tablet {
+        font-size: 4rem;
+    }
+}
+
+.lg {
+    font-size: 2rem;
+    margin: 1.5rem auto;
+
+    @include from-tablet {
+        font-size: 3rem;
+    }
+}
+
+.md {
+    font-size: 1.5rem;
+    margin: 1rem auto;
+
+    @include from-tablet {
+        font-size: 2rem;
+    }
+}
+
+.sm {
+    font-size: 1.5rem;
+    margin: 1rem auto;
+}
+
+.xs {
+    font-size: 1rem;
+    margin: 1rem auto;
+}

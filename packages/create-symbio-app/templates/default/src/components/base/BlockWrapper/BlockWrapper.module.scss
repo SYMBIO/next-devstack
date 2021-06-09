@@ -1,0 +1,19 @@
+@import '../../../styles/mixins/responsive';
+
+.block {
+    display: flex;
+    grid-column: 1 / span 6;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    @include tablet {
+        grid-column: 1 / span 12;
+        padding: 2rem;
+    }
+
+    @include from-tablet-landscape {
+        grid-column: 1 / span 16;
+        padding: 4rem;
+    }
+}

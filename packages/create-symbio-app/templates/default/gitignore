@@ -1,0 +1,29 @@
+# NodeJS
+node_modules/
+
+# NextJS
+.next/
+
+# IDEs
+.idea/
+
+# dotenv
+.env
+
+# graphql/relay
+schema.graphql
+/src/types/graphql.ts
+/src/schema/graphql.schema.json
+__generated__/
+
+fixtures/
+
+.now/
+
+sitemap.xml
+.vercel
+/public/storybook/
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/sw.js
+/public/sw.js.map

@@ -1,0 +1,41 @@
+@import 'normalize';
+@import 'reset';
+@import 'carousel';
+@import 'lightbox';
+@import 'typography';
+@import './mixins/responsive.scss';
+
+html,
+body {
+    font-size: 100%;
+    font-family: 'Hind', sans-serif;
+
+    @include large-desktop {
+        font-size: 0.8333333333vw;
+    }
+}
+
+:root {
+    --navbar-height: 5rem;
+    --logo-width: 3rem;
+    --logo-height: 3rem;
+    --white: #fff;
+    --black: #000;
+    --red: #ff0000;
+    --primary: var(--black);
+    --secondary: var(--white);
+    --background: var(--white);
+    --error: var(--error);
+}
+
+.infoBox {
+    transform: translate3d(-50%, 0, 0) !important;
+}
+
+.customCursor {
+    cursor: none !important;
+
+    * {
+        cursor: none !important;
+    }
+}

@@ -1,0 +1,46 @@
+.button {
+    display: inline-flex;
+    transition: all 200ms;
+    justify-content: center;
+    text-decoration: none !important;
+    position: relative;
+    cursor: pointer;
+    outline: 0;
+    padding: 1rem;
+    border: solid 1px var(--primary);
+    background: var(--secondary);
+    color: var(--primary);
+
+    &.hasLink {
+        padding: 0;
+    }
+
+    &.disabled {
+        cursor: default;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &:hover, &:active {
+        background: var(--primary);
+        color: var(--secondary);
+    }
+}
+
+.link {
+    padding: 1rem;
+}
+
+.icon {
+    margin-left: 1rem;
+    margin-right: 0;
+
+    &.iconOnLeft {
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+
+    &.isFilter {
+        margin: 0.75rem 0 0 0;
+    }
+}

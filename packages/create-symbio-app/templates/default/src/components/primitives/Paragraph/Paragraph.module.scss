@@ -1,0 +1,10 @@
+@import "../../../styles/functions/lh";
+
+.paragraph {
+    margin-bottom: 2rem;
+    line-height: lh(24, 16);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

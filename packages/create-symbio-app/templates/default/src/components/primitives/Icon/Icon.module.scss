@@ -1,0 +1,13 @@
+.wrapper {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: inline-flex;
+    position: relative;
+
+    svg {
+        width: 100%;
+        height: auto;
+    }
+}

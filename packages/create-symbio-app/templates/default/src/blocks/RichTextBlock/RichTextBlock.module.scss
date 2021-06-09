@@ -1,0 +1,26 @@
+@import '../../styles/mixins/responsive';
+
+.wrapper {
+    grid-column: 1 / span 6;
+    display: block;
+
+    @include mobile-landscape {
+        grid-column: 2 / span 4;
+    }
+
+    @include tablet {
+        grid-column: 3 / span 8;
+    }
+
+    @include tablet-landscape {
+        grid-column: 4 / span 10;
+    }
+
+    @include desktop {
+        grid-column: 5 / span 8;
+    }
+
+    @include large-desktop {
+        grid-column: 6 / span 6;
+    }
+}
