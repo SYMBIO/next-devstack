@@ -1,6 +1,6 @@
-import { FindParams, CmsItem, ItemId, Provider, ProviderOptions, CmsAttributes, FindResponse } from '../types';
+import { CmsItem, Provider, ProviderOptions, CmsAttributes } from '../types';
 
-export default abstract class AbstractProvider<ItemType extends CmsItem> implements Provider {
+export default abstract class AbstractSingletonProvider<ItemType extends CmsItem> implements Provider {
     protected options: ProviderOptions;
 
     public constructor(options: ProviderOptions) {
@@ -23,9 +23,7 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
      * Get one item by id or filter
      * @param options
      */
-    abstract findOne(
-        options: { id: ItemId; locale?: string; preview?: boolean } | FindParams,
-    ): Promise<ItemType | null>;
+    abstract get(options?: { locale?: string; preview?: boolean }): Promise<ItemType | null>;
 
     /**
      * Transform item of one query into an item
@@ -40,32 +38,14 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
         }
     }
 
-    abstract find(options: FindParams): Promise<FindResponse<ItemType>>;
-
-    /**
-     * Transform find results into array of items
-     * @param items
-     * @param locale
-     */
-    async transformResults(items: Array<Omit<ItemType, keyof CmsAttributes>>, locale?: string): Promise<ItemType[]> {
-        return items.map((item) => ({ ...item, cmsTypeId: this.getId() })) as ItemType[];
-    }
-
-    /**
-     * Default filter params for all CMS queries
-     * @return {Record<string, unknown>}
-     */
-    abstract getFilterParams(): Record<string, unknown>;
-
     /**
      * Get url of the item
-     * @param {ItemId} id
      * @param {string} locale
      * @param {string} defaultLocale
      * @return {Promise<string | null>}
      */
-    async getPreviewUrl(id: ItemId, locale?: string, defaultLocale?: string): Promise<string | null> {
-        const item = await this.findOne({ id, locale });
+    async getPreviewUrl(locale?: string, defaultLocale?: string): Promise<string | null> {
+        const item = await this.get({ locale });
         if (locale !== defaultLocale) {
             if (item) {
                 if (item.url) {
@@ -80,7 +60,7 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
             }
             return null;
         } else {
-            const item = await this.findOne({ id });
+            const item = await this.get();
             if (item) {
                 if (item.url) {
                     return `/${item.url}`;

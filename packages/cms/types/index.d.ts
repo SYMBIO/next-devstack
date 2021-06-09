@@ -1,9 +1,15 @@
 export type ItemId = string;
 
-export type FindParams = {
+export type FindOneParams = {
+    id: ItemId;
     locale?: string;
     preview?: boolean;
-} & Record<string, unknown>;
+};
+
+export type FindParams<T = Record<string, unknown>> = {
+    locale?: string;
+    preview?: boolean;
+} & Omit<T, 'id'>;
 
 export type ItemStatus = 'draft' | 'updated' | 'published';
 

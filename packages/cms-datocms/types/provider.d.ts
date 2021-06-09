@@ -1,7 +1,9 @@
-export type DatoCMSRecord = {
+import { CmsItem } from '@symbio/cms';
+
+export type DatoCMSRecord = CmsItem & {
     id: string;
     [key: string]: unknown;
-} | null;
+};
 
 export interface FindResponse<T> {
     count: number;
