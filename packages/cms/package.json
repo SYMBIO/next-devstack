@@ -7,6 +7,7 @@
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
+    "main": "index.js",
     "types": "types/index.d.ts",
     "files": [
         "dist",
