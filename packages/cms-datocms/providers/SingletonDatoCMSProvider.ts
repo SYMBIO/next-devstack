@@ -1,4 +1,4 @@
-import AbstractSingletonProvider from '@symbio/cms/providers/AbstractSingletonProvider';
+import { AbstractSingletonProvider } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DatoCMSRecord, ProviderOptions } from '../types/provider';

@@ -1,3 +1,5 @@
+import { AbstractProvider, AbstractSingletonProvider } from '../providers/index';
+
 export type ItemId = string;
 
 export type FindOneParams = {
@@ -39,7 +41,7 @@ export interface Provider {
     getApiKey: () => string;
 }
 
-export default interface PageProvider<P extends BasePage, W> extends Provider {
+export interface PageProvider<P extends BasePage, W> extends Provider {
     getPageBySlug: (
         locale: string | undefined,
         slug: string[],
@@ -128,3 +130,5 @@ export type Route<ObjectType> = {
     readonly isTargetBlank?: boolean | null;
     readonly parameters?: string | null;
 };
+
+export { AbstractProvider, AbstractSingletonProvider };

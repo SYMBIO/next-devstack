@@ -1,5 +1,4 @@
-import { FindOneParams, FindParams } from '@symbio/cms';
-import AbstractProvider from '@symbio/cms/providers/AbstractProvider';
+import { AbstractProvider, FindOneParams, FindParams } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
