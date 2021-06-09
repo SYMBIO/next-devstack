@@ -1,9 +1,12 @@
+import { AbstractSingletonProvider } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
-import { Provider } from '@symbio/cms';
-import { ProviderOptions } from './AbstractDatoCMSProvider';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
+import { DatoCMSRecord, ProviderOptions } from '../types/provider';
 
-export default abstract class AbstractSingletonDatoCMSProvider<TOperation extends OperationType> implements Provider {
+export default class SingletonDatoCMSProvider<
+    TOperation extends OperationType,
+    TItem extends DatoCMSRecord = DatoCMSRecord,
+> extends AbstractSingletonProvider<TItem> {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
         production: createRelayEnvironment({}, false),
@@ -14,6 +17,7 @@ export default abstract class AbstractSingletonDatoCMSProvider<TOperation extend
     protected options: ProviderOptions;
 
     public constructor(node: GraphQLTaggedNode, options: ProviderOptions) {
+        super(options);
         this.environment = createRelayEnvironment({}, false);
         this.node = node;
         this.options = options;
@@ -36,17 +40,16 @@ export default abstract class AbstractSingletonDatoCMSProvider<TOperation extend
     }
 
     /**
-     * Get one item by id
-     * @param locale
-     * @param preview
+     * Get item
+     * @param options
      */
-    async get(locale?: string, preview = false): Promise<unknown | null> {
+    async get(options?: { locale?: string; preview?: boolean }): Promise<TItem | null> {
         const result = await fetchQuery<TOperation>(
-            this.getEnvironment(preview),
+            this.getEnvironment(!!options?.preview),
             this.node,
             this.isLocalizable()
                 ? {
-                      locale,
+                      locale: options?.locale,
                   }
                 : {},
         );
@@ -54,7 +57,11 @@ export default abstract class AbstractSingletonDatoCMSProvider<TOperation extend
         return await this.transformResult(result);
     }
 
-    async transformResult(result: TOperation['response']): Promise<unknown> {
-        return (result as { item: unknown }).item;
+    async transformResult(result: TOperation['response']): Promise<TItem | null> {
+        if (result) {
+            return (result as { item: TItem }).item;
+        } else {
+            return null;
+        }
     }
 }

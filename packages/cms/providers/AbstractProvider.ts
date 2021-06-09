@@ -1,4 +1,13 @@
-import { FindParams, CmsItem, ItemId, Provider, ProviderOptions, CmsAttributes, FindResponse } from '../types';
+import {
+    FindParams,
+    CmsItem,
+    ItemId,
+    Provider,
+    ProviderOptions,
+    CmsAttributes,
+    FindResponse,
+    FindOneParams,
+} from '../types';
 
 export default abstract class AbstractProvider<ItemType extends CmsItem> implements Provider {
     protected options: ProviderOptions;
@@ -23,9 +32,7 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
      * Get one item by id or filter
      * @param options
      */
-    abstract findOne(
-        options: { id: ItemId; locale?: string; preview?: boolean } | FindParams,
-    ): Promise<ItemType | null>;
+    abstract findOne(options: FindOneParams | FindParams): Promise<ItemType | null>;
 
     /**
      * Transform item of one query into an item
@@ -40,7 +47,7 @@ export default abstract class AbstractProvider<ItemType extends CmsItem> impleme
         }
     }
 
-    abstract find(options: FindParams): Promise<FindResponse<ItemType>>;
+    abstract find(options: FindParams): Promise<FindResponse<ItemType[]>>;
 
     /**
      * Transform find results into array of items

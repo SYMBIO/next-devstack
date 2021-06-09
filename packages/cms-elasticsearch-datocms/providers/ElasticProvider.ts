@@ -1,11 +1,12 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
+import { FindResponse } from '@symbio/cms';
+import { DatoCMSRecord } from '@symbio/cms-datocms/types/provider';
 import { OperationType } from 'relay-runtime';
-import { Logger } from '../../headless/services';
-import AbstractDatoCMSProvider, { DatoCMSRecord } from './AbstractDatoCMSProvider';
-import getElastic from '../../headless/lib/elastic';
+import { Logger } from '@symbio/headless/dist/services';
+import DatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
-import { FindResponse } from './AbstractDatoCMSProvider';
-import { AggregatedType, ElasticType } from '../../headless/types/elastic';
+import getElastic from '../elastic';
+import { AggregatedType, ElasticType } from '../types/elastic';
 
 export interface GetBodyProps {
     size?: number;
@@ -26,12 +27,12 @@ export interface IndexingResultItem {
     id: string;
 }
 
-export default abstract class AbstractElasticProvider<
+export default abstract class ElasticProvider<
     TOne extends OperationType,
     TFind extends OperationType,
     TItem extends DatoCMSRecord = DatoCMSRecord,
-    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>
-> extends AbstractDatoCMSProvider<TOne, TFind, TItem, TItems> {
+    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>,
+> extends DatoCMSProvider<TOne, TFind, TItem, TItems> {
     /**
      * Find items by querying elastic search
      * @param id
@@ -347,8 +348,8 @@ export default abstract class AbstractElasticProvider<
                 Logger.log(`Getting data for ${this.getIndex(locale, prod)}`);
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                const { data } = await this.find({ locale, limit: Infinity }, !prod);
-                const cmsIds = data.map((item) => item?.id).filter((id) => id);
+                const { data } = await this.find<TOne>({ locale, limit: Infinity }, !prod);
+                const cmsIds = data.map((item: DatoCMSRecord) => item?.id).filter(Boolean);
 
                 const { data: data2 } = await this.findByElastic({ size: 10000 }, locale, !prod);
                 const elasticIds = data2.map((i) => i && i.id).filter((i) => i);
@@ -369,10 +370,10 @@ export default abstract class AbstractElasticProvider<
             // @ts-ignore
             const { data } = await this.find({ limit: Infinity }, !prod);
 
-            const cmsIds = data.map((item) => item?.id).filter((id) => id);
+            const cmsIds = data.map((item: DatoCMSRecord) => item?.id).filter(Boolean);
 
             const { data: data2 } = await this.findByElastic({ size: 10000 }, undefined, !prod);
-            const elasticIds = data2.map((i) => i && i.id).filter((i) => i);
+            const elasticIds = data2.map((i) => i && i.id).filter(Boolean);
 
             for (const id of elasticIds) {
                 if (id && cmsIds.indexOf(id) === -1) {

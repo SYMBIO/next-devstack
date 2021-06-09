@@ -1,30 +1,14 @@
+import { AbstractProvider, FindOneParams, FindParams } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, OperationType, fetchQuery } from 'relay-runtime';
-import { Provider } from '@symbio/cms';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
+import { DatoCMSRecord, FindResponse, ProviderOptions } from '../types/provider';
 
-export type DatoCMSRecord = {
-    id: string;
-    [key: string]: unknown;
-} | null;
-
-export interface FindResponse<T> {
-    count: number;
-    data: T;
-}
-
-export interface ProviderOptions {
-    locales: string[];
-    apiKey: string;
-    id: string;
-}
-
-export default abstract class AbstractDatoCMSProvider<
+export default class DatoCMSProvider<
     TOne extends OperationType,
     TFind extends OperationType,
     TItem extends DatoCMSRecord = DatoCMSRecord,
-    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>
-> implements Provider {
+> extends AbstractProvider<TItem> {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
         production: createRelayEnvironment({}, false),
@@ -37,6 +21,7 @@ export default abstract class AbstractDatoCMSProvider<
     protected options: ProviderOptions;
 
     public constructor(node: GraphQLTaggedNode, findNode: GraphQLTaggedNode, options: ProviderOptions) {
+        super(options);
         this.node = node;
         this.findNode = findNode;
         this.options = options;
@@ -60,34 +45,32 @@ export default abstract class AbstractDatoCMSProvider<
 
     /**
      * Get one item by id or filter
-     * @param options,
-     * @param locale
-     * @param preview
+     * @param options
      */
-    async findOne(
-        options: string | Omit<TFind['variables'], 'locale'>,
-        locale?: string,
-        preview = false,
-    ): Promise<TItem | null> {
-        const variables: TOne['variables'] =
-            typeof options === 'string'
-                ? {
-                      filter: {
-                          id: { eq: options },
-                          title: { exists: true },
-                          ...this.getFilterParams(),
-                      },
-                      locale,
-                  }
-                : {
-                      ...options,
-                      limit: 1,
-                      offset: 0,
-                      filter: options.filter
-                          ? { ...options.filter, ...this.getFilterParams() }
-                          : this.getFilterParams(),
-                      locale,
-                  };
+    async findOne(options: FindOneParams | FindParams<TFind['variables']>): Promise<TItem | null> {
+        const { locale, preview, id, ...other } = options;
+        let variables: TOne['variables'];
+
+        if (id) {
+            // get by id
+            variables = {
+                filter: {
+                    id: { eq: id },
+                    title: { exists: true },
+                    ...this.getFilterParams(),
+                },
+                locale,
+            };
+        } else {
+            variables = {
+                ...other,
+                limit: 1,
+                offset: 0,
+                filter: (options as FindParams<TFind['variables']>).filter
+                    ? { ...(options as FindParams<TFind['variables']>).filter, ...this.getFilterParams() }
+                    : this.getFilterParams(),
+            };
+        }
 
         const result = await fetchQuery<TOne>(this.getEnvironment(preview), this.node, variables);
 
@@ -107,44 +90,41 @@ export default abstract class AbstractDatoCMSProvider<
         }
     }
 
-    async find(
-        options: Omit<TFind['variables'], 'locale'> & { locale?: string },
-        preview = false,
-    ): Promise<FindResponse<TItems>> {
+    async find(options: FindParams<TFind['variables']>): Promise<FindResponse<TItem[]>> {
+        const { preview, ...other } = options;
         const variables = {
-            ...options,
+            ...other,
             limit: Math.min(options.limit, DATOCMS_MAX_LIMIT),
             offset: 0,
             filter: options.filter ? { ...options.filter, ...this.getFilterParams() } : this.getFilterParams(),
         };
 
-        if (this.isLocalizable()) {
-            variables.locale = options.locale;
-        }
-
-        const result = ((await fetchQuery<TFind>(
+        const result = (await fetchQuery<TFind>(
             this.getEnvironment(preview),
             this.findNode,
             variables,
-        )) as unknown) as {
-            items: TItems;
+        ).toPromise()) as unknown as {
+            items: TItem[];
             meta: { count: number };
         };
 
         const count = result.meta.count;
-        const data: Mutable<TItems> = [...result.items] as Mutable<TItems>;
+        const data: TItem[] = [...result.items];
 
         if (options.limit > DATOCMS_MAX_LIMIT) {
             while (options.limit && data.length < count && result.items.length === DATOCMS_MAX_LIMIT) {
                 variables.offset = data.length;
-                const result = ((await fetchQuery<TFind>(
+                const result = (await fetchQuery<TFind>(
                     this.getEnvironment(preview),
                     this.findNode,
                     variables,
-                )) as unknown) as {
-                    items: TItems;
+                ).toPromise()) as unknown as {
+                    items: TItem[];
+                    meta: { count: number };
                 };
-                data.push(...result.items);
+                if (result) {
+                    data.push(...result.items);
+                }
             }
         }
 
@@ -159,8 +139,8 @@ export default abstract class AbstractDatoCMSProvider<
      * @param items
      * @param locale
      */
-    async transformResults(items: TItems, locale?: string): Promise<TItems> {
-        return (items.map((item) => ({ ...item, cmsTypeId: this.getId() })) as unknown) as TItems;
+    async transformResults(items: TItem[], locale?: string): Promise<TItem[]> {
+        return items.map((item) => ({ ...item, cmsTypeId: this.getId() })) as unknown as TItem[];
     }
 
     getFilterParams(): Record<string, unknown> {
@@ -175,9 +155,9 @@ export default abstract class AbstractDatoCMSProvider<
     }
 
     async getPreviewUrl(id: string, locale?: string, defaultLocale?: string): Promise<string | null> {
-        const item = await this.findOne(id, locale);
-        if (locale !== defaultLocale) {
-            if (item) {
+        const item = await this.findOne({ id, locale, preview: true });
+        if (item) {
+            if (locale !== defaultLocale) {
                 if (item.url) {
                     return `/${locale}/${item.url}`;
                 }
@@ -187,11 +167,7 @@ export default abstract class AbstractDatoCMSProvider<
                 if (item.id) {
                     return `/${locale}/${item.id}`;
                 }
-            }
-            return null;
-        } else {
-            const item = await this.findOne(id);
-            if (item) {
+            } else {
                 if (item.url) {
                     return `/${item.url}`;
                 }
@@ -202,7 +178,7 @@ export default abstract class AbstractDatoCMSProvider<
                     return `/${item.id}`;
                 }
             }
-            return null;
         }
+        return null;
     }
 }

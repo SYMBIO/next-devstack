@@ -12,10 +12,8 @@ dist/
 .env
 
 # graphql/relay
-schema.graphql
 /packages/headless/types/graphql.ts
 /src/schema/graphql.schema.json
-__generated__/
 
 fixtures/
 
