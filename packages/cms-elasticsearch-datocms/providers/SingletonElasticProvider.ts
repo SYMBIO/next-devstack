@@ -1,18 +1,22 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
-import { OperationType } from 'relay-runtime';
+import { BaseRecord, CmsItem } from '@symbio/cms';
+import { SingletonDatoCMSProvider, SingletonOperationType } from '@symbio/cms-datocms';
 import { Logger } from '@symbio/headless/dist/services';
-import SingletonDatoCMSProvider from '@symbio/cms-datocms/dist/providers/SingletonDatoCMSProvider';
 import getElastic from '../elastic';
 
 export default abstract class SingletonElasticProvider<
-    TOperation extends OperationType,
+    TOperation extends SingletonOperationType,
+    TItem extends BaseRecord = BaseRecord,
 > extends SingletonDatoCMSProvider<TOperation> {
     /**
      * Get item from elastic search
      * @param locale
      * @param preview
      */
-    async getByElastic(locale?: string, preview = false): Promise<unknown | null> {
+    async getByElastic<T extends keyof CmsItem<TItem> = keyof CmsItem<TItem>>(
+        locale?: string,
+        preview = false,
+    ): Promise<Pick<CmsItem<TItem>, T> | null> {
         const options = {
             index: this.getIndex(locale, !preview),
             body: {
@@ -46,7 +50,7 @@ export default abstract class SingletonElasticProvider<
      * @param preview
      */
     async getForIndex(locale?: string, preview = false): Promise<unknown> {
-        return await this.get(locale, preview);
+        return await this.get({ locale, preview });
     }
 
     /**

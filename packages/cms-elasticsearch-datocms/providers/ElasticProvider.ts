@@ -1,56 +1,56 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
-import { FindResponse } from '@symbio/cms';
-import { DatoCMSRecord } from '@symbio/cms-datocms/types/provider';
-import { OperationType } from 'relay-runtime';
+import { BaseRecord, CmsItem, FindOneParams, FindResponse } from '@symbio/cms';
 import { Logger } from '@symbio/headless/dist/services';
-import DatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
+import { DatoCMSProvider, FindOperationType, OneOperationType } from '@symbio/cms-datocms';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
 import getElastic from '../elastic';
-import { AggregatedType, ElasticType } from '../types/elastic';
-
-export interface GetBodyProps {
-    size?: number;
-    from?: number;
-    sort?: Record<string, string> | Array<Record<string, string>>;
-    _source?: string[];
-    filter?: Record<string, any>;
-}
-
-export interface SearchProps extends GetBodyProps {
-    locale?: string;
-    preview?: boolean;
-}
-
-export interface IndexingResultItem {
-    type: string;
-    locale?: string;
-    id: string;
-}
+import {
+    AggregatedType,
+    ElasticFindParams,
+    ElasticType,
+    GetBodyProps,
+    IndexingResultItem,
+    SearchProps,
+} from '../types';
 
 export default abstract class ElasticProvider<
-    TOne extends OperationType,
-    TFind extends OperationType,
-    TItem extends DatoCMSRecord = DatoCMSRecord,
-    TItems extends ReadonlyArray<DatoCMSRecord> = ReadonlyArray<DatoCMSRecord>,
-> extends DatoCMSProvider<TOne, TFind, TItem, TItems> {
+    TOne extends OneOperationType,
+    TFind extends FindOperationType,
+    TItem extends BaseRecord = BaseRecord,
+> extends DatoCMSProvider<TOne, TFind> {
     /**
      * Find items by querying elastic search
      * @param id
      * @param locale
      * @param preview
      */
-    async findOneByElastic(id: string, locale?: string, preview = false): Promise<TItem | null> {
-        const options = {
-            index: this.getIndex(locale, !preview),
-            body: {
-                size: 1,
-                query: {
-                    ids: {
-                        values: [id],
+    async findOneByElastic<T extends keyof CmsItem<TItem> = keyof CmsItem<TItem>>({
+        id,
+        locale,
+        preview,
+        ...other
+    }: FindOneParams | ElasticFindParams): Promise<Pick<CmsItem<TItem>, T> | null> {
+        let options;
+        if (id) {
+            options = {
+                index: this.getIndex(locale, !preview),
+                body: {
+                    size: 1,
+                    query: {
+                        ids: {
+                            values: [id],
+                        },
                     },
                 },
-            },
-        };
+            };
+        } else {
+            options = {
+                index: (other as Search).index || this.getIndex(locale, !preview),
+                ...other,
+                size: 1,
+            };
+        }
+
         const result = await getElastic().search(options);
         const { hits, total } = result.body.hits;
 
@@ -64,21 +64,23 @@ export default abstract class ElasticProvider<
     /**
      * Find items by querying elastic search
      * @param options
-     * @param locale
-     * @param preview
      */
-    async findByElastic(options: Search, locale?: string, preview = false): Promise<FindResponse<TItem[]>> {
-        options.index = options.index || this.getIndex(locale, !preview);
-        options._source = options._source || this.getSource();
+    async findByElastic<T extends keyof CmsItem<TItem> = keyof CmsItem<TItem>>({
+        locale,
+        preview,
+        ...search
+    }: ElasticFindParams): Promise<FindResponse<Pick<CmsItem<TItem>, T>>> {
+        search.index = search.index || this.getIndex(locale, !preview);
+        search._source = search._source || this.getSource();
         try {
-            const result = await getElastic().search(options);
+            const result = await getElastic().search(search);
             const { hits, total } = result.body.hits;
             return {
                 count: total.value,
                 data: hits.map((h: { _source: unknown }) => h._source),
             };
         } catch (e) {
-            Logger.log('ELASTIC ERROR:', JSON.stringify(options));
+            Logger.log('ELASTIC ERROR:', JSON.stringify(search));
             Logger.error(e.meta.body.error);
             return {
                 count: 0,
@@ -87,7 +89,7 @@ export default abstract class ElasticProvider<
         }
     }
 
-    mapElasticStructure(data: ElasticType<TItem>): FindResponse<TItem[]> {
+    mapElasticStructure(data: ElasticType<TItem>): { count: number; data: TItem[] } {
         return { count: data.hits?.total?.value ?? 0, data: data.hits?.hits?.map((hit) => hit._source) ?? [] };
     }
 
@@ -107,7 +109,7 @@ export default abstract class ElasticProvider<
      * Get search body (default all)
      * @override
      */
-    getBody({ size, from, sort, _source, filter }: GetBodyProps): Record<string, any> {
+    getSearchBody({ size, from, sort, _source, filter }: GetBodyProps): Record<string, any> {
         return {
             query: {
                 bool: {
@@ -121,15 +123,22 @@ export default abstract class ElasticProvider<
         };
     }
 
-    async search({ locale, preview, filter, size = 9, from = 0, sort }: SearchProps) {
-        const body = this.getBody({
+    async search<T extends keyof TItem = keyof TItem>({
+        locale,
+        preview,
+        filter,
+        size = 9,
+        from = 0,
+        sort,
+    }: SearchProps): Promise<FindResponse<Pick<CmsItem<TItem>, T>>> {
+        const body = this.getSearchBody({
             size,
             from,
             sort,
             filter,
         });
 
-        return await this.findByElastic({ body }, locale, preview);
+        return await this.findByElastic<T>({ search: body, locale, preview });
     }
 
     getMSearchBody(
@@ -140,7 +149,7 @@ export default abstract class ElasticProvider<
         sort?: Record<string, string> | Array<Record<string, string>>,
         filter?: Record<string, any>,
     ): Record<string, any>[] {
-        return [{ index: this.getIndex(locale, !preview) }, this.getBody({ size, from, sort, filter })];
+        return [{ index: this.getIndex(locale, !preview) }, this.getSearchBody({ size, from, sort, filter })];
     }
 
     getAggregatedKeys<T>(data: AggregatedType<T>, key: string): string[] {
@@ -198,7 +207,7 @@ export default abstract class ElasticProvider<
      * @param preview
      */
     async findOneForIndex(id: string, locale?: string, preview = false): Promise<unknown> {
-        return await this.findOne(id, locale, preview);
+        return await this.findOne({ id, locale, preview });
     }
 
     /**
@@ -348,11 +357,11 @@ export default abstract class ElasticProvider<
                 Logger.log(`Getting data for ${this.getIndex(locale, prod)}`);
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                const { data } = await this.find<TOne>({ locale, limit: Infinity }, !prod);
-                const cmsIds = data.map((item: DatoCMSRecord) => item?.id).filter(Boolean);
+                const { data } = await this.find({ locale, limit: Infinity }, !prod);
+                const cmsIds = data.map((item) => item?.id).filter(Boolean);
 
-                const { data: data2 } = await this.findByElastic({ size: 10000 }, locale, !prod);
-                const elasticIds = data2.map((i) => i && i.id).filter((i) => i);
+                const { data: data2 } = await this.findByElastic({ search: { size: 10000 }, locale, preview: !prod });
+                const elasticIds = data2.map((i) => i && (i as { id?: string }).id).filter((i) => i);
 
                 for (const id of elasticIds) {
                     if (id && cmsIds.indexOf(id) === -1) {
@@ -370,10 +379,10 @@ export default abstract class ElasticProvider<
             // @ts-ignore
             const { data } = await this.find({ limit: Infinity }, !prod);
 
-            const cmsIds = data.map((item: DatoCMSRecord) => item?.id).filter(Boolean);
+            const cmsIds = data.map((item) => item?.id).filter(Boolean);
 
-            const { data: data2 } = await this.findByElastic({ size: 10000 }, undefined, !prod);
-            const elasticIds = data2.map((i) => i && i.id).filter(Boolean);
+            const { data: data2 } = await this.findByElastic({ search: { size: 10000 }, preview: !prod });
+            const elasticIds = data2.map((i) => i && (i as { id?: string }).id).filter(Boolean);
 
             for (const id of elasticIds) {
                 if (id && cmsIds.indexOf(id) === -1) {
@@ -803,7 +812,10 @@ export default abstract class ElasticProvider<
     }
 
     async getPreviewUrl(id: string, locale?: string): Promise<string | null> {
-        const item = await this.findOneByElastic(id, locale, true);
+        const item = (await this.findOneByElastic({ id, locale, preview: true })) as {
+            url?: string | null;
+            slug?: string | null;
+        };
         if (locale !== this.options.locales[0]) {
             if (item) {
                 if (item.url) {
@@ -814,15 +826,18 @@ export default abstract class ElasticProvider<
                     }
                 }
                 if (item.slug) {
-                    return `/${locale}/${item.id}-${item.slug}`;
+                    return `/${locale}/${item.slug}`;
                 }
-                if (item.id) {
-                    return `/${locale}/${item.id}`;
+                if (id) {
+                    return `/${locale}/${id}`;
                 }
             }
             return null;
         } else {
-            const item = await this.findOne(id);
+            const item = (await this.findOneByElastic({ id, preview: true })) as {
+                url?: string | null;
+                slug?: string | null;
+            };
             if (item) {
                 if (item.url) {
                     if (item.url === 'homepage') {
@@ -832,10 +847,10 @@ export default abstract class ElasticProvider<
                     }
                 }
                 if (item.slug) {
-                    return `/${item.id}-${item.slug}`;
+                    return `/${item.slug}`;
                 }
-                if (item.id) {
-                    return `/${item.id}`;
+                if (id) {
+                    return `/${id}`;
                 }
             }
             return null;

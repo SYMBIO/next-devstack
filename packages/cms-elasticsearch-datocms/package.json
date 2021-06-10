@@ -7,20 +7,17 @@
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
-    "types": "types/app.d.ts",
+    "types": "dist/types/index.d.ts",
     "files": [
-        "dist",
-        "types"
+        "dist"
     ],
     "scripts": {
         "build": "rimraf dist && babel -d dist --ignore dist,node_modules,types ./",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
-        "graphql-codegen": "env-cmd -f ../../.env graphql-codegen --config codegen.yml",
         "prepublish": "npm run build && npm run types",
-        "relay": "relay-compiler",
         "test": "jest",
         "test:watch": "jest --watch",
-        "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
+        "types": "cpy types/* dist/types && tsc --declaration --emitDeclarationOnly --declarationDir dist",
         "typescript": "tsc --noEmit --declaration"
     },
     "engines": {
@@ -63,11 +60,15 @@
         "babel-loader": "^8.2.2",
         "babel-plugin-relay": "^11.0.2",
         "concurrently": "^6.0.2",
+        "cpy-cli": "^3.1.1",
         "dotenv": "^8.2.0",
         "relay-compiler": "^11.0.2",
         "relay-compiler-language-typescript": "^14.0.0",
         "relay-config": "^11.0.2",
         "rimraf": "^3.0.2"
+    },
+    "peerDependencies": {
+        "@symbio/cms-datocms": "^1.0.0-canary.27"
     },
     "gitHead": "2c0aa85fa5fb6a6ed7a7adea0590ba7b16940228"
 }

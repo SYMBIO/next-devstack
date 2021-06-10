@@ -1,3 +1,28 @@
+import { Search } from '@elastic/elasticsearch/api/requestParams';
+import { FindParams } from '@symbio/cms';
+import { ElasticProvider, SingletonElasticProvider } from '../providers/index';
+
+export interface GetBodyProps {
+    size?: number;
+    from?: number;
+    sort?: Record<string, string> | Array<Record<string, string>>;
+    _source?: string[];
+    filter?: Record<string, any>;
+}
+
+export interface SearchProps extends GetBodyProps {
+    locale?: string;
+    preview?: boolean;
+}
+
+export interface IndexingResultItem {
+    type: string;
+    locale?: string;
+    id: string;
+}
+
+export type ElasticFindParams = FindParams & Search;
+
 export type ElasticType<T> = {
     took: number;
     timed_out: false;
@@ -54,3 +79,5 @@ export type AggregatedType<T> = {
     };
     status: 200;
 };
+
+export { ElasticProvider, SingletonElasticProvider };
