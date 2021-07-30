@@ -11,6 +11,8 @@ export type YoutubeVimeoBlock_content = {
         readonly providerUid: string | null;
         readonly width: number | null;
         readonly height: number | null;
+        readonly title: string | null;
+        readonly thumbnailUrl: string | null;
     } | null;
     readonly " $refType": "YoutubeVimeoBlock_content";
 };
@@ -70,6 +72,20 @@ const node: ReaderFragment = {
           "kind": "ScalarField",
           "name": "height",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "title",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "thumbnailUrl",
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -78,5 +94,5 @@ const node: ReaderFragment = {
   "type": "YoutubeVimeoBlockRecord",
   "abstractKey": null
 };
-(node as any).hash = 'f3315f188c74703aab67a05c1e9490a1';
+(node as any).hash = '02a68f0d9aa1e901f0657090300f7384';
 export default node;

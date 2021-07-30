@@ -7,7 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ImageBlock_content = {
     readonly id: string;
     readonly image: {
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;

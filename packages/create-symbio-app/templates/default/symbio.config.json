@@ -26,5 +26,9 @@
         "revalidate": 10,
         "staticGeneration": true
     },
-    "tz": "Europe/Prague"
+    "tz": "Europe/Prague",
+    "datocms": {
+        "domain": "",
+        "pageTypeId": ""
+    }
 }

@@ -5,8 +5,9 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type GalleryBlock_content = {
+    readonly id: string;
     readonly assets: ReadonlyArray<{
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
@@ -23,12 +24,21 @@ export type GalleryBlock_content$key = {
 
 
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "GalleryBlock_content",
   "selections": [
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -37,13 +47,7 @@ const node: ReaderFragment = {
       "name": "assets",
       "plural": true,
       "selections": [
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "id",
-          "storageKey": null
-        },
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -86,5 +90,6 @@ const node: ReaderFragment = {
   "type": "GalleryBlockRecord",
   "abstractKey": null
 };
-(node as any).hash = 'b2ea3233cc8eb3fc920c4591db16aa5e';
+})();
+(node as any).hash = 'cbff6655f71ea0c6039b963475006239';
 export default node;

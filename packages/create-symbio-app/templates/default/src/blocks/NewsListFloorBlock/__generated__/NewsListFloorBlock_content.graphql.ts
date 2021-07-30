@@ -7,6 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type NewsListFloorBlock_content = {
     readonly id: string;
     readonly allNewsPage: {
+        readonly id: string;
         readonly url: string | null;
     } | null;
     readonly allNewsLinkText: string | null;
@@ -48,6 +49,7 @@ return {
       "name": "allNewsPage",
       "plural": false,
       "selections": [
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -96,5 +98,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = '60e883e6f9da894cb653b95d6f3170df';
+(node as any).hash = '21ec2f9b0b49c86b0ef9ffebd89ce2ff';
 export default node;

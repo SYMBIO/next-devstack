@@ -32,7 +32,7 @@ client.items
         await fs.promises.writeFile(
             './src/strings.ts',
             `/* eslint-disable */
-import { i18n } from '../symbio.config.json';
+import symbio from '../symbio.config.json';
 const data: Record<string, Record<string, string>> = ${JSON.stringify(data, undefined, '    ')};
 
 export function transCount(cnt: number) {
@@ -48,7 +48,7 @@ export function transCount(cnt: number) {
     return 'many';
 }
 
-export default function trans(key: string, locale = i18n.defaultLocale): string {
+export default function trans(key: string, locale = symbio.i18n.defaultLocale): string {
     return data[locale][key] || data.cs[key] || key;
 }
 `,

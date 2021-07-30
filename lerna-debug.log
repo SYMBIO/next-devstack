@@ -1,0 +1,72 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   preid: 'canary',
+0 silly argv   'force-publish': true,
+0 silly argv   forcePublish: true,
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/.bin/lerna',
+0 silly argv   bump: 'prerelease'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack
+3 info current version 1.0.0-canary.33
+4 silly isAnythingCommitted
+5 verbose isAnythingCommitted 1
+6 silly getCurrentBranch
+7 verbose currentBranch canary
+8 silly remoteBranchExists
+9 silly isBehindUpstream
+10 silly isBehindUpstream canary is behind origin/canary by 0 commit(s) and ahead by 3
+11 silly hasTags
+12 verbose hasTags true
+13 silly git-describe.sync "v1.0.0-canary.33-0-gc45ac58-dirty" => {"lastTagName":"v1.0.0-canary.33","lastVersion":"v1.0.0-canary.33","refCount":"0","sha":"c45ac58","isDirty":true}
+14 warn force-publish all packages
+15 info Assuming all packages changed
+16 verbose updated @symbio/cms-datocms
+17 verbose updated @symbio/cms-elasticsearch-datocms
+18 verbose updated @symbio/cms
+19 verbose updated create-symbio-app
+20 verbose updated @symbio/headless
+21 info execute Skipping releases
+22 silly lifecycle No script for "preversion" in "next-devstack", continuing
+23 silly lifecycle No script for "preversion" in "@symbio/cms", continuing
+24 silly lifecycle No script for "preversion" in "create-symbio-app", continuing
+25 silly lifecycle No script for "version" in "create-symbio-app", continuing
+26 silly lifecycle No script for "version" in "@symbio/cms", continuing
+27 silly lifecycle No script for "preversion" in "@symbio/headless", continuing
+28 silly lifecycle No script for "version" in "@symbio/headless", continuing
+29 silly lifecycle No script for "preversion" in "@symbio/cms-datocms", continuing
+30 silly lifecycle No script for "version" in "@symbio/cms-datocms", continuing
+31 silly lifecycle No script for "preversion" in "@symbio/cms-elasticsearch-datocms", continuing
+32 silly lifecycle No script for "version" in "@symbio/cms-elasticsearch-datocms", continuing
+33 silly lifecycle No script for "version" in "next-devstack", continuing
+34 silly gitAdd [
+34 silly gitAdd   'packages/create-symbio-app/package.json',
+34 silly gitAdd   'packages/create-symbio-app/package-lock.json',
+34 silly gitAdd   'packages/cms/package.json',
+34 silly gitAdd   'packages/cms/package-lock.json',
+34 silly gitAdd   'packages/headless/package.json',
+34 silly gitAdd   'packages/headless/package-lock.json',
+34 silly gitAdd   'packages/cms-datocms/package.json',
+34 silly gitAdd   'packages/cms-datocms/package-lock.json',
+34 silly gitAdd   'packages/cms-elasticsearch-datocms/package.json',
+34 silly gitAdd   'packages/cms-elasticsearch-datocms/package-lock.json',
+34 silly gitAdd   'lerna.json'
+34 silly gitAdd ]
+35 silly gitCommit v1.0.0-canary.34
+36 verbose git [ 'commit', '-m', 'v1.0.0-canary.34' ]
+37 silly gitTag v1.0.0-canary.34
+38 verbose git [ 'tag', 'v1.0.0-canary.34', '-m', 'v1.0.0-canary.34' ]
+39 silly lifecycle No script for "postversion" in "@symbio/cms-datocms", continuing
+40 silly lifecycle No script for "postversion" in "@symbio/cms-elasticsearch-datocms", continuing
+41 silly lifecycle No script for "postversion" in "@symbio/cms", continuing
+42 silly lifecycle No script for "postversion" in "create-symbio-app", continuing
+43 silly lifecycle No script for "postversion" in "@symbio/headless", continuing
+44 silly lifecycle No script for "postversion" in "next-devstack", continuing
+45 info git Pushing tags...
+46 silly gitPush origin canary
+47 error Error: Command failed with exit code 128: git push --follow-tags --no-verify --atomic origin canary
+47 error remote: Invalid username or password.
+47 error fatal: Authentication failed for 'https://github.com/SYMBIO/next-devstack.git/'
+47 error     at makeError (/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/@lerna/child-process/node_modules/execa/lib/error.js:59:11)
+47 error     at handlePromise (/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/@lerna/child-process/node_modules/execa/index.js:114:26)

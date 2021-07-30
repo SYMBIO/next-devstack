@@ -23,9 +23,9 @@ interface ServerProps {
 }
 
 type SubpageListBlockProps = ServerProps & {
-        content: SubpageListBlock_content;
-        className?: string;
-    };
+    content: SubpageListBlock_content;
+    className?: string;
+};
 
 graphql`
     fragment SubpageListBlock_content on SubpageListBlockRecord {

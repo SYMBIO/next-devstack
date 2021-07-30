@@ -1,10 +1,10 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, useContext } from 'react';
+import React, { AnchorHTMLAttributes, DetailedHTMLProps } from 'react';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { UrlObject } from 'url';
 import clsx from 'clsx';
 import { getLinkParamsFromPage } from '@symbio/headless/dist/lib/routing/getLinkParamsFromPage';
-import { BasePage } from '@symbio/headless';
+import { BasePage } from '@symbio/cms';
 import styles from './Link.module.scss';
 
 export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> &
@@ -43,7 +43,7 @@ const Link = ({ className, href, page, locale, params, children, target, plain, 
     }
 
     if (page) {
-        let href = getLinkParamsFromPage(page, params).as;
+        const href = getLinkParamsFromPage(page, params).as;
 
         // if (absoluteLinks && href.substr(0, 1) === '/') {
         //     href = '//' + hostname + href;

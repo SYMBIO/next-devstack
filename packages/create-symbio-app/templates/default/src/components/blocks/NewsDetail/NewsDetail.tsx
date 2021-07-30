@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
-import { ImageInterface } from '@symbio/headless';
+import { ImageInterface } from '@symbio/cms';
 import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
 import { Heading } from '../../primitives/Heading/Heading';
@@ -39,7 +39,7 @@ const NewsDetail = ({ news }: NewsDetailProps): ReactElement => {
                 {dayjs.tz(String(news.dateFrom), symbio.tz).format()}
                 {news.perex && <RichText content={news.perex} />}
             </div>
-            <Blocks blocksData={news.content} initialProps={[]} />
+            <Blocks blocksData={news.content} initialProps={{}} />
         </>
     );
 };

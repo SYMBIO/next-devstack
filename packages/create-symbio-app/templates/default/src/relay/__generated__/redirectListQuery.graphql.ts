@@ -17,8 +17,8 @@ export type RedirectModelFilter = {
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
     permanent?: BooleanFilter | null;
-    to?: StringFilter | null;
     from?: StringFilter | null;
+    to?: StringFilter | null;
     OR?: Array<RedirectModelFilter | null> | null;
 };
 export type CreatedAtFilter = {
@@ -84,6 +84,9 @@ export type redirectListQueryVariables = {
     offset?: number | null;
 };
 export type redirectListQueryResponse = {
+    readonly meta: {
+        readonly count: number;
+    };
     readonly items: ReadonlyArray<{
         readonly id: string;
         readonly from: string | null;
@@ -104,6 +107,9 @@ query redirectListQuery(
   $limit: IntType
   $offset: IntType
 ) {
+  meta: _allRedirectsMeta(filter: $filter) {
+    count
+  }
   items: allRedirects(filter: $filter, first: $limit, skip: $offset) {
     id
     from
@@ -131,15 +137,36 @@ var v0 = [
     "name": "offset"
   }
 ],
-v1 = [
+v1 = {
+  "kind": "Variable",
+  "name": "filter",
+  "variableName": "filter"
+},
+v2 = [
+  {
+    "alias": "meta",
+    "args": [
+      (v1/*: any*/)
+    ],
+    "concreteType": "CollectionMetadata",
+    "kind": "LinkedField",
+    "name": "_allRedirectsMeta",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "count",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  },
   {
     "alias": "items",
     "args": [
-      {
-        "kind": "Variable",
-        "name": "filter",
-        "variableName": "filter"
-      },
+      (v1/*: any*/),
       {
         "kind": "Variable",
         "name": "first",
@@ -194,7 +221,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "redirectListQuery",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -203,17 +230,17 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "redirectListQuery",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "04e79a0635df6343c26cf35bdd6bbc00",
+    "cacheID": "0f5bc5aa9d6f4f9f71071460205d5c00",
     "id": null,
     "metadata": {},
     "name": "redirectListQuery",
     "operationKind": "query",
-    "text": "query redirectListQuery(\n  $filter: RedirectModelFilter\n  $limit: IntType\n  $offset: IntType\n) {\n  items: allRedirects(filter: $filter, first: $limit, skip: $offset) {\n    id\n    from\n    to\n    permanent\n  }\n}\n"
+    "text": "query redirectListQuery(\n  $filter: RedirectModelFilter\n  $limit: IntType\n  $offset: IntType\n) {\n  meta: _allRedirectsMeta(filter: $filter) {\n    count\n  }\n  items: allRedirects(filter: $filter, first: $limit, skip: $offset) {\n    id\n    from\n    to\n    permanent\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'e4f3ce6ccfaeea7d1fcaf52a1eeaf207';
+(node as any).hash = 'e5312264785defdcb0278e6711f4fdff';
 export default node;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Textarea as TextareaComponent, TextareaI } from './Textarea';
+import { Textarea as TextareaComponent, TextareaProps } from './Textarea';
 import { Story } from '@storybook/react/types-6-0';
 
 export default {
@@ -19,6 +19,6 @@ export default {
     },
 };
 
-const Template: Story<TextareaI> = (args) => <TextareaComponent {...args} />;
+const Template: Story<TextareaProps> = (args) => <TextareaComponent {...args} />;
 
 export const Textarea = Template.bind({});

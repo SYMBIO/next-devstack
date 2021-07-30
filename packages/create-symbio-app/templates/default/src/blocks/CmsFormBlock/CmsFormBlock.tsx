@@ -11,6 +11,7 @@ interface CmsFormBlockProps {
 
 graphql`
     fragment CmsFormBlock_content on CmsFormBlockRecord {
+        id
         form {
             id
             title

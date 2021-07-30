@@ -77,13 +77,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
                     switch (field.__typename) {
                         case 'SingleLineInputRecord': {
                             return (
-                                <div
-                                    className={styles.fieldWrapper}
-                                    key={`Field_${field.id}`}
-                                    width={
-                                        field.variant === 'krátké' ? 'sm' : field.variant === 'střední' ? 'md' : 'lg'
-                                    }
-                                >
+                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
                                     <Field
                                         type="text"
                                         name={field.id}
@@ -102,7 +96,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
 
                         case 'CheckboxRecord': {
                             return (
-                                <div className={styles.fieldWrapper} key={`Field_${field.id}`} width={'lg'}>
+                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
                                     <Field
                                         id={field.id}
                                         type="checkbox"
@@ -124,7 +118,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
 
                         case 'TextareaRecord': {
                             return (
-                                <div className={styles.fieldWrapper} key={`Field_${field.id}`} width={'lg'}>
+                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
                                     <Field type="text" name={field.id} component={Textarea} label={field.label} />
                                 </div>
                             );

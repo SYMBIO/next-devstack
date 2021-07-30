@@ -17,14 +17,14 @@ export type NewsModelFilter = {
     _updatedAt?: UpdatedAtFilter | null;
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
-    title?: StringFilter | null;
-    category?: LinkFilter | null;
     image?: FileFilter | null;
-    dateFrom?: DateTimeFilter | null;
-    perex?: TextFilter | null;
+    metaTags?: SeoFilter | null;
     slug?: SlugFilter | null;
     tags?: LinksFilter | null;
-    metaTags?: SeoFilter | null;
+    dateFrom?: DateTimeFilter | null;
+    perex?: TextFilter | null;
+    category?: LinkFilter | null;
+    title?: StringFilter | null;
     OR?: Array<NewsModelFilter | null> | null;
 };
 export type CreatedAtFilter = {
@@ -69,33 +69,27 @@ export type UpdatedAtFilter = {
 export type BooleanFilter = {
     eq?: boolean | null;
 };
-export type StringFilter = {
-    matches?: StringMatchesFilter | null;
-    notMatches?: StringMatchesFilter | null;
-    isBlank?: boolean | null;
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
-    exists?: boolean | null;
-};
-export type StringMatchesFilter = {
-    pattern: string;
-    caseSensitive?: boolean | null;
-    regexp?: boolean | null;
-};
-export type LinkFilter = {
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
-    exists?: boolean | null;
-};
 export type FileFilter = {
-    eq?: number | null;
-    neq?: number | null;
-    in?: Array<number | null> | null;
-    notIn?: Array<number | null> | null;
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+    exists?: boolean | null;
+};
+export type SeoFilter = {
+    exists?: boolean | null;
+};
+export type SlugFilter = {
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+};
+export type LinksFilter = {
+    eq?: Array<string | null> | null;
+    allIn?: Array<string | null> | null;
+    anyIn?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
 export type DateTimeFilter = {
@@ -113,20 +107,26 @@ export type TextFilter = {
     isBlank?: boolean | null;
     exists?: boolean | null;
 };
-export type SlugFilter = {
+export type StringMatchesFilter = {
+    pattern: string;
+    caseSensitive?: boolean | null;
+    regexp?: boolean | null;
+};
+export type LinkFilter = {
     eq?: string | null;
     neq?: string | null;
     in?: Array<string | null> | null;
     notIn?: Array<string | null> | null;
-};
-export type LinksFilter = {
-    eq?: Array<string | null> | null;
-    allIn?: Array<string | null> | null;
-    anyIn?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
-export type SeoFilter = {
+export type StringFilter = {
+    matches?: StringMatchesFilter | null;
+    notMatches?: StringMatchesFilter | null;
+    isBlank?: boolean | null;
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
 export type newsNextQueryVariables = {
@@ -139,7 +139,7 @@ export type newsNextQueryResponse = {
         readonly slug: string | null;
         readonly title: string | null;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;

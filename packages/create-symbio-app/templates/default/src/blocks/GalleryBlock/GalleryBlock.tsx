@@ -10,6 +10,7 @@ interface GalleryBlockProps {
 
 graphql`
     fragment GalleryBlock_content on GalleryBlockRecord {
+        id
         assets {
             ...appImageBaseFragment @relay(mask: false)
         }

@@ -1,21 +1,14 @@
 import dayjs from 'dayjs';
 import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
-import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/AbstractDatoCMSProvider';
-import { newsDetailQueryResponse } from '../relay/__generated__/newsDetailQuery.graphql';
-import { newsListQueryResponse } from '../relay/__generated__/newsListQuery.graphql';
+import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
 import { newsDetailQuery, newsListQuery, newsStaticPathsQuery } from '../relay/news';
 import * as d from '../relay/__generated__/newsDetailQuery.graphql';
 import * as l from '../relay/__generated__/newsListQuery.graphql';
 import * as s from '../relay/__generated__/newsStaticPathsQuery.graphql';
+import { SiteLocale } from '../relay/__generated__/appQuery.graphql';
 
-class NewsProvider extends AbstractDatoCMSProvider<
-    d.newsDetailQuery,
-    l.newsListQuery,
-    newsDetailQueryResponse['item'],
-    newsListQueryResponse['items']
-> {
-
+class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsListQuery> {
     getFilterParams(): Record<string, Record<string, string | boolean>> {
         return { dateFrom: { lte: dayjs().format() }, slug: { neq: 'null' }, title: { exists: true } };
     }
@@ -24,7 +17,7 @@ class NewsProvider extends AbstractDatoCMSProvider<
         const params: ParsedUrlQuery[] = [];
 
         const data = await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
-            locale,
+            locale: locale as SiteLocale,
         }).toPromise();
 
         if (data) {
@@ -42,5 +35,5 @@ class NewsProvider extends AbstractDatoCMSProvider<
 export default new NewsProvider(newsDetailQuery, newsListQuery, {
     id: '208392',
     locales: ['cs', 'en'],
-    apiKey: 'news'
+    apiKey: 'news',
 });

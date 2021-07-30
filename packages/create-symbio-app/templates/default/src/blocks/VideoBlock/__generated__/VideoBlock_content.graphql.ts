@@ -8,7 +8,7 @@ export type VideoBlock_content = {
     readonly id: string;
     readonly autoplay: boolean | null;
     readonly video: {
-        readonly id: number;
+        readonly id: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly video: {

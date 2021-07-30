@@ -1,5 +1,5 @@
 import React, { DetailedHTMLProps, ReactElement, useEffect, useRef, VideoHTMLAttributes } from 'react';
-import { VideoInterface } from '@symbio/headless';
+import { VideoInterface } from '@symbio/cms';
 import capitalize from '@symbio/headless/dist/utils/capitalize';
 import getHLSVideo from '@symbio/headless/dist/utils/getHLSVideo';
 import styles from './UploadedVideo.module.scss';

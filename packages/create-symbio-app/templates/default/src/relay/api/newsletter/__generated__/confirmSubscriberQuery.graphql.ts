@@ -16,10 +16,10 @@ export type NewsletterSubscriberModelFilter = {
     _updatedAt?: UpdatedAtFilter | null;
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
-    confirmed?: BooleanFilter | null;
-    locale?: StringFilter | null;
-    hash?: StringFilter | null;
     email?: StringFilter | null;
+    hash?: StringFilter | null;
+    locale?: StringFilter | null;
+    confirmed?: BooleanFilter | null;
     OR?: Array<NewsletterSubscriberModelFilter | null> | null;
 };
 export type CreatedAtFilter = {

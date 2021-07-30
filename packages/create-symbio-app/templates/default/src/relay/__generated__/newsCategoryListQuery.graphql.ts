@@ -18,8 +18,8 @@ export type NewsCategoryModelFilter = {
     _updatedAt?: UpdatedAtFilter | null;
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
-    title?: StringFilter | null;
     slug?: SlugFilter | null;
+    title?: StringFilter | null;
     OR?: Array<NewsCategoryModelFilter | null> | null;
 };
 export type CreatedAtFilter = {
@@ -72,6 +72,12 @@ export type UpdatedAtFilter = {
 export type BooleanFilter = {
     eq?: boolean | null;
 };
+export type SlugFilter = {
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+};
 export type StringFilter = {
     matches?: StringMatchesFilter | null;
     notMatches?: StringMatchesFilter | null;
@@ -86,12 +92,6 @@ export type StringMatchesFilter = {
     pattern: string;
     caseSensitive?: boolean | null;
     regexp?: boolean | null;
-};
-export type SlugFilter = {
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
 };
 export type newsCategoryListQueryVariables = {
     locale?: SiteLocale | null;

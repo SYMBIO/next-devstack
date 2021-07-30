@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
 import clsx from 'clsx';
-import { ImageInterface, VideoInterface } from '@symbio/headless/types/app';
+import { ImageInterface, VideoInterface } from '@symbio/cms';
 import { Image } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
 import styles from './Carousel.module.scss';
@@ -27,7 +27,7 @@ export interface CarouselProps {
     readonly banners: ReadonlyArray<{
         readonly id: string;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -35,7 +35,7 @@ export interface CarouselProps {
             readonly title: string | null;
         } | null;
         readonly video: {
-            readonly id: number;
+            readonly id: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly video: {

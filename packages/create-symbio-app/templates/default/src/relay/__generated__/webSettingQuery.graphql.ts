@@ -10,7 +10,7 @@ export type webSettingQueryVariables = {
 export type webSettingQueryResponse = {
     readonly item: {
         readonly logo: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;

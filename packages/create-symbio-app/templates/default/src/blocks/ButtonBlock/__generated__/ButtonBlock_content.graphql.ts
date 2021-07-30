@@ -7,7 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ButtonBlock_content = {
     readonly id: string;
     readonly file: {
-        readonly id: number;
+        readonly id: string;
         readonly size: number;
         readonly title: string | null;
         readonly url: string;

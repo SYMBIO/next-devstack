@@ -1,19 +1,16 @@
 import React, { ReactElement } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
-import { CustomCursor } from '../../primitives/CustomCursor/CustomCursor';
 import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
-import { RichText } from '../../primitives/RichText/RichText';
-import { NewsListCursor } from '../../cursors/NewsListCursor/NewsListCursor';
 import { PageProps } from '../../../types/page';
 
 interface NewsListProps {
-    headline?: string;
+    headline?: string | null;
     items: ReadonlyArray<NewsItem>;
-    allNewsLinkText?: string;
-    allNewsPage?: PageProps;
+    allNewsLinkText?: string | null;
+    allNewsPage?: Pick<PageProps, 'url' | 'id'> | null;
 }
 
 interface NewsItem {

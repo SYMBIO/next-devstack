@@ -8,7 +8,7 @@ export type blocksContent = {
     readonly __typename: "ButtonBlockRecord";
     readonly id: string;
     readonly file: {
-        readonly id: number;
+        readonly id: string;
         readonly size: number;
         readonly title: string | null;
         readonly url: string;
@@ -31,7 +31,7 @@ export type blocksContent = {
     readonly banners: ReadonlyArray<{
         readonly id: string;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -39,7 +39,7 @@ export type blocksContent = {
             readonly title: string | null;
         } | null;
         readonly video: {
-            readonly id: number;
+            readonly id: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly video: {
@@ -54,6 +54,7 @@ export type blocksContent = {
     readonly " $refType": "blocksContent";
 } | {
     readonly __typename: "CmsFormBlockRecord";
+    readonly id: string;
     readonly form: {
         readonly id: string;
         readonly title: string | null;
@@ -86,7 +87,7 @@ export type blocksContent = {
             readonly id: string;
             readonly label: string | null;
             readonly required: boolean | null;
-            readonly choices: any | null;
+            readonly choices: unknown | null;
         } | {
             /*This will never be '%other', but we need some
             value in case none of the concrete values match.*/
@@ -102,8 +103,9 @@ export type blocksContent = {
     readonly " $refType": "blocksContent";
 } | {
     readonly __typename: "GalleryBlockRecord";
+    readonly id: string;
     readonly assets: ReadonlyArray<{
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
@@ -115,7 +117,7 @@ export type blocksContent = {
     readonly __typename: "ImageBlockRecord";
     readonly id: string;
     readonly image: {
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
@@ -140,6 +142,7 @@ export type blocksContent = {
     readonly __typename: "NewsListFloorBlockRecord";
     readonly id: string;
     readonly allNewsPage: {
+        readonly id: string;
         readonly url: string | null;
     } | null;
     readonly allNewsLinkText: string | null;
@@ -171,7 +174,7 @@ export type blocksContent = {
     readonly id: string;
     readonly autoplay: boolean | null;
     readonly video: {
-        readonly id: number;
+        readonly id: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly video: {
@@ -188,6 +191,8 @@ export type blocksContent = {
         readonly providerUid: string | null;
         readonly width: number | null;
         readonly height: number | null;
+        readonly title: string | null;
+        readonly thumbnailUrl: string | null;
     } | null;
     readonly " $refType": "blocksContent";
 } | {
@@ -236,46 +241,50 @@ v3 = {
 v4 = [
   (v1/*: any*/)
 ],
-v5 = {
+v5 = [
+  (v1/*: any*/),
+  (v3/*: any*/)
+],
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "label",
   "storageKey": null
 },
-v6 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "textAlign",
   "storageKey": null
 },
-v7 = {
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "autoplay",
   "storageKey": null
 },
-v8 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "width",
   "storageKey": null
 },
-v9 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "height",
   "storageKey": null
 },
-v10 = [
+v11 = [
   (v1/*: any*/),
   (v3/*: any*/),
-  (v8/*: any*/),
   (v9/*: any*/),
+  (v10/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -285,17 +294,24 @@ v10 = [
   },
   (v2/*: any*/)
 ],
-v11 = {
+v12 = {
   "alias": null,
   "args": null,
   "concreteType": "FileField",
   "kind": "LinkedField",
   "name": "image",
   "plural": false,
-  "selections": (v10/*: any*/),
+  "selections": (v11/*: any*/),
   "storageKey": null
 },
-v12 = {
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "thumbnailUrl",
+  "storageKey": null
+},
+v14 = {
   "alias": null,
   "args": null,
   "concreteType": "FileField",
@@ -304,8 +320,8 @@ v12 = {
   "plural": false,
   "selections": [
     (v1/*: any*/),
-    (v8/*: any*/),
     (v9/*: any*/),
+    (v10/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -321,46 +337,40 @@ v12 = {
           "name": "streamingUrl",
           "storageKey": null
         },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "thumbnailUrl",
-          "storageKey": null
-        }
+        (v13/*: any*/)
       ],
       "storageKey": null
     }
   ],
   "storageKey": null
 },
-v13 = {
+v15 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "headline",
   "storageKey": null
 },
-v14 = {
+v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "description",
   "storageKey": null
 },
-v15 = {
+v17 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "required",
   "storageKey": null
 },
-v16 = [
+v18 = [
   (v1/*: any*/),
-  (v5/*: any*/),
-  (v15/*: any*/)
+  (v6/*: any*/),
+  (v17/*: any*/)
 ],
-v17 = {
+v19 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -416,13 +426,10 @@ return {
           "kind": "LinkedField",
           "name": "page",
           "plural": false,
-          "selections": [
-            (v1/*: any*/),
-            (v3/*: any*/)
-          ],
+          "selections": (v5/*: any*/),
           "storageKey": null
         },
-        (v5/*: any*/)
+        (v6/*: any*/)
       ],
       "type": "ButtonBlockRecord",
       "abstractKey": null
@@ -431,8 +438,8 @@ return {
       "kind": "InlineFragment",
       "selections": [
         (v1/*: any*/),
-        (v6/*: any*/),
         (v7/*: any*/),
+        (v8/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -449,11 +456,11 @@ return {
           "plural": true,
           "selections": [
             (v1/*: any*/),
-            (v11/*: any*/),
             (v12/*: any*/),
-            (v13/*: any*/),
             (v14/*: any*/),
-            (v6/*: any*/)
+            (v15/*: any*/),
+            (v16/*: any*/),
+            (v7/*: any*/)
           ],
           "storageKey": null
         }
@@ -464,6 +471,7 @@ return {
     {
       "kind": "InlineFragment",
       "selections": [
+        (v1/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -501,7 +509,7 @@ return {
                   "kind": "InlineFragment",
                   "selections": [
                     (v1/*: any*/),
-                    (v5/*: any*/),
+                    (v6/*: any*/),
                     {
                       "alias": null,
                       "args": null,
@@ -509,7 +517,7 @@ return {
                       "name": "placeholder",
                       "storageKey": null
                     },
-                    (v15/*: any*/),
+                    (v17/*: any*/),
                     {
                       "alias": null,
                       "args": null,
@@ -530,7 +538,7 @@ return {
                 },
                 {
                   "kind": "InlineFragment",
-                  "selections": (v16/*: any*/),
+                  "selections": (v18/*: any*/),
                   "type": "TextareaRecord",
                   "abstractKey": null
                 },
@@ -551,7 +559,7 @@ return {
                 },
                 {
                   "kind": "InlineFragment",
-                  "selections": (v16/*: any*/),
+                  "selections": (v18/*: any*/),
                   "type": "CheckboxRecord",
                   "abstractKey": null
                 },
@@ -559,8 +567,8 @@ return {
                   "kind": "InlineFragment",
                   "selections": [
                     (v1/*: any*/),
-                    (v5/*: any*/),
-                    (v15/*: any*/),
+                    (v6/*: any*/),
+                    (v17/*: any*/),
                     {
                       "alias": null,
                       "args": null,
@@ -586,8 +594,8 @@ return {
       "kind": "InlineFragment",
       "selections": [
         (v1/*: any*/),
-        (v14/*: any*/),
-        (v13/*: any*/)
+        (v16/*: any*/),
+        (v15/*: any*/)
       ],
       "type": "Error404BlockRecord",
       "abstractKey": null
@@ -595,6 +603,7 @@ return {
     {
       "kind": "InlineFragment",
       "selections": [
+        (v1/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -602,7 +611,7 @@ return {
           "kind": "LinkedField",
           "name": "assets",
           "plural": true,
-          "selections": (v10/*: any*/),
+          "selections": (v11/*: any*/),
           "storageKey": null
         }
       ],
@@ -613,7 +622,7 @@ return {
       "kind": "InlineFragment",
       "selections": [
         (v1/*: any*/),
-        (v11/*: any*/)
+        (v12/*: any*/)
       ],
       "type": "ImageBlockRecord",
       "abstractKey": null
@@ -675,9 +684,7 @@ return {
           "kind": "LinkedField",
           "name": "allNewsPage",
           "plural": false,
-          "selections": [
-            (v3/*: any*/)
-          ],
+          "selections": (v5/*: any*/),
           "storageKey": null
         },
         {
@@ -704,7 +711,7 @@ return {
           "name": "count",
           "storageKey": null
         },
-        (v17/*: any*/)
+        (v19/*: any*/)
       ],
       "type": "NewsListFloorBlockRecord",
       "abstractKey": null
@@ -750,7 +757,7 @@ return {
           "name": "sortAlphabetically",
           "storageKey": null
         },
-        (v17/*: any*/)
+        (v19/*: any*/)
       ],
       "type": "SubpageListBlockRecord",
       "abstractKey": null
@@ -759,8 +766,8 @@ return {
       "kind": "InlineFragment",
       "selections": [
         (v1/*: any*/),
-        (v7/*: any*/),
-        (v12/*: any*/)
+        (v8/*: any*/),
+        (v14/*: any*/)
       ],
       "type": "VideoBlockRecord",
       "abstractKey": null
@@ -791,8 +798,10 @@ return {
               "name": "providerUid",
               "storageKey": null
             },
-            (v8/*: any*/),
-            (v9/*: any*/)
+            (v9/*: any*/),
+            (v10/*: any*/),
+            (v2/*: any*/),
+            (v13/*: any*/)
           ],
           "storageKey": null
         }

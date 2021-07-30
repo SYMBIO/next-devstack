@@ -12,7 +12,7 @@ export type CarouselBlock_content = {
     readonly banners: ReadonlyArray<{
         readonly id: string;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -20,7 +20,7 @@ export type CarouselBlock_content = {
             readonly title: string | null;
         } | null;
         readonly video: {
-            readonly id: number;
+            readonly id: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly video: {

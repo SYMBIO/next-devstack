@@ -1,11 +1,13 @@
 import React, { ReactElement } from 'react';
 import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
-import { FindResponse } from '../../lib/provider/AbstractDatoCMSProvider';
+import { FindResponse } from '@symbio/cms-datocms';
 import { newsListQueryResponse } from '../../relay/__generated__/newsListQuery.graphql';
 import { StaticBlockContext } from '@symbio/headless/types/block';
 import styles from './NewsListBlock.module.scss';
 import { NewsList } from '../../components/blocks/NewsList/NewsList';
+import { PageProps } from '../../types/page';
+import { WebSettingsProps } from '../../types/webSettings';
 
 type StaticProps = FindResponse<newsListQueryResponse['items']>;
 
@@ -26,7 +28,10 @@ function NewsListBlock({ data, ...rest }: NewsListBlockProps): ReactElement<News
 }
 
 if (typeof window === 'undefined') {
-    NewsListBlock.getStaticProps = async ({ locale, providers }: StaticBlockContext): Promise<StaticProps> =>
+    NewsListBlock.getStaticProps = async ({
+        locale,
+        providers,
+    }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<StaticProps> =>
         await providers.news.find({
             locale,
             limit: 10,

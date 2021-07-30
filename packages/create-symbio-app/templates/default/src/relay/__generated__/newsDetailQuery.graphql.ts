@@ -17,14 +17,14 @@ export type NewsModelFilter = {
     _updatedAt?: UpdatedAtFilter | null;
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
-    title?: StringFilter | null;
-    category?: LinkFilter | null;
     image?: FileFilter | null;
-    dateFrom?: DateTimeFilter | null;
-    perex?: TextFilter | null;
+    metaTags?: SeoFilter | null;
     slug?: SlugFilter | null;
     tags?: LinksFilter | null;
-    metaTags?: SeoFilter | null;
+    dateFrom?: DateTimeFilter | null;
+    perex?: TextFilter | null;
+    category?: LinkFilter | null;
+    title?: StringFilter | null;
     OR?: Array<NewsModelFilter | null> | null;
 };
 export type CreatedAtFilter = {
@@ -69,33 +69,27 @@ export type UpdatedAtFilter = {
 export type BooleanFilter = {
     eq?: boolean | null;
 };
-export type StringFilter = {
-    matches?: StringMatchesFilter | null;
-    notMatches?: StringMatchesFilter | null;
-    isBlank?: boolean | null;
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
-    exists?: boolean | null;
-};
-export type StringMatchesFilter = {
-    pattern: string;
-    caseSensitive?: boolean | null;
-    regexp?: boolean | null;
-};
-export type LinkFilter = {
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
-    exists?: boolean | null;
-};
 export type FileFilter = {
-    eq?: number | null;
-    neq?: number | null;
-    in?: Array<number | null> | null;
-    notIn?: Array<number | null> | null;
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+    exists?: boolean | null;
+};
+export type SeoFilter = {
+    exists?: boolean | null;
+};
+export type SlugFilter = {
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+};
+export type LinksFilter = {
+    eq?: Array<string | null> | null;
+    allIn?: Array<string | null> | null;
+    anyIn?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
 export type DateTimeFilter = {
@@ -113,20 +107,26 @@ export type TextFilter = {
     isBlank?: boolean | null;
     exists?: boolean | null;
 };
-export type SlugFilter = {
+export type StringMatchesFilter = {
+    pattern: string;
+    caseSensitive?: boolean | null;
+    regexp?: boolean | null;
+};
+export type LinkFilter = {
     eq?: string | null;
     neq?: string | null;
     in?: Array<string | null> | null;
     notIn?: Array<string | null> | null;
-};
-export type LinksFilter = {
-    eq?: Array<string | null> | null;
-    allIn?: Array<string | null> | null;
-    anyIn?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
-export type SeoFilter = {
+export type StringFilter = {
+    matches?: StringMatchesFilter | null;
+    notMatches?: StringMatchesFilter | null;
+    isBlank?: boolean | null;
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
     exists?: boolean | null;
 };
 export type newsDetailQueryVariables = {
@@ -146,7 +146,7 @@ export type newsDetailQueryResponse = {
         }>;
         readonly perex: string | null;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -176,8 +176,9 @@ export type newsDetailQueryResponse = {
         }>;
         readonly content: ReadonlyArray<({
             readonly __typename: "GalleryBlockRecord";
+            readonly id: string;
             readonly assets: ReadonlyArray<{
-                readonly id: number;
+                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
@@ -188,7 +189,7 @@ export type newsDetailQueryResponse = {
             readonly __typename: "ImageBlockRecord";
             readonly id: string;
             readonly image: {
-                readonly id: number;
+                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
@@ -212,7 +213,7 @@ export type newsDetailQueryResponse = {
             readonly id: string;
             readonly autoplay: boolean | null;
             readonly video: {
-                readonly id: number;
+                readonly id: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly video: {
@@ -228,6 +229,8 @@ export type newsDetailQueryResponse = {
                 readonly providerUid: string | null;
                 readonly width: number | null;
                 readonly height: number | null;
+                readonly title: string | null;
+                readonly thumbnailUrl: string | null;
             } | null;
         } | {
             /*This will never be '%other', but we need some
@@ -294,6 +297,7 @@ query newsDetailQuery(
       __typename
       __isNewsModelContentField: __typename
       ... on GalleryBlockRecord {
+        id
         assets {
           id
           url
@@ -346,6 +350,8 @@ query newsDetailQuery(
           providerUid
           width
           height
+          title
+          thumbnailUrl
         }
       }
     }
@@ -592,6 +598,7 @@ v17 = [
 v18 = {
   "kind": "InlineFragment",
   "selections": [
+    (v3/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -680,6 +687,13 @@ v21 = {
   "abstractKey": null
 },
 v22 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "thumbnailUrl",
+  "storageKey": null
+},
+v23 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -716,13 +730,7 @@ v22 = {
               "name": "streamingUrl",
               "storageKey": null
             },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "thumbnailUrl",
-              "storageKey": null
-            }
+            (v22/*: any*/)
           ],
           "storageKey": null
         }
@@ -733,7 +741,7 @@ v22 = {
   "type": "VideoBlockRecord",
   "abstractKey": null
 },
-v23 = {
+v24 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -760,7 +768,9 @@ v23 = {
           "storageKey": null
         },
         (v10/*: any*/),
-        (v11/*: any*/)
+        (v11/*: any*/),
+        (v5/*: any*/),
+        (v22/*: any*/)
       ],
       "storageKey": null
     }
@@ -768,7 +778,7 @@ v23 = {
   "type": "YoutubeVimeoBlockRecord",
   "abstractKey": null
 },
-v24 = {
+v25 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -815,13 +825,13 @@ return {
               (v19/*: any*/),
               (v20/*: any*/),
               (v21/*: any*/),
-              (v22/*: any*/),
-              (v23/*: any*/)
+              (v23/*: any*/),
+              (v24/*: any*/)
             ],
             "storageKey": null
           },
           (v16/*: any*/),
-          (v24/*: any*/)
+          (v25/*: any*/)
         ],
         "storageKey": null
       }
@@ -872,25 +882,25 @@ return {
               (v19/*: any*/),
               (v20/*: any*/),
               (v21/*: any*/),
-              (v22/*: any*/),
-              (v23/*: any*/)
+              (v23/*: any*/),
+              (v24/*: any*/)
             ],
             "storageKey": null
           },
           (v16/*: any*/),
-          (v24/*: any*/)
+          (v25/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b1803545c75e0465bfced23276a1d1e0",
+    "cacheID": "989e3790e90213a35a99507b87d66a2c",
     "id": null,
     "metadata": {},
     "name": "newsDetailQuery",
     "operationKind": "query",
-    "text": "query newsDetailQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    perex\n    image {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n    content {\n      __typename\n      __isNewsModelContentField: __typename\n      ... on GalleryBlockRecord {\n        assets {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n        }\n      }\n    }\n    __typename\n    _status\n  }\n}\n"
+    "text": "query newsDetailQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    perex\n    image {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n    content {\n      __typename\n      __isNewsModelContentField: __typename\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n    __typename\n    _status\n  }\n}\n"
   }
 };
 })();

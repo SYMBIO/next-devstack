@@ -5,7 +5,7 @@ schema:
             Authorization: ${DATOCMS_API_TOKEN_FULL}
 #documents: ./src/**/*.{ts,tsx}
 generates:
-    ./schema/schema.graphql:
+    ./src/schema/schema.graphql:
         plugins:
             - schema-ast
         config:

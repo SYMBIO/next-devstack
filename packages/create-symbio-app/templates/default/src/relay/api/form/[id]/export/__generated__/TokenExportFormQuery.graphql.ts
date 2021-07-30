@@ -4,13 +4,11 @@
 
 import { ConcreteRequest } from "relay-runtime";
 export type ItemStatus = "draft" | "published" | "updated" | "%future added value";
-export type SiteLocale = "cs" | "en" | "%future added value";
-export type NewsCategoryModelFilter = {
+export type DataFormModelFilter = {
     _createdAt?: CreatedAtFilter | null;
     createdAt?: CreatedAtFilter | null;
     id?: ItemIdFilter | null;
     _firstPublishedAt?: PublishedAtFilter | null;
-    position?: PositionFilter | null;
     _publicationScheduledAt?: PublishedAtFilter | null;
     _unpublishingScheduledAt?: PublishedAtFilter | null;
     _publishedAt?: PublishedAtFilter | null;
@@ -18,9 +16,11 @@ export type NewsCategoryModelFilter = {
     _updatedAt?: UpdatedAtFilter | null;
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
-    slug?: SlugFilter | null;
-    title?: StringFilter | null;
-    OR?: Array<NewsCategoryModelFilter | null> | null;
+    locale?: StringFilter | null;
+    datetime?: DateTimeFilter | null;
+    form?: LinkFilter | null;
+    data?: JsonFilter | null;
+    OR?: Array<DataFormModelFilter | null> | null;
 };
 export type CreatedAtFilter = {
     gt?: string | null;
@@ -46,14 +46,6 @@ export type PublishedAtFilter = {
     eq?: string | null;
     neq?: string | null;
 };
-export type PositionFilter = {
-    gt?: number | null;
-    lt?: number | null;
-    gte?: number | null;
-    lte?: number | null;
-    eq?: number | null;
-    neq?: number | null;
-};
 export type StatusFilter = {
     eq?: ItemStatus | null;
     neq?: ItemStatus | null;
@@ -72,12 +64,6 @@ export type UpdatedAtFilter = {
 export type BooleanFilter = {
     eq?: boolean | null;
 };
-export type SlugFilter = {
-    eq?: string | null;
-    neq?: string | null;
-    in?: Array<string | null> | null;
-    notIn?: Array<string | null> | null;
-};
 export type StringFilter = {
     matches?: StringMatchesFilter | null;
     notMatches?: StringMatchesFilter | null;
@@ -93,67 +79,78 @@ export type StringMatchesFilter = {
     caseSensitive?: boolean | null;
     regexp?: boolean | null;
 };
-export type newsCategoryDetailQueryVariables = {
-    locale?: SiteLocale | null;
-    filter?: NewsCategoryModelFilter | null;
+export type DateTimeFilter = {
+    gt?: string | null;
+    lt?: string | null;
+    gte?: string | null;
+    lte?: string | null;
+    exists?: boolean | null;
+    eq?: string | null;
+    neq?: string | null;
 };
-export type newsCategoryDetailQueryResponse = {
-    readonly item: {
+export type LinkFilter = {
+    eq?: string | null;
+    neq?: string | null;
+    in?: Array<string | null> | null;
+    notIn?: Array<string | null> | null;
+    exists?: boolean | null;
+};
+export type JsonFilter = {
+    exists?: boolean | null;
+};
+export type TokenExportFormQueryVariables = {
+    filter?: DataFormModelFilter | null;
+};
+export type TokenExportFormQueryResponse = {
+    readonly allDataForms: ReadonlyArray<{
         readonly id: string;
-        readonly title: string | null;
-        readonly slug: string | null;
-    } | null;
+        readonly createdAt: string;
+        readonly locale: string | null;
+        readonly data: unknown | null;
+    }>;
 };
-export type newsCategoryDetailQuery = {
-    readonly response: newsCategoryDetailQueryResponse;
-    readonly variables: newsCategoryDetailQueryVariables;
+export type TokenExportFormQuery = {
+    readonly response: TokenExportFormQueryResponse;
+    readonly variables: TokenExportFormQueryVariables;
 };
 
 
 
 /*
-query newsCategoryDetailQuery(
-  $locale: SiteLocale
-  $filter: NewsCategoryModelFilter
+query TokenExportFormQuery(
+  $filter: DataFormModelFilter
 ) {
-  item: newsCategory(locale: $locale, filter: $filter) {
+  allDataForms(filter: $filter) {
     id
-    title
-    slug
+    createdAt
+    locale
+    data
   }
 }
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "filter"
-},
-v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "locale"
-},
-v2 = [
+var v0 = [
   {
-    "alias": "item",
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "filter"
+  }
+],
+v1 = [
+  {
+    "alias": null,
     "args": [
       {
         "kind": "Variable",
         "name": "filter",
         "variableName": "filter"
-      },
-      {
-        "kind": "Variable",
-        "name": "locale",
-        "variableName": "locale"
       }
     ],
-    "concreteType": "NewsCategoryRecord",
+    "concreteType": "DataFormRecord",
     "kind": "LinkedField",
-    "name": "newsCategory",
-    "plural": false,
+    "name": "allDataForms",
+    "plural": true,
     "selections": [
       {
         "alias": null,
@@ -166,14 +163,21 @@ v2 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "title",
+        "name": "createdAt",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "slug",
+        "name": "locale",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "data",
         "storageKey": null
       }
     ],
@@ -182,36 +186,30 @@ v2 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "newsCategoryDetailQuery",
-    "selections": (v2/*: any*/),
+    "name": "TokenExportFormQuery",
+    "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v1/*: any*/),
-      (v0/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "newsCategoryDetailQuery",
-    "selections": (v2/*: any*/)
+    "name": "TokenExportFormQuery",
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "8a93462bb6d8fb726799f74836540518",
+    "cacheID": "dcaf2acdb39e82dc1c06b67b7c1f6965",
     "id": null,
     "metadata": {},
-    "name": "newsCategoryDetailQuery",
+    "name": "TokenExportFormQuery",
     "operationKind": "query",
-    "text": "query newsCategoryDetailQuery(\n  $locale: SiteLocale\n  $filter: NewsCategoryModelFilter\n) {\n  item: newsCategory(locale: $locale, filter: $filter) {\n    id\n    title\n    slug\n  }\n}\n"
+    "text": "query TokenExportFormQuery(\n  $filter: DataFormModelFilter\n) {\n  allDataForms(filter: $filter) {\n    id\n    createdAt\n    locale\n    data\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '442bc6441c804490bc3b93c1af9b1670';
+(node as any).hash = 'c1abf3c94bd14d1291b5827d948496a8';
 export default node;

@@ -5,7 +5,7 @@ import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQue
 import { StaticBlockContext } from '@symbio/headless/types/block';
 import getId from '@symbio/headless/dist/utils/getId';
 import styles from './NewsDetailBlock.module.scss';
-import { Providers } from '@symbio/headless/types/app';
+import { Providers } from '@symbio/cms';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { NewsDetail } from '../../components/blocks/NewsDetail/NewsDetail';
 import { PageProps } from '../../types/page';

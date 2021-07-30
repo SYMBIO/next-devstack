@@ -5,7 +5,7 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type appVideoFragment = {
-    readonly id: number;
+    readonly id: string;
     readonly width: number | null;
     readonly height: number | null;
     readonly video: {

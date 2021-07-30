@@ -45,6 +45,9 @@ export interface ProviderOptions {
 export interface Provider {
     getId: () => string;
     getApiKey: () => string;
+    getStaticPaths: (locale: string, blocks?: Record<string, any>) => any;
+    find: (params: Record<string, any>) => any;
+    findOne: (params: Record<string, any> | string, locale: string | undefined) => any;
 }
 
 export interface PageProvider<P extends BasePage, W> extends Provider {
@@ -55,11 +58,12 @@ export interface PageProvider<P extends BasePage, W> extends Provider {
     ) => Promise<AppData<P, W> | undefined>;
 }
 
-export type Providers<P extends BasePage, W> = { page: PageProvider<P, W> } & Record<string, Provider>;
+// export type Providers<P extends BasePage, W> = { page: PageProvider<P, W> } & Record<string, Provider>;
+export type Providers<P extends BasePage, W> = Record<string, Provider>;
 
 export type AppData<P extends BasePage, W> = {
     site: Site;
-    page: P;
+    page: P | null;
     redirect: Redirect;
     webSetting: W;
 };
@@ -97,9 +101,10 @@ export type Redirect = {
 } | null;
 
 export interface BasePage {
+    id: string;
     url: string | null;
     title?: string | null;
-    content: { __typename: string; id: string }[];
+    content?: ReadonlyArray<{ __typename: string; id?: string } | null> | null;
 }
 
 export interface ImageInterface {

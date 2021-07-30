@@ -6,8 +6,9 @@ import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type newsContentFragment = {
     readonly __typename: "GalleryBlockRecord";
+    readonly id: string;
     readonly assets: ReadonlyArray<{
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
@@ -19,7 +20,7 @@ export type newsContentFragment = {
     readonly __typename: "ImageBlockRecord";
     readonly id: string;
     readonly image: {
-        readonly id: number;
+        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
@@ -46,7 +47,7 @@ export type newsContentFragment = {
     readonly id: string;
     readonly autoplay: boolean | null;
     readonly video: {
-        readonly id: number;
+        readonly id: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly video: {
@@ -63,6 +64,8 @@ export type newsContentFragment = {
         readonly providerUid: string | null;
         readonly width: number | null;
         readonly height: number | null;
+        readonly title: string | null;
+        readonly thumbnailUrl: string | null;
     } | null;
     readonly " $refType": "newsContentFragment";
 } | {
@@ -101,7 +104,14 @@ v2 = {
   "name": "height",
   "storageKey": null
 },
-v3 = [
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "title",
+  "storageKey": null
+},
+v4 = [
   (v0/*: any*/),
   {
     "alias": null,
@@ -119,14 +129,15 @@ v3 = [
     "name": "alt",
     "storageKey": null
   },
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "title",
-    "storageKey": null
-  }
-];
+  (v3/*: any*/)
+],
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "thumbnailUrl",
+  "storageKey": null
+};
 return {
   "argumentDefinitions": [],
   "kind": "Fragment",
@@ -143,6 +154,7 @@ return {
     {
       "kind": "InlineFragment",
       "selections": [
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -150,7 +162,7 @@ return {
           "kind": "LinkedField",
           "name": "assets",
           "plural": true,
-          "selections": (v3/*: any*/),
+          "selections": (v4/*: any*/),
           "storageKey": null
         }
       ],
@@ -168,7 +180,7 @@ return {
           "kind": "LinkedField",
           "name": "image",
           "plural": false,
-          "selections": (v3/*: any*/),
+          "selections": (v4/*: any*/),
           "storageKey": null
         }
       ],
@@ -267,13 +279,7 @@ return {
                   "name": "streamingUrl",
                   "storageKey": null
                 },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "thumbnailUrl",
-                  "storageKey": null
-                }
+                (v5/*: any*/)
               ],
               "storageKey": null
             }
@@ -311,7 +317,9 @@ return {
               "storageKey": null
             },
             (v1/*: any*/),
-            (v2/*: any*/)
+            (v2/*: any*/),
+            (v3/*: any*/),
+            (v5/*: any*/)
           ],
           "storageKey": null
         }

@@ -1,31 +1,13 @@
 import React, { ReactElement } from 'react';
-import { ImageInterface } from '@symbio/headless';
-
-/*
-import { Image as DatoCMSImage } from 'react-datocms';
-
-export declare type ImageProps = {
-    image?: ImageInterface;
-    className?: string;
-    pictureClassName?: string;
-    fadeInDuration?: number;
-    intersectionTreshold?: number;
-    intersectionMargin?: string;
-    lazyLoad?: boolean;
-    style?: React.CSSProperties;
-    pictureStyle?: React.CSSProperties;
-    explicitWidth?: boolean;
-};
-
-export const Image = ({ image, ...props }: ImageProps): ReactElement | null => {
-    return <DatoCMSImage {...props} />;
-};
-*/
-
+import { ImageInterface } from '@symbio/cms';
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
 
-export declare type ImageProps = Omit<NextImageProps, 'src'> &
-    (
+declare const VALID_LAYOUT_VALUES: readonly ['fill', 'fixed', 'intrinsic', 'responsive', undefined];
+declare type LayoutValue = typeof VALID_LAYOUT_VALUES[number];
+
+export declare type ImageProps = Omit<NextImageProps, 'src'> & {
+    layout?: LayoutValue;
+} & (
         | {
               image: ImageInterface;
               src?: never;
@@ -36,7 +18,18 @@ export declare type ImageProps = Omit<NextImageProps, 'src'> &
           }
     );
 
-export const Image = ({ image, src, alt, title, layout, width, height, ...props }: ImageProps): ReactElement | null => {
+export const Image = ({
+    image,
+    src,
+    alt,
+    title,
+    layout = 'intrinsic',
+    width,
+    height,
+    blurDataURL,
+    placeholder,
+    ...props
+}: ImageProps): ReactElement | null => {
     // 1) if no image is passed, use src and directly next/image
     if (!image?.url) {
         if (src) {
@@ -96,7 +89,7 @@ export const Image = ({ image, src, alt, title, layout, width, height, ...props 
             src={image.url}
             alt={alt || image.alt || ''}
             title={title || image.title || undefined}
-            layout={'fill' as ImageProps['layout']}
+            layout={'fill'}
             {...props}
         />
     );

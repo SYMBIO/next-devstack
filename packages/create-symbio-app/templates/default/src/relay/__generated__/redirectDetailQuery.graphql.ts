@@ -17,8 +17,8 @@ export type RedirectModelFilter = {
     updatedAt?: UpdatedAtFilter | null;
     _isValid?: BooleanFilter | null;
     permanent?: BooleanFilter | null;
-    to?: StringFilter | null;
     from?: StringFilter | null;
+    to?: StringFilter | null;
     OR?: Array<RedirectModelFilter | null> | null;
 };
 export type CreatedAtFilter = {

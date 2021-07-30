@@ -1,4 +1,4 @@
-import graphql from 'graphql-tag';
+import { graphql } from 'relay-runtime';
 
 graphql`
     fragment pageFragment on PageRecord {
@@ -51,6 +51,9 @@ graphql`
 
 export const pageListQuery = graphql`
     query pageListQuery($locale: SiteLocale, $filter: PageModelFilter, $limit: IntType, $offset: IntType) {
+        meta: _allPagesMeta(locale: $locale, filter: $filter) {
+            count
+        }
         items: allPages(locale: $locale, filter: $filter, first: $limit, skip: $offset) {
             ...pageFragment @relay(mask: false)
         }

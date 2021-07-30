@@ -16,6 +16,8 @@ graphql`
             providerUid
             width
             height
+            title
+            thumbnailUrl
         }
     }
 `;

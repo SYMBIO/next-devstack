@@ -5,6 +5,7 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type CmsFormBlock_content = {
+    readonly id: string;
     readonly form: {
         readonly id: string;
         readonly title: string | null;
@@ -37,7 +38,7 @@ export type CmsFormBlock_content = {
             readonly id: string;
             readonly label: string | null;
             readonly required: boolean | null;
-            readonly choices: any | null;
+            readonly choices: unknown | null;
         } | {
             /*This will never be '%other', but we need some
             value in case none of the concrete values match.*/
@@ -87,6 +88,7 @@ return {
   "metadata": null,
   "name": "CmsFormBlock_content",
   "selections": [
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -218,5 +220,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = 'f6213e0406e69973e56aa534d2a55de7';
+(node as any).hash = '59b892cbac71d7bcbc10650fa54a3930';
 export default node;

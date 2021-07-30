@@ -52,7 +52,7 @@ export type pageFragment = {
         readonly __typename: "ButtonBlockRecord";
         readonly id: string;
         readonly file: {
-            readonly id: number;
+            readonly id: string;
             readonly size: number;
             readonly title: string | null;
             readonly url: string;
@@ -74,7 +74,7 @@ export type pageFragment = {
         readonly banners: ReadonlyArray<{
             readonly id: string;
             readonly image: {
-                readonly id: number;
+                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
@@ -82,7 +82,7 @@ export type pageFragment = {
                 readonly title: string | null;
             } | null;
             readonly video: {
-                readonly id: number;
+                readonly id: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly video: {
@@ -96,6 +96,7 @@ export type pageFragment = {
         }>;
     } | {
         readonly __typename: "CmsFormBlockRecord";
+        readonly id: string;
         readonly form: {
             readonly id: string;
             readonly title: string | null;
@@ -128,7 +129,7 @@ export type pageFragment = {
                 readonly id: string;
                 readonly label: string | null;
                 readonly required: boolean | null;
-                readonly choices: any | null;
+                readonly choices: unknown | null;
             } | {
                 /*This will never be '%other', but we need some
                 value in case none of the concrete values match.*/
@@ -142,8 +143,9 @@ export type pageFragment = {
         readonly headline: string | null;
     } | {
         readonly __typename: "GalleryBlockRecord";
+        readonly id: string;
         readonly assets: ReadonlyArray<{
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -154,7 +156,7 @@ export type pageFragment = {
         readonly __typename: "ImageBlockRecord";
         readonly id: string;
         readonly image: {
-            readonly id: number;
+            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
@@ -176,6 +178,7 @@ export type pageFragment = {
         readonly __typename: "NewsListFloorBlockRecord";
         readonly id: string;
         readonly allNewsPage: {
+            readonly id: string;
             readonly url: string | null;
         } | null;
         readonly allNewsLinkText: string | null;
@@ -204,7 +207,7 @@ export type pageFragment = {
         readonly id: string;
         readonly autoplay: boolean | null;
         readonly video: {
-            readonly id: number;
+            readonly id: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly video: {
@@ -220,6 +223,8 @@ export type pageFragment = {
             readonly providerUid: string | null;
             readonly width: number | null;
             readonly height: number | null;
+            readonly title: string | null;
+            readonly thumbnailUrl: string | null;
         } | null;
     } | {
         /*This will never be '%other', but we need some
@@ -258,25 +263,26 @@ v2 = {
   "name": "title",
   "storageKey": null
 },
-v3 = [
-  (v1/*: any*/)
-],
-v4 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "description",
   "storageKey": null
 },
-v5 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v6 = [
+v5 = [
   (v0/*: any*/)
+],
+v6 = [
+  (v0/*: any*/),
+  (v1/*: any*/)
 ],
 v7 = {
   "alias": null,
@@ -340,6 +346,13 @@ v13 = {
 v14 = {
   "alias": null,
   "args": null,
+  "kind": "ScalarField",
+  "name": "thumbnailUrl",
+  "storageKey": null
+},
+v15 = {
+  "alias": null,
+  "args": null,
   "concreteType": "FileField",
   "kind": "LinkedField",
   "name": "video",
@@ -363,39 +376,33 @@ v14 = {
           "name": "streamingUrl",
           "storageKey": null
         },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "thumbnailUrl",
-          "storageKey": null
-        }
+        (v14/*: any*/)
       ],
       "storageKey": null
     }
   ],
   "storageKey": null
 },
-v15 = {
+v16 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "headline",
   "storageKey": null
 },
-v16 = {
+v17 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "required",
   "storageKey": null
 },
-v17 = [
+v18 = [
   (v0/*: any*/),
   (v7/*: any*/),
-  (v16/*: any*/)
+  (v17/*: any*/)
 ],
-v18 = {
+v19 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -491,10 +498,12 @@ return {
           "kind": "LinkedField",
           "name": "image",
           "plural": false,
-          "selections": (v3/*: any*/),
+          "selections": [
+            (v1/*: any*/)
+          ],
           "storageKey": null
         },
-        (v4/*: any*/),
+        (v3/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -569,7 +578,7 @@ return {
       "name": "content",
       "plural": true,
       "selections": [
-        (v5/*: any*/),
+        (v4/*: any*/),
         {
           "kind": "InlineFragment",
           "selections": [
@@ -602,7 +611,7 @@ return {
               "kind": "LinkedField",
               "name": "icon",
               "plural": false,
-              "selections": (v6/*: any*/),
+              "selections": (v5/*: any*/),
               "storageKey": null
             },
             {
@@ -612,10 +621,7 @@ return {
               "kind": "LinkedField",
               "name": "page",
               "plural": false,
-              "selections": [
-                (v0/*: any*/),
-                (v1/*: any*/)
-              ],
+              "selections": (v6/*: any*/),
               "storageKey": null
             },
             (v7/*: any*/)
@@ -646,9 +652,9 @@ return {
               "selections": [
                 (v0/*: any*/),
                 (v13/*: any*/),
-                (v14/*: any*/),
                 (v15/*: any*/),
-                (v4/*: any*/),
+                (v16/*: any*/),
+                (v3/*: any*/),
                 (v8/*: any*/)
               ],
               "storageKey": null
@@ -660,6 +666,7 @@ return {
         {
           "kind": "InlineFragment",
           "selections": [
+            (v0/*: any*/),
             {
               "alias": null,
               "args": null,
@@ -692,7 +699,7 @@ return {
                   "name": "content",
                   "plural": true,
                   "selections": [
-                    (v5/*: any*/),
+                    (v4/*: any*/),
                     {
                       "kind": "InlineFragment",
                       "selections": [
@@ -705,7 +712,7 @@ return {
                           "name": "placeholder",
                           "storageKey": null
                         },
-                        (v16/*: any*/),
+                        (v17/*: any*/),
                         {
                           "alias": null,
                           "args": null,
@@ -726,7 +733,7 @@ return {
                     },
                     {
                       "kind": "InlineFragment",
-                      "selections": (v17/*: any*/),
+                      "selections": (v18/*: any*/),
                       "type": "TextareaRecord",
                       "abstractKey": null
                     },
@@ -747,7 +754,7 @@ return {
                     },
                     {
                       "kind": "InlineFragment",
-                      "selections": (v17/*: any*/),
+                      "selections": (v18/*: any*/),
                       "type": "CheckboxRecord",
                       "abstractKey": null
                     },
@@ -756,7 +763,7 @@ return {
                       "selections": [
                         (v0/*: any*/),
                         (v7/*: any*/),
-                        (v16/*: any*/),
+                        (v17/*: any*/),
                         {
                           "alias": null,
                           "args": null,
@@ -782,8 +789,8 @@ return {
           "kind": "InlineFragment",
           "selections": [
             (v0/*: any*/),
-            (v4/*: any*/),
-            (v15/*: any*/)
+            (v3/*: any*/),
+            (v16/*: any*/)
           ],
           "type": "Error404BlockRecord",
           "abstractKey": null
@@ -791,6 +798,7 @@ return {
         {
           "kind": "InlineFragment",
           "selections": [
+            (v0/*: any*/),
             {
               "alias": null,
               "args": null,
@@ -856,7 +864,7 @@ return {
         },
         {
           "kind": "InlineFragment",
-          "selections": (v6/*: any*/),
+          "selections": (v5/*: any*/),
           "type": "NewsDetailBlockRecord",
           "abstractKey": null
         },
@@ -871,7 +879,7 @@ return {
               "kind": "LinkedField",
               "name": "allNewsPage",
               "plural": false,
-              "selections": (v3/*: any*/),
+              "selections": (v6/*: any*/),
               "storageKey": null
             },
             {
@@ -888,7 +896,7 @@ return {
               "kind": "LinkedField",
               "name": "categories",
               "plural": true,
-              "selections": (v6/*: any*/),
+              "selections": (v5/*: any*/),
               "storageKey": null
             },
             {
@@ -898,7 +906,7 @@ return {
               "name": "count",
               "storageKey": null
             },
-            (v18/*: any*/)
+            (v19/*: any*/)
           ],
           "type": "NewsListFloorBlockRecord",
           "abstractKey": null
@@ -930,7 +938,7 @@ return {
               "name": "page",
               "plural": false,
               "selections": [
-                (v5/*: any*/),
+                (v4/*: any*/),
                 (v0/*: any*/),
                 (v1/*: any*/),
                 (v2/*: any*/)
@@ -944,7 +952,7 @@ return {
               "name": "sortAlphabetically",
               "storageKey": null
             },
-            (v18/*: any*/)
+            (v19/*: any*/)
           ],
           "type": "SubpageListBlockRecord",
           "abstractKey": null
@@ -954,7 +962,7 @@ return {
           "selections": [
             (v0/*: any*/),
             (v9/*: any*/),
-            (v14/*: any*/)
+            (v15/*: any*/)
           ],
           "type": "VideoBlockRecord",
           "abstractKey": null
@@ -986,7 +994,9 @@ return {
                   "storageKey": null
                 },
                 (v10/*: any*/),
-                (v11/*: any*/)
+                (v11/*: any*/),
+                (v2/*: any*/),
+                (v14/*: any*/)
               ],
               "storageKey": null
             }

@@ -5,7 +5,7 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type appImageBaseFragment = {
-    readonly id: number;
+    readonly id: string;
     readonly url: string;
     readonly width: number | null;
     readonly height: number | null;
