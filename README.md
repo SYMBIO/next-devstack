@@ -40,3 +40,10 @@
 1. automatic creation of component to a specific folder
 2. example: `npm run create-component F=primitives N=test`
 3. component Test in folder primitives will be created
+
+## Publishing
+
+1. npm run prepublish
+2. npm run publish-canary (login to github account using personal access token)
+3. login to npm via npm adduser (if you are not already logged in)
+4. in every package you want to publish run npm publish

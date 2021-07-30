@@ -133,7 +133,7 @@ export function getBlocksPropsPromises<P extends BasePage, W>(
             const blockName = getBlockName(block);
             if (blockName && Object.prototype.hasOwnProperty.call(blocks, blockName)) {
                 const blk = blocks[blockName];
-                if (blk.getStaticProps && block && block.__typename !== '%other') {
+                if (blk.getStaticProps && block && block.__typename !== '%other' && block.id) {
                     blocksPropsPromises[block.id] = blk.getStaticProps({
                         context,
                         locale,

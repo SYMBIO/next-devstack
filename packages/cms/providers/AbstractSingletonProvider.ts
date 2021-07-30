@@ -1,4 +1,13 @@
-import { Provider, ProviderOptions, CmsItem, SingletonBaseRecord } from '../types';
+import {
+    Provider,
+    ProviderOptions,
+    CmsItem,
+    SingletonBaseRecord,
+    BaseRecord,
+    FindParams,
+    FindResponse,
+    FindOneParams,
+} from '../types';
 
 export default abstract class AbstractSingletonProvider implements Provider {
     protected options: ProviderOptions;
@@ -17,6 +26,20 @@ export default abstract class AbstractSingletonProvider implements Provider {
 
     getId(): string {
         return this.options.id;
+    }
+
+    abstract find<T = BaseRecord>(options: FindParams): Promise<FindResponse<T>>;
+
+    abstract findOne<T extends BaseRecord = BaseRecord>(
+        options: FindOneParams | FindParams,
+    ): Promise<CmsItem<T> | null>;
+
+    async getStaticPaths(locale: string, blocks?: Record<string, any>) {
+        return [];
+    }
+
+    async getPageBySlug(locale: string | undefined, slug: string[], preview?: boolean) {
+        return {};
     }
 
     /**

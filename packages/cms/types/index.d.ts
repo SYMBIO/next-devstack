@@ -47,7 +47,12 @@ export interface Provider {
     getApiKey: () => string;
     getStaticPaths: (locale: string, blocks?: Record<string, any>) => any;
     find: (params: Record<string, any>) => any;
-    findOne: (params: Record<string, any> | string, locale: string | undefined) => any;
+    findOne: (options: FindOneParams | FindParams) => any;
+    getPageBySlug: (
+        locale: string | undefined,
+        slug: string[],
+        preview?: boolean,
+    ) => any;
 }
 
 export interface PageProvider<P extends BasePage, W> extends Provider {

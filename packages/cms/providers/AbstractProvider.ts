@@ -110,4 +110,12 @@ export default abstract class AbstractProvider implements Provider {
             return null;
         }
     }
+
+    async getStaticPaths(locale: string, blocks?: Record<string, any>) {
+        return [];
+    }
+
+    async getPageBySlug(locale: string | undefined, slug: string[], preview?: boolean) {
+        return {};
+    }
 }
