@@ -1,6 +1,6 @@
 {
     "name": "@symbio/headless",
-    "version": "1.0.0-canary.38",
+    "version": "1.0.0-canary.39",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -13,7 +13,7 @@
         "types"
     ],
     "scripts": {
-        "build": "rimraf dist && babel -d dist --ignore dist,node_modules,types ./",
+        "build": "rimraf dist && babel -d dist -x .ts,.tsx,.js --ignore dist,node_modules,types ./",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
         "prepublish": "npm run build && npm run types",
         "test": "jest",
@@ -25,7 +25,7 @@
         "node": ">=14.0.0"
     },
     "dependencies": {
-        "@symbio/cms": "1.0.0-canary.38",
+        "@symbio/cms": "1.0.0-canary.39",
         "dayjs": "^1.10.4",
         "hls.js": "^1.0.2",
         "html-react-parser": "^1.2.6",
