@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms-elasticsearch-datocms",
-    "version": "1.0.0-canary.43",
+    "version": "1.0.0-canary.44",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -46,9 +46,9 @@
         "@graphql-codegen/cli": "^1.21.4",
         "@graphql-codegen/introspection": "1.18.2",
         "@graphql-codegen/schema-ast": "^1.18.2",
-        "@symbio/cms": "1.0.0-canary.43",
-        "@symbio/cms-datocms": "1.0.0-canary.43",
-        "@symbio/headless": "1.0.0-canary.43",
+        "@symbio/cms": "1.0.0-canary.44",
+        "@symbio/cms-datocms": "1.0.0-canary.44",
+        "@symbio/headless": "1.0.0-canary.44",
         "@types/hls.js": "^1.0.0",
         "@types/node": "^15.0.1",
         "@types/react": "^16.14.5",
