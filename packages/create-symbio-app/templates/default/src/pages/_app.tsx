@@ -14,10 +14,10 @@ if (process.env.NODE_ENV !== 'production') {
 import { AppProps, NextWebVitalsMetric } from 'next/app';
 import '../styles/global.scss';
 import { CustomCursorProvider } from '../components/primitives/CustomCursor/CustomCursorProvider';
-import { reportLogging } from '@symbio/headless/dist/utils/metricsReport';
+import { metricsReport } from '@symbio/headless/utils';
 
 export function reportWebVitals(metrics: NextWebVitalsMetric): void {
-    reportLogging(metrics);
+    metricsReport(metrics);
 }
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {

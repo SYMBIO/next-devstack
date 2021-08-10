@@ -77,21 +77,12 @@ export const getBlocksProps = async <P extends BasePage, W>(
     const blocksPropsPromises = getBlocksPropsPromises(props.page, locale, context, providers, blocks);
 
     try {
-        const entries = Object.entries(blocksPropsPromises);
-        const keys = entries.reduce<string[]>((acc, val) => {
-            acc.push(val[0]);
-            return acc;
-        }, []);
-        const values = await Promise.all(
-            entries.reduce<Array<Promise<unknown>>>((acc, val) => {
-                acc.push(val[1]);
-                return acc;
-            }, []),
-        );
+        const values = await Promise.all(Object.entries(blocksPropsPromises).flat());
         const blocksPropsMap: BlocksPropsMap = {};
         for (let i = 0; i < values.length; i += 2) {
-            blocksPropsMap[keys[i] as string] = values[i + 1];
+            blocksPropsMap[values[i] as string] = values[i + 1];
         }
+
         return {
             props: {
                 ...props,
