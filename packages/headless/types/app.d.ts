@@ -12,3 +12,5 @@ export interface MyPageProps<P extends BasePage, W> extends AppData<P, W> {
 }
 
 export type IndexingRelations = Record<string, Record<string, Array<string>>>;
+
+export * from '../lib/blocks';
