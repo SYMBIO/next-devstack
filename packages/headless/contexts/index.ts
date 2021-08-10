@@ -1,4 +1,4 @@
-import { combineContext } from '../utils/combineContexts';
+import combineContext from '../utils/combineContexts';
 
 const providers = {};
 

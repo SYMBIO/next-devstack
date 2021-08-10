@@ -1,5 +1,3 @@
 import { findProvider } from './findProvider';
 
-export default {
-    findProvider,
-};
+export { findProvider };

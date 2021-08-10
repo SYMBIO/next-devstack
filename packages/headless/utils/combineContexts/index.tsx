@@ -5,7 +5,7 @@ function onlyChild(children: any): any {
     return Array.isArray(children) ? children[0] : children;
 }
 
-export function combineContext<In extends { [key: string]: any }>(
+export default function combineContext<In extends { [key: string]: any }>(
     contexts: { [K in keyof In]: Context<In[K]> },
 ): Context<{ [K in keyof In]: In[K] }> {
     class Provider extends React.Component<ProviderProps<{ [K in keyof In]: In[K] }>> {

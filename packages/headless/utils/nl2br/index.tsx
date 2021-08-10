@@ -2,7 +2,7 @@ import React from 'react';
 
 const newlineRegex = /(\r\n|\r|\n)/g;
 
-export default function index(str: string | null | undefined): React.ReactNode {
+export default function nl2br(str: string | null | undefined): React.ReactNode {
     if (typeof str !== 'string') {
         return str;
     }

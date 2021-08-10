@@ -20,7 +20,7 @@ const printCorrectColors = (good: number, medium: number, metric: string, value:
     }
 };
 
-export function reportLogging(metric: NextWebVitalsMetric) {
+export default function metricsReport(metric: NextWebVitalsMetric) {
     switch (metric.name) {
         case 'FCP':
             printCorrectColors(2_000, 4_000, metric.name, metric.value);

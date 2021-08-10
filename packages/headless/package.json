@@ -7,13 +7,16 @@
         "url": "https://github.com/SYMBIO/next-devstack"
     },
     "license": "MIT",
+    "main": "dist/index.js",
     "types": "types/app.d.ts",
     "files": [
         "dist",
-        "types"
+        "types",
+        "utils.js",
+        "utils.d.ts"
     ],
     "scripts": {
-        "build": "rimraf dist && babel -d dist -x .ts,.tsx,.js --ignore dist,node_modules,types ./",
+        "build": "rimraf dist && babel -d dist -x .ts,.tsx --ignore dist,node_modules,types ./",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
         "prepublish": "npm run build && npm run types",
         "test": "jest",

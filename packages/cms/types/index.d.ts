@@ -1,5 +1,5 @@
-import { AbstractProvider, AbstractSingletonProvider } from '../providers/index';
-import { findProvider } from '../utils/findProvider';
+import { AbstractProvider, AbstractSingletonProvider } from '../providers';
+import { findProvider } from '../utils';
 
 export type ItemId = string;
 

@@ -8,6 +8,3 @@ dist/
 # graphql/relay
 types/graphql.ts
 __generated__/
-
-# build
-*.js

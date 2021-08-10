@@ -69,4 +69,4 @@
 47 error remote: Invalid username or password.
 47 error fatal: Authentication failed for 'https://github.com/SYMBIO/next-devstack.git/'
 47 error     at makeError (/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/@lerna/child-process/node_modules/execa/lib/error.js:59:11)
-47 error     at handlePromise (/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/@lerna/child-process/node_modules/execa/index.js:114:26)
+47 error     at handlePromise (/Users/ondrej.zeman/Documents/Symbio/SYMBIO/next-devstack/node_modules/@lerna/child-process/node_modules/execa/index.ts:114:26)
