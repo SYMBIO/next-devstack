@@ -1,13 +1,13 @@
 import { ParsedUrlQuery } from 'querystring';
-import { BasePage, Providers } from '@symbio/cms';
+import { BasePage } from '@symbio/cms';
 import { BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 
-export async function getStaticParamsFromBlocks<P extends BasePage, W>(
+export async function getStaticParamsFromBlocks<P extends BasePage, W, PR, L>(
     content: ReadonlyArray<{ __typename: string } | null> | null,
-    locale: string,
-    providers: Providers<P, W>,
-    blocks: Record<string, BlockType<P, W>>,
+    locale: L,
+    providers: PR,
+    blocks: Record<string, BlockType<P, W, PR, L>>,
 ): Promise<ParsedUrlQuery[]> {
     if (!content) {
         return [];

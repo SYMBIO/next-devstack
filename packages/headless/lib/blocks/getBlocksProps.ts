@@ -1,5 +1,5 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import { AppData, BasePage, Providers } from '@symbio/cms';
+import { AppData, BasePage, PageProvider } from '@symbio/cms';
 import { BlocksPropsMap, BlocksPropsPromisesMap, BlockType } from '../../types/block';
 import getBlockName from '../../utils/getBlockName';
 
@@ -29,10 +29,10 @@ function getNormalizedSlug(context: GetStaticPropsContext): string[] {
  * @param ssg
  * @returns {Promise<GetStaticPropsResult<{[p: string]: unknown}>>}
  */
-export const getBlocksProps = async <P extends BasePage, W>(
+export const getBlocksProps = async <P extends BasePage, W, PR extends { page: PageProvider<P, W> }, L>(
     context: GetStaticPropsContext,
-    providers: Providers<P, W>,
-    blocks: Record<string, BlockType<P, W>>,
+    providers: PR,
+    blocks: Record<string, BlockType<P, W, PR, L>>,
     ssg: {
         staticGeneration: boolean;
         revalidate: boolean | number;
@@ -74,7 +74,13 @@ export const getBlocksProps = async <P extends BasePage, W>(
         };
     }
 
-    const blocksPropsPromises = getBlocksPropsPromises(props.page, locale, context, providers, blocks);
+    const blocksPropsPromises = getBlocksPropsPromises<P, W, PR, L>(
+        props.page,
+        (locale as unknown) as L,
+        context,
+        providers,
+        blocks,
+    );
 
     try {
         const values = await Promise.all(Object.entries(blocksPropsPromises).flat());
@@ -111,12 +117,12 @@ export const getBlocksProps = async <P extends BasePage, W>(
     }
 };
 
-export function getBlocksPropsPromises<P extends BasePage, W>(
+export function getBlocksPropsPromises<P extends BasePage, W, PR, L>(
     page: AppData<P, W>['page'],
-    locale: string | undefined,
+    locale: L,
     context: GetStaticPropsContext,
-    providers: Providers<P, W>,
-    blocks: Record<string, BlockType<P, W>>,
+    providers: PR,
+    blocks: Record<string, BlockType<P, W, PR, L>>,
 ): BlocksPropsPromisesMap {
     const blocksPropsPromises: BlocksPropsPromisesMap = {};
     if (page?.content && page.content.length > 0) {
