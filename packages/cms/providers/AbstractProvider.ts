@@ -8,6 +8,7 @@ import {
     FindOneParams,
     BaseRecord,
 } from '../types';
+import { GetStaticPathsResult } from 'next';
 
 export default abstract class AbstractProvider implements Provider {
     protected options: ProviderOptions;
@@ -111,11 +112,7 @@ export default abstract class AbstractProvider implements Provider {
         }
     }
 
-    async getStaticPaths(locale: string, blocks?: Record<string, any>) {
+    async getStaticPaths(locale: string, blocks?: Record<string, any>): Promise<GetStaticPathsResult['paths']> {
         return [];
-    }
-
-    async getPageBySlug(locale: string | undefined, slug: string[], preview?: boolean) {
-        return {};
     }
 }

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import NextHead from 'next/head';
 import symbio from '../../../../symbio.config.json';
-import { AppContextProps } from '@symbio/headless/types/appContext';
+import { AppContextProps } from '@symbio/headless/dist/types/appContext';
 import { PageProps } from '../../../types/page';
 import { WebSettingsProps } from '../../../types/webSettings';
 

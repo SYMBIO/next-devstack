@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import graphql from 'graphql-tag';
 import clsx from 'clsx';
-import { StaticBlockContext } from '@symbio/headless/types/block';
+import { StaticBlockContext } from '@symbio/headless/dist/types/block';
 import styles from './SubpageListBlock.module.scss';
 import { SubpageListBlock_content } from './__generated__/SubpageListBlock_content.graphql';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
@@ -9,6 +9,8 @@ import { SubpageList } from '../../components/organisms/SubpageList/SubpageList'
 import { Heading } from '../../components/primitives/Heading/Heading';
 import { PageProps } from '../../types/page';
 import { WebSettingsProps } from '../../types/webSettings';
+import { Providers } from '../../types/providers';
+import { Locale } from '../../types/locale';
 
 interface Subpage {
     __typename: 'PageRecord';
@@ -73,7 +75,7 @@ if (typeof window === 'undefined') {
         page,
         block,
         providers,
-    }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<ServerProps> => {
+    }: StaticBlockContext<PageProps, WebSettingsProps, Providers, Locale>): Promise<ServerProps> => {
         const parentId: string = block.page?.id || page?.id;
 
         if (page?.id) {

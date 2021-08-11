@@ -1,3 +1,4 @@
+import { GetStaticPathsResult } from 'next';
 import { AbstractProvider, AbstractSingletonProvider } from '../providers';
 import { findProvider } from '../utils';
 
@@ -45,14 +46,9 @@ export interface ProviderOptions {
 export interface Provider {
     getId: () => string;
     getApiKey: () => string;
-    getStaticPaths: (locale: string, blocks?: Record<string, any>) => any;
-    find: (params: Record<string, any>) => any;
-    findOne: (options: FindOneParams | FindParams) => any;
-    getPageBySlug: (
-        locale: string | undefined,
-        slug: string[],
-        preview?: boolean,
-    ) => any;
+    getStaticPaths: (locale: string, blocks?: Record<string, any>) => Promise<GetStaticPathsResult['paths']>;
+    find: <T = BaseRecord>(params: FindParams) => Promise<FindResponse<T>>;
+    findOne: <T extends BaseRecord = BaseRecord>(options: FindOneParams | FindParams) => Promise<CmsItem<T> | null>;
 }
 
 export interface PageProvider<P extends BasePage, W> extends Provider {
@@ -62,9 +58,6 @@ export interface PageProvider<P extends BasePage, W> extends Provider {
         preview?: boolean,
     ) => Promise<AppData<P, W> | undefined>;
 }
-
-// export type Providers<P extends BasePage, W> = { page: PageProvider<P, W> } & Record<string, Provider>;
-export type Providers<P extends BasePage, W> = Record<string, Provider>;
 
 export type AppData<P extends BasePage, W> = {
     site: Site;
@@ -105,11 +98,11 @@ export type Redirect = {
     readonly permanent: boolean | null;
 } | null;
 
-export interface BasePage {
+export interface BasePage<T extends { __typename: string; id: string } = { __typename: string; id: string }> {
     id: string;
     url: string | null;
     title?: string | null;
-    content?: ReadonlyArray<{ __typename: string; id?: string } | null> | null;
+    content?: T[];
 }
 
 export interface ImageInterface {

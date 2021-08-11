@@ -1,6 +1,6 @@
 import { GetStaticPathsResult } from 'next';
 import { fetchQuery } from 'react-relay';
-import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
+import AbstractDatoCMSPageProvider from '@symbio/cms-datocms/dist/providers/DatoCMSPageProvider';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
 import * as d from '../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../relay/__generated__/pageListQuery.graphql';
@@ -12,11 +12,13 @@ import { AppData } from '@symbio/cms';
 import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '@symbio/headless/dist/lib/blocks/getStaticParamsFromBlocks';
 import providers from './index';
-import { BlockType } from '@symbio/headless/types/block';
+import { BlockType } from '@symbio/headless/dist/types/block';
 import { PageProps } from '../types/page';
 import { WebSettingsProps } from '../types/webSettings';
+import { Providers } from '../types/providers';
+import { Locale } from '../types/locale';
 
-class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery> {
+class PageProvider extends AbstractDatoCMSPageProvider<d.pageDetailQuery, l.pageListQuery> {
     /**
      * Special function returning Page and Site data
      * @param locale
@@ -39,7 +41,7 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
 
     async getStaticPaths(
         locale: string | undefined,
-        blocks: Record<string, BlockType<PageProps, WebSettingsProps>>,
+        blocks: Record<string, BlockType<PageProps, WebSettingsProps, Providers, Locale>>,
     ): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
@@ -68,7 +70,7 @@ class PageProvider extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageList
                     }
                     const url = page.url;
                     if (url && blocks && locale) {
-                        const blocksParams = await getStaticParamsFromBlocks(page.content, locale, providers, blocks);
+                        const blocksParams = await getStaticParamsFromBlocks<PageProps, WebSettingsProps>(page.content, locale, providers, blocks);
                         if (blocksParams.length > 0) {
                             for (const blockParams of blocksParams) {
                                 let newUrl = url;
