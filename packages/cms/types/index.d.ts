@@ -47,8 +47,6 @@ export interface Provider {
     getId: () => string;
     getApiKey: () => string;
     getStaticPaths: (locale: string, blocks?: Record<string, any>) => Promise<GetStaticPathsResult['paths']>;
-    find: <T = BaseRecord>(params: FindParams) => Promise<FindResponse<T>>;
-    findOne: <T extends BaseRecord = BaseRecord>(options: FindOneParams | FindParams) => Promise<CmsItem<T> | null>;
 }
 
 export interface PageProvider<P extends BasePage, W> extends Provider {
