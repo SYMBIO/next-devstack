@@ -1,6 +1,6 @@
 {
     "name": "@symbio/headless",
-    "version": "1.0.0-canary.44",
+    "version": "1.0.0-canary.45",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -27,7 +27,7 @@
         "node": ">=14.0.0"
     },
     "dependencies": {
-        "@symbio/cms": "1.0.0-canary.44",
+        "@symbio/cms": "1.0.0-canary.45",
         "dayjs": "^1.10.4",
         "hls.js": "^1.0.2",
         "html-react-parser": "^1.2.6",
