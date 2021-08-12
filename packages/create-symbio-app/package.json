@@ -22,8 +22,7 @@
     "scripts": {
         "dev": "ncc build ./index.ts -w -o dist/",
         "prerelease": "rimraf ./dist/",
-        "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
-        "prepublish": "npm run release"
+        "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register"
     },
     "engines": {
         "node": ">=14.0.0"
