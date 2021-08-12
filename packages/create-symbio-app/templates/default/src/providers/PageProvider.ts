@@ -1,6 +1,6 @@
 import { GetStaticPathsResult } from 'next';
 import { fetchQuery } from 'react-relay';
-import AbstractDatoCMSPageProvider from '@symbio/cms-datocms/dist/providers/DatoCMSPageProvider';
+import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
 import { pageDetailQuery, pageListQuery, pageStaticPathsQuery } from '../relay/page';
 import * as d from '../relay/__generated__/pageDetailQuery.graphql';
 import * as l from '../relay/__generated__/pageListQuery.graphql';
@@ -8,7 +8,7 @@ import * as s from '../relay/__generated__/pageStaticPathsQuery.graphql';
 import { appQuery, SiteLocale } from '../relay/__generated__/appQuery.graphql';
 import { AppQuery } from '../relay/app';
 import { getPagePattern } from '@symbio/headless/dist/lib/routing/getPagePattern';
-import { AppData } from '@symbio/cms';
+import { AppData, PageProvider as PageProviderProps } from '@symbio/cms';
 import { ParsedUrlQuery } from 'querystring';
 import { getStaticParamsFromBlocks } from '@symbio/headless/dist/lib/blocks/getStaticParamsFromBlocks';
 import providers from './index';
@@ -18,7 +18,9 @@ import { WebSettingsProps } from '../types/webSettings';
 import { Providers } from '../types/providers';
 import { Locale } from '../types/locale';
 
-class PageProvider extends AbstractDatoCMSPageProvider<d.pageDetailQuery, l.pageListQuery> {
+class PageProvider
+    extends AbstractDatoCMSProvider<d.pageDetailQuery, l.pageListQuery>
+    implements PageProviderProps<PageProps, WebSettingsProps> {
     /**
      * Special function returning Page and Site data
      * @param locale
@@ -70,7 +72,12 @@ class PageProvider extends AbstractDatoCMSPageProvider<d.pageDetailQuery, l.page
                     }
                     const url = page.url;
                     if (url && blocks && locale) {
-                        const blocksParams = await getStaticParamsFromBlocks<PageProps, WebSettingsProps>(page.content, locale, providers, blocks);
+                        const blocksParams = await getStaticParamsFromBlocks<
+                            PageProps,
+                            WebSettingsProps,
+                            Providers,
+                            Locale
+                        >(page.content, locale, providers, blocks);
                         if (blocksParams.length > 0) {
                             for (const blockParams of blocksParams) {
                                 let newUrl = url;
