@@ -43,7 +43,7 @@ class PageProvider
 
     async getStaticPaths(
         locale: string | undefined,
-        blocks: Record<string, BlockType<PageProps, WebSettingsProps, Providers, Locale>>,
+        blocks?: Record<string, BlockType<PageProps, WebSettingsProps, Providers, Locale>>,
     ): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
