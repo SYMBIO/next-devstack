@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms-datocms",
-    "version": "1.0.0-canary.49",
+    "version": "1.0.0-canary.50",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -28,8 +28,8 @@
     },
     "dependencies": {
         "@elastic/elasticsearch": "^7.13.0",
-        "@symbio/cms": "1.0.0-canary.49",
-        "@symbio/headless": "1.0.0-canary.49",
+        "@symbio/cms": "1.0.0-canary.50",
+        "@symbio/headless": "1.0.0-canary.50",
         "axios": "^0.21.1",
         "core-js": "^3.14.0",
         "datocms-client": "^3.4.10",
