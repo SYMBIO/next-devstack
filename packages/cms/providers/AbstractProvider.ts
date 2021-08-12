@@ -53,7 +53,7 @@ export default abstract class AbstractProvider implements Provider {
         }
     }
 
-    abstract find<T = BaseRecord>(options: FindParams): Promise<FindResponse<T>>;
+    abstract find<T extends BaseRecord = BaseRecord>(options: FindParams): Promise<FindResponse<T>>;
 
     /**
      * Transform find results into array of items

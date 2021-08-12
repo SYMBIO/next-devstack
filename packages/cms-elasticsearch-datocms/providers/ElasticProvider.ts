@@ -16,7 +16,7 @@ import {
 export default abstract class ElasticProvider<
     TOne extends OneOperationType,
     TFind extends FindOperationType,
-    TItem extends BaseRecord = BaseRecord,
+    TItem extends BaseRecord = BaseRecord
 > extends DatoCMSProvider<TOne, TFind> {
     /**
      * Find items by querying elastic search

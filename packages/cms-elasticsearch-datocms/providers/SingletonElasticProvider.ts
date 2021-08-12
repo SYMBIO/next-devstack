@@ -6,7 +6,7 @@ import getElastic from '../elastic';
 
 export default abstract class SingletonElasticProvider<
     TOperation extends SingletonOperationType,
-    TItem extends BaseRecord = BaseRecord,
+    TItem extends BaseRecord = BaseRecord
 > extends SingletonDatoCMSProvider<TOperation> {
     /**
      * Get item from elastic search
