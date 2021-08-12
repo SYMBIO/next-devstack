@@ -28,9 +28,9 @@
     },
     "dependencies": {
         "@react-google-maps/api": "^2.1.1",
-        "@symbio/cms": "^1.0.0-canary.51",
-        "@symbio/cms-datocms": "^1.0.0-canary.51",
-        "@symbio/headless": "^1.0.0-canary.51",
+        "@symbio/cms": "^1.0.0-canary.52",
+        "@symbio/cms-datocms": "^1.0.0-canary.52",
+        "@symbio/headless": "^1.0.0-canary.52",
         "axios": "^0.21.1",
         "busboy": "^0.3.1",
         "clsx": "^1.1.1",
