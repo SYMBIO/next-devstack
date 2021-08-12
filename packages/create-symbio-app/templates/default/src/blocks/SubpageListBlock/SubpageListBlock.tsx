@@ -76,7 +76,8 @@ if (typeof window === 'undefined') {
         block,
         providers,
     }: StaticBlockContext<PageProps, WebSettingsProps, Providers, Locale>): Promise<ServerProps> => {
-        const parentId: string = block.page?.id || page?.id;
+        const parentId: string =
+            (block && block.__typename === 'SubpageListBlockRecord' ? block.page?.id || page?.id : '') ?? '';
 
         if (page?.id) {
             const result = await providers.page.find({

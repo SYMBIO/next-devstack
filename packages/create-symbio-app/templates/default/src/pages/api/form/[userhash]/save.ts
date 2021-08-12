@@ -6,9 +6,9 @@ import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 import { Mandrill } from 'mandrill-api';
 // import { createRelayEnvironment } from '../../../../../../../../../src/lib/relay/createRelayEnvironment';
-// import { formQuery } from '../../../src/relay/api/form/[id]/save';
+// import { formQuery } from '../../../src/relay/api/form/[userhash]/save';
 // import { getSiteLocale } from '../../../../../../../../../src/lib/routing/getSiteLocale';
-// import { saveFormQuery, saveFormQueryResponse } from '../../../relay/api/form/[id]/__generated__/saveFormQuery.graphql';
+// import { saveFormQuery, saveFormQueryResponse } from '../../../relay/api/form/[userhash]/__generated__/saveFormQuery.graphql';
 import symbio from '../../../../../symbio.config.json';
 
 dotenv.config();

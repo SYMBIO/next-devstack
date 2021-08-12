@@ -9,7 +9,7 @@ export type BlocksPropsMap = Record<string, unknown>;
 export interface StaticBlockContext<P extends BasePage, W, PR, L> {
     locale: L;
     page?: BasePage;
-    block?: NonNullable<BasePage['content']>[number];
+    block?: NonNullable<P['content']>[number];
     providers: PR;
     blocks: Record<string, BlockType<P, W, PR, L>>;
     context: GetStaticPropsContext;

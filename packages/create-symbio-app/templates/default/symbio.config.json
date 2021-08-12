@@ -28,7 +28,6 @@
     },
     "tz": "Europe/Prague",
     "datocms": {
-        "domain": "",
-        "pageTypeId": ""
+        "domain": ""
     }
 }

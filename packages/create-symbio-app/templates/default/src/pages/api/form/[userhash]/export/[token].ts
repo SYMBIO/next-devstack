@@ -2,10 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import dayjs from 'dayjs';
 import timeZone from 'dayjs/plugin/timezone';
 // import { createRelayEnvironment } from '../../../../../../../../../../src/lib/relay/createRelayEnvironment';
-// import { formQuery } from '../../../../../../../../../../src/relay/api/form/[id]/save';
-// import { saveFormQuery } from '../../../../../../../../../../src/relay/api/form/[id]/__generated__/saveFormQuery.graphql';
-// import { exportFormQuery } from '../../../../../../../../../../src/relay/api/form/[id]/export/[token]';
-// import { TokenExportFormQuery } from '../../../../../../../../../../src/relay/api/form/[id]/export/__generated__/TokenExportFormQuery.graphql';
+// import { formQuery } from '../../../../../../../../../../src/relay/api/form/[userhash]/save';
+// import { saveFormQuery } from '../../../../../../../../../../src/relay/api/form/[userhash]/__generated__/saveFormQuery.graphql';
+// import { exportFormQuery } from '../../../../../../../../../../src/relay/api/form/[userhash]/export/[token]';
+// import { TokenExportFormQuery } from '../../../../../../../../../../src/relay/api/form/[userhash]/export/__generated__/TokenExportFormQuery.graphql';
 
 dayjs.extend(timeZone);
 

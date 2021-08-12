@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import Logo from '../../../../public/svg/symbio.svg';
 import symbio from '../../../../symbio.config.json';
+import models from '../../../models.json';
 import { Link } from '../Link/Link';
 import styles from './PreviewToolbar.module.scss';
 
@@ -37,7 +38,7 @@ export const PreviewToolbar = ({ page, item }: PreviewToolbarProps): ReactElemen
                 <Status status={page._status} />
                 {page.title}
                 <Link
-                    href={`https://${datocms.domain}/editor/item_types/${datocms.pageTypeId}/items/${page.id}/edit`}
+                    href={`https://${datocms.domain}/editor/item_types/${models.page}/items/${page.id}/edit`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.edit}
