@@ -21,7 +21,9 @@
     "devDependencies": {
         "@babel/cli": "^7.14.3",
         "@babel/core": "^7.14.3",
+        "@elastic/elasticsearch": "^7.12.0",
         "@symbio/cms": "1.0.0-canary.54",
+        "@symbio/cms-datocms": "1.0.0-canary.54",
         "@symbio/headless": "1.0.0-canary.54",
         "@types/jest": "^26.0.23",
         "@types/node": "^15.12.2",
