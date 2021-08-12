@@ -1,16 +1,17 @@
-import { ParsedUrlQuery } from 'querystring';
+import { GetStaticPathsResult } from 'next';
 import React, { ReactElement } from 'react';
 import graphql from 'graphql-tag';
 import { newsDetailQueryResponse } from '../../relay/__generated__/newsDetailQuery.graphql';
-import { StaticBlockContext } from '@symbio/headless/types/block';
+import { StaticBlockContext } from '@symbio/headless/dist/types/block';
 import getId from '@symbio/headless/dist/utils/getId';
 import styles from './NewsDetailBlock.module.scss';
-import { Providers } from '@symbio/cms';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { NewsDetail } from '../../components/blocks/NewsDetail/NewsDetail';
 import { PageProps } from '../../types/page';
 import { WebSettingsProps } from '../../types/webSettings';
 import symbio from '../../../symbio.config.json';
+import { Providers } from '../../types/providers';
+import { Locale } from '../../types/locale';
 
 type ServerProps = newsDetailQueryResponse;
 
@@ -43,8 +44,8 @@ function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<NewsDetai
 if (typeof window === 'undefined') {
     NewsDetailBlock.getStaticPaths = async (
         locale: string | undefined,
-        providers: Providers<PageProps, WebSettingsProps>,
-    ): Promise<ParsedUrlQuery[]> => {
+        providers: Providers,
+    ): Promise<GetStaticPathsResult['paths']> => {
         const provider = providers.news;
         return provider.getStaticPaths(locale || symbio.i18n.defaultLocale);
     };
@@ -53,7 +54,7 @@ if (typeof window === 'undefined') {
         locale,
         context: { params },
         providers,
-    }: StaticBlockContext<PageProps, WebSettingsProps>): Promise<ServerProps> => {
+    }: StaticBlockContext<PageProps, WebSettingsProps, Providers, Locale>): Promise<ServerProps> => {
         if (!params || !params.slug) {
             const err = new Error('Page not found') as Error & { code: string };
             err.code = 'ENOENT';
@@ -68,7 +69,7 @@ if (typeof window === 'undefined') {
             throw err;
         }
 
-        const item = (await providers.news.findOne(id, locale)) as newsDetailQueryResponse['item'];
+        const item = (await providers.news.findOne({ id, locale })) as newsDetailQueryResponse['item'];
 
         return {
             item,

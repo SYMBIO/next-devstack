@@ -21,11 +21,20 @@ export async function getStaticParamsFromBlocks<P extends BasePage, W, PR, L>(
             if (blk && blk.getStaticPaths) {
                 const newParams = await blk.getStaticPaths(locale, providers);
                 if (blockParams.length === 0) {
-                    blockParams.push(...newParams);
+                    blockParams.push(
+                        ...newParams.reduce<ParsedUrlQuery[]>((acc, curr) => {
+                            if (typeof curr !== 'string') {
+                                acc.push(curr.params);
+                            }
+                            return acc;
+                        }, []),
+                    );
                 } else {
                     blockParams = blockParams.reduce((acc: ParsedUrlQuery[], val) => {
                         for (const newParam of newParams) {
-                            acc.push({ ...val, ...newParam });
+                            if (typeof newParam !== 'string') {
+                                acc.push({ ...val, ...newParam.params });
+                            }
                         }
                         return acc;
                     }, []);

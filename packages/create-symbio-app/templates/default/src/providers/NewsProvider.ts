@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { ParsedUrlQuery } from 'querystring';
 import { fetchQuery } from 'react-relay';
+import { GetStaticPathsResult } from 'next';
 import AbstractDatoCMSProvider from '@symbio/cms-datocms/dist/providers/DatoCMSProvider';
 import { newsDetailQuery, newsListQuery, newsStaticPathsQuery } from '../relay/news';
 import * as d from '../relay/__generated__/newsDetailQuery.graphql';
@@ -13,7 +14,7 @@ class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsList
         return { dateFrom: { lte: dayjs().format() }, slug: { neq: 'null' }, title: { exists: true } };
     }
 
-    async getStaticPaths(locale: string): Promise<ParsedUrlQuery[]> {
+    async getStaticPaths(locale: string): Promise<GetStaticPathsResult['paths']> {
         const params: ParsedUrlQuery[] = [];
 
         const data = await fetchQuery<s.newsStaticPathsQuery>(this.getEnvironment(false), newsStaticPathsQuery, {
@@ -28,7 +29,10 @@ class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsList
             }
         }
 
-        return params;
+        return params.map((p) => ({
+            params: p,
+            locale,
+        }));
     }
 }
 

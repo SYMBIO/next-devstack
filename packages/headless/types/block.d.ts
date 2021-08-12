@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { GetStaticPropsContext, NextComponentType } from 'next';
+import { GetStaticPropsContext, NextComponentType, GetStaticPathsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { BasePage } from '@symbio/cms';
 
@@ -39,10 +39,10 @@ export type BlockGetStaticProps<
     Q extends ParsedUrlQuery = ParsedUrlQuery
 > = (ctx: StaticBlockContext<Page, W, PR, L>) => Promise<P>;
 
-export type BlockGetStaticPaths<PR, L, P extends ParsedUrlQuery = ParsedUrlQuery> = (
+export type BlockGetStaticPaths<PR, L, P extends GetStaticPathsResult['paths'] = GetStaticPathsResult['paths']> = (
     locale: L,
     providers: PR,
-) => Promise<P[]>;
+) => Promise<P>;
 
 export declare type BlockType<P extends BasePage, W, PR, L> = NextComponentType<
     ServerSideBlockContext<P, W, PR, L>,

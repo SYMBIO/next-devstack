@@ -2,7 +2,7 @@
  * Import blocks which should be included in SSR
  */
 import dynamic from 'next/dynamic';
-import { BlockType } from '@symbio/headless/types/block';
+import { BlockType } from '@symbio/headless/dist/types/block';
 import graphql from 'graphql-tag';
 import ButtonBlock from './ButtonBlock/ButtonBlock';
 import CarouselBlock from './CarouselBlock/CarouselBlock';
@@ -20,6 +20,8 @@ import VideoBlock from './VideoBlock/VideoBlock';
 import YoutubeVimeoBlock from './YoutubeVimeoBlock/YoutubeVimeoBlock';
 import { WebSettingsProps } from '../types/webSettings';
 import { PageProps } from '../types/page';
+import { Providers } from '../types/providers';
+import { Locale } from '../types/locale';
 
 graphql`
     fragment blocksContent on PageModelContentField {
@@ -40,7 +42,7 @@ graphql`
     }
 `;
 
-const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps> } =
+const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps, Providers, Locale> } =
     process.env.NODE_ENV === 'production'
         ? {
               ButtonBlock: dynamic(() => import('./ButtonBlock/ButtonBlock')),

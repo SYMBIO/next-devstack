@@ -1,7 +1,7 @@
 /**
  * Import blocks which should be included in SSR
  */
-import { BlockType } from '@symbio/headless/types/block';
+import { BlockType } from '@symbio/headless/dist/types/block';
 
 import ButtonBlock from './ButtonBlock/ButtonBlock';
 import CarouselBlock from './CarouselBlock/CarouselBlock';
@@ -24,6 +24,8 @@ import YoutubeVimeoBlock from './YoutubeVimeoBlock/YoutubeVimeoBlock';
 import graphql from 'graphql-tag';
 import { PageProps } from '../types/page';
 import { WebSettingsProps } from '../types/webSettings';
+import { Providers } from '../types/providers';
+import { Locale } from '../types/locale';
 
 graphql`
     fragment serverBlocksContent on PageModelContentField {
@@ -44,7 +46,7 @@ graphql`
     }
 `;
 
-const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps> } = {
+const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps, Providers, Locale> } = {
     ButtonBlock,
     CarouselBlock,
     CmsFormBlock,
