@@ -2,21 +2,20 @@
 
 .wrapper {
     grid-column: 1 / span 6;
-    display: block;
 
-    @include mobile-landscape {
+    @include from-mobile-landscape {
         grid-column: 2 / span 4;
     }
 
-    @include tablet {
+    @include from-tablet {
         grid-column: 3 / span 8;
     }
 
-    @include tablet-landscape {
+    @include from-tablet-landscape {
         grid-column: 4 / span 10;
     }
 
-    @include desktop {
+    @include from-desktop {
         grid-column: 5 / span 8;
     }
 

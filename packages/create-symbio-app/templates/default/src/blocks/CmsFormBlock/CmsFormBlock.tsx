@@ -3,7 +3,6 @@ import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { CmsForm } from '../../components/organisms/CmsForm/CmsForm';
 import { CmsFormBlock_content } from './__generated__/CmsFormBlock_content.graphql';
-import styles from './CmsFormBlock.module.scss';
 
 interface CmsFormBlockProps {
     content: CmsFormBlock_content;

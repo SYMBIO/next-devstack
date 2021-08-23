@@ -2,7 +2,6 @@ import React, { DetailedHTMLProps, ReactElement, useEffect, useRef, VideoHTMLAtt
 import { VideoInterface } from '@symbio/cms';
 import capitalize from '@symbio/headless/dist/utils/capitalize';
 import getHLSVideo from '@symbio/headless/dist/utils/getHLSVideo';
-import styles from './UploadedVideo.module.scss';
 
 export interface UploadedVideoI extends DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
     video?: VideoInterface;
@@ -19,12 +18,11 @@ const UploadedVideo = ({ video, objectFit, objectPosition, autoPlay, ...rest }: 
         }
     }, [video, videoRef]);
 
-    const classNames: string[] = [styles.video];
+    const classNames: string[] = ['w-full', 'h-full', 'outline-none'];
     if (objectFit) {
-        if (!objectPosition) {
-            classNames.push(styles[objectFit]);
-        } else {
-            classNames.push(styles[objectPosition + capitalize(objectFit)]);
+        classNames.push('object-' + objectFit);
+        if (objectPosition) {
+            classNames.push('object-' + objectPosition);
         }
     }
 

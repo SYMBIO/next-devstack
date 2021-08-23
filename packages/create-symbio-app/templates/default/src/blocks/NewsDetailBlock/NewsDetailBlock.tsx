@@ -25,7 +25,7 @@ graphql`
 
 function NewsDetailBlock({ item }: NewsDetailBlockProps): ReactElement<NewsDetailBlockProps, 'BaseBlock'> {
     return (
-        <BlockWrapper tooltip={'NewsDetailBlock'} className={styles.wrapper}>
+        <BlockWrapper tooltip={'NewsDetailBlock'} className={`flex-col ${styles.wrapper}`}>
             {item && item.content && (
                 <NewsDetail
                     news={{

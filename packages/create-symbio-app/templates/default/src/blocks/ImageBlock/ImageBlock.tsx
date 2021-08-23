@@ -3,7 +3,6 @@ import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Image } from '../../components/primitives/Image/Image';
 import { ImageBlock_content } from './__generated__/ImageBlock_content.graphql';
-import styles from './ImageBlock.module.scss';
 
 interface ImageBlockProps {
     content: ImageBlock_content;
@@ -24,7 +23,7 @@ function ImageBlock({ content }: ImageBlockProps): ReactElement | null {
     if (image) {
         return (
             <BlockWrapper tooltip={'ImageBlock'}>
-                <div className={styles.imageWrapper}>
+                <div className="flex flex-col justify-center items-center">
                     <Image image={image} />
                 </div>
             </BlockWrapper>

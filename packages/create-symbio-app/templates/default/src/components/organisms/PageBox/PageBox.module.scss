@@ -1,5 +1,3 @@
-@import '../../../styles/functions/rem';
-
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -14,20 +12,20 @@
     height: 100%;
 
     .heading {
-        font-size: rem(22);
+        font-size: 1.5rem;
         line-height: 1.33333;
         font-style: italic;
     }
 }
 
 .heading {
-    font-size: rem(16);
+    font-size: 1rem;
     font-weight: 700;
 }
 
 .box {
-    height: rem(128);
-    padding: rem(24);
+    height: 8rem;
+    padding: 1.5rem;
     border: 1px solid var(--primary);
     transition: all 300ms;
 

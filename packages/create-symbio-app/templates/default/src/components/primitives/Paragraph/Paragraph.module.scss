@@ -1,8 +1,6 @@
-@import "../../../styles/functions/lh";
-
 .paragraph {
     margin-bottom: 2rem;
-    line-height: lh(24, 16);
+    line-height: 1.5;
 
     &:last-child {
         margin-bottom: 0;

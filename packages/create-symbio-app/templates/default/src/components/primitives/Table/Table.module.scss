@@ -1,12 +1,10 @@
-@import "../../../styles/functions/rem";
-
 .table {
   width: 100%;
-  margin-bottom: rem(48);
+  margin-bottom: 3rem;
 }
 
 .table th, .table td {
-  padding: rem(16) rem(24);
+  padding: 1rem 1.5rem;
 }
 
 .table th {

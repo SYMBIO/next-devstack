@@ -3,7 +3,6 @@ import graphql from 'graphql-tag';
 import { BlockWrapper } from '../../components/base/BlockWrapper/BlockWrapper';
 import { Carousel } from '../../components/organisms/Carousel/Carousel';
 import { CarouselBlock_content } from './__generated__/CarouselBlock_content.graphql';
-import styles from './CarouselBlock.module.scss';
 
 interface CarouselBlockProps {
     content: CarouselBlock_content;
@@ -36,8 +35,8 @@ function CarouselBlock({ content, ...rest }: CarouselBlockProps): ReactElement |
     }
 
     return (
-        <BlockWrapper tooltip={'CarouselBlock'} className={styles.wrapper} {...rest}>
-            <Carousel {...content} className={styles.slider} />
+        <BlockWrapper tooltip={'CarouselBlock'} className="w-full p-0 max-h-16-9" {...rest}>
+            <Carousel {...content} />
         </BlockWrapper>
     );
 }

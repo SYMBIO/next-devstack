@@ -1,26 +1,25 @@
-@import "../../styles/mixins/responsive";
+@import '../../styles/mixins/responsive';
 
 .wrapper {
-  grid-column: 1 / span 6;
-  flex-direction: column;
+    grid-column: 1 / span 6;
 
-  @include mobile-landscape {
-    grid-column: 2 / span 4;
-  }
+    @include from-mobile-landscape {
+        grid-column: 2 / span 4;
+    }
 
-  @include tablet {
-    grid-column: 3 / span 8;
-  }
+    @include from-tablet {
+        grid-column: 3 / span 8;
+    }
 
-  @include tablet-landscape {
-    grid-column: 4 / span 10;
-  }
+    @include from-tablet-landscape {
+        grid-column: 4 / span 10;
+    }
 
-  @include desktop {
-    grid-column: 5 / span 8;
-  }
+    @include from-desktop {
+        grid-column: 5 / span 8;
+    }
 
-  @include large-desktop {
-    grid-column: 6 / span 6;
-  }
+    @include large-desktop {
+        grid-column: 6 / span 6;
+    }
 }
