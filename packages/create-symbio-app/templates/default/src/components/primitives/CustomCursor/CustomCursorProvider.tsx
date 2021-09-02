@@ -1,5 +1,4 @@
 import React, { ReactElement, ReactNode, useEffect, useRef, useState, forwardRef } from 'react';
-import styles from './CustomCursorProvider.module.scss';
 // import { CursorContext } from '@symbio/headless/contexts/cursor-context/CursorContext';
 
 interface CustomCursorProviderProps {
@@ -8,7 +7,7 @@ interface CustomCursorProviderProps {
 
 // eslint-disable-next-line react/display-name
 const CustomCursorRenderer = forwardRef<HTMLDivElement, CustomCursorProviderProps>((props, ref) => (
-    <div ref={ref} className={styles.wrapper}>
+    <div ref={ref} className="fixed pointer-events-none z-index-9999">
         {/* eslint-disable-next-line react/prop-types */}
         {props.children}
     </div>

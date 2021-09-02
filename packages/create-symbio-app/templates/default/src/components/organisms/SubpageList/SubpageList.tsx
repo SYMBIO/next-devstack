@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import clsx from 'clsx';
 import styles from './SubpageList.module.scss';
 import { PageBox } from '../PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
@@ -23,11 +22,11 @@ const SubpageList = ({ page, count, items, setPage, pages }: SubpageListProps): 
         {count > 0 && (
             <>
                 {items.map((item, i) => (
-                    <PageBox key={`SubpageListBox-${i}`} page={item} className={styles.box} />
+                    <PageBox key={`SubpageListBox-${i}`} page={item} />
                 ))}
                 {pages && (
                     <Pagination
-                        className={clsx(styles.right, styles.pagination)}
+                        className="justify-end"
                         page={page}
                         total={Math.ceil(count / 10)}
                         callback={(n) => {

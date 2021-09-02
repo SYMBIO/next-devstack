@@ -1,17 +1,5 @@
 .wrapper {
-    position: fixed;
-    z-index: 999999;
-    bottom: 1rem;
-    left: 50%;
-    height: 3rem;
-    background-color: lightgrey;
-    border-radius: 1rem;
-    display: flex;
-    cursor: default !important;
-    transform: translate3d(-50%, 0, 0);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 100;
+    @apply fixed z-9999 bottom-4 h-12 flex text-sm left-1/2 bg-gray-100 rounded-2xl cursor-default transform-gpu -translate-x-1/2 font-sans font-thin;
 
     * {
         cursor: default !important;
@@ -24,77 +12,47 @@
 }
 
 .group {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    border-left: solid 1px #eee;
-    max-height: 3rem;
-}
-
-.group:first-child {
-    border-left: none;
+    @apply flex items-center p-4 max-h-12 border-l border-solid border-gray-500;
+    &:first-child {
+        @apply border-0;
+    }
 }
 
 .logo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 2rem;
-    color: #000;
-    margin: 0.5rem;
+    @apply flex flex-row items-center h-8 text-black m-2;
 
     svg {
-        color: #f60;
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.5rem;
+        @apply text-logo w-8 h-8 mr-2;
     }
 }
 
 .edit {
-    margin-left: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 1rem;
-    padding: 0.2rem 0.5rem;
-    background: #fff;
-
+    @apply ml-4 flex items-center justify-between rounded-2xl px-2 py-1 bg-white;
     svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 0.5rem;
+        @apply w-6 h-6 mr-2;
     }
 }
 
 .status {
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 0.35rem;
-    margin: 0.2rem 0.5rem 0.2rem 0;
+    @apply w-3 h-3 my-1 mr-2 rounded-md;
 
     &.draft {
-        background: #888888;
+        @apply bg-gray-700;
     }
 
     &.published {
-        background: radial-gradient(#00cc00, #00ff00);
-        border: solid 1px #00dd00;
+        @apply bg-green-400 border border-solid border-green-800;
     }
 
     &.updated {
-        background: #ffdd00;
+        @apply bg-red;
     }
 }
 
 .exit {
-    display: flex;
-    align-items: center;
-    height: 100%;
+    @apply flex items-center h-full;
 
     svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 0.5rem;
+        @apply w-6 h-6 mr-2;
     }
 }

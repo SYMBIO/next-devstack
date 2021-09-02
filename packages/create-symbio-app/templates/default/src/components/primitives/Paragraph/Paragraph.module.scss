@@ -1,8 +1,6 @@
 .paragraph {
-    margin-bottom: 2rem;
-    line-height: 1.5;
-
+    @apply mb-8 leading-6;
     &:last-child {
-        margin-bottom: 0;
+        @apply mb-0;
     }
 }

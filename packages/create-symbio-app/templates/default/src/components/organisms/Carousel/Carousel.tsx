@@ -1,10 +1,8 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement, ReactNode } from 'react';
-import clsx from 'clsx';
 import { ImageInterface, VideoInterface } from '@symbio/cms';
 import { Image } from '../../primitives/Image/Image';
 import { VideoComponentProps } from '../Video/Video';
-import styles from './Carousel.module.scss';
 import { RichText } from '../../primitives/RichText/RichText';
 import { Heading } from '../../primitives/Heading/Heading';
 
@@ -52,9 +50,9 @@ export interface CarouselProps {
 
 function getAlign(bannerAlign?: string | null, sliderAlign?: string | null): string {
     if (bannerAlign === 'dědit' || bannerAlign === 'inherit') {
-        return sliderAlign === 'vlevo' || sliderAlign === 'left' ? styles.left : styles.right;
+        return sliderAlign === 'vlevo' || sliderAlign === 'left' ? 'left-0' : 'right-0';
     }
-    return bannerAlign === 'vlevo' || bannerAlign === 'left' ? styles.left : styles.right;
+    return bannerAlign === 'vlevo' || bannerAlign === 'left' ? 'left-0' : 'right-0';
 }
 
 const Video = dynamic<VideoComponentProps>(() => import('../Video/Video').then((mod) => mod.Video));
@@ -69,14 +67,17 @@ const Banner = ({
     textAlign,
     sliderTextAlign,
 }: BannerInterface & { sliderTextAlign: string | null }): ReactElement => (
-    <article className={styles.banner}>
+    <article className="w-full h-full relative bg-black">
         {video ? (
-            <Video video={{ uploadedVideo: video }} autoPlay loop className={styles.video} />
+            <Video video={{ uploadedVideo: video }} autoPlay loop className="w-full h-full object-cover" />
         ) : (
-            image && <Image image={image} layout="fill" className={styles.image} />
+            image && <Image image={image} layout="fill" className="w-full h-full object-cover" />
         )}
-        <div className={[styles.textBox, getAlign(textAlign, sliderTextAlign)].join(' ')}>
-            <Heading tag={'h1'}>{headline}</Heading>
+        <div className={`bg-white bg-opacity-80 absolute p-4 top-1/2 transform -translate-y-1/2 tablet:p-8 ${getAlign(
+            textAlign,
+            sliderTextAlign,
+        )}`}>
+            <Heading tag={'h1'} className="m-4 tablet:m-8 text-2xl tablet:text-3xl">{headline}</Heading>
             {description && <RichText content={description} />}
         </div>
     </article>
@@ -91,7 +92,7 @@ const renderIndicator = (interval: number | null) =>
     ): ReactNode {
         return (
             <li
-                className={clsx(isSelected && styles.selected, styles.indicator)}
+                className="flex my-0 mx-2 flex-row outline-none"
                 onClick={onClickHandler}
                 onKeyDown={onClickHandler}
                 value={index}
@@ -100,9 +101,13 @@ const renderIndicator = (interval: number | null) =>
                 tabIndex={0}
                 aria-label={`${label} ${index + 1}`}
             >
-                <span className={styles.progressHolder}>
+                <span className={`h-2 w-12 rounded-sm overflow-hidden opacity-60 relative bg-secondary ${
+                    isSelected ? 'opacity-100' : ''
+                }`}>
                     <span
-                        className={styles.progress}
+                        className={`absolute w-0 top-0 left-0 h-full bg-red ease-linear transition-width ${
+                            isSelected ? 'w-full' : ''
+                        }`}
                         style={{ transitionDuration: isSelected && interval ? interval + 's' : '0s' }}
                     />
                 </span>
@@ -126,7 +131,7 @@ const Carousel = ({
     } else {
         return (
             <CarouselComponent
-                className={clsx(styles.slider, className)}
+                className={`w-full h-full ${className}`}
                 showArrows={true}
                 autoPlay={autoplay}
                 interval={interval ? interval * 1000 : undefined}

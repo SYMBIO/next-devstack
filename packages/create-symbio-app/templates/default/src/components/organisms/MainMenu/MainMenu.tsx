@@ -13,7 +13,7 @@ function renderMenu(menu: MainMenuType, level = 1): ReactElement {
     return (
         <ul className={styles['menu' + level]}>
             {menu?.links.map((link, i: number) => (
-                <li key={`Mainmenu_${i}`}>
+                <li key={`Mainmenu_${i}`} className="mr-4">
                     {link.__typename === 'PageRecord' && <Link page={link} />}
                     {link.__typename === 'MenuRecord' && renderMenu(link, level + 1)}
                 </li>

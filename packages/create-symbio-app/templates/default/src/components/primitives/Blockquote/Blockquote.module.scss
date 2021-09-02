@@ -1,22 +1,12 @@
 .blockquote {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 1rem;
-    padding-left: 4rem;
-    position: relative;
-    font-style: italic;
-
+    @apply flex flex-row mb-4 pl-16 relative italic;
     &:before {
-        position: absolute;
-        left: 0;
-        top: 0;
-        transform: translate(-25%,-15%);
-        font-size: 5rem;
-        line-height: 1;
+        @apply absolute left-0 top-0 text-7xl;
         content: '”';
+        transform: translate(-25%,-15%);
     }
 
     p + p {
-        margin-top: 1rem;
+        @apply mt-4;
     }
 }

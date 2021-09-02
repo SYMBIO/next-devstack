@@ -20,36 +20,33 @@
     --grid-gap-fullhd: 1.5rem;
 
     --grid-columns: var(--grid-mobile-columns);
-    --grid-column: calc((100% - ((var(--grid-mobile-columns) - 1) * var(--grid-gap-mobile))) / var(--grid-mobile-columns));
+    --grid-column: calc(
+        (100% - ((var(--grid-mobile-columns) - 1) * var(--grid-gap-mobile))) / var(--grid-mobile-columns)
+    );
     --grid-gap: var(--grid-gap-mobile);
     --floor-spacing: 4rem;
     --spacing: 3rem;
-    --navbar-height: 5rem;
 
-    --logo-width: 3rem;
-    --logo-height: 3rem;
-    --white: #fff;
-    --black: #000;
-    --red: #ff0000;
-    --primary: var(--black);
-    --secondary: var(--white);
-    --background: var(--white);
-    --error: var(--error);
     @include from-tablet {
         --grid-columns: var(--grid-tablet-columns);
-        --grid-column: calc((100% - ((var(--grid-tablet-columns) - 1) * var(--grid-gap-tablet))) / var(--grid-tablet-columns));
+        --grid-column: calc(
+            (100% - ((var(--grid-tablet-columns) - 1) * var(--grid-gap-tablet))) / var(--grid-tablet-columns)
+        );
         --grid-gap: var(--grid-gap-tablet);
         --floor-spacing: 5rem;
         --spacing: 3.5rem;
     }
     @include from-desktop {
-        --grid-column: calc((100% - ((var(--grid-tablet-columns) - 1) * var(--grid-gap-desktop))) / var(--grid-tablet-columns));
+        --grid-column: calc(
+            (100% - ((var(--grid-tablet-columns) - 1) * var(--grid-gap-desktop))) / var(--grid-tablet-columns)
+        );
         --grid-gap: var(--grid-gap-desktop);
     }
     @include large-desktop {
         --grid-columns: var(--grid-widescreen-columns);
         --grid-column: calc(
-                (100% - ((var(--grid-widescreen-columns) - 1) * var(--grid-gap-widescreen))) / var(--grid-widescreen-columns)
+            (100% - ((var(--grid-widescreen-columns) - 1) * var(--grid-gap-widescreen))) /
+                var(--grid-widescreen-columns)
         );
         --grid-gap: var(--grid-gap-widescreen);
         --floor-spacing: 12.5rem;
@@ -57,7 +54,9 @@
     }
     @include fullhd {
         --grid-columns: var(--grid-fullhd-columns);
-        --grid-column: calc((100% - ((var(--grid-fullhd-columns) - 1) * var(--grid-gap-fullhd))) / var(--grid-fullhd-columns));
+        --grid-column: calc(
+            (100% - ((var(--grid-fullhd-columns) - 1) * var(--grid-gap-fullhd))) / var(--grid-fullhd-columns)
+        );
         --grid-gap: var(--grid-gap-fullhd);
     }
 }

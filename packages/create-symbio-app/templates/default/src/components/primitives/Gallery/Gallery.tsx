@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { ImageInterface } from '@symbio/cms';
 import { Image } from '../Image/Image';
-import styles from './Gallery.module.scss';
 
 const Lightbox = dynamic(() => import('react-image-lightbox'));
 
@@ -15,7 +14,7 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
     const [active, setActive] = useState(0);
 
     return (
-        <div className={styles.gallery}>
+        <div className="w-full h-80 flex flex-row flex-wrap -ml-4 -mt-4 -mr-4 justify-center">
             {Array.isArray(images) &&
                 images.map((image, index) => (
                     <div
@@ -24,9 +23,9 @@ const Gallery = ({ images }: GalleryProps): JSX.Element => {
                             setIsOpen(true);
                             setActive(index);
                         }}
-                        className={styles.photo}
+                        className="relative m-4 cursor-pointer object-cover flex-grow-0 flex-shrink-0"
                     >
-                        <Image image={image} layout="fill" />
+                        <Image image={image} layout="fill" objectFit="cover" />
                     </div>
                 ))}
             {isOpen && (

@@ -1,48 +1,10 @@
-@import '../../../styles/mixins/responsive';
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin: 2.5rem 0;
-
-    @include mobile-landscape {
-        flex-direction: row;
-        align-items: center;
-    }
-}
-
-.linksList {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1.5rem;
-
-    @include mobile-landscape {
-        margin-left: 5rem;
-        margin-top: 0;
-    }
-}
-
 .linkItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-bottom: 1px solid transparent;
-
+    @apply flex justify-center items-center w-10 h-10 border-b border-solid border-transparent;
     a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        align-self: center;
-        width: 100%;
-        height: 100%;
+        @apply flex justify-center items-center w-full h-full self-center;
     }
 }
 
 .linkItemActive {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
+    @apply text-primary border-primary;
 }

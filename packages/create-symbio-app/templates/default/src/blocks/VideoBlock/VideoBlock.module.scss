@@ -1,15 +1,16 @@
 @import '../../styles/mixins/responsive';
+@import '../../styles/layout';
 
 .wrapper {
-    @include tablet {
-        grid-column: 2 / span 8;
+    @include from-tablet {
+        padding: 0 offsetWidth(1);
     }
 
-    @include tablet-landscape {
-        grid-column: 3 / span 10;
+    @include from-tablet-landscape {
+        padding: 0 offsetWidth(2);
     }
 
     @include large-desktop {
-        grid-column: 5 / span 8;
+        padding: 0 offsetWidth(4);
     }
 }

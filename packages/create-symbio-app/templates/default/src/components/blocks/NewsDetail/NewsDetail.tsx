@@ -5,7 +5,6 @@ import React, { ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 import { newsContentFragment } from '../../../relay/__generated__/newsContentFragment.graphql';
 import { ImageInterface } from '@symbio/cms';
-import styles from './NewsDetail.module.scss';
 import symbio from '../../../../symbio.config.json';
 import { Heading } from '../../primitives/Heading/Heading';
 import { RichText } from '../../primitives/RichText/RichText';
@@ -35,7 +34,7 @@ const NewsDetail = ({ news }: NewsDetailProps): ReactElement => {
     return (
         <>
             <Heading tag={'h1'}>aaa</Heading>
-            <div className={styles.perex}>
+            <div className="text-base italic">
                 {dayjs.tz(String(news.dateFrom), symbio.tz).format()}
                 {news.perex && <RichText content={news.perex} />}
             </div>

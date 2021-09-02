@@ -1,42 +1,23 @@
-@import "../../../styles/mixins/responsive";
-
 .heading {
-    margin: 1rem auto;
+    @apply my-4 mx-auto;
 }
 
 .xl {
-    font-size: 2rem;
-    margin: 2rem auto;
-
-    @include from-tablet {
-        font-size: 4rem;
-    }
+    @apply my-8 text-4xl tablet:text-7xl;
 }
 
 .lg {
-    font-size: 2rem;
-    margin: 1.5rem auto;
-
-    @include from-tablet {
-        font-size: 3rem;
-    }
+    @apply my-6 text-4xl tablet:text-5xl;
 }
 
 .md {
-    font-size: 1.5rem;
-    margin: 1rem auto;
-
-    @include from-tablet {
-        font-size: 2rem;
-    }
+    @apply text-2xl tablet:text-4xl;
 }
 
 .sm {
-    font-size: 1.5rem;
-    margin: 1rem auto;
+    @apply text-2xl;
 }
 
 .xs {
-    font-size: 1rem;
-    margin: 1rem auto;
+    @apply text-base;
 }

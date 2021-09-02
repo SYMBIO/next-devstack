@@ -1,6 +1,5 @@
 import React, { useState, ReactElement } from 'react';
 import parse from 'html-react-parser';
-import styles from './GoogleMap.module.scss';
 import { GoogleMap as GoogleMapComponent, Marker, LoadScript, InfoBox } from '@react-google-maps/api';
 
 export interface GoogleMapProps {
@@ -15,12 +14,12 @@ interface TooltipProps {
     readonly text: string;
 }
 
-export const MapComponent = <div className={styles.map} />;
-export const LoadingComponent = <div className={styles.loading} />;
-export const ContainerComponent = <div className={styles.container} />;
+export const MapComponent = <div className="w-full h-full" />;
+export const LoadingComponent = <div className="w-full h-full" />;
+export const ContainerComponent = <div className="w-full h-96" />;
 
 const TooltipComponent = ({ text }: TooltipProps): ReactElement<TooltipProps, 'div'> | null => (
-    <div className={styles.tooltip}>{parse(text)}</div>
+    <div className="p-4 bg-secondary">{parse(text)}</div>
 );
 
 const GoogleMap = ({
@@ -36,12 +35,12 @@ const GoogleMap = ({
             <LoadScript
                 id="script-loader"
                 googleMapsApiKey={apiKey || ''}
-                loadingElement={<div className={styles.loading} />}
+                loadingElement={<div className="w-full h-full" />}
             >
                 <GoogleMapComponent
                     zoom={8}
                     center={{ lat: latitude, lng: longitude }}
-                    mapContainerClassName={styles.container}
+                    mapContainerClassName="w-full h-full"
                 >
                     {isMarkerShown && (
                         <>

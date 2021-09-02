@@ -1,15 +1,7 @@
 .wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    width: 100%;
+    @apply relative h-0 w-full overflow-hidden pb-16/9;
 }
 
 .iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    @apply absolute top-0 left-0 w-full h-full;
 }

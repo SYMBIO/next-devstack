@@ -1,14 +1,11 @@
 .list {
-    margin-bottom: 3rem;
+    @apply mb-12;
     counter-reset: list;
 
     li {
-        margin-bottom: 1rem;
-        padding-left: 2rem;
-        position: relative;
-
+        @apply mb-4 pl-8 relative;
         &:last-child {
-            margin-bottom: 0;
+            @apply mb-0;
         }
     }
 }
@@ -16,12 +13,7 @@
 .ul {
     li {
         &:before {
-            width: 1rem;
-            height: 1px;
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-            background: #000000;
+            @apply w-px h-px absolute left-0 top-2 bg-black;
             content: '';
         }
     }
@@ -30,10 +22,7 @@
 .ol {
     li {
         &:before {
-            position: absolute;
-            left: 0;
-            top: 1px;
-            color: #000000;
+            @apply absolute left-0 text-black top-px;
             counter-increment: list;
             content: counter(list) '.';
         }

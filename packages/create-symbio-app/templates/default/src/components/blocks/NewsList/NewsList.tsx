@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import dayjs from 'dayjs';
 import Calendar from 'dayjs/plugin/calendar';
-import styles from './NewsList.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { Link } from '../../primitives/Link/Link';
 import { PageProps } from '../../../types/page';
@@ -30,14 +29,14 @@ const NewsList = ({
     dayjs.extend(Calendar);
 
     return (
-        <div className={styles.newsList}>
+        <div className="flex flex-col">
             {headline && (
-                <Heading tag={'h2'} className={styles.headline}>
+                <Heading tag={'h2'} className="mt-0 tablet:mt-8">
                     {headline}
                 </Heading>
             )}
 
-            {/*<ul className={styles.newsList__items}>*/}
+            {/*<ul className="flex p-0 flex-wrap">*/}
             {/*    {Array.isArray(items) &&*/}
             {/*        items.map(*/}
             {/*            (item) =>*/}
@@ -45,9 +44,9 @@ const NewsList = ({
             {/*                newsPage && (*/}
             {/*                    <CustomCursor component={<NewsListCursor />} key={`NewsList_item_${item.id}`}>*/}
             {/*                        {(ref) => (*/}
-            {/*                            <li className={styles.newsList__item} ref={ref}>*/}
+            {/*                            <li className="w-full flex-shrink-0 flex-grow-0 inline-block" ref={ref}>*/}
             {/*                                <Link page={newsPage} params={{ slug: item.id + '-' + item.slug }}>*/}
-            {/*                                    <article>*/}
+            {/*                                    <article className="p-4 tablet:p-8 bg-white">*/}
             {/*                                        <Heading tag={`h3`}>{item.title}</Heading>*/}
             {/*                                        {item.dateFrom && <p>{dayjs(item.dateFrom).calendar()}</p>}*/}
             {/*                                        {item.perex && <RichText content={item.perex} />}*/}

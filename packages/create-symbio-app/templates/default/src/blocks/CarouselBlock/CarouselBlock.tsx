@@ -35,7 +35,7 @@ function CarouselBlock({ content, ...rest }: CarouselBlockProps): ReactElement |
     }
 
     return (
-        <BlockWrapper tooltip={'CarouselBlock'} className="w-full p-0 max-h-16-9" {...rest}>
+        <BlockWrapper tooltip={'CarouselBlock'} className="w-full !p-0 max-h-16-9" {...rest}>
             <Carousel {...content} />
         </BlockWrapper>
     );

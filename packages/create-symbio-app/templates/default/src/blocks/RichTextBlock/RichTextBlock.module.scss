@@ -1,25 +1,26 @@
 @import '../../styles/mixins/responsive';
+@import '../../styles/layout';
 
 .wrapper {
-    grid-column: 1 / span 6;
+    @apply w-full;
 
     @include from-mobile-landscape {
-        grid-column: 2 / span 4;
+        padding: 0 offsetWidth(1);
     }
 
     @include from-tablet {
-        grid-column: 3 / span 8;
+        padding: 0 offsetWidth(2);
     }
 
     @include from-tablet-landscape {
-        grid-column: 4 / span 10;
+        padding: 0 offsetWidth(3);
     }
 
     @include from-desktop {
-        grid-column: 5 / span 8;
+        padding: 0 offsetWidth(4);
     }
 
     @include large-desktop {
-        grid-column: 6 / span 6;
+        padding: 0 offsetWidth(5);
     }
 }

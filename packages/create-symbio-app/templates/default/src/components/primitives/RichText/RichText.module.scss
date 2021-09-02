@@ -1,8 +1,6 @@
 .image {
-    position: relative;
-    height: 56.25vw;
-
+    @apply relative h-56.25vw;
     img {
-        object-fit: cover;
+        @apply object-cover;
     }
 }

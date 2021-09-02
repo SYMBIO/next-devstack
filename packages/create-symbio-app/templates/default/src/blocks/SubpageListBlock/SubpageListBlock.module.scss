@@ -1,13 +1,10 @@
 @import '../../styles/mixins/responsive';
+@import '../../styles/layout';
 
 .wrapper {
-    grid-column: 1 / span 6;
-
-    @include from-mobile-landscape {
-        grid-column: 1 / span 12;
-    }
+    @apply w-full;
 
     @include from-tablet {
-        grid-column: 3 / span 12;
+        padding: 0 offsetWidth(2);
     }
 }

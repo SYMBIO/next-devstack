@@ -1,23 +1,20 @@
 .table {
-  width: 100%;
-  margin-bottom: 3rem;
+    @apply w-full mb-12;
 }
 
-.table th, .table td {
-  padding: 1rem 1.5rem;
+.table th,
+.table td {
+    @apply py-4 px-6;
 }
 
 .table th {
-  color: var(--secondary);
-  line-height: 1.5;
+    @apply text-secondary leading-6;
 }
 
 .table td {
-  border-bottom: 1px solid currentColor;
+    @apply border-b border-solid border-current;
 }
 
 .overflowWrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100%;
+    @apply w-full overflow-x-auto overflow-y-hidden;
 }

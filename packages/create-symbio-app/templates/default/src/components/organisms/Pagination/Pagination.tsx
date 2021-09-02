@@ -47,11 +47,15 @@ const Pagination = ({ className, page = 1, total = 0, callback }: PaginationProp
     }
 
     return (
-        <div className={clsx(styles.wrapper, className)}>
+        <div
+            className={`flex flex-col justify-end my-10 mx-0 mobile-landscape:flex-row mobile-landscape:items-center ${className}`}
+        >
             {/*<Button btnType={'secondary'} small onClick={(): void => console.log('load')}>
                 Načíst další
             </Button>*/}
-            <ul className={styles.linksList}>{renderPagination(page, total, callback)}</ul>
+            <ul className="flex items-center justify-center mt-6 mobile-landscape:mt-0 mobile-landscape:ml-20">
+                {renderPagination(page, total, callback)}
+            </ul>
         </div>
     );
 };

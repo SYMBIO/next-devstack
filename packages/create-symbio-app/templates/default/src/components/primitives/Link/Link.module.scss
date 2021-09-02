@@ -1,8 +1,8 @@
 .wrapper {
-  color: inherit;
-  text-decoration: underline;
+    @apply underline;
+    color: inherit;
 
-  &:hover {
-    text-decoration: none;
-  }
+    &:hover {
+        @apply no-underline;
+    }
 }

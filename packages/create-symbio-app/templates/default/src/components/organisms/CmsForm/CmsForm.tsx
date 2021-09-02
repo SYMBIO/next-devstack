@@ -4,7 +4,6 @@ import React, { ReactElement, useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 import { CmsFormBlock_content } from '../../../blocks/CmsFormBlock/__generated__/CmsFormBlock_content.graphql';
-import styles from './CmsForm.module.scss';
 import trans from '../../../strings';
 import { Input } from '../../primitives/Input/Input';
 import { Paragraph } from '../../primitives/Paragraph/Paragraph';
@@ -77,7 +76,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
                     switch (field.__typename) {
                         case 'SingleLineInputRecord': {
                             return (
-                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
+                                <div key={`Field_${field.id}`}>
                                     <Field
                                         type="text"
                                         name={field.id}
@@ -96,7 +95,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
 
                         case 'CheckboxRecord': {
                             return (
-                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
+                                <div key={`Field_${field.id}`}>
                                     <Field
                                         id={field.id}
                                         type="checkbox"
@@ -118,7 +117,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
 
                         case 'TextareaRecord': {
                             return (
-                                <div className={styles.fieldWrapper} key={`Field_${field.id}`}>
+                                <div key={`Field_${field.id}`}>
                                     <Field type="text" name={field.id} component={Textarea} label={field.label} />
                                 </div>
                             );
@@ -156,7 +155,7 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
 
     if (isSubmitted) {
         return (
-            <div className={styles.success}>
+            <div className="p-3 pr-4">
                 <RichText content={String(form.successMessage)} />
             </div>
         );
@@ -200,9 +199,9 @@ const CmsForm = ({ form }: CmsFormBlock_content): ReactElement => {
             {(helpers: FormikProps<FormValues>): JSX.Element => (
                 <Form action={'/api/saveForm'} method={'post'}>
                     {globalError && (
-                        <div className={styles.globalError}>
+                        <div className="bg-error inline-flex items-center mb-8 p-3 pr-4">
                             {/* <Icon className={styles.alertIcon} name="alert" /> */}
-                            <p>{globalError}</p>
+                            <p className="text-secondary text-xs">{globalError}</p>
                         </div>
                     )}
                     {renderForm(helpers)}

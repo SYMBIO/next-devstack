@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import clsx from 'clsx';
-import styles from './Error404.module.scss';
 import { Heading } from '../../primitives/Heading/Heading';
 import { RichText } from '../../primitives/RichText/RichText';
 
@@ -11,7 +10,7 @@ interface Error404Props {
 }
 
 const Error404 = ({ className, headline, description }: Error404Props): ReactElement => (
-    <div className={clsx(styles.wrapper, className)}>
+    <div className={clsx('flex flex-col w-full h-full justify-center items-center', className)}>
         {headline && <Heading tag={'h1'}>{headline}</Heading>}
         {description && <RichText content={description} />}
     </div>
