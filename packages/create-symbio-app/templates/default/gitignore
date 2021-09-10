@@ -16,8 +16,6 @@ schema.graphql
 /src/schema/graphql.schema.json
 __generated__/
 
-fixtures/
-
 .now/
 
 sitemap.xml

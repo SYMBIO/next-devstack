@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import styles from './SubpageList.module.scss';
-import { PageBox } from '../PageBox/PageBox';
+import { PageBox } from '../../molecules/PageBox/PageBox';
 import { Pagination } from '../Pagination/Pagination';
 
 export interface SubpageListProps {
