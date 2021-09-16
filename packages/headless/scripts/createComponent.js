@@ -20,8 +20,8 @@ process.argv.forEach((val) => {
     }
 });
 
-fs.promises.readFile('./data/componentTemplate/Component.tsx.tpl').then((componentTemplate) => {
-    fs.promises.readFile('./data/componentTemplate/Component.module.scss.tpl').then((scssTemplate) => {
+fs.promises.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.tsx.tpl').then((componentTemplate) => {
+    fs.promises.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.module.scss.tpl').then((scssTemplate) => {
         const createComponentTemplate = async (name, folder) => {
             const dir = `./src/components/${toPascal(folder)}/${toPascal(name)}`;
             try {

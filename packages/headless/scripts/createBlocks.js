@@ -1,7 +1,7 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const models = require('./src/models.json');
+const models = require('../../../../../src/models.json');
 const fs = require('fs');
 
 dotenv.config();
@@ -20,10 +20,10 @@ const toCamel = (s) => {
 };
 
 Promise.all([
-    fs.promises.readFile('../data/blockTemplate/Block.tsx.tpl'),
-    fs.promises.readFile('../data/componentTemplate/Component.tsx.tpl'),
-    fs.promises.readFile('../data/componentTemplate/Component.module.scss.tpl'),
-    fs.promises.readFile('../data/componentTemplate/Component.stories.tsx.tpl'),
+    fs.promises.readFile('node_modules/@symbio/headless/dist/data/blockTemplate/Block.tsx.tpl'),
+    fs.promises.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.tsx.tpl'),
+    fs.promises.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.module.scss.tpl'),
+    fs.promises.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.stories.tsx.tpl'),
 ]).then(([blockTemplate, componentTemplate, scssTemplate, storiesTemplate]) => {
     const createBlockTemplate = async (blockName, componentName, fields) => {
         const dir = `./src/blocks/${blockName}`;

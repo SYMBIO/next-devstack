@@ -20,7 +20,7 @@ process.argv.forEach((val) => {
     }
 });
 
-fs.promises.readFile('./data/storyTemplate/StoryTemplate.tsx.tpl').then((storyTemplate) => {
+fs.promises.readFile('node_modules/@symbio/headless/dist/data/storyTemplate/StoryTemplate.tsx.tpl').then((storyTemplate) => {
     const createStoryTemplate = async (name, folder) => {
         if (folder && name) {
             const dir = `./src/components/${toPascal(folder)}/${toPascal(name)}`;

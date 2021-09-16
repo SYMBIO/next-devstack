@@ -1,7 +1,7 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const models = require('../src/models.json');
+const models = require('../../../../../src/models.json');
 const fs = require('fs');
 
 dotenv.config();
