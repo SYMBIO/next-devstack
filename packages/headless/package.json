@@ -15,7 +15,7 @@
         "utils.d.ts"
     ],
     "scripts": {
-        "build": "rimraf dist && babel -d dist -x .ts,.tsx --ignore dist,node_modules,types ./",
+        "build": "rimraf dist && babel -d dist -x .ts,.tsx,.js --ignore dist,node_modules,types,utils.js ./ && mkdir dist/data && cp -r data/* dist/data/",
         "dev": "concurrently \"tsc --watch --declaration --emitDeclarationOnly --declarationDir dist\" \"babel -d dist --ignore dist,node_modules,types --watch ./\"",
         "prepublish": "npm run build && npm run types",
         "test": "jest",

@@ -1,7 +1,7 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const models = require('../src/models.json');
+const models = require('./src/models.json');
 const fs = require('fs');
 
 dotenv.config();
@@ -20,10 +20,10 @@ const toCamel = (s) => {
 };
 
 Promise.all([
-    fs.promises.readFile('./data/blockTemplate/Block.tsx.tpl'),
-    fs.promises.readFile('./data/componentTemplate/Component.tsx.tpl'),
-    fs.promises.readFile('./data/componentTemplate/Component.module.scss.tpl'),
-    fs.promises.readFile('./data/componentTemplate/Component.stories.tsx.tpl'),
+    fs.promises.readFile('../data/blockTemplate/Block.tsx.tpl'),
+    fs.promises.readFile('../data/componentTemplate/Component.tsx.tpl'),
+    fs.promises.readFile('../data/componentTemplate/Component.module.scss.tpl'),
+    fs.promises.readFile('../data/componentTemplate/Component.stories.tsx.tpl'),
 ]).then(([blockTemplate, componentTemplate, scssTemplate, storiesTemplate]) => {
     const createBlockTemplate = async (blockName, componentName, fields) => {
         const dir = `./src/blocks/${blockName}`;
@@ -153,7 +153,11 @@ Promise.all([
  * Import blocks which should be included in SSR
  */
 import dynamic from 'next/dynamic';
-import { BlockType } from '../types/block';
+import { BlockType } from '@symbio/headless/dist/types/block';
+import { PageProps } from '../types/page';
+import { WebSettingsProps } from '../types/webSettings';
+import { Providers } from '../types/providers';
+import { Locale } from '../types/locale';
 
 /**
  * Define fragment for blocks to load with app data
@@ -176,7 +180,7 @@ ${names
     }
 \`;
 
-const blocks: { [name: string]: BlockType } =
+const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps, Providers, Locale> } =
     process.env.NODE_ENV === 'production'
         ? {
 ${names
@@ -203,7 +207,11 @@ export default blocks;
                     `/**
  * Import blocks which should be included in SSR
  */
-import { BlockType } from '../types/block';
+import { BlockType } from '@symbio/headless/dist/types/block';
+import { PageProps } from '../types/page';
+import { WebSettingsProps } from '../types/webSettings';
+import { Providers } from '../types/providers';
+import { Locale } from '../types/locale';
 
 ${names.map(([name]) => `import ${name} from './${name}/${name}';`).join('\n')}
 
@@ -222,7 +230,7 @@ ${names
     }
 \`;
 
-const blocks: { [name: string]: BlockType } = {
+const blocks: { [name: string]: BlockType<PageProps, WebSettingsProps, Providers, Locale> } = {
 ${names.map(([name]) => `    ${name},`).join('\n')}
 };
 

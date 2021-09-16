@@ -8,6 +8,8 @@ import * as d from '../relay/__generated__/newsDetailQuery.graphql';
 import * as l from '../relay/__generated__/newsListQuery.graphql';
 import * as s from '../relay/__generated__/newsStaticPathsQuery.graphql';
 import { SiteLocale } from '../relay/__generated__/appQuery.graphql';
+import symbio from '../../symbio.config.json';
+import models from '../models.json';
 
 class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsListQuery> {
     getFilterParams(): Record<string, Record<string, string | boolean>> {
@@ -37,7 +39,7 @@ class NewsProvider extends AbstractDatoCMSProvider<d.newsDetailQuery, l.newsList
 }
 
 export default new NewsProvider(newsDetailQuery, newsListQuery, {
-    id: '208392',
-    locales: ['cs', 'en'],
+    id: models['news'],
+    locales: symbio.i18n.locales,
     apiKey: 'news',
 });

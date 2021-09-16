@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Logger } from '../src/services';
+import { Logger } from '../services';
 
 const fs = require('fs');
 

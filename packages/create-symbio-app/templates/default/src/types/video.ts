@@ -6,6 +6,7 @@ export interface VideoProps {
         readonly thumbnailUrl: string | null;
         readonly title: string | null;
         readonly width: number | null;
+        readonly url: string | null;
     } | null;
     readonly uploadedVideo?: {
         readonly id: string;

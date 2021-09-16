@@ -18,43 +18,15 @@ export const AppQuery = graphql`
 `;
 
 graphql`
-    fragment appImageBaseFragment on FileField {
-        id
+    fragment appImageFragment on FileField {
         url
         width
         height
         alt
         title
-    }
-`;
-
-graphql`
-    fragment appResponsiveImageFragment on ResponsiveImage {
-        # HTML5 src/srcset/sizes attributes
-        srcSet
-        webpSrcSet
-        sizes
-        src
-
-        # size information (post-transformations)
-        width
-        height
-        aspectRatio
-
-        # SEO attributes
-        alt
-        title
-
-        # blur-up placeholder, JPEG format, base64-encoded
-        base64
-    }
-`;
-
-graphql`
-    fragment appImageFragment on FileField {
-        ...appImageBaseFragment @relay(mask: false)
-        responsiveImage {
-            ...appResponsiveImageFragment @relay(mask: false)
+        focalPoint {
+            x
+            y
         }
     }
 `;
@@ -68,5 +40,44 @@ graphql`
             streamingUrl
             thumbnailUrl
         }
+    }
+`;
+
+graphql`
+    fragment appFileFragment on FileField {
+        id
+        title
+        url
+        filename
+        format
+        size
+        customData
+    }
+`;
+
+graphql`
+    fragment appRouteFragment on RouteRecord {
+        id
+        label
+        title
+        object {
+            __typename
+            ... on PageRecord {
+                id
+                title
+                url
+            }
+            ... on NewsRecord {
+                id
+                title
+                slug
+            }
+        }
+        file {
+            url
+        }
+        url
+        isTargetBlank
+        parameters
     }
 `;
