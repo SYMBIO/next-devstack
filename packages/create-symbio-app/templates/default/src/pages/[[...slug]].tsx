@@ -27,6 +27,10 @@ const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
 );
 
+const GridHelper = dynamic<unknown>(() =>
+    import('../components/primitives/GridHelper/GridHelper').then((mod) => mod.GridHelper),
+);
+
 const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => {
     const { hostname, site, page, webSetting, blocksPropsMap, preview } = props;
     const { gtm, tz } = symbio;
@@ -77,6 +81,7 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
             </Layout>
 
             {preview && page && <PreviewToolbar page={page} item={item} />}
+            {preview && <GridHelper />}
 
             {gtm.code && (
                 <noscript
