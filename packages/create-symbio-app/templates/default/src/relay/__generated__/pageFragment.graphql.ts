@@ -74,12 +74,15 @@ export type pageFragment = {
         readonly banners: ReadonlyArray<{
             readonly id: string;
             readonly image: {
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             } | null;
             readonly video: {
                 readonly id: string;
@@ -145,23 +148,29 @@ export type pageFragment = {
         readonly __typename: "GalleryBlockRecord";
         readonly id: string;
         readonly assets: ReadonlyArray<{
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
+            } | null;
         }>;
     } | {
         readonly __typename: "ImageBlockRecord";
         readonly id: string;
         readonly image: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
+            } | null;
         } | null;
     } | {
         readonly __typename: "MapBlockRecord";
@@ -320,7 +329,6 @@ v11 = {
   "storageKey": null
 },
 v12 = [
-  (v0/*: any*/),
   (v1/*: any*/),
   (v10/*: any*/),
   (v11/*: any*/),
@@ -331,7 +339,32 @@ v12 = [
     "name": "alt",
     "storageKey": null
   },
-  (v2/*: any*/)
+  (v2/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "focalPoint",
+    "kind": "LinkedField",
+    "name": "focalPoint",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "x",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "y",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
 ],
 v13 = {
   "alias": null,

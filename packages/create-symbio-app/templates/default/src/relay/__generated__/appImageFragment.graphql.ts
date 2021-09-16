@@ -5,23 +5,14 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type appImageFragment = {
-    readonly id: string;
     readonly url: string;
     readonly width: number | null;
     readonly height: number | null;
     readonly alt: string | null;
     readonly title: string | null;
-    readonly responsiveImage: {
-        readonly srcSet: string;
-        readonly webpSrcSet: string;
-        readonly sizes: string;
-        readonly src: string;
-        readonly width: number;
-        readonly height: number;
-        readonly aspectRatio: number;
-        readonly alt: string | null;
-        readonly title: string | null;
-        readonly base64: string | null;
+    readonly focalPoint: {
+        readonly x: number | null;
+        readonly y: number | null;
     } | null;
     readonly " $refType": "appImageFragment";
 };
@@ -33,36 +24,7 @@ export type appImageFragment$key = {
 
 
 
-const node: ReaderFragment = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "height",
-  "storageKey": null
-},
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-};
-return {
+const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
@@ -72,72 +34,57 @@ return {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "id",
+      "name": "url",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "url",
+      "name": "width",
       "storageKey": null
     },
-    (v0/*: any*/),
-    (v1/*: any*/),
-    (v2/*: any*/),
-    (v3/*: any*/),
     {
       "alias": null,
       "args": null,
-      "concreteType": "ResponsiveImage",
+      "kind": "ScalarField",
+      "name": "height",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "alt",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "title",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "focalPoint",
       "kind": "LinkedField",
-      "name": "responsiveImage",
+      "name": "focalPoint",
       "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "srcSet",
+          "name": "x",
           "storageKey": null
         },
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "webpSrcSet",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "sizes",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "src",
-          "storageKey": null
-        },
-        (v0/*: any*/),
-        (v1/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "aspectRatio",
-          "storageKey": null
-        },
-        (v2/*: any*/),
-        (v3/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "base64",
+          "name": "y",
           "storageKey": null
         }
       ],
@@ -147,6 +94,5 @@ return {
   "type": "FileField",
   "abstractKey": null
 };
-})();
-(node as any).hash = '4d3450431ee3f4ef107ae906201644ff';
+(node as any).hash = '862eccdcbbc3304ade262ab7420a5afd';
 export default node;

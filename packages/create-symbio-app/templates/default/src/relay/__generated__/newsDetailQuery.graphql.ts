@@ -146,23 +146,14 @@ export type newsDetailQueryResponse = {
         }>;
         readonly perex: string | null;
         readonly image: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
             } | null;
         } | null;
         readonly category: {
@@ -178,23 +169,29 @@ export type newsDetailQueryResponse = {
             readonly __typename: "GalleryBlockRecord";
             readonly id: string;
             readonly assets: ReadonlyArray<{
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             }>;
         } | {
             readonly __typename: "ImageBlockRecord";
             readonly id: string;
             readonly image: {
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             } | null;
         } | {
             readonly __typename: "MapBlockRecord";
@@ -265,23 +262,14 @@ query newsDetailQuery(
     }
     perex
     image {
-      id
       url
       width
       height
       alt
       title
-      responsiveImage {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
+      focalPoint {
+        x
+        y
       }
     }
     category {
@@ -299,23 +287,29 @@ query newsDetailQuery(
       ... on GalleryBlockRecord {
         id
         assets {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on ImageBlockRecord {
         id
         image {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on MapBlockRecord {
@@ -455,105 +449,71 @@ v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "url",
+  "name": "width",
   "storageKey": null
 },
 v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v11 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "height",
   "storageKey": null
 },
+v11 = [
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "url",
+    "storageKey": null
+  },
+  (v9/*: any*/),
+  (v10/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "alt",
+    "storageKey": null
+  },
+  (v5/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "focalPoint",
+    "kind": "LinkedField",
+    "name": "focalPoint",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "x",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "y",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+],
 v12 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v13 = {
   "alias": null,
   "args": null,
   "concreteType": "FileField",
   "kind": "LinkedField",
   "name": "image",
   "plural": false,
-  "selections": [
-    (v3/*: any*/),
-    (v9/*: any*/),
-    (v10/*: any*/),
-    (v11/*: any*/),
-    (v12/*: any*/),
-    (v5/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "ResponsiveImage",
-      "kind": "LinkedField",
-      "name": "responsiveImage",
-      "plural": false,
-      "selections": [
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "srcSet",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "webpSrcSet",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "sizes",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "src",
-          "storageKey": null
-        },
-        (v10/*: any*/),
-        (v11/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "aspectRatio",
-          "storageKey": null
-        },
-        (v12/*: any*/),
-        (v5/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "base64",
-          "storageKey": null
-        }
-      ],
-      "storageKey": null
-    }
-  ],
+  "selections": (v11/*: any*/),
   "storageKey": null
 },
-v14 = {
+v13 = {
   "alias": null,
   "args": null,
   "concreteType": "NewsCategoryRecord",
@@ -567,7 +527,7 @@ v14 = {
   ],
   "storageKey": null
 },
-v15 = {
+v14 = {
   "alias": null,
   "args": null,
   "concreteType": "CustomTagRecord",
@@ -580,22 +540,14 @@ v15 = {
   ],
   "storageKey": null
 },
-v16 = {
+v15 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v17 = [
-  (v3/*: any*/),
-  (v9/*: any*/),
-  (v10/*: any*/),
-  (v11/*: any*/),
-  (v12/*: any*/),
-  (v5/*: any*/)
-],
-v18 = {
+v16 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -606,32 +558,23 @@ v18 = {
       "kind": "LinkedField",
       "name": "assets",
       "plural": true,
-      "selections": (v17/*: any*/),
+      "selections": (v11/*: any*/),
       "storageKey": null
     }
   ],
   "type": "GalleryBlockRecord",
   "abstractKey": null
 },
-v19 = {
+v17 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "FileField",
-      "kind": "LinkedField",
-      "name": "image",
-      "plural": false,
-      "selections": (v17/*: any*/),
-      "storageKey": null
-    }
+    (v12/*: any*/)
   ],
   "type": "ImageBlockRecord",
   "abstractKey": null
 },
-v20 = {
+v18 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -671,7 +614,7 @@ v20 = {
   "type": "MapBlockRecord",
   "abstractKey": null
 },
-v21 = {
+v19 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -686,14 +629,14 @@ v21 = {
   "type": "RichTextBlockRecord",
   "abstractKey": null
 },
-v22 = {
+v20 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "thumbnailUrl",
   "storageKey": null
 },
-v23 = {
+v21 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -713,8 +656,8 @@ v23 = {
       "plural": false,
       "selections": [
         (v3/*: any*/),
+        (v9/*: any*/),
         (v10/*: any*/),
-        (v11/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -730,7 +673,7 @@ v23 = {
               "name": "streamingUrl",
               "storageKey": null
             },
-            (v22/*: any*/)
+            (v20/*: any*/)
           ],
           "storageKey": null
         }
@@ -741,7 +684,7 @@ v23 = {
   "type": "VideoBlockRecord",
   "abstractKey": null
 },
-v24 = {
+v22 = {
   "kind": "InlineFragment",
   "selections": [
     (v3/*: any*/),
@@ -767,10 +710,10 @@ v24 = {
           "name": "providerUid",
           "storageKey": null
         },
+        (v9/*: any*/),
         (v10/*: any*/),
-        (v11/*: any*/),
         (v5/*: any*/),
-        (v22/*: any*/)
+        (v20/*: any*/)
       ],
       "storageKey": null
     }
@@ -778,7 +721,7 @@ v24 = {
   "type": "YoutubeVimeoBlockRecord",
   "abstractKey": null
 },
-v25 = {
+v23 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -809,9 +752,9 @@ return {
           (v6/*: any*/),
           (v7/*: any*/),
           (v8/*: any*/),
+          (v12/*: any*/),
           (v13/*: any*/),
           (v14/*: any*/),
-          (v15/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -820,18 +763,18 @@ return {
             "name": "content",
             "plural": true,
             "selections": [
+              (v15/*: any*/),
               (v16/*: any*/),
+              (v17/*: any*/),
               (v18/*: any*/),
               (v19/*: any*/),
-              (v20/*: any*/),
               (v21/*: any*/),
-              (v23/*: any*/),
-              (v24/*: any*/)
+              (v22/*: any*/)
             ],
             "storageKey": null
           },
-          (v16/*: any*/),
-          (v25/*: any*/)
+          (v15/*: any*/),
+          (v23/*: any*/)
         ],
         "storageKey": null
       }
@@ -862,9 +805,9 @@ return {
           (v6/*: any*/),
           (v7/*: any*/),
           (v8/*: any*/),
+          (v12/*: any*/),
           (v13/*: any*/),
           (v14/*: any*/),
-          (v15/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -873,34 +816,34 @@ return {
             "name": "content",
             "plural": true,
             "selections": [
-              (v16/*: any*/),
+              (v15/*: any*/),
               {
                 "kind": "TypeDiscriminator",
                 "abstractKey": "__isNewsModelContentField"
               },
+              (v16/*: any*/),
+              (v17/*: any*/),
               (v18/*: any*/),
               (v19/*: any*/),
-              (v20/*: any*/),
               (v21/*: any*/),
-              (v23/*: any*/),
-              (v24/*: any*/)
+              (v22/*: any*/)
             ],
             "storageKey": null
           },
-          (v16/*: any*/),
-          (v25/*: any*/)
+          (v15/*: any*/),
+          (v23/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "989e3790e90213a35a99507b87d66a2c",
+    "cacheID": "c7aab4cb2b20a67ed191027c967d5a4c",
     "id": null,
     "metadata": {},
     "name": "newsDetailQuery",
     "operationKind": "query",
-    "text": "query newsDetailQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    perex\n    image {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n    content {\n      __typename\n      __isNewsModelContentField: __typename\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n    __typename\n    _status\n  }\n}\n"
+    "text": "query newsDetailQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    perex\n    image {\n      url\n      width\n      height\n      alt\n      title\n      focalPoint {\n        x\n        y\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n    content {\n      __typename\n      __isNewsModelContentField: __typename\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n    __typename\n    _status\n  }\n}\n"
   }
 };
 })();

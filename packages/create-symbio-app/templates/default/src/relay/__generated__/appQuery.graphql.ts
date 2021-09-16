@@ -37,23 +37,14 @@ export type appQueryResponse = {
     };
     readonly webSetting: {
         readonly logo: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
             } | null;
         } | null;
         readonly mainMenu: {
@@ -193,12 +184,15 @@ export type appQueryResponse = {
             readonly banners: ReadonlyArray<{
                 readonly id: string;
                 readonly image: {
-                    readonly id: string;
                     readonly url: string;
                     readonly width: number | null;
                     readonly height: number | null;
                     readonly alt: string | null;
                     readonly title: string | null;
+                    readonly focalPoint: {
+                        readonly x: number | null;
+                        readonly y: number | null;
+                    } | null;
                 } | null;
                 readonly video: {
                     readonly id: string;
@@ -264,23 +258,29 @@ export type appQueryResponse = {
             readonly __typename: "GalleryBlockRecord";
             readonly id: string;
             readonly assets: ReadonlyArray<{
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             }>;
         } | {
             readonly __typename: "ImageBlockRecord";
             readonly id: string;
             readonly image: {
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             } | null;
         } | {
             readonly __typename: "MapBlockRecord";
@@ -397,23 +397,14 @@ query appQuery(
   }
   webSetting(locale: $locale) {
     logo {
-      id
       url
       width
       height
       alt
       title
-      responsiveImage(imgixParams: {w: 32}) {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
+      focalPoint {
+        x
+        y
       }
     }
     mainMenu {
@@ -545,12 +536,15 @@ query appQuery(
         banners {
           id
           image {
-            id
             url
             width
             height
             alt
             title
+            focalPoint {
+              x
+              y
+            }
           }
           video {
             id
@@ -614,23 +608,29 @@ query appQuery(
       ... on GalleryBlockRecord {
         id
         assets {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on ImageBlockRecord {
         id
         image {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on MapBlockRecord {
@@ -888,41 +888,72 @@ v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "width",
   "storageKey": null
 },
 v14 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v15 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "height",
   "storageKey": null
 },
+v15 = [
+  (v5/*: any*/),
+  (v13/*: any*/),
+  (v14/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "alt",
+    "storageKey": null
+  },
+  (v4/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "focalPoint",
+    "kind": "LinkedField",
+    "name": "focalPoint",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "x",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "y",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+],
 v16 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v17 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
+v17 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
 v18 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     (v5/*: any*/),
     (v4/*: any*/)
   ],
@@ -938,7 +969,7 @@ v19 = [
     "name": "links",
     "plural": true,
     "selections": [
-      (v17/*: any*/),
+      (v16/*: any*/),
       (v18/*: any*/),
       {
         "kind": "InlineFragment",
@@ -951,7 +982,7 @@ v19 = [
             "name": "links",
             "plural": true,
             "selections": [
-              (v17/*: any*/),
+              (v16/*: any*/),
               (v18/*: any*/)
             ],
             "storageKey": null
@@ -983,79 +1014,7 @@ v21 = {
       "kind": "LinkedField",
       "name": "logo",
       "plural": false,
-      "selections": [
-        (v13/*: any*/),
-        (v5/*: any*/),
-        (v14/*: any*/),
-        (v15/*: any*/),
-        (v16/*: any*/),
-        (v4/*: any*/),
-        {
-          "alias": null,
-          "args": [
-            {
-              "kind": "Literal",
-              "name": "imgixParams",
-              "value": {
-                "w": 32
-              }
-            }
-          ],
-          "concreteType": "ResponsiveImage",
-          "kind": "LinkedField",
-          "name": "responsiveImage",
-          "plural": false,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "srcSet",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "webpSrcSet",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "sizes",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "src",
-              "storageKey": null
-            },
-            (v14/*: any*/),
-            (v15/*: any*/),
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "aspectRatio",
-              "storageKey": null
-            },
-            (v16/*: any*/),
-            (v4/*: any*/),
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "base64",
-              "storageKey": null
-            }
-          ],
-          "storageKey": "responsiveImage(imgixParams:{\"w\":32})"
-        }
-      ],
+      "selections": (v15/*: any*/),
       "storageKey": null
     },
     {
@@ -1074,7 +1033,7 @@ v21 = {
           "name": "links",
           "plural": true,
           "selections": [
-            (v17/*: any*/),
+            (v16/*: any*/),
             (v18/*: any*/),
             {
               "kind": "InlineFragment",
@@ -1222,7 +1181,7 @@ v28 = {
   "name": "parent",
   "plural": false,
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     (v4/*: any*/),
     (v5/*: any*/),
     {
@@ -1233,7 +1192,7 @@ v28 = {
       "name": "parent",
       "plural": false,
       "selections": [
-        (v13/*: any*/),
+        (v17/*: any*/),
         (v4/*: any*/),
         (v5/*: any*/),
         {
@@ -1244,7 +1203,7 @@ v28 = {
           "name": "parent",
           "plural": false,
           "selections": [
-            (v13/*: any*/),
+            (v17/*: any*/),
             (v4/*: any*/),
             (v5/*: any*/),
             {
@@ -1255,7 +1214,7 @@ v28 = {
               "name": "parent",
               "plural": false,
               "selections": [
-                (v13/*: any*/),
+                (v17/*: any*/),
                 (v4/*: any*/),
                 (v5/*: any*/)
               ],
@@ -1271,10 +1230,10 @@ v28 = {
   "storageKey": null
 },
 v29 = [
-  (v13/*: any*/)
+  (v17/*: any*/)
 ],
 v30 = [
-  (v13/*: any*/),
+  (v17/*: any*/),
   (v5/*: any*/)
 ],
 v31 = {
@@ -1287,7 +1246,7 @@ v31 = {
 v32 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1296,7 +1255,7 @@ v32 = {
       "name": "file",
       "plural": false,
       "selections": [
-        (v13/*: any*/),
+        (v17/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -1348,32 +1307,24 @@ v34 = {
   "name": "autoplay",
   "storageKey": null
 },
-v35 = [
-  (v13/*: any*/),
-  (v5/*: any*/),
-  (v14/*: any*/),
-  (v15/*: any*/),
-  (v16/*: any*/),
-  (v4/*: any*/)
-],
-v36 = {
+v35 = {
   "alias": null,
   "args": null,
   "concreteType": "FileField",
   "kind": "LinkedField",
   "name": "image",
   "plural": false,
-  "selections": (v35/*: any*/),
+  "selections": (v15/*: any*/),
   "storageKey": null
 },
-v37 = {
+v36 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "thumbnailUrl",
   "storageKey": null
 },
-v38 = {
+v37 = {
   "alias": null,
   "args": null,
   "concreteType": "FileField",
@@ -1381,9 +1332,9 @@ v38 = {
   "name": "video",
   "plural": false,
   "selections": [
+    (v17/*: any*/),
     (v13/*: any*/),
     (v14/*: any*/),
-    (v15/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1399,24 +1350,24 @@ v38 = {
           "name": "streamingUrl",
           "storageKey": null
         },
-        (v37/*: any*/)
+        (v36/*: any*/)
       ],
       "storageKey": null
     }
   ],
   "storageKey": null
 },
-v39 = {
+v38 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "headline",
   "storageKey": null
 },
-v40 = {
+v39 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     (v33/*: any*/),
     (v34/*: any*/),
     {
@@ -1434,10 +1385,10 @@ v40 = {
       "name": "banners",
       "plural": true,
       "selections": [
-        (v13/*: any*/),
-        (v36/*: any*/),
+        (v17/*: any*/),
+        (v35/*: any*/),
+        (v37/*: any*/),
         (v38/*: any*/),
-        (v39/*: any*/),
         (v3/*: any*/),
         (v33/*: any*/)
       ],
@@ -1447,22 +1398,22 @@ v40 = {
   "type": "CarouselBlockRecord",
   "abstractKey": null
 },
-v41 = {
+v40 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "required",
   "storageKey": null
 },
-v42 = [
-  (v13/*: any*/),
+v41 = [
+  (v17/*: any*/),
   (v31/*: any*/),
-  (v41/*: any*/)
+  (v40/*: any*/)
 ],
-v43 = {
+v42 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1471,7 +1422,7 @@ v43 = {
       "name": "form",
       "plural": false,
       "selections": [
-        (v13/*: any*/),
+        (v17/*: any*/),
         (v4/*: any*/),
         {
           "alias": null,
@@ -1495,11 +1446,11 @@ v43 = {
           "name": "content",
           "plural": true,
           "selections": [
-            (v17/*: any*/),
+            (v16/*: any*/),
             {
               "kind": "InlineFragment",
               "selections": [
-                (v13/*: any*/),
+                (v17/*: any*/),
                 (v31/*: any*/),
                 {
                   "alias": null,
@@ -1508,7 +1459,7 @@ v43 = {
                   "name": "placeholder",
                   "storageKey": null
                 },
-                (v41/*: any*/),
+                (v40/*: any*/),
                 {
                   "alias": null,
                   "args": null,
@@ -1529,14 +1480,14 @@ v43 = {
             },
             {
               "kind": "InlineFragment",
-              "selections": (v42/*: any*/),
+              "selections": (v41/*: any*/),
               "type": "TextareaRecord",
               "abstractKey": null
             },
             {
               "kind": "InlineFragment",
               "selections": [
-                (v13/*: any*/),
+                (v17/*: any*/),
                 {
                   "alias": null,
                   "args": null,
@@ -1550,16 +1501,16 @@ v43 = {
             },
             {
               "kind": "InlineFragment",
-              "selections": (v42/*: any*/),
+              "selections": (v41/*: any*/),
               "type": "CheckboxRecord",
               "abstractKey": null
             },
             {
               "kind": "InlineFragment",
               "selections": [
-                (v13/*: any*/),
+                (v17/*: any*/),
                 (v31/*: any*/),
-                (v41/*: any*/),
+                (v40/*: any*/),
                 {
                   "alias": null,
                   "args": null,
@@ -1581,20 +1532,20 @@ v43 = {
   "type": "CmsFormBlockRecord",
   "abstractKey": null
 },
-v44 = {
+v43 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     (v3/*: any*/),
-    (v39/*: any*/)
+    (v38/*: any*/)
   ],
   "type": "Error404BlockRecord",
   "abstractKey": null
 },
-v45 = {
+v44 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1602,26 +1553,26 @@ v45 = {
       "kind": "LinkedField",
       "name": "assets",
       "plural": true,
-      "selections": (v35/*: any*/),
+      "selections": (v15/*: any*/),
       "storageKey": null
     }
   ],
   "type": "GalleryBlockRecord",
   "abstractKey": null
 },
-v46 = {
+v45 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
-    (v36/*: any*/)
+    (v17/*: any*/),
+    (v35/*: any*/)
   ],
   "type": "ImageBlockRecord",
   "abstractKey": null
 },
-v47 = {
+v46 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1658,23 +1609,23 @@ v47 = {
   "type": "MapBlockRecord",
   "abstractKey": null
 },
-v48 = {
+v47 = {
   "kind": "InlineFragment",
   "selections": (v29/*: any*/),
   "type": "NewsDetailBlockRecord",
   "abstractKey": null
 },
-v49 = {
+v48 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "heading",
   "storageKey": null
 },
-v50 = {
+v49 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1709,15 +1660,15 @@ v50 = {
       "name": "count",
       "storageKey": null
     },
-    (v49/*: any*/)
+    (v48/*: any*/)
   ],
   "type": "NewsListFloorBlockRecord",
   "abstractKey": null
 },
-v51 = {
+v50 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1729,10 +1680,10 @@ v51 = {
   "type": "RichTextBlockRecord",
   "abstractKey": null
 },
-v52 = {
+v51 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1741,8 +1692,8 @@ v52 = {
       "name": "page",
       "plural": false,
       "selections": [
+        (v16/*: any*/),
         (v17/*: any*/),
-        (v13/*: any*/),
         (v5/*: any*/),
         (v4/*: any*/)
       ],
@@ -1755,25 +1706,25 @@ v52 = {
       "name": "sortAlphabetically",
       "storageKey": null
     },
-    (v49/*: any*/)
+    (v48/*: any*/)
   ],
   "type": "SubpageListBlockRecord",
+  "abstractKey": null
+},
+v52 = {
+  "kind": "InlineFragment",
+  "selections": [
+    (v17/*: any*/),
+    (v34/*: any*/),
+    (v37/*: any*/)
+  ],
+  "type": "VideoBlockRecord",
   "abstractKey": null
 },
 v53 = {
   "kind": "InlineFragment",
   "selections": [
-    (v13/*: any*/),
-    (v34/*: any*/),
-    (v38/*: any*/)
-  ],
-  "type": "VideoBlockRecord",
-  "abstractKey": null
-},
-v54 = {
-  "kind": "InlineFragment",
-  "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1796,10 +1747,10 @@ v54 = {
           "name": "providerUid",
           "storageKey": null
         },
+        (v13/*: any*/),
         (v14/*: any*/),
-        (v15/*: any*/),
         (v4/*: any*/),
-        (v37/*: any*/)
+        (v36/*: any*/)
       ],
       "storageKey": null
     }
@@ -1807,7 +1758,7 @@ v54 = {
   "type": "YoutubeVimeoBlockRecord",
   "abstractKey": null
 },
-v55 = {
+v54 = {
   "alias": null,
   "args": [
     {
@@ -1845,7 +1796,7 @@ v55 = {
   "name": "redirect",
   "plural": false,
   "selections": [
-    (v13/*: any*/),
+    (v17/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -1887,7 +1838,7 @@ return {
         "name": "page",
         "plural": false,
         "selections": [
-          (v13/*: any*/),
+          (v17/*: any*/),
           (v5/*: any*/),
           (v24/*: any*/),
           (v4/*: any*/),
@@ -1903,27 +1854,27 @@ return {
             "name": "content",
             "plural": true,
             "selections": [
-              (v17/*: any*/),
+              (v16/*: any*/),
               (v32/*: any*/),
-              (v40/*: any*/),
+              (v39/*: any*/),
+              (v42/*: any*/),
               (v43/*: any*/),
               (v44/*: any*/),
               (v45/*: any*/),
               (v46/*: any*/),
               (v47/*: any*/),
-              (v48/*: any*/),
+              (v49/*: any*/),
               (v50/*: any*/),
               (v51/*: any*/),
               (v52/*: any*/),
-              (v53/*: any*/),
-              (v54/*: any*/)
+              (v53/*: any*/)
             ],
             "storageKey": null
           }
         ],
         "storageKey": null
       },
-      (v55/*: any*/)
+      (v54/*: any*/)
     ],
     "type": "Query",
     "abstractKey": null
@@ -1944,7 +1895,7 @@ return {
         "name": "page",
         "plural": false,
         "selections": [
-          (v13/*: any*/),
+          (v17/*: any*/),
           (v5/*: any*/),
           (v24/*: any*/),
           (v4/*: any*/),
@@ -1960,40 +1911,40 @@ return {
             "name": "content",
             "plural": true,
             "selections": [
-              (v17/*: any*/),
+              (v16/*: any*/),
               {
                 "kind": "TypeDiscriminator",
                 "abstractKey": "__isPageModelContentField"
               },
               (v32/*: any*/),
-              (v40/*: any*/),
+              (v39/*: any*/),
+              (v42/*: any*/),
               (v43/*: any*/),
               (v44/*: any*/),
               (v45/*: any*/),
               (v46/*: any*/),
               (v47/*: any*/),
-              (v48/*: any*/),
+              (v49/*: any*/),
               (v50/*: any*/),
               (v51/*: any*/),
               (v52/*: any*/),
-              (v53/*: any*/),
-              (v54/*: any*/)
+              (v53/*: any*/)
             ],
             "storageKey": null
           }
         ],
         "storageKey": null
       },
-      (v55/*: any*/)
+      (v54/*: any*/)
     ]
   },
   "params": {
-    "cacheID": "2b588679a8a2bc5736189a113fd95168",
+    "cacheID": "298893e7c9b2fd9423ecfc844aa3d4ad",
     "id": null,
     "metadata": {},
     "name": "appQuery",
     "operationKind": "query",
-    "text": "query appQuery(\n  $locale: SiteLocale\n  $pattern: String!\n  $redirectPattern: String!\n) {\n  site: _site(locale: $locale) {\n    globalSeo {\n      siteName\n      titleSuffix\n      facebookPageUrl\n      fallbackSeo {\n        description\n        title\n        image {\n          url\n        }\n        twitterCard\n      }\n      twitterAccount\n    }\n    favicon {\n      url\n    }\n    faviconMetaTags {\n      tag\n      attributes\n      content\n    }\n  }\n  webSetting(locale: $locale) {\n    logo {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage(imgixParams: {w: 32}) {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    mainMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n            ... on MenuRecord {\n              links {\n                __typename\n                ... on PageRecord {\n                  id\n                  url\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    homepage {\n      title\n      url\n    }\n    newsPage {\n      title\n      url\n    }\n    footerMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n  page(locale: $locale, filter: {url: {matches: {caseSensitive: false, pattern: $pattern}}}) {\n    id\n    url\n    _allUrlLocales {\n      locale\n      value\n    }\n    title\n    _status\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    metaTags {\n      title\n      image {\n        url\n      }\n      description\n      twitterCard\n    }\n    parent {\n      id\n      title\n      url\n      parent {\n        id\n        title\n        url\n        parent {\n          id\n          title\n          url\n          parent {\n            id\n            title\n            url\n          }\n        }\n      }\n    }\n    content {\n      __typename\n      __isPageModelContentField: __typename\n      ... on ButtonBlockRecord {\n        id\n        file {\n          id\n          size\n          title\n          url\n        }\n        icon {\n          id\n        }\n        page {\n          id\n          url\n        }\n        label\n      }\n      ... on CarouselBlockRecord {\n        id\n        textAlign\n        autoplay\n        interval\n        banners {\n          id\n          image {\n            id\n            url\n            width\n            height\n            alt\n            title\n          }\n          video {\n            id\n            width\n            height\n            video {\n              streamingUrl\n              thumbnailUrl\n            }\n          }\n          headline\n          description\n          textAlign\n        }\n      }\n      ... on CmsFormBlockRecord {\n        id\n        form {\n          id\n          title\n          submitLabel\n          successMessage\n          content {\n            __typename\n            ... on SingleLineInputRecord {\n              id\n              label\n              placeholder\n              required\n              hint\n              variant\n            }\n            ... on TextareaRecord {\n              id\n              label\n              required\n            }\n            ... on FieldsetRecord {\n              id\n              legend\n            }\n            ... on CheckboxRecord {\n              id\n              label\n              required\n            }\n            ... on ChoiceRecord {\n              id\n              label\n              required\n              choices\n            }\n          }\n        }\n      }\n      ... on Error404BlockRecord {\n        id\n        description\n        headline\n      }\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on NewsDetailBlockRecord {\n        id\n      }\n      ... on NewsListFloorBlockRecord {\n        id\n        allNewsPage {\n          id\n          url\n        }\n        allNewsLinkText\n        categories {\n          id\n        }\n        count\n        heading\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on SubpageListBlockRecord {\n        id\n        page {\n          __typename\n          id\n          url\n          title\n        }\n        sortAlphabetically\n        heading\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n  }\n  redirect(filter: {from: {matches: {pattern: $redirectPattern, caseSensitive: false, regexp: true}}}) {\n    id\n    from\n    to\n    permanent\n  }\n}\n"
+    "text": "query appQuery(\n  $locale: SiteLocale\n  $pattern: String!\n  $redirectPattern: String!\n) {\n  site: _site(locale: $locale) {\n    globalSeo {\n      siteName\n      titleSuffix\n      facebookPageUrl\n      fallbackSeo {\n        description\n        title\n        image {\n          url\n        }\n        twitterCard\n      }\n      twitterAccount\n    }\n    favicon {\n      url\n    }\n    faviconMetaTags {\n      tag\n      attributes\n      content\n    }\n  }\n  webSetting(locale: $locale) {\n    logo {\n      url\n      width\n      height\n      alt\n      title\n      focalPoint {\n        x\n        y\n      }\n    }\n    mainMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n            ... on MenuRecord {\n              links {\n                __typename\n                ... on PageRecord {\n                  id\n                  url\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    homepage {\n      title\n      url\n    }\n    newsPage {\n      title\n      url\n    }\n    footerMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n  page(locale: $locale, filter: {url: {matches: {caseSensitive: false, pattern: $pattern}}}) {\n    id\n    url\n    _allUrlLocales {\n      locale\n      value\n    }\n    title\n    _status\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    metaTags {\n      title\n      image {\n        url\n      }\n      description\n      twitterCard\n    }\n    parent {\n      id\n      title\n      url\n      parent {\n        id\n        title\n        url\n        parent {\n          id\n          title\n          url\n          parent {\n            id\n            title\n            url\n          }\n        }\n      }\n    }\n    content {\n      __typename\n      __isPageModelContentField: __typename\n      ... on ButtonBlockRecord {\n        id\n        file {\n          id\n          size\n          title\n          url\n        }\n        icon {\n          id\n        }\n        page {\n          id\n          url\n        }\n        label\n      }\n      ... on CarouselBlockRecord {\n        id\n        textAlign\n        autoplay\n        interval\n        banners {\n          id\n          image {\n            url\n            width\n            height\n            alt\n            title\n            focalPoint {\n              x\n              y\n            }\n          }\n          video {\n            id\n            width\n            height\n            video {\n              streamingUrl\n              thumbnailUrl\n            }\n          }\n          headline\n          description\n          textAlign\n        }\n      }\n      ... on CmsFormBlockRecord {\n        id\n        form {\n          id\n          title\n          submitLabel\n          successMessage\n          content {\n            __typename\n            ... on SingleLineInputRecord {\n              id\n              label\n              placeholder\n              required\n              hint\n              variant\n            }\n            ... on TextareaRecord {\n              id\n              label\n              required\n            }\n            ... on FieldsetRecord {\n              id\n              legend\n            }\n            ... on CheckboxRecord {\n              id\n              label\n              required\n            }\n            ... on ChoiceRecord {\n              id\n              label\n              required\n              choices\n            }\n          }\n        }\n      }\n      ... on Error404BlockRecord {\n        id\n        description\n        headline\n      }\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on NewsDetailBlockRecord {\n        id\n      }\n      ... on NewsListFloorBlockRecord {\n        id\n        allNewsPage {\n          id\n          url\n        }\n        allNewsLinkText\n        categories {\n          id\n        }\n        count\n        heading\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on SubpageListBlockRecord {\n        id\n        page {\n          __typename\n          id\n          url\n          title\n        }\n        sortAlphabetically\n        heading\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n  }\n  redirect(filter: {from: {matches: {pattern: $redirectPattern, caseSensitive: false, regexp: true}}}) {\n    id\n    from\n    to\n    permanent\n  }\n}\n"
   }
 };
 })();

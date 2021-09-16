@@ -6,23 +6,14 @@ import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type webSettingFragment = {
     readonly logo: {
-        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly alt: string | null;
         readonly title: string | null;
-        readonly responsiveImage: {
-            readonly srcSet: string;
-            readonly webpSrcSet: string;
-            readonly sizes: string;
-            readonly src: string;
-            readonly width: number;
-            readonly height: number;
-            readonly aspectRatio: number;
-            readonly alt: string | null;
-            readonly title: string | null;
-            readonly base64: string | null;
+        readonly focalPoint: {
+            readonly x: number | null;
+            readonly y: number | null;
         } | null;
     } | null;
     readonly mainMenu: {
@@ -108,62 +99,40 @@ var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "url",
   "storageKey": null
 },
 v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "url",
+  "name": "title",
   "storageKey": null
 },
 v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "height",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v7 = {
+v3 = {
   "kind": "InlineFragment",
   "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    },
     (v0/*: any*/),
-    (v1/*: any*/),
-    (v5/*: any*/)
+    (v1/*: any*/)
   ],
   "type": "PageRecord",
   "abstractKey": null
 },
-v8 = [
+v4 = [
   {
     "alias": null,
     "args": null,
@@ -172,8 +141,8 @@ v8 = [
     "name": "links",
     "plural": true,
     "selections": [
-      (v6/*: any*/),
-      (v7/*: any*/),
+      (v2/*: any*/),
+      (v3/*: any*/),
       {
         "kind": "InlineFragment",
         "selections": [
@@ -185,8 +154,8 @@ v8 = [
             "name": "links",
             "plural": true,
             "selections": [
-              (v6/*: any*/),
-              (v7/*: any*/)
+              (v2/*: any*/),
+              (v3/*: any*/)
             ],
             "storageKey": null
           }
@@ -198,9 +167,9 @@ v8 = [
     "storageKey": null
   }
 ],
-v9 = [
-  (v5/*: any*/),
-  (v1/*: any*/)
+v5 = [
+  (v1/*: any*/),
+  (v0/*: any*/)
 ];
 return {
   "argumentDefinitions": [],
@@ -217,75 +186,52 @@ return {
       "plural": false,
       "selections": [
         (v0/*: any*/),
-        (v1/*: any*/),
-        (v2/*: any*/),
-        (v3/*: any*/),
-        (v4/*: any*/),
-        (v5/*: any*/),
         {
           "alias": null,
-          "args": [
-            {
-              "kind": "Literal",
-              "name": "imgixParams",
-              "value": {
-                "w": 32
-              }
-            }
-          ],
-          "concreteType": "ResponsiveImage",
+          "args": null,
+          "kind": "ScalarField",
+          "name": "width",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "height",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "alt",
+          "storageKey": null
+        },
+        (v1/*: any*/),
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "focalPoint",
           "kind": "LinkedField",
-          "name": "responsiveImage",
+          "name": "focalPoint",
           "plural": false,
           "selections": [
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "srcSet",
+              "name": "x",
               "storageKey": null
             },
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "webpSrcSet",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "sizes",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "src",
-              "storageKey": null
-            },
-            (v2/*: any*/),
-            (v3/*: any*/),
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "aspectRatio",
-              "storageKey": null
-            },
-            (v4/*: any*/),
-            (v5/*: any*/),
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "base64",
+              "name": "y",
               "storageKey": null
             }
           ],
-          "storageKey": "responsiveImage(imgixParams:{\"w\":32})"
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -306,11 +252,11 @@ return {
           "name": "links",
           "plural": true,
           "selections": [
-            (v6/*: any*/),
-            (v7/*: any*/),
+            (v2/*: any*/),
+            (v3/*: any*/),
             {
               "kind": "InlineFragment",
-              "selections": (v8/*: any*/),
+              "selections": (v4/*: any*/),
               "type": "MenuRecord",
               "abstractKey": null
             }
@@ -327,7 +273,7 @@ return {
       "kind": "LinkedField",
       "name": "homepage",
       "plural": false,
-      "selections": (v9/*: any*/),
+      "selections": (v5/*: any*/),
       "storageKey": null
     },
     {
@@ -337,7 +283,7 @@ return {
       "kind": "LinkedField",
       "name": "newsPage",
       "plural": false,
-      "selections": (v9/*: any*/),
+      "selections": (v5/*: any*/),
       "storageKey": null
     },
     {
@@ -347,7 +293,7 @@ return {
       "kind": "LinkedField",
       "name": "footerMenu",
       "plural": false,
-      "selections": (v8/*: any*/),
+      "selections": (v4/*: any*/),
       "storageKey": null
     }
   ],
@@ -355,5 +301,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = '022dee438843afa34babc1e0593d24b4';
+(node as any).hash = '84fc6f0cbcabea726b88ec6a8b334e40';
 export default node;

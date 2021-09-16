@@ -12,7 +12,7 @@ graphql`
     fragment ImageBlock_content on ImageBlockRecord {
         id
         image {
-            ...appImageBaseFragment @relay(mask: false)
+            ...appImageFragment @relay(mask: false)
         }
     }
 `;

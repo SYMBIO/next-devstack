@@ -8,24 +8,30 @@ export type newsContentFragment = {
     readonly __typename: "GalleryBlockRecord";
     readonly id: string;
     readonly assets: ReadonlyArray<{
-        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly alt: string | null;
         readonly title: string | null;
+        readonly focalPoint: {
+            readonly x: number | null;
+            readonly y: number | null;
+        } | null;
     }>;
     readonly " $refType": "newsContentFragment";
 } | {
     readonly __typename: "ImageBlockRecord";
     readonly id: string;
     readonly image: {
-        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly alt: string | null;
         readonly title: string | null;
+        readonly focalPoint: {
+            readonly x: number | null;
+            readonly y: number | null;
+        } | null;
     } | null;
     readonly " $refType": "newsContentFragment";
 } | {
@@ -112,7 +118,6 @@ v3 = {
   "storageKey": null
 },
 v4 = [
-  (v0/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -129,7 +134,32 @@ v4 = [
     "name": "alt",
     "storageKey": null
   },
-  (v3/*: any*/)
+  (v3/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "focalPoint",
+    "kind": "LinkedField",
+    "name": "focalPoint",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "x",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "y",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
 ],
 v5 = {
   "alias": null,

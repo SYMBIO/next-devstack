@@ -146,23 +146,14 @@ export type newsListQueryResponse = {
         readonly slug: string | null;
         readonly perex: string | null;
         readonly image: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
             } | null;
         } | null;
         readonly category: {
@@ -200,23 +191,14 @@ query newsListQuery(
     slug
     perex
     image {
-      id
       url
       width
       height
       alt
       title
-      responsiveImage {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
+      focalPoint {
+        x
+        y
       }
     }
     category {
@@ -284,28 +266,7 @@ v8 = {
   "name": "slug",
   "storageKey": null
 },
-v9 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v10 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "height",
-  "storageKey": null
-},
-v11 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v12 = [
+v9 = [
   {
     "alias": "meta",
     "args": [
@@ -381,7 +342,6 @@ v12 = [
         "name": "image",
         "plural": false,
         "selections": [
-          (v6/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -389,62 +349,48 @@ v12 = [
             "name": "url",
             "storageKey": null
           },
-          (v9/*: any*/),
-          (v10/*: any*/),
-          (v11/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "width",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "height",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "alt",
+            "storageKey": null
+          },
           (v7/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "ResponsiveImage",
+            "concreteType": "focalPoint",
             "kind": "LinkedField",
-            "name": "responsiveImage",
+            "name": "focalPoint",
             "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "srcSet",
+                "name": "x",
                 "storageKey": null
               },
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "webpSrcSet",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "sizes",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "src",
-                "storageKey": null
-              },
-              (v9/*: any*/),
-              (v10/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "aspectRatio",
-                "storageKey": null
-              },
-              (v11/*: any*/),
-              (v7/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "base64",
+                "name": "y",
                 "storageKey": null
               }
             ],
@@ -495,7 +441,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "newsListQuery",
-    "selections": (v12/*: any*/),
+    "selections": (v9/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -509,15 +455,15 @@ return {
     ],
     "kind": "Operation",
     "name": "newsListQuery",
-    "selections": (v12/*: any*/)
+    "selections": (v9/*: any*/)
   },
   "params": {
-    "cacheID": "b3c4687235ef2c2b7e0c3bac52e91653",
+    "cacheID": "cd108cab5c55d400479ada5750396fb0",
     "id": null,
     "metadata": {},
     "name": "newsListQuery",
     "operationKind": "query",
-    "text": "query newsListQuery(\n  $locale: SiteLocale\n  $limit: IntType\n  $offset: IntType\n  $filter: NewsModelFilter\n) {\n  meta: _allNewsMeta(locale: $locale, filter: $filter) {\n    count\n  }\n  items: allNews(locale: $locale, orderBy: [dateFrom_DESC, id_DESC], first: $limit, skip: $offset, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    perex\n    image {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n  }\n}\n"
+    "text": "query newsListQuery(\n  $locale: SiteLocale\n  $limit: IntType\n  $offset: IntType\n  $filter: NewsModelFilter\n) {\n  meta: _allNewsMeta(locale: $locale, filter: $filter) {\n    count\n  }\n  items: allNews(locale: $locale, orderBy: [dateFrom_DESC, id_DESC], first: $limit, skip: $offset, filter: $filter) {\n    id\n    dateFrom\n    title\n    slug\n    perex\n    image {\n      url\n      width\n      height\n      alt\n      title\n      focalPoint {\n        x\n        y\n      }\n    }\n    category {\n      id\n      slug\n      title\n    }\n    tags {\n      id\n      title\n    }\n  }\n}\n"
   }
 };
 })();

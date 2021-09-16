@@ -3,10 +3,7 @@ import graphql from 'graphql-tag';
 graphql`
     fragment webSettingFragment on WebSettingRecord {
         logo {
-            ...appImageBaseFragment @relay(mask: false)
-            responsiveImage(imgixParams: { w: 32 }) {
-                ...appResponsiveImageFragment @relay(mask: false)
-            }
+            ...appImageFragment @relay(mask: false)
         }
         mainMenu {
             links {

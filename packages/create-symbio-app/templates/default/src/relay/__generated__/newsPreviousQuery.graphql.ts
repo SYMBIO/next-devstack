@@ -139,23 +139,14 @@ export type newsPreviousQueryResponse = {
         readonly slug: string | null;
         readonly title: string | null;
         readonly image: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
             } | null;
         } | null;
     } | null;
@@ -177,23 +168,14 @@ query newsPreviousQuery(
     slug
     title
     image {
-      id
       url
       width
       height
       alt
       title
-      responsiveImage {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
+      focalPoint {
+        x
+        y
       }
     }
   }
@@ -215,38 +197,10 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "title",
   "storageKey": null
 },
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "height",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v7 = [
+v3 = [
   {
     "alias": "item",
     "args": [
@@ -274,7 +228,13 @@ v7 = [
     "name": "news",
     "plural": false,
     "selections": [
-      (v2/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
       {
         "alias": null,
         "args": null,
@@ -282,7 +242,7 @@ v7 = [
         "name": "slug",
         "storageKey": null
       },
-      (v3/*: any*/),
+      (v2/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -291,7 +251,6 @@ v7 = [
         "name": "image",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -299,62 +258,48 @@ v7 = [
             "name": "url",
             "storageKey": null
           },
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "ResponsiveImage",
+            "kind": "ScalarField",
+            "name": "width",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "height",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "alt",
+            "storageKey": null
+          },
+          (v2/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "focalPoint",
             "kind": "LinkedField",
-            "name": "responsiveImage",
+            "name": "focalPoint",
             "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "srcSet",
+                "name": "x",
                 "storageKey": null
               },
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "webpSrcSet",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "sizes",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "src",
-                "storageKey": null
-              },
-              (v4/*: any*/),
-              (v5/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "aspectRatio",
-                "storageKey": null
-              },
-              (v6/*: any*/),
-              (v3/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "base64",
+                "name": "y",
                 "storageKey": null
               }
             ],
@@ -376,7 +321,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "newsPreviousQuery",
-    "selections": (v7/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -388,15 +333,15 @@ return {
     ],
     "kind": "Operation",
     "name": "newsPreviousQuery",
-    "selections": (v7/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "a506f59845d1ffcdda360a06d99eabc2",
+    "cacheID": "12c02f780160eaf3c23a9249f9498861",
     "id": null,
     "metadata": {},
     "name": "newsPreviousQuery",
     "operationKind": "query",
-    "text": "query newsPreviousQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, orderBy: [dateFrom_ASC, id_ASC], filter: $filter) {\n    id\n    slug\n    title\n    image {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n  }\n}\n"
+    "text": "query newsPreviousQuery(\n  $locale: SiteLocale\n  $filter: NewsModelFilter\n) {\n  item: news(locale: $locale, orderBy: [dateFrom_ASC, id_ASC], filter: $filter) {\n    id\n    slug\n    title\n    image {\n      url\n      width\n      height\n      alt\n      title\n      focalPoint {\n        x\n        y\n      }\n    }\n  }\n}\n"
   }
 };
 })();

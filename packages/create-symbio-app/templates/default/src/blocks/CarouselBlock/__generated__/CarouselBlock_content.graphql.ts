@@ -12,12 +12,15 @@ export type CarouselBlock_content = {
     readonly banners: ReadonlyArray<{
         readonly id: string;
         readonly image: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
+            } | null;
         } | null;
         readonly video: {
             readonly id: string;
@@ -110,7 +113,6 @@ return {
           "name": "image",
           "plural": false,
           "selections": [
-            (v0/*: any*/),
             {
               "alias": null,
               "args": null,
@@ -132,6 +134,31 @@ return {
               "args": null,
               "kind": "ScalarField",
               "name": "title",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": "focalPoint",
+              "kind": "LinkedField",
+              "name": "focalPoint",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "x",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "y",
+                  "storageKey": null
+                }
+              ],
               "storageKey": null
             }
           ],
@@ -199,5 +226,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = 'fd00a611953fcf00bbced33974aefc89';
+(node as any).hash = '991cae76a349bfc71216a0eb8b4e80fe';
 export default node;

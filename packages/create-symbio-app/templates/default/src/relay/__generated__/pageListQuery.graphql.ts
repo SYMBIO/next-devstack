@@ -175,12 +175,15 @@ export type pageListQueryResponse = {
             readonly banners: ReadonlyArray<{
                 readonly id: string;
                 readonly image: {
-                    readonly id: string;
                     readonly url: string;
                     readonly width: number | null;
                     readonly height: number | null;
                     readonly alt: string | null;
                     readonly title: string | null;
+                    readonly focalPoint: {
+                        readonly x: number | null;
+                        readonly y: number | null;
+                    } | null;
                 } | null;
                 readonly video: {
                     readonly id: string;
@@ -246,23 +249,29 @@ export type pageListQueryResponse = {
             readonly __typename: "GalleryBlockRecord";
             readonly id: string;
             readonly assets: ReadonlyArray<{
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             }>;
         } | {
             readonly __typename: "ImageBlockRecord";
             readonly id: string;
             readonly image: {
-                readonly id: string;
                 readonly url: string;
                 readonly width: number | null;
                 readonly height: number | null;
                 readonly alt: string | null;
                 readonly title: string | null;
+                readonly focalPoint: {
+                    readonly x: number | null;
+                    readonly y: number | null;
+                } | null;
             } | null;
         } | {
             readonly __typename: "MapBlockRecord";
@@ -421,12 +430,15 @@ query pageListQuery(
         banners {
           id
           image {
-            id
             url
             width
             height
             alt
             title
+            focalPoint {
+              x
+              y
+            }
           }
           video {
             id
@@ -490,23 +502,29 @@ query pageListQuery(
       ... on GalleryBlockRecord {
         id
         assets {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on ImageBlockRecord {
         id
         image {
-          id
           url
           width
           height
           alt
           title
+          focalPoint {
+            x
+            y
+          }
         }
       }
       ... on MapBlockRecord {
@@ -924,7 +942,6 @@ v26 = {
   "storageKey": null
 },
 v27 = [
-  (v9/*: any*/),
   (v10/*: any*/),
   (v25/*: any*/),
   (v26/*: any*/),
@@ -935,7 +952,32 @@ v27 = [
     "name": "alt",
     "storageKey": null
   },
-  (v12/*: any*/)
+  (v12/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "focalPoint",
+    "kind": "LinkedField",
+    "name": "focalPoint",
+    "plural": false,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "x",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "y",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
 ],
 v28 = {
   "alias": null,
@@ -1506,12 +1548,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9b00bed459b7f59eddb04ef329ad4c65",
+    "cacheID": "7cfc13976261be17f500477c510f0769",
     "id": null,
     "metadata": {},
     "name": "pageListQuery",
     "operationKind": "query",
-    "text": "query pageListQuery(\n  $locale: SiteLocale\n  $filter: PageModelFilter\n  $limit: IntType\n  $offset: IntType\n) {\n  meta: _allPagesMeta(locale: $locale, filter: $filter) {\n    count\n  }\n  items: allPages(locale: $locale, filter: $filter, first: $limit, skip: $offset) {\n    id\n    url\n    _allUrlLocales {\n      locale\n      value\n    }\n    title\n    _status\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    metaTags {\n      title\n      image {\n        url\n      }\n      description\n      twitterCard\n    }\n    parent {\n      id\n      title\n      url\n      parent {\n        id\n        title\n        url\n        parent {\n          id\n          title\n          url\n          parent {\n            id\n            title\n            url\n          }\n        }\n      }\n    }\n    content {\n      __typename\n      __isPageModelContentField: __typename\n      ... on ButtonBlockRecord {\n        id\n        file {\n          id\n          size\n          title\n          url\n        }\n        icon {\n          id\n        }\n        page {\n          id\n          url\n        }\n        label\n      }\n      ... on CarouselBlockRecord {\n        id\n        textAlign\n        autoplay\n        interval\n        banners {\n          id\n          image {\n            id\n            url\n            width\n            height\n            alt\n            title\n          }\n          video {\n            id\n            width\n            height\n            video {\n              streamingUrl\n              thumbnailUrl\n            }\n          }\n          headline\n          description\n          textAlign\n        }\n      }\n      ... on CmsFormBlockRecord {\n        id\n        form {\n          id\n          title\n          submitLabel\n          successMessage\n          content {\n            __typename\n            ... on SingleLineInputRecord {\n              id\n              label\n              placeholder\n              required\n              hint\n              variant\n            }\n            ... on TextareaRecord {\n              id\n              label\n              required\n            }\n            ... on FieldsetRecord {\n              id\n              legend\n            }\n            ... on CheckboxRecord {\n              id\n              label\n              required\n            }\n            ... on ChoiceRecord {\n              id\n              label\n              required\n              choices\n            }\n          }\n        }\n      }\n      ... on Error404BlockRecord {\n        id\n        description\n        headline\n      }\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          id\n          url\n          width\n          height\n          alt\n          title\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on NewsDetailBlockRecord {\n        id\n      }\n      ... on NewsListFloorBlockRecord {\n        id\n        allNewsPage {\n          id\n          url\n        }\n        allNewsLinkText\n        categories {\n          id\n        }\n        count\n        heading\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on SubpageListBlockRecord {\n        id\n        page {\n          __typename\n          id\n          url\n          title\n        }\n        sortAlphabetically\n        heading\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query pageListQuery(\n  $locale: SiteLocale\n  $filter: PageModelFilter\n  $limit: IntType\n  $offset: IntType\n) {\n  meta: _allPagesMeta(locale: $locale, filter: $filter) {\n    count\n  }\n  items: allPages(locale: $locale, filter: $filter, first: $limit, skip: $offset) {\n    id\n    url\n    _allUrlLocales {\n      locale\n      value\n    }\n    title\n    _status\n    _seoMetaTags {\n      tag\n      content\n      attributes\n    }\n    metaTags {\n      title\n      image {\n        url\n      }\n      description\n      twitterCard\n    }\n    parent {\n      id\n      title\n      url\n      parent {\n        id\n        title\n        url\n        parent {\n          id\n          title\n          url\n          parent {\n            id\n            title\n            url\n          }\n        }\n      }\n    }\n    content {\n      __typename\n      __isPageModelContentField: __typename\n      ... on ButtonBlockRecord {\n        id\n        file {\n          id\n          size\n          title\n          url\n        }\n        icon {\n          id\n        }\n        page {\n          id\n          url\n        }\n        label\n      }\n      ... on CarouselBlockRecord {\n        id\n        textAlign\n        autoplay\n        interval\n        banners {\n          id\n          image {\n            url\n            width\n            height\n            alt\n            title\n            focalPoint {\n              x\n              y\n            }\n          }\n          video {\n            id\n            width\n            height\n            video {\n              streamingUrl\n              thumbnailUrl\n            }\n          }\n          headline\n          description\n          textAlign\n        }\n      }\n      ... on CmsFormBlockRecord {\n        id\n        form {\n          id\n          title\n          submitLabel\n          successMessage\n          content {\n            __typename\n            ... on SingleLineInputRecord {\n              id\n              label\n              placeholder\n              required\n              hint\n              variant\n            }\n            ... on TextareaRecord {\n              id\n              label\n              required\n            }\n            ... on FieldsetRecord {\n              id\n              legend\n            }\n            ... on CheckboxRecord {\n              id\n              label\n              required\n            }\n            ... on ChoiceRecord {\n              id\n              label\n              required\n              choices\n            }\n          }\n        }\n      }\n      ... on Error404BlockRecord {\n        id\n        description\n        headline\n      }\n      ... on GalleryBlockRecord {\n        id\n        assets {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on ImageBlockRecord {\n        id\n        image {\n          url\n          width\n          height\n          alt\n          title\n          focalPoint {\n            x\n            y\n          }\n        }\n      }\n      ... on MapBlockRecord {\n        id\n        bubbleText\n        gps {\n          latitude\n          longitude\n        }\n      }\n      ... on NewsDetailBlockRecord {\n        id\n      }\n      ... on NewsListFloorBlockRecord {\n        id\n        allNewsPage {\n          id\n          url\n        }\n        allNewsLinkText\n        categories {\n          id\n        }\n        count\n        heading\n      }\n      ... on RichTextBlockRecord {\n        id\n        text\n      }\n      ... on SubpageListBlockRecord {\n        id\n        page {\n          __typename\n          id\n          url\n          title\n        }\n        sortAlphabetically\n        heading\n      }\n      ... on VideoBlockRecord {\n        id\n        autoplay\n        video {\n          id\n          width\n          height\n          video {\n            streamingUrl\n            thumbnailUrl\n          }\n        }\n      }\n      ... on YoutubeVimeoBlockRecord {\n        id\n        video {\n          provider\n          providerUid\n          width\n          height\n          title\n          thumbnailUrl\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();

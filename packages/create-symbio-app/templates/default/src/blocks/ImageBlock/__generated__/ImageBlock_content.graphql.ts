@@ -7,12 +7,15 @@ import { FragmentRefs } from "relay-runtime";
 export type ImageBlock_content = {
     readonly id: string;
     readonly image: {
-        readonly id: string;
         readonly url: string;
         readonly width: number | null;
         readonly height: number | null;
         readonly alt: string | null;
         readonly title: string | null;
+        readonly focalPoint: {
+            readonly x: number | null;
+            readonly y: number | null;
+        } | null;
     } | null;
     readonly " $refType": "ImageBlock_content";
 };
@@ -24,21 +27,19 @@ export type ImageBlock_content$key = {
 
 
 
-const node: ReaderFragment = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
-return {
+const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "ImageBlock_content",
   "selections": [
-    (v0/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    },
     {
       "alias": null,
       "args": null,
@@ -47,7 +48,6 @@ return {
       "name": "image",
       "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -82,6 +82,31 @@ return {
           "kind": "ScalarField",
           "name": "title",
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "focalPoint",
+          "kind": "LinkedField",
+          "name": "focalPoint",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "x",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "y",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
         }
       ],
       "storageKey": null
@@ -90,6 +115,5 @@ return {
   "type": "ImageBlockRecord",
   "abstractKey": null
 };
-})();
-(node as any).hash = 'cca7849ad6fd51390bd7004686f0bfd9';
+(node as any).hash = 'e2257d5d4edb16ab2f680ac8ee04cb05';
 export default node;

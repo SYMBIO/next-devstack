@@ -10,23 +10,14 @@ export type webSettingQueryVariables = {
 export type webSettingQueryResponse = {
     readonly item: {
         readonly logo: {
-            readonly id: string;
             readonly url: string;
             readonly width: number | null;
             readonly height: number | null;
             readonly alt: string | null;
             readonly title: string | null;
-            readonly responsiveImage: {
-                readonly srcSet: string;
-                readonly webpSrcSet: string;
-                readonly sizes: string;
-                readonly src: string;
-                readonly width: number;
-                readonly height: number;
-                readonly aspectRatio: number;
-                readonly alt: string | null;
-                readonly title: string | null;
-                readonly base64: string | null;
+            readonly focalPoint: {
+                readonly x: number | null;
+                readonly y: number | null;
             } | null;
         } | null;
         readonly mainMenu: {
@@ -112,23 +103,14 @@ query webSettingQuery(
 ) {
   item: webSetting(locale: $locale) {
     logo {
-      id
       url
       width
       height
       alt
       title
-      responsiveImage(imgixParams: {w: 32}) {
-        srcSet
-        webpSrcSet
-        sizes
-        src
-        width
-        height
-        aspectRatio
-        alt
-        title
-        base64
+      focalPoint {
+        x
+        y
       }
     }
     mainMenu {
@@ -205,62 +187,40 @@ v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "url",
   "storageKey": null
 },
 v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "url",
+  "name": "title",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "width",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "height",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "alt",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v8 = {
+v4 = {
   "kind": "InlineFragment",
   "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
+    },
     (v1/*: any*/),
-    (v2/*: any*/),
-    (v6/*: any*/)
+    (v2/*: any*/)
   ],
   "type": "PageRecord",
   "abstractKey": null
 },
-v9 = [
+v5 = [
   {
     "alias": null,
     "args": null,
@@ -269,8 +229,8 @@ v9 = [
     "name": "links",
     "plural": true,
     "selections": [
-      (v7/*: any*/),
-      (v8/*: any*/),
+      (v3/*: any*/),
+      (v4/*: any*/),
       {
         "kind": "InlineFragment",
         "selections": [
@@ -282,8 +242,8 @@ v9 = [
             "name": "links",
             "plural": true,
             "selections": [
-              (v7/*: any*/),
-              (v8/*: any*/)
+              (v3/*: any*/),
+              (v4/*: any*/)
             ],
             "storageKey": null
           }
@@ -295,11 +255,11 @@ v9 = [
     "storageKey": null
   }
 ],
-v10 = [
-  (v6/*: any*/),
-  (v2/*: any*/)
+v6 = [
+  (v2/*: any*/),
+  (v1/*: any*/)
 ],
-v11 = [
+v7 = [
   {
     "alias": "item",
     "args": [
@@ -323,75 +283,52 @@ v11 = [
         "plural": false,
         "selections": [
           (v1/*: any*/),
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
           {
             "alias": null,
-            "args": [
-              {
-                "kind": "Literal",
-                "name": "imgixParams",
-                "value": {
-                  "w": 32
-                }
-              }
-            ],
-            "concreteType": "ResponsiveImage",
+            "args": null,
+            "kind": "ScalarField",
+            "name": "width",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "height",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "alt",
+            "storageKey": null
+          },
+          (v2/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "focalPoint",
             "kind": "LinkedField",
-            "name": "responsiveImage",
+            "name": "focalPoint",
             "plural": false,
             "selections": [
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "srcSet",
+                "name": "x",
                 "storageKey": null
               },
               {
                 "alias": null,
                 "args": null,
                 "kind": "ScalarField",
-                "name": "webpSrcSet",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "sizes",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "src",
-                "storageKey": null
-              },
-              (v3/*: any*/),
-              (v4/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "aspectRatio",
-                "storageKey": null
-              },
-              (v5/*: any*/),
-              (v6/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "base64",
+                "name": "y",
                 "storageKey": null
               }
             ],
-            "storageKey": "responsiveImage(imgixParams:{\"w\":32})"
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -412,11 +349,11 @@ v11 = [
             "name": "links",
             "plural": true,
             "selections": [
-              (v7/*: any*/),
-              (v8/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
               {
                 "kind": "InlineFragment",
-                "selections": (v9/*: any*/),
+                "selections": (v5/*: any*/),
                 "type": "MenuRecord",
                 "abstractKey": null
               }
@@ -433,7 +370,7 @@ v11 = [
         "kind": "LinkedField",
         "name": "homepage",
         "plural": false,
-        "selections": (v10/*: any*/),
+        "selections": (v6/*: any*/),
         "storageKey": null
       },
       {
@@ -443,7 +380,7 @@ v11 = [
         "kind": "LinkedField",
         "name": "newsPage",
         "plural": false,
-        "selections": (v10/*: any*/),
+        "selections": (v6/*: any*/),
         "storageKey": null
       },
       {
@@ -453,7 +390,7 @@ v11 = [
         "kind": "LinkedField",
         "name": "footerMenu",
         "plural": false,
-        "selections": (v9/*: any*/),
+        "selections": (v5/*: any*/),
         "storageKey": null
       }
     ],
@@ -466,7 +403,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "webSettingQuery",
-    "selections": (v11/*: any*/),
+    "selections": (v7/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -475,15 +412,15 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "webSettingQuery",
-    "selections": (v11/*: any*/)
+    "selections": (v7/*: any*/)
   },
   "params": {
-    "cacheID": "704b386683b0cc58b1fac7b2327eb127",
+    "cacheID": "11990f18a63ac1b13c0eeccfb5b0987d",
     "id": null,
     "metadata": {},
     "name": "webSettingQuery",
     "operationKind": "query",
-    "text": "query webSettingQuery(\n  $locale: SiteLocale\n) {\n  item: webSetting(locale: $locale) {\n    logo {\n      id\n      url\n      width\n      height\n      alt\n      title\n      responsiveImage(imgixParams: {w: 32}) {\n        srcSet\n        webpSrcSet\n        sizes\n        src\n        width\n        height\n        aspectRatio\n        alt\n        title\n        base64\n      }\n    }\n    mainMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n            ... on MenuRecord {\n              links {\n                __typename\n                ... on PageRecord {\n                  id\n                  url\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    homepage {\n      title\n      url\n    }\n    newsPage {\n      title\n      url\n    }\n    footerMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query webSettingQuery(\n  $locale: SiteLocale\n) {\n  item: webSetting(locale: $locale) {\n    logo {\n      url\n      width\n      height\n      alt\n      title\n      focalPoint {\n        x\n        y\n      }\n    }\n    mainMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n            ... on MenuRecord {\n              links {\n                __typename\n                ... on PageRecord {\n                  id\n                  url\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    homepage {\n      title\n      url\n    }\n    newsPage {\n      title\n      url\n    }\n    footerMenu {\n      links {\n        __typename\n        ... on PageRecord {\n          id\n          url\n          title\n        }\n        ... on MenuRecord {\n          links {\n            __typename\n            ... on PageRecord {\n              id\n              url\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();

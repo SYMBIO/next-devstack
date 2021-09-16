@@ -4,19 +4,20 @@
 
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type appImageBaseFragment = {
+export type appFileFragment = {
     readonly id: string;
-    readonly url: string;
-    readonly width: number | null;
-    readonly height: number | null;
-    readonly alt: string | null;
     readonly title: string | null;
-    readonly " $refType": "appImageBaseFragment";
+    readonly url: string;
+    readonly filename: string;
+    readonly format: string;
+    readonly size: number;
+    readonly customData: unknown | null;
+    readonly " $refType": "appFileFragment";
 };
-export type appImageBaseFragment$data = appImageBaseFragment;
-export type appImageBaseFragment$key = {
-    readonly " $data"?: appImageBaseFragment$data;
-    readonly " $fragmentRefs": FragmentRefs<"appImageBaseFragment">;
+export type appFileFragment$data = appFileFragment;
+export type appFileFragment$key = {
+    readonly " $data"?: appFileFragment$data;
+    readonly " $fragmentRefs": FragmentRefs<"appFileFragment">;
 };
 
 
@@ -25,13 +26,20 @@ const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "appImageBaseFragment",
+  "name": "appFileFragment",
   "selections": [
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
       "name": "id",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "title",
       "storageKey": null
     },
     {
@@ -45,33 +53,33 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "width",
+      "name": "filename",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "height",
+      "name": "format",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "alt",
+      "name": "size",
       "storageKey": null
     },
     {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "title",
+      "name": "customData",
       "storageKey": null
     }
   ],
   "type": "FileField",
   "abstractKey": null
 };
-(node as any).hash = 'b2f6a96b1b7e1f3beb5fee7e3014a86d';
+(node as any).hash = '2f9398e46ce1424182d2d0b875d66b28';
 export default node;
