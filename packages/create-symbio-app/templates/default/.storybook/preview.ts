@@ -1,11 +1,10 @@
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import '@storybook/addon-console';
-import { addDecorator } from '@storybook/react';
-import { withNextRouter } from 'storybook-addon-next-router';
 import '!style-loader!css-loader!sass-loader!../src/styles/global.scss';
 import '!style-loader!css-loader!./custom.css';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 // @ts-ignore
-import ppfTheme from './ppfTheme';
+import theme from './theme';
 import dayjs from 'dayjs';
 import 'dayjs/locale/cs';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -13,7 +12,9 @@ import timeZone from 'dayjs/plugin/timezone';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import calendar from 'dayjs/plugin/calendar';
 import { CALENDAR_FORMATS } from '../src/constants';
-import AppStore from '../src/lib/store/AppStore';
+import AppStore from '@symbio/headless/dist/lib/store/AppStore';
+import { PageProps } from '../src/types/page';
+import { WebSettingsProps } from '../src/types/webSettings';
 
 dayjs.extend(updateLocale);
 dayjs.extend(timeZone);
@@ -22,7 +23,7 @@ dayjs.extend(calendar);
 dayjs.updateLocale('cs', { calendar: CALENDAR_FORMATS['cs'] });
 dayjs.locale('cs');
 
-AppStore.getInstance({
+AppStore.getInstance<PageProps, WebSettingsProps>({
     currentUrl: '/',
     page: {
         id: '14320773',
@@ -32,7 +33,6 @@ AppStore.getInstance({
             { locale: 'en', value: 'homepage' },
         ],
         title: 'Homepage',
-        isLight: false,
         _status: 'published',
         _seoMetaTags: [],
         metaTags: null,
@@ -56,30 +56,22 @@ AppStore.getInstance({
         favicon: null,
         faviconMetaTags: [],
     },
-    mainMenu: {
-        links: [],
+    webSetting: {
+        logo: null,
+        mainMenu: {
+            links: [],
+        },
+        homepage: { title: 'Homepage', url: 'homepage' },
+        newsPage: { title: 'Detail aktuality', url: 'aktualne/:slug' },
+        footerMenu: { links: [] },
     },
-    rightMenu: {
-        links: [],
-    },
-    homepage: { title: 'Homepage', url: 'homepage' },
-    newsPage: { title: 'Detail aktuality', url: 'aktualne/:slug' },
-    pressReleasePage: { title: 'Detail tiskové zprávy', url: 'pro-media/:slug' },
-    insightsPage: { title: 'Insights', url: 'insights' },
-    insightCategoryPage: { title: 'Kategorie insightů', url: 'insight/:slug' },
-    footerMenu: { links: [] },
+    redirect: null,
 });
 
-addDecorator(
-    withNextRouter({
-        path: '/', // defaults to `/`
-        asPath: '/', // defaults to `/`
-        query: {}, // defaults to `{}`
-        push() {} // defaults to using addon actions integration, can override any method in the router
-    })
-);
-
 export const parameters = {
+    nextRouter: {
+        Provider: RouterContext.Provider,
+    },
     viewport: {
         viewports: INITIAL_VIEWPORTS,
         initialViewport: 'iphone6',
@@ -107,6 +99,6 @@ export const parameters = {
         ],
     },
     docs: {
-        theme: ppfTheme,
+        theme,
     },
 };

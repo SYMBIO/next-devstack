@@ -1,6 +1,6 @@
 import { addons } from '@storybook/addons';
-import ppfTheme from './ppfTheme';
+import theme from './theme';
 
 addons.setConfig({
-    theme: ppfTheme,
+    theme,
 });

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useMemo } from 'react';
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -17,11 +17,11 @@ import providers from '../providers';
 import symbio from '../../symbio.config.json';
 import { Logger } from '@symbio/headless/dist/services';
 import { MyPageProps } from '@symbio/headless';
-import { ContextsProvider } from '@symbio/headless/dist/contexts';
 import { getBlocksProps } from '@symbio/headless/dist/lib/blocks/getBlocksProps';
 import { trackPage } from '../utils/gtm';
 import { PageProps } from '../types/page';
 import { WebSettingsProps } from '../types/webSettings';
+import AppStore from '@symbio/headless/dist/lib/store/AppStore';
 
 const PreviewToolbar = dynamic<PreviewToolbarProps>(() =>
     import('../components/primitives/PreviewToolbar/PreviewToolbar').then((mod) => mod.PreviewToolbar),
@@ -32,7 +32,7 @@ const GridHelper = dynamic<unknown>(() =>
 );
 
 const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => {
-    const { hostname, site, page, webSetting, blocksPropsMap, preview } = props;
+    const { hostname, site, page, webSetting, blocksPropsMap, preview, redirect } = props;
     const { gtm, tz } = symbio;
     const item = Array.isArray(blocksPropsMap) && blocksPropsMap.length > 0 ? blocksPropsMap[0].item : undefined;
     const router = useRouter();
@@ -41,6 +41,23 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
         '/' + (router.locale === router.defaultLocale ? '' : router.locale) + router.asPath !== '/'
             ? router.asPath
             : '';
+
+    useEffect(() => {
+        trackPage(currentUrl);
+    }, []);
+
+    const app = useMemo(
+        () => ({
+            currentUrl,
+            hostname,
+            page,
+            site,
+            item,
+            webSetting,
+            redirect,
+        }),
+        [page],
+    );
 
     if (router.isFallback) {
         return <div>Loading...</div>;
@@ -55,29 +72,15 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
     }
     dayjs.tz.setDefault(tz);
 
-    useEffect(() => {
-        trackPage(currentUrl);
-    }, []);
+    AppStore.getInstance<PageProps, WebSettingsProps>(app);
 
     return (
-        <ContextsProvider.Provider
-            value={{
-                appContext: {
-                    currentUrl,
-                    hostname,
-                    page,
-                    site,
-                    item,
-                    absoluteLinks: false,
-                    ...webSetting,
-                },
-            }}
-        >
+        <>
             <Head site={site} page={page} item={item} />
 
             <Layout>
                 <Navbar />
-                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} />}
+                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} app={app} />}
             </Layout>
 
             {preview && page && <PreviewToolbar page={page} item={item} />}
@@ -92,7 +95,7 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
                     }}
                 />
             )}
-        </ContextsProvider.Provider>
+        </>
     );
 };
 

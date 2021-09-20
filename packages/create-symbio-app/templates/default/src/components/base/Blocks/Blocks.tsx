@@ -1,14 +1,18 @@
 import React, { ReactElement } from 'react';
 import getBlockName from '@symbio/headless/dist/utils/getBlockName';
-import blocks from '../../../blocks';
+import { AppContextProps } from '@symbio/headless/dist/types/appContext';
 import { BlocksPropsMap } from '@symbio/headless/dist/types/block';
+import blocks from '../../../blocks';
+import { WebSettingsProps } from '../../../types/webSettings';
+import { PageProps } from '../../../types/page';
 
 export interface BlocksProps {
     blocksData: readonly any[] | null;
     initialProps?: BlocksPropsMap;
+    app: AppContextProps<PageProps, WebSettingsProps>;
 }
 
-export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement => (
+export const Blocks = ({ blocksData, initialProps, app }: BlocksProps): ReactElement => (
     <>
         {blocksData?.map((block, i) => {
             const blockName = getBlockName(block);
@@ -20,7 +24,7 @@ export const Blocks = ({ blocksData, initialProps }: BlocksProps): ReactElement 
             return (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                <BlockComponent key={`block_${i}`} content={block} {...blockInitialProps} />
+                <BlockComponent key={`block_${i}`} content={block} {...blockInitialProps} app={app} />
             );
         })}
     </>

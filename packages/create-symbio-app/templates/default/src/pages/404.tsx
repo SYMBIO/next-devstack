@@ -18,9 +18,10 @@ import { trackPage } from '../utils/gtm';
 import { getBlocksProps } from '@symbio/headless/dist/lib/blocks/getBlocksProps';
 import { PageProps } from '../types/page';
 import { WebSettingsProps } from '../types/webSettings';
+import AppStore from '@symbio/headless/dist/lib/store/AppStore';
 
 const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => {
-    const { hostname, site, page, webSetting, blocksPropsMap } = props;
+    const { hostname, site, page, webSetting, blocksPropsMap, redirect } = props;
     const { gtm, tz } = symbio;
     const router = useRouter();
     const locale = router.locale || router.defaultLocale;
@@ -28,6 +29,19 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
         '/' + (router.locale === router.defaultLocale ? '' : router.locale) + router.asPath !== '/'
             ? router.asPath
             : '';
+
+    useEffect(() => {
+        trackPage(currentUrl);
+    }, []);
+
+    const app = {
+        currentUrl,
+        hostname,
+        page,
+        site,
+        webSetting,
+        redirect,
+    };
 
     if (router.isFallback) {
         return <div>Loading...</div>;
@@ -41,28 +55,15 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
     }
     dayjs.tz.setDefault(tz);
 
-    useEffect(() => {
-        trackPage(currentUrl);
-    }, []);
+    AppStore.getInstance<PageProps, WebSettingsProps>(app);
 
     return (
-        <ContextsProvider.Provider
-            value={{
-                appContext: {
-                    currentUrl,
-                    hostname,
-                    page,
-                    site,
-                    absoluteLinks: false,
-                    ...webSetting,
-                },
-            }}
-        >
-            <Head site={site} page={page}/>
+        <>
+            <Head site={site} page={page} />
 
             <Layout>
                 <Navbar />
-                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} />}
+                {page?.content && <Blocks blocksData={page.content} initialProps={blocksPropsMap} app={app} />}
             </Layout>
 
             {gtm.code && (
@@ -74,7 +75,7 @@ const Page = (props: MyPageProps<PageProps, WebSettingsProps>): ReactElement => 
                     }}
                 />
             )}
-        </ContextsProvider.Provider>
+        </>
     );
 };
 
