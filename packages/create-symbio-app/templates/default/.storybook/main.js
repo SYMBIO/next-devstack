@@ -1,4 +1,3 @@
-const path = require('path');
 const webpack = require('webpack');
 const symbio = require('../symbio.config.json');
 module.exports = {
@@ -6,23 +5,7 @@ module.exports = {
     webpackFinal: async (config) => {
         config.module.rules.push({
             test: /\.scss$/,
-            loaders: [
-                require.resolve('style-loader'),
-                {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                        importLoaders: 1,
-                        modules: {
-                            mode: 'local',
-                            localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                            // localIdentName: '[sha1:hash:hex:4]',
-                            context: path.resolve(__dirname, 'src'),
-                            hashPrefix: 'my-custom-hash',
-                        },
-                    },
-                },
-                require.resolve('sass-loader'),
-            ],
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
         });
 
         config.plugins.push(
@@ -54,5 +37,13 @@ module.exports = {
         '@storybook/addon-backgrounds',
         '@storybook/addon-a11y',
         'storybook-addon-next-router',
+        {
+            name: '@storybook/addon-postcss',
+            options: {
+                postcssLoaderOptions: {
+                    implementation: require('postcss'),
+                },
+            },
+        },
     ],
 };
