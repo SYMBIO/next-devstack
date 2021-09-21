@@ -20,7 +20,10 @@ export const Blocks = ({ blocksData, initialProps, app }: BlocksProps): ReactEle
                 return null;
             }
             const BlockComponent = blocks[blockName];
-            const blockInitialProps = (initialProps && initialProps[i]) || {};
+            const blockInitialProps =
+                initialProps && Object.prototype.hasOwnProperty.call(initialProps, block.id)
+                    ? initialProps[block.id]
+                    : undefined;
             return (
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
