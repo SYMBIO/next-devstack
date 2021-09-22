@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import NextImage, { ImageLoaderProps, ImageProps as NextImageProps } from 'next/image';
 import { ImageInterface } from '@symbio/cms';
-import { ImgixProps } from '../../../types/image';
-import { kebabCase } from '@symbio/headless';
+import { ImgixProps } from '@symbio/headless/dist/types/image';
+import { kebabCase } from '@symbio/headless/utils';
 
 export declare type ImageProps = Omit<NextImageProps, 'src'> & {
     imgixParams?: ImgixProps;
