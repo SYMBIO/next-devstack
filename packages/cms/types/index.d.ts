@@ -113,6 +113,7 @@ export interface ImageInterface {
         readonly x: number | null;
         readonly y: number | null;
     } | null;
+    readonly blurUpThumb?: string | null;
 }
 
 export interface VideoInterface {
