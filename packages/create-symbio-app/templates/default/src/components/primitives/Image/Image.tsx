@@ -1,35 +1,73 @@
 import React, { ReactElement } from 'react';
+import NextImage, { ImageLoaderProps, ImageProps as NextImageProps } from 'next/image';
 import { ImageInterface } from '@symbio/cms';
-import NextImage, { ImageProps as NextImageProps } from 'next/image';
-
-declare const VALID_LAYOUT_VALUES: readonly ['fill', 'fixed', 'intrinsic', 'responsive', undefined];
-declare type LayoutValue = typeof VALID_LAYOUT_VALUES[number];
+import { ImgixProps } from '../../../types/image';
+import { kebabCase } from '@symbio/headless';
 
 export declare type ImageProps = Omit<NextImageProps, 'src'> & {
-    layout?: LayoutValue;
+    imgixParams?: ImgixProps;
 } & (
-        | {
-              image: ImageInterface;
-              src?: never;
-          }
-        | {
-              image?: never;
-              src: string;
-          }
+    | {
+    image: ImageInterface;
+    src?: never;
+}
+    | {
+    image?: never;
+    src: string;
+}
     );
 
+export const serializeImageParams = (
+    obj: ImgixProps,
+    fp?: {
+        readonly x: number | null;
+        readonly y: number | null;
+    } | null,
+    objectFit?: NextImageProps['objectFit'],
+): string => {
+    const str = [];
+    for (const [key, value] of Object.entries(obj)) {
+        if (value) {
+            str.push(encodeURIComponent(kebabCase(key)) + '=' + encodeURIComponent(value));
+        }
+    }
+
+    if (fp && (objectFit !== 'cover' || obj.crop === 'focalpoint')) {
+        if (!obj.fpX && fp.x) {
+            str.push(`fp-x=${encodeURIComponent(fp.x)}`);
+        }
+        if (!obj.fpY && fp.y) {
+            str.push(`fp-y=${encodeURIComponent(fp.y)}`);
+        }
+        if (!obj.crop) {
+            str.push('crop=focalpoint');
+        }
+        if (!obj.fit) {
+            str.push('fit=crop');
+        }
+    }
+
+    return str.join('&');
+};
+
 export const Image = ({
-    image,
-    src,
-    alt,
-    title,
-    layout = 'intrinsic',
-    width,
-    height,
-    blurDataURL,
-    placeholder,
-    ...props
-}: ImageProps): ReactElement | null => {
+                          image,
+                          src,
+                          alt,
+                          title,
+                          layout,
+                          width,
+                          height,
+                          imgixParams,
+                          onContextMenu = (e) => e.preventDefault(),
+                          ...props
+                      }: ImageProps): ReactElement | null => {
+    const params = imgixParams ? serializeImageParams(imgixParams, image?.focalPoint, props.objectFit) : undefined;
+
+    const myLoader = ({ src, width, quality }: ImageLoaderProps) => {
+        return `${src}?auto=format,compress&w=${width}&q=${quality || 75}${params ? `&${params}` : ''}`;
+    };
+
     // 1) if no image is passed, use src and directly next/image
     if (!image?.url) {
         if (src) {
@@ -41,8 +79,9 @@ export const Image = ({
                 layout,
                 ...((typeof width === 'string' || typeof width === 'number') && layout !== 'fill' ? { width } : {}),
                 ...((typeof height === 'string' || typeof height === 'number') && layout !== 'fill' ? { height } : {}),
+                loader: myLoader,
             } as NextImageProps;
-            return <NextImage {...nextImageProps} />;
+            return <NextImage onContextMenu={onContextMenu} {...nextImageProps} />;
         } else {
             return null;
         }
@@ -62,7 +101,9 @@ export const Image = ({
                     layout={layout}
                     width={width}
                     height={height}
-                    {...props}
+                    loader={myLoader}
+                    onContextMenu={onContextMenu}
+                    {...(props as Omit<NextImageProps, 'src'> & { placeholder: 'blur'; blurDataURL: string })}
                 />
             );
         }
@@ -77,7 +118,9 @@ export const Image = ({
                     layout={layout}
                     width={image.width}
                     height={image.height}
-                    {...props}
+                    loader={myLoader}
+                    onContextMenu={onContextMenu}
+                    {...(props as Omit<NextImageProps, 'src'> & { placeholder: 'blur'; blurDataURL: string })}
                 />
             );
         }
@@ -89,8 +132,15 @@ export const Image = ({
             src={image.url}
             alt={alt || image.alt || ''}
             title={title || image.title || undefined}
-            layout={'fill'}
-            {...props}
+            layout={'fill' as ImageProps['layout']}
+            loader={myLoader}
+            onContextMenu={onContextMenu}
+            {...(props as Omit<NextImageProps, 'src'> & {
+                placeholder: 'blur';
+                blurDataURL: string;
+                width: number;
+                height: number;
+            })}
         />
     );
 };

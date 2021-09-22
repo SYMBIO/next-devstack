@@ -1,78 +1,83 @@
-import React, { AnchorHTMLAttributes, DetailedHTMLProps } from 'react';
+import React, { AnchorHTMLAttributes, memo } from 'react';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { UrlObject } from 'url';
-import clsx from 'clsx';
+import { nbsp } from '@symbio/headless/utils';
+import { getHrefFromRoute } from '@symbio/headless/dist/lib/routing/getHrefFromRoute';
 import { getLinkParamsFromPage } from '@symbio/headless/dist/lib/routing/getLinkParamsFromPage';
-import { BasePage } from '@symbio/cms';
-import styles from './Link.module.scss';
+import { Route } from '@symbio/cms';
+import { PageProps } from '../../../types/page';
+import { appRouteFragment } from '../../../relay/__generated__/appRouteFragment.graphql';
 
-export type LinkProps = DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> &
+export type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
     Partial<NextLinkProps> & {
         href?: string | UrlObject;
-        page?: BasePage;
+        page?: Pick<PageProps, 'id' | 'url' | 'title'>;
+        route?: Route<appRouteFragment['object']>;
         params?: Record<string, string | number> | ParsedUrlQuery;
         plain?: boolean;
     };
 
-const Link = ({ className, href, page, locale, params, children, target, plain, ...rest }: LinkProps): JSX.Element => {
-    if (typeof href === 'string') {
-        // if (absoluteLinks && href.substr(0, 1) === '/') {
-        //     href = '//' + hostname + href;
-        // }
+const _Link = ({
+    className,
+    href,
+    page,
+    route,
+    locale,
+    params,
+    children,
+    target,
+    plain,
+    ...rest
+}: LinkProps): JSX.Element => {
+    let realHref = '';
 
+    if (typeof href === 'string') {
         if (!children) {
             throw new Error('Link with href without children!');
         }
+        realHref = href;
+    } else if (page) {
+        realHref = getLinkParamsFromPage(page, params).as;
+    } else if (route) {
+        realHref = getHrefFromRoute(route);
+    }
 
-        if (plain) {
-            return (
-                <a href={href} className={className} target={target} {...rest}>
-                    {children}
-                </a>
-            );
-        }
+    const attrs = {
+        className,
+        target: route && route.isTargetBlank ? '_blank' : target,
+        title: route?.label || route?.title || page?.title || undefined,
+        ...rest,
+    };
 
+    const realChildren = children || route?.label || route?.title || page?.title;
+
+    if (plain || (realHref && realHref.startsWith('http')) || target === '_blank') {
         return (
-            <NextLink href={href} locale={locale}>
-                <a className={clsx(styles.wrapper, className)} target={target} {...rest}>
-                    {children}
-                </a>
-            </NextLink>
+            <a href={realHref} {...attrs}>
+                {typeof realChildren === 'string' ? nbsp(realChildren) : realChildren}
+            </a>
         );
     }
 
-    if (page) {
-        const href = getLinkParamsFromPage(page, params).as;
-
-        // if (absoluteLinks && href.substr(0, 1) === '/') {
-        //     href = '//' + hostname + href;
-        // }
-
-        if (plain) {
-            return (
-                <a href={href} className={className} title={page.title || undefined} target={target} {...rest}>
-                    {children || page.title}
-                </a>
-            );
-        }
-        return (
-            <NextLink href={'/[[...slug]]'} as={href} locale={locale}>
-                <a
-                    className={clsx(styles.wrapper, className)}
-                    title={page.title || undefined}
-                    target={target}
-                    {...rest}
-                >
-                    {children || page.title}
-                </a>
-            </NextLink>
-        );
-    }
-
-    throw new Error('Link without href or page');
+    return (
+        <NextLink href={'/[[...slug]]'} as={realHref} locale={locale} passHref>
+            <a
+                {...attrs}
+                {...rest}
+                onClick={(e) => {
+                    if (typeof attrs.onClick === 'function') {
+                        return attrs.onClick(e);
+                    }
+                    return true;
+                }}
+            >
+                {typeof realChildren === 'string' ? nbsp(realChildren) : realChildren}
+            </a>
+        </NextLink>
+    );
 };
 
-Link.whyDidYouRender = true;
+_Link.whyDidYouRender = true;
 
-export { Link };
+export const Link = memo(_Link);
