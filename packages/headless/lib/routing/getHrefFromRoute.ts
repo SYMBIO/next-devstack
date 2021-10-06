@@ -35,12 +35,12 @@ export function getHrefFromRoute(route: Route<any>): string {
         // link to CMS objects with slug (News, PressRelease, ...)
         const tmp = route.object.__typename.replace(/Record$/, '');
         const pageKey = tmp.charAt(0).toLowerCase() + tmp.slice(1) + 'Page';
-        if (Object.prototype.hasOwnProperty.call(app, pageKey)) {
+        if (Object.prototype.hasOwnProperty.call(app.webSetting, pageKey)) {
             if (
                 Object.prototype.hasOwnProperty.call(route.object, 'slug') &&
                 (route.object as { slug?: string | null }).slug
             ) {
-                return getLinkParamsFromPage((app as never)[pageKey] as BasePage, {
+                return getLinkParamsFromPage((app.webSetting as never)[pageKey] as BasePage, {
                     ...params,
                     slug: (route.object as { slug: string }).slug,
                 }).as;
