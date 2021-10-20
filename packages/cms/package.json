@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms",
-    "version": "1.0.0-canary.65",
+    "version": "1.0.0-canary.66",
     "description": "Abstract adapter for headless CMS for SYMBIO devstack",
     "repository": {
         "type": "git",
@@ -36,7 +36,7 @@
         "babel-plugin-relay": "^11.0.2",
         "concurrently": "^6.2.0",
         "dotenv": "^10.0.0",
-        "next": "^10.2.3",
+        "next": "^11.1.2",
         "rimraf": "^3.0.2"
     }
 }
