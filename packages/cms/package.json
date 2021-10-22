@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms",
-    "version": "1.0.0-canary.67",
+    "version": "1.0.0-canary.68",
     "description": "Abstract adapter for headless CMS for SYMBIO devstack",
     "repository": {
         "type": "git",
