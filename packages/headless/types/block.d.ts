@@ -13,6 +13,7 @@ export interface StaticBlockContext<P extends BasePage, W, PR, L> {
     providers: PR;
     blocks: Record<string, BlockType<P, W, PR, L>>;
     context: GetStaticPropsContext;
+    settings: W;
 }
 
 export interface ServerSideBlockContext<P extends BasePage, W, PR, L> extends StaticBlockContext<P, W, PR, L> {

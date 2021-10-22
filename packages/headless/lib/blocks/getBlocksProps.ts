@@ -80,6 +80,7 @@ export const getBlocksProps = async <P extends BasePage, W, PR extends { page: P
         context,
         providers,
         blocks,
+        props.webSettings
     );
 
     try {
@@ -123,6 +124,7 @@ export function getBlocksPropsPromises<P extends BasePage, W, PR, L>(
     context: GetStaticPropsContext,
     providers: PR,
     blocks: Record<string, BlockType<P, W, PR, L>>,
+    webSetting: W,
 ): BlocksPropsPromisesMap {
     const blocksPropsPromises: BlocksPropsPromisesMap = {};
     if (page?.content && page.content.length > 0) {
@@ -138,6 +140,7 @@ export function getBlocksPropsPromises<P extends BasePage, W, PR, L>(
                         block,
                         providers,
                         blocks,
+                        webSetting
                     });
                 }
             }
