@@ -28,9 +28,6 @@ export default function metricsReport(metric: NextWebVitalsMetric) {
         case 'LCP':
             printCorrectColors(2_500, 4_000, metric.name, metric.value);
             break;
-        case 'TTI':
-            printCorrectColors(3_800, 7_300, metric.name, metric.value);
-            break;
         case 'CLS':
             printCorrectColors(100, 250, metric.name, metric.value);
             break;
