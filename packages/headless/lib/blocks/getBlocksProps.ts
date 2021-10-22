@@ -76,11 +76,11 @@ export const getBlocksProps = async <P extends BasePage, W, PR extends { page: P
 
     const blocksPropsPromises = getBlocksPropsPromises<P, W, PR, L>(
         props.page,
-        (locale as unknown) as L,
+        locale as unknown as L,
         context,
         providers,
         blocks,
-        props.webSettings
+        props.webSetting,
     );
 
     try {
@@ -140,7 +140,7 @@ export function getBlocksPropsPromises<P extends BasePage, W, PR, L>(
                         block,
                         providers,
                         blocks,
-                        webSetting
+                        settings: webSetting,
                     });
                 }
             }
