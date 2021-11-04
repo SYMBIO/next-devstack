@@ -6,7 +6,7 @@ import { FindOperationType, FindResponse, OneOperationType, ProviderOptions } fr
 
 export default class DatoCMSProvider<
     TOne extends OneOperationType,
-    TFind extends FindOperationType
+    TFind extends FindOperationType,
 > extends AbstractProvider {
     protected environment: Record<string, Environment> = {
         preview: createRelayEnvironment({}, true),
@@ -89,9 +89,9 @@ export default class DatoCMSProvider<
     ): Promise<FindResponse<TItem>> {
         const { preview, ...other } = options;
         const variables = {
+            offset: 0,
             ...other,
             limit: Math.min(options.limit, DATOCMS_MAX_LIMIT),
-            offset: 0,
             filter: options.filter ? { ...options.filter, ...this.getFilterParams() } : this.getFilterParams(),
         };
 
