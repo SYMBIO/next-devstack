@@ -92,7 +92,7 @@ export default class DatoCMSProvider<
             offset: 0,
             ...other,
             limit: Math.min(options.limit, DATOCMS_MAX_LIMIT),
-            filter: options.filter ? { ...options.filter, ...this.getFilterParams() } : this.getFilterParams(),
+            filter: options.filter ? { ...this.getFilterParams(), ...options.filter } : this.getFilterParams(),
         };
 
         const result = await fetchQuery<TFind>(this.getEnvironment(preview), this.findNode, variables).toPromise();
