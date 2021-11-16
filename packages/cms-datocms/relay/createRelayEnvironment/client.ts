@@ -6,16 +6,12 @@ import { Logger } from '@symbio/headless/dist/services';
 export const createRelayEnvironment = (records: RecordMap, preview = false): Environment =>
     new Environment({
         network: Network.create(async (operation, variables) => {
-            if (!process.env.DATOCMS_ENDPOINT) {
-                throw new Error('No GraphQL endpoint defined!');
-            }
-
             if (!process.env.DATOCMS_API_TOKEN) {
                 throw new Error('No API token!');
             }
 
             try {
-                const { data } = await axios(process.env.DATOCMS_ENDPOINT + (preview ? 'preview' : ''), {
+                const { data } = await axios('https://graphql.datocms.com/' + (preview ? 'preview' : ''), {
                     data: JSON.stringify({ query: operation.text, variables }),
                     headers: {
                         'Content-Type': 'application/json',
