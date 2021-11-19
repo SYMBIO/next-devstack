@@ -68,7 +68,7 @@ export default class DatoCMSProvider<
                 limit: 1,
                 offset: 0,
                 filter: (options as FindParams<TFind['variables']>).filter
-                    ? { ...(options as FindParams<TFind['variables']>).filter, ...this.getFilterParams() }
+                    ? { ...this.getFilterParams(), ...(options as FindParams<TFind['variables']>).filter }
                     : this.getFilterParams(),
             };
         }
