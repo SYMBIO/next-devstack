@@ -2,7 +2,7 @@ import { useEffect, RefObject } from 'react';
 
 export default function useOutsideMouseClickAlerter(
     ref: RefObject<HTMLElement>,
-    onOutsideClick: (event?: Event) => void,
+    onOutsideClick: (event?: Event) => unknown,
 ) {
     useEffect(() => {
         function handleClickOutside(event: Event) {
