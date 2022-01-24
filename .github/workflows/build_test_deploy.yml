@@ -24,7 +24,7 @@ jobs:
               id: cache-build
               with:
                   path: ./*
-                  key: ${{ github.sha }}
+                  key: ${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}
 
     publishRelease:
         name: Potentially publish release
@@ -37,6 +37,6 @@ jobs:
               id: restore-build
               with:
                   path: ./*
-                  key: ${{ github.sha }}
+                  key: ${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}
 
             - run: ./publish-release.sh
