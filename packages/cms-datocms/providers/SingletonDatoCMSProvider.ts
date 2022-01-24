@@ -15,7 +15,6 @@ export default class SingletonDatoCMSProvider<TOne extends SingletonOperationTyp
 
     public constructor(node: GraphQLTaggedNode, options: ProviderOptions) {
         super(options);
-        this.environment = createRelayEnvironment({}, false);
         this.node = node;
         this.options = options;
     }
