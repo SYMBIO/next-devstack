@@ -1,3 +1,4 @@
+import { BlockType } from '@symbio/headless/dist/types/block';
 import { GetStaticPathsResult } from 'next';
 import { AbstractProvider, AbstractSingletonProvider } from '../providers';
 import { findProvider } from '../utils';
@@ -47,6 +48,15 @@ export interface Provider {
     getId: () => string;
     getApiKey: () => string;
     getStaticPaths: (locale: string, blocks?: Record<string, any>) => Promise<GetStaticPathsResult['paths']>;
+    getPathsToRevalidate?: (
+        item: {
+            id: string;
+            attributes?: Record<string, unknown>;
+        },
+        providers: Record<string, Provider>,
+        blocks: Record<string, any>,
+        i18n: { locales: string[]; defaultLocale: string },
+    ) => Promise<string[]>;
 }
 
 export interface PageProvider<P extends BasePage, W> extends Provider {

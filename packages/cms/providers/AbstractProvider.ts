@@ -115,4 +115,18 @@ export default abstract class AbstractProvider implements Provider {
     async getStaticPaths(locale: string, blocks?: Record<string, any>): Promise<GetStaticPathsResult['paths']> {
         return [];
     }
+
+    async getPathsToRevalidate(
+        item: {
+            id: string;
+            attributes?: Record<string, unknown>;
+            relationships?: Record<string, unknown>;
+            meta?: Record<string, unknown>;
+        },
+        providers: Record<string, any>,
+        blocks: Record<string, any>,
+        i18n: { locales: string[]; defaultLocale: string },
+    ): Promise<string[]> {
+        return [];
+    }
 }

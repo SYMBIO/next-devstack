@@ -1,4 +1,4 @@
-import { AbstractProvider, BaseRecord, CmsItem, FindOneParams, FindParams } from '@symbio/cms';
+import { AbstractProvider, BaseRecord, CmsItem, FindOneParams, FindParams, Provider } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
@@ -164,5 +164,19 @@ export default class DatoCMSProvider<
             }
         }
         return null;
+    }
+
+    async getPathsToRevalidate(
+        item: {
+            id: string;
+            attributes?: Record<string, unknown>;
+            relationships?: Record<string, unknown>;
+            meta?: Record<string, unknown>;
+        },
+        providers: Record<string, Provider>,
+        blocks: Record<string, any>,
+        i18n: { locales: string[]; defaultLocale: string },
+    ): Promise<string[]> {
+        return [];
     }
 }
