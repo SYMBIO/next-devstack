@@ -1,3 +1,5 @@
 import { ConsoleLogger } from './lib/logger/ConsoleLogger';
 
-export const Logger = new ConsoleLogger();
+const Logger = new ConsoleLogger();
+
+export { Logger };

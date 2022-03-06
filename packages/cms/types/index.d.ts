@@ -1,7 +1,7 @@
-import { BlockType } from '@symbio/headless/dist/types/block';
+import { BlockType } from '@symbio/headless';
 import { GetStaticPathsResult } from 'next';
-import { AbstractProvider, AbstractSingletonProvider } from '../providers';
-import { findProvider } from '../utils';
+export * from '../providers';
+export * from '../utils';
 
 export type ItemId = string;
 
@@ -33,10 +33,10 @@ export type CmsAttributes = {
 
 export type CmsItem<T = BaseRecord> = T & CmsAttributes;
 
-export interface FindResponse<T> {
+export type FindResponse<T, TRest = unknown> = {
     count: number;
     data: ReadonlyArray<CmsItem<T>>;
-}
+} & TRest;
 
 export interface ProviderOptions {
     locales: string[];
@@ -47,7 +47,10 @@ export interface ProviderOptions {
 export interface Provider {
     getId: () => string;
     getApiKey: () => string;
-    getStaticPaths: (locale: string, blocks?: Record<string, any>) => Promise<GetStaticPathsResult['paths']>;
+    getStaticPaths: (
+        locale: string,
+        blocks?: Record<string, BlockType<any, any, any, any>>,
+    ) => Promise<GetStaticPathsResult['paths']>;
     getPathsToRevalidate?: (
         item: {
             id: string;
@@ -148,5 +151,3 @@ export type Route<ObjectType> = {
     readonly isTargetBlank?: boolean | null;
     readonly parameters?: string | null;
 };
-
-export { AbstractProvider, AbstractSingletonProvider, findProvider };

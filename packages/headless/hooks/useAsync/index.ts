@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ASYNC_STATES } from '../../constants';
+import { ASYNC_STATES } from '../../lib/constants';
 
 export const useAsync = <T, E = string>(asyncFunction: () => Promise<T>, immediate = true) => {
     const [status, setStatus] = useState<ASYNC_STATES>(ASYNC_STATES.IDLE);

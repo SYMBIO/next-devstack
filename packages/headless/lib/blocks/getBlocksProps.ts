@@ -101,7 +101,7 @@ export const getBlocksProps = async <P extends BasePage, W, PR extends { page: P
             ...((slug && slug.length === 1 && slug[0] === '404') || !!props.page ? {} : { notFound }),
         };
     } catch (e) {
-        if (e.code === 'ENOENT') {
+        if ((e as { code: string }).code === 'ENOENT') {
             return {
                 props: {
                     ...props,

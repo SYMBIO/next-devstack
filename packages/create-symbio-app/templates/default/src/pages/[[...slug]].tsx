@@ -15,7 +15,7 @@ import { PreviewToolbarProps } from '../components/primitives/PreviewToolbar/Pre
 import { CALENDAR_FORMATS } from '../constants';
 import providers from '../providers';
 import symbio from '../../symbio.config.json';
-import { Logger } from '@symbio/headless/dist/services';
+import { Logger } from '@symbio/headless/services';
 import { MyPageProps } from '@symbio/headless';
 import { getBlocksProps } from '@symbio/headless/dist/lib/blocks/getBlocksProps';
 import { trackPage } from '../utils/gtm';

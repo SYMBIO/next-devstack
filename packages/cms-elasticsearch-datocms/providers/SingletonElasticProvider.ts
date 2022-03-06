@@ -1,12 +1,13 @@
+import { ResponseError } from '@elastic/elasticsearch/lib/errors';
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { BaseRecord, CmsItem } from '@symbio/cms';
 import { SingletonDatoCMSProvider, SingletonOperationType } from '@symbio/cms-datocms';
-import { Logger } from '@symbio/headless/dist/services';
+import { Logger } from '@symbio/headless/services';
 import getElastic from '../elastic';
 
 export default abstract class SingletonElasticProvider<
     TOperation extends SingletonOperationType,
-    TItem extends BaseRecord = BaseRecord
+    TItem extends BaseRecord = BaseRecord,
 > extends SingletonDatoCMSProvider<TOperation> {
     /**
      * Get item from elastic search
@@ -202,7 +203,9 @@ export default abstract class SingletonElasticProvider<
                 Logger.log('Done');
             }
         } catch (e) {
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 import { BaseRecord, CmsItem, SingletonBaseRecord } from '@symbio/cms';
 import { Variables } from 'relay-runtime';
-import { DatoCMSProvider, RedirectProvider, SingletonDatoCMSProvider, SiteProvider } from '../providers/index';
+export * from '../providers';
 
 export type DatoCMSRecord = CmsItem<{
     id: string;
@@ -44,5 +44,3 @@ export type FindOperationType = {
     };
     readonly rawResponse?: unknown;
 };
-
-export { DatoCMSProvider, RedirectProvider, SingletonDatoCMSProvider, SiteProvider };

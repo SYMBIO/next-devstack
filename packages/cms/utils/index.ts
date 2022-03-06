@@ -1,3 +1,1 @@
-import { findProvider } from './findProvider';
-
-export { findProvider };
+export { findProvider } from './findProvider';

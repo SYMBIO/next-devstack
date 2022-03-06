@@ -10,7 +10,7 @@ import {
 } from '../types';
 import { GetStaticPathsResult } from 'next';
 
-export default abstract class AbstractProvider implements Provider {
+export default abstract class AbstractProvider<TRest = unknown> implements Provider {
     protected options: ProviderOptions;
 
     public constructor(options: ProviderOptions) {
@@ -35,7 +35,7 @@ export default abstract class AbstractProvider implements Provider {
      */
     abstract findOne<T extends BaseRecord = BaseRecord>(
         options: FindOneParams | FindParams,
-    ): Promise<CmsItem<T> | null>;
+    ): Promise<(CmsItem<T> & TRest) | null>;
 
     /**
      * Transform item of one query into an CmsItem

@@ -1,6 +1,7 @@
+import { ResponseError } from '@elastic/elasticsearch/lib/errors';
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 import { BaseRecord, CmsItem, FindOneParams, FindResponse } from '@symbio/cms';
-import { Logger } from '@symbio/headless/dist/services';
+import { Logger } from '@symbio/headless/services';
 import { DatoCMSProvider, FindOperationType, OneOperationType } from '@symbio/cms-datocms';
 import { Search } from '@elastic/elasticsearch/api/requestParams';
 import getElastic from '../elastic';
@@ -16,13 +17,14 @@ import {
 export default abstract class ElasticProvider<
     TOne extends OneOperationType,
     TFind extends FindOperationType,
-    TItem extends BaseRecord = BaseRecord
+    TItem extends BaseRecord = BaseRecord,
 > extends DatoCMSProvider<TOne, TFind> {
     /**
      * Find items by querying elastic search
      * @param id
      * @param locale
      * @param preview
+     * @param other
      */
     async findOneByElastic<T extends keyof CmsItem<TItem> = keyof CmsItem<TItem>>({
         id,
@@ -81,7 +83,9 @@ export default abstract class ElasticProvider<
             };
         } catch (e) {
             Logger.log('ELASTIC ERROR:', JSON.stringify(search));
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
             return {
                 count: 0,
                 data: [],
@@ -101,6 +105,11 @@ export default abstract class ElasticProvider<
         return undefined;
     }
 
+    /**
+     * Get filters for search query
+     * @param {Record<string, any>} filters
+     * @return {Record<string, any>[]}
+     */
     getFilterForSearch(filters?: Record<string, any>): Record<string, any>[] {
         return [];
     }
@@ -195,7 +204,9 @@ export default abstract class ElasticProvider<
             return result.body.aggregations;
         } catch (e) {
             Logger.log('ELASTIC ERROR:', JSON.stringify(options));
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
             return null;
         }
     }
@@ -409,7 +420,9 @@ export default abstract class ElasticProvider<
                 Logger.log('Done');
             }
         } catch (e) {
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
         }
     }
 
@@ -447,7 +460,9 @@ export default abstract class ElasticProvider<
             await this.indexAll(false, prod);
             Logger.log('Done');
         } catch (e) {
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
         }
     }
 
@@ -660,7 +675,9 @@ export default abstract class ElasticProvider<
                 },
             });
         } catch (e) {
-            Logger.error(e.meta.body.error);
+            if (e instanceof ResponseError) {
+                Logger.error(e.meta.body.error);
+            }
         }
     }
 
