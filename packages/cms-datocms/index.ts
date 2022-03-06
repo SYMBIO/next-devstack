@@ -1,6 +1,7 @@
 import { BaseRecord, CmsItem, SingletonBaseRecord } from '@symbio/cms';
 import { Variables } from 'relay-runtime';
-export * from './providers';
+export * from './providers/index';
+export * from './constants';
 
 export type DatoCMSRecord = CmsItem<{
     id: string;

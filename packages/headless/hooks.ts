@@ -1,1 +1,1 @@
-export * from './hooks/useAsync'
+export * from './hooks/useAsync';

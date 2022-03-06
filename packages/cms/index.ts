@@ -1,6 +1,6 @@
 import { GetStaticPathsResult } from 'next';
-export * from './providers';
-export * from './utils';
+export * from './providers/index';
+export * from './utils/index';
 
 export type ItemId = string;
 

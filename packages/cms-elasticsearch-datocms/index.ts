@@ -1,2 +1,2 @@
-export * from './providers';
-export * from './elastic';
+export * from './providers/index';
+export * from './elastic/index';

@@ -1,5 +1,5 @@
 import { AppData, BasePage } from '@symbio/cms';
-import { BlocksPropsMap } from './lib/blocks';
+import { BlocksPropsMap } from './lib/blocks/index';
 
 export type OmitRefType<T> = Omit<T, ' $refType'>;
 
@@ -30,6 +30,6 @@ export type IndexingRelations = Record<string, Record<string, Array<string>>>;
 
 export * from './cursorContext';
 export * from './lib/constants';
-export * from './lib/blocks';
-export * from './lib/logger';
+export * from './lib/blocks/index';
+export * from './lib/logger/index';
 export { AppStore } from './lib/store/AppStore';
