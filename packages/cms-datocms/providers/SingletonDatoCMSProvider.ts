@@ -1,7 +1,7 @@
 import { AbstractSingletonProvider, SingletonBaseRecord } from '@symbio/cms';
 import { Environment, GraphQLTaggedNode, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
-import { ProviderOptions, SingletonOperationType } from '../types';
+import { ProviderOptions, SingletonOperationType } from '../index';
 
 export default class SingletonDatoCMSProvider<TOne extends SingletonOperationType> extends AbstractSingletonProvider {
     protected environment: Record<string, Environment> = {

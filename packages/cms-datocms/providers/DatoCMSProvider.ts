@@ -2,7 +2,7 @@ import { AbstractProvider, BaseRecord, CmsItem, FindOneParams, FindParams, Provi
 import { Environment, GraphQLTaggedNode, fetchQuery } from 'relay-runtime';
 import { createRelayEnvironment } from '../relay/createRelayEnvironment';
 import { DATOCMS_MAX_LIMIT } from '../constants';
-import { FindOperationType, FindResponse, OneOperationType, ProviderOptions } from '../types';
+import { FindOperationType, FindResponse, OneOperationType, ProviderOptions } from '../index';
 
 export default class DatoCMSProvider<
     TOne extends OneOperationType,
