@@ -11,6 +11,8 @@
     "types": "dist/index.d.ts",
     "files": [
         "dist",
+        "services.js",
+        "services.d.ts",
         "utils.js",
         "utils.d.ts"
     ],
