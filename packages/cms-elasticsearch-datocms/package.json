@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms-elasticsearch-datocms",
-    "version": "1.0.0-canary.83",
+    "version": "1.0.0-canary.84",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
