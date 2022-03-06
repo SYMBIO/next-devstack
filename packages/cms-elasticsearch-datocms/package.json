@@ -69,5 +69,5 @@
     "peerDependencies": {
         "@symbio/cms-datocms": "^1.0.0-canary.27"
     },
-    "gitHead": "9afd188c2c85d90821899a4cc9b5633f90aed590"
+    "gitHead": "70f1e9fa90ef816f72b45814829b9ff181bc3fdc"
 }
