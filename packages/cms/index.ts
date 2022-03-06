@@ -1,6 +1,7 @@
 import { GetStaticPathsResult } from 'next';
-export * from './providers/index';
-export * from './utils/index';
+import AbstractProvider from './providers/AbstractProvider';
+import AbstractSingletonProvider from './providers/AbstractSingletonProvider';
+import { findProvider } from './utils/findProvider';
 
 export type ItemId = string;
 
@@ -147,3 +148,5 @@ export type Route<ObjectType> = {
     readonly isTargetBlank?: boolean | null;
     readonly parameters?: string | null;
 };
+
+export { AbstractProvider, AbstractSingletonProvider, findProvider };
