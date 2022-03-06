@@ -1,5 +1,5 @@
 import { BasePage } from '@symbio/cms';
-import { AppContextProps } from '../../types';
+import { AppContextProps } from '../..';
 
 export class AppStore<P extends BasePage, W> {
     private static instance: AppStore<any, any>;

@@ -1,4 +1,4 @@
-import { Provider, ProviderOptions, CmsItem, SingletonBaseRecord } from '../types';
+import { Provider, ProviderOptions, CmsItem, SingletonBaseRecord } from '../';
 
 export default abstract class AbstractSingletonProvider implements Provider {
     protected options: ProviderOptions;

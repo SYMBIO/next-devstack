@@ -1,6 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { GetStaticPropsContext, NextComponentType, GetStaticPathsResult } from 'next';
-import { ParsedUrlQuery } from 'querystring';
 import { BasePage } from '@symbio/cms';
 
 export * from './getBlocksProps';
@@ -9,17 +8,18 @@ export * from './getStaticParamsFromBlocks';
 export type BlocksPropsPromisesMap = Record<string, Promise<unknown>>;
 export type BlocksPropsMap = Record<string, unknown>;
 
-export interface StaticBlockContext<P extends BasePage, W, PR, L> {
-    locale: L;
+export interface StaticBlockContext<Page extends BasePage, WebSettings, Providers, Locale> {
+    locale: Locale;
     page?: BasePage;
-    block?: NonNullable<P['content']>[number];
-    providers: PR;
-    blocks: Record<string, BlockType<P, W, PR, L>>;
+    block?: NonNullable<Page['content']>[number];
+    providers: Providers;
+    blocks: Record<string, BlockType<Page, WebSettings, Providers, Locale>>;
     context: GetStaticPropsContext;
-    settings: W;
+    settings: WebSettings;
 }
 
-export interface ServerSideBlockContext<P extends BasePage, W, PR, L> extends StaticBlockContext<P, W, PR, L> {
+export interface ServerSideBlockContext<Page extends BasePage, WebSettings, Providers, Locale>
+    extends StaticBlockContext<Page, WebSettings, Providers, Locale> {
     req: IncomingMessage;
     res: ServerResponse;
     basePath: string;
@@ -27,32 +27,31 @@ export interface ServerSideBlockContext<P extends BasePage, W, PR, L> extends St
 
 export type BlockGetServerSideProps<
     Page extends BasePage,
-    W,
-    PR,
-    L,
-    P extends { [key: string]: any } = { [key: string]: any },
-    Q extends ParsedUrlQuery = ParsedUrlQuery
-    > = (context: ServerSideBlockContext<Page, W, PR, L>) => Promise<P>;
+    WebSettings,
+    Providers,
+    Locale,
+    Props extends { [key: string]: any } = { [key: string]: any },
+> = (context: ServerSideBlockContext<Page, WebSettings, Providers, Locale>) => Promise<Props>;
 
 export type BlockGetStaticProps<
     Page extends BasePage,
-    W,
-    PR,
-    L,
-    P extends { [key: string]: any } = { [key: string]: any },
-    Q extends ParsedUrlQuery = ParsedUrlQuery
-    > = (ctx: StaticBlockContext<Page, W, PR, L>) => Promise<P>;
+    WebSettings,
+    Providers,
+    Locale,
+    Props extends { [key: string]: any } = { [key: string]: any },
+> = (ctx: StaticBlockContext<Page, WebSettings, Providers, Locale>) => Promise<Props>;
 
-export type BlockGetStaticPaths<PR, L, P extends GetStaticPathsResult['paths'] = GetStaticPathsResult['paths']> = (
-    locale: L,
-    providers: PR,
-) => Promise<P>;
+export type BlockGetStaticPaths<
+    Providers,
+    Locale,
+    Paths extends GetStaticPathsResult['paths'] = GetStaticPathsResult['paths'],
+> = (locale: Locale, providers: Providers) => Promise<Paths>;
 
-export declare type BlockType<P extends BasePage, W, PR, L> = NextComponentType<
-    ServerSideBlockContext<P, W, PR, L>,
+export declare type BlockType<Page extends BasePage, WebSettings, Providers, Locale> = NextComponentType<
+    ServerSideBlockContext<Page, WebSettings, Providers, Locale>,
     any,
     any
-    > & {
-    getStaticProps?: BlockGetStaticProps<P, W, PR, L>;
-    getStaticPaths?: BlockGetStaticPaths<PR, L>;
+> & {
+    getStaticProps?: BlockGetStaticProps<Page, WebSettings, Providers, Locale>;
+    getStaticPaths?: BlockGetStaticPaths<Providers, Locale>;
 };

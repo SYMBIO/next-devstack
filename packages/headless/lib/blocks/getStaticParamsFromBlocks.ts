@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from 'querystring';
 import { BasePage } from '@symbio/cms';
-import { BlockType } from '../../types/block';
+import { BlockType } from './';
 import getBlockName from '../../utils/getBlockName';
 
 export async function getStaticParamsFromBlocks<P extends BasePage, W, PR, L>(

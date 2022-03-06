@@ -1,13 +1,4 @@
-import {
-    FindParams,
-    CmsItem,
-    ItemId,
-    Provider,
-    ProviderOptions,
-    FindResponse,
-    FindOneParams,
-    BaseRecord,
-} from '../types';
+import { FindParams, CmsItem, ItemId, Provider, ProviderOptions, FindResponse, FindOneParams, BaseRecord } from '../';
 import { GetStaticPathsResult } from 'next';
 
 export default abstract class AbstractProvider<TRest = unknown> implements Provider {

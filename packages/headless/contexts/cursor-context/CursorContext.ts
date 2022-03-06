@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { CursorContextProps } from '../../types/cursorContext';
+import { CursorContextProps } from '../../cursorContext';
 
 export type CursorContextState = unknown;
 

@@ -1,6 +1,6 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { AppData, BasePage, PageProvider } from '@symbio/cms';
-import { BlocksPropsMap, BlocksPropsPromisesMap, BlockType } from '../../types/block';
+import { BlocksPropsMap, BlocksPropsPromisesMap, BlockType } from './';
 import getBlockName from '../../utils/getBlockName';
 
 /**
@@ -24,15 +24,20 @@ function getNormalizedSlug(context: GetStaticPropsContext): string[] {
 /**
  * Get static props for current page and it's blocks
  * @param {GetStaticPropsContext} context
- * @param {Providers} providers
+ * @param providers
  * @param {Record<string, BlockType>} blocks
  * @param ssg
  * @returns {Promise<GetStaticPropsResult<{[p: string]: unknown}>>}
  */
-export const getBlocksProps = async <P extends BasePage, W, PR extends { page: PageProvider<P, W> }, L>(
+export const getBlocksProps = async <
+    Page extends BasePage,
+    WebSettings,
+    Providers extends { page: PageProvider<Page, WebSettings> },
+    Locale,
+>(
     context: GetStaticPropsContext,
-    providers: PR,
-    blocks: Record<string, BlockType<P, W, PR, L>>,
+    providers: Providers,
+    blocks: Record<string, BlockType<Page, WebSettings, Providers, Locale>>,
     ssg: {
         staticGeneration: boolean;
         revalidate: boolean | number;
@@ -74,9 +79,9 @@ export const getBlocksProps = async <P extends BasePage, W, PR extends { page: P
         };
     }
 
-    const blocksPropsPromises = getBlocksPropsPromises<P, W, PR, L>(
+    const blocksPropsPromises = getBlocksPropsPromises<Page, WebSettings, Providers, Locale>(
         props.page,
-        locale as unknown as L,
+        locale as unknown as Locale,
         context,
         providers,
         blocks,
