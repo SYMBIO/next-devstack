@@ -173,8 +173,8 @@ export default class DatoCMSProvider<
             relationships?: Record<string, unknown>;
             meta?: Record<string, unknown>;
         },
-        providers: Record<string, Provider>,
-        blocks: Record<string, any>,
+        providers: any,
+        blocks: any,
         i18n: { locales: string[]; defaultLocale: string },
     ): Promise<string[]> {
         return [];
