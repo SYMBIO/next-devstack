@@ -11,10 +11,11 @@
     "types": "dist/index.d.ts",
     "files": [
         "dist",
+        "types",
         "services.js",
         "services.d.ts",
         "utils.js",
-        "utils.d.ts"
+        "utils.d.ts",
     ],
     "scripts": {
         "build": "rimraf dist && tsc --declaration --outDir dist --declarationDir dist",
