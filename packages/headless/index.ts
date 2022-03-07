@@ -33,6 +33,9 @@ export * from './lib/constants';
 export * from './lib/blocks';
 export * from './lib/logger';
 export * from './lib/routing';
+export * from './hooks/useAsync';
+export * from './hooks/useDimension';
+export * from './hooks/useOutsideClick';
 export { AppStore } from './lib/store/AppStore';
 
 type ImgixParamsAuto = 'enhance' | 'format' | 'redeye' | 'compress';
