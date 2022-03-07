@@ -1,6 +1,6 @@
 {
     "name": "@symbio/headless",
-    "version": "1.0.0-canary.100",
+    "version": "1.0.0-canary.101",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
@@ -15,7 +15,7 @@
         "services.js",
         "services.d.ts",
         "utils.js",
-        "utils.d.ts",
+        "utils.d.ts"
     ],
     "scripts": {
         "build": "rimraf dist && tsc --declaration --outDir dist --declarationDir dist",
