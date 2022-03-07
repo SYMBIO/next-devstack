@@ -1,6 +1,6 @@
 {
     "name": "create-symbio-app",
-    "version": "1.0.0-canary.103",
+    "version": "1.0.0-canary.104",
     "description": "Create SYMBIO apps with one command",
     "keywords": [
         "react",
