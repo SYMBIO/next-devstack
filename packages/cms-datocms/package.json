@@ -44,8 +44,6 @@
         "slugify": "^1.6.5"
     },
     "devDependencies": {
-        "@babel/cli": "^7.17.6",
-        "@babel/core": "^7.17.5",
         "@graphql-codegen/cli": "^2.6.2",
         "@graphql-codegen/introspection": "^2.1.1",
         "@graphql-codegen/schema-ast": "^2.4.1",
@@ -56,8 +54,6 @@
         "@types/relay-runtime": "^12.0.2",
         "@typescript-eslint/eslint-plugin": "^5.13.0",
         "@typescript-eslint/parser": "^5.13.0",
-        "babel-loader": "^8.2.3",
-        "babel-plugin-relay": "^12.0.0",
         "concurrently": "^7.0.0",
         "dotenv": "^16.0.0",
         "relay-compiler": "^12.0.0",
