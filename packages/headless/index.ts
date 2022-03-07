@@ -36,7 +36,9 @@ export * from './lib/routing';
 export * from './hooks/useAsync';
 export * from './hooks/useDimension';
 export * from './hooks/useOutsideClick';
-export { AppStore } from './lib/store/AppStore';
+
+import AppStore from './lib/store/AppStore';
+export { AppStore };
 
 type ImgixParamsAuto = 'enhance' | 'format' | 'redeye' | 'compress';
 

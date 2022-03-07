@@ -12,6 +12,7 @@
     "files": [
         "dist",
         "types",
+        "scripts",
         "services.js",
         "services.d.ts",
         "utils.js",
