@@ -13,6 +13,7 @@
         "dist",
         "types",
         "scripts",
+        "data",
         "services.js",
         "services.d.ts",
         "utils.js",

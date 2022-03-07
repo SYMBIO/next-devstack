@@ -6,6 +6,8 @@ import { {BLOCK_NAME}_content } from './__generated__/{BLOCK_NAME}_content.graph
 import { {COMPONENT_NAME} } from '../../components/blocks/{COMPONENT_NAME}/{COMPONENT_NAME}';
 import { PageProps } from '../../types/page';
 import { WebSettingsProps } from '../../types/webSettings';
+import { Providers } from '../../types/providers';
+import { Locale } from '../../types/locale';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface {BLOCK_NAME}StaticProps {}
@@ -36,7 +38,7 @@ if (typeof window === 'undefined') {
     {BLOCK_NAME}.getStaticProps = async ({
         locale,
         providers,
-    }: StaticBlockContext): Promise<{BLOCK_NAME}StaticProps> => {
+    }: StaticBlockContext<PageProps, WebSettingsProps, Providers, Locale>): Promise<{BLOCK_NAME}StaticProps> => {
         const provider = providers.x;
 
         return {};

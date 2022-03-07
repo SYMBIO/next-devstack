@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { {NAME} as {NAME}Component, {NAME}I } from './{NAME}';
 import { Story } from '@storybook/react/types-6-0';
 
-export default {
+const config = {
     component: {NAME}Component,
     title: '{FOLDER}/{NAME}',
     argTypes: {
@@ -17,3 +16,5 @@ export default {
 const Template: Story<{NAME}I> = (args) => <{NAME}Component {...args} />;
 
 export const {NAME} = Template.bind({});
+
+export default config;
