@@ -91,7 +91,7 @@ export default class DatoCMSProvider<
         const variables = {
             offset: 0,
             ...other,
-            limit: Math.min(options.limit, DATOCMS_MAX_LIMIT),
+            limit: Math.min(options.limit || DATOCMS_MAX_LIMIT, DATOCMS_MAX_LIMIT),
             filter: options.filter ? { ...this.getFilterParams(), ...options.filter } : this.getFilterParams(),
         };
 
