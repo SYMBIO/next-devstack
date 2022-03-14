@@ -7,10 +7,12 @@ dotenv.config();
 
 const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
 
-client.itemTypes.all().then(async (items) => {
+export async function generateModels() {
+    const items = await client.itemTypes.all();
     const data = items.reduce((acc, curr) => {
         acc[curr.apiKey] = curr.id;
         return acc;
     }, {});
-    await fs.promises.writeFile('./src/models.json', JSON.stringify(data));
-});
+}
+
+generateModels();

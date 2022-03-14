@@ -1,37 +1,40 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const models = require('../../../../../src/models.json');
+const { generateModels } = require('./generateModels');
 const fs = require('fs');
 
 dotenv.config();
 
 const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
 
-client.items
-    .all(
-        {
-            'filter[type]': models.string,
-            version: 'current',
-        },
-        {
-            allPages: true,
-        },
-    )
-    .then(async (items) => {
-        const data = {};
-        for (const item of items.sort((a, b) => a.key < b.key)) {
-            for (const locale in item.value) {
-                if (!data.hasOwnProperty(locale)) {
-                    data[locale] = {};
-                }
+generateModels().then(() => {
+    const models = require(`${appDir}/src/models.json`);
 
-                data[locale][item.key] = item.value[locale];
+    client.items
+        .all(
+            {
+                'filter[type]': models.string,
+                version: 'current',
+            },
+            {
+                allPages: true,
+            },
+        )
+        .then(async (items) => {
+            const data = {};
+            for (const item of items.sort((a, b) => a.key < b.key)) {
+                for (const locale in item.value) {
+                    if (!data.hasOwnProperty(locale)) {
+                        data[locale] = {};
+                    }
+
+                    data[locale][item.key] = item.value[locale];
+                }
             }
-        }
-        await fs.promises.writeFile(
-            './src/strings.ts',
-            `/* eslint-disable */
+            await fs.promises.writeFile(
+                './src/strings.ts',
+                `/* eslint-disable */
 import symbio from '../symbio.config.json';
 const data: Record<string, Record<string, string>> = ${JSON.stringify(data, undefined, '    ')};
 
@@ -52,5 +55,6 @@ export default function trans(key: string, locale = symbio.i18n.defaultLocale): 
     return data[locale][key] || data.cs[key] || key;
 }
 `,
-        );
-    });
+            );
+        });
+});
