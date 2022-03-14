@@ -1,8 +1,10 @@
 /* eslint-disable */
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
-const { generateModels } = require('./generateModels');
 const fs = require('fs');
+const { dirname } = require('path');
+const appDir = dirname(require.main.filename);
+const { generateModels } = require('./generateModels');
 
 dotenv.config();
 
@@ -10,7 +12,7 @@ const client = new SiteClient(process.env.DATOCMS_API_TOKEN_FULL);
 
 generateModels().then(() => {
     const models = require(`${appDir}/src/models.json`);
-
+    console.log('Downloading strings from DatoCMS');
     client.items
         .all(
             {
@@ -32,8 +34,10 @@ generateModels().then(() => {
                     data[locale][item.key] = item.value[locale];
                 }
             }
+            const path = `${appDir}/src/strings.ts`;
+            console.log(`Writing strings to ${path}`);
             await fs.promises.writeFile(
-                './src/strings.ts',
+                path,
                 `/* eslint-disable */
 import symbio from '../symbio.config.json';
 const data: Record<string, Record<string, string>> = ${JSON.stringify(data, undefined, '    ')};
@@ -56,5 +60,6 @@ export default function trans(key: string, locale = symbio.i18n.defaultLocale): 
 }
 `,
             );
+            console.log('Done');
         });
 });

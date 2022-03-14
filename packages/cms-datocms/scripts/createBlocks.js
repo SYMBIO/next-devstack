@@ -30,7 +30,7 @@ generateModels().then(() => {
         fs.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.stories.tsx.tpl'),
     ]).then(([blockTemplate, componentTemplate, scssTemplate, storiesTemplate]) => {
         const createBlockTemplate = async (blockName, componentName, fields) => {
-            const dir = `./src/blocks/${blockName}`;
+            const dir = `${path}/src/blocks/${blockName}`;
             try {
                 await fs.access(dir, fs.constants.R_OK);
             } catch (e) {
@@ -113,7 +113,7 @@ generateModels().then(() => {
         };
 
         const createComponentTemplate = async (componentName) => {
-            const dir = `./src/components/blocks/${componentName}`;
+            const dir = `${path}/src/components/blocks/${componentName}`;
             try {
                 await fs.access(dir, fs.constants.R_OK);
             } catch (e) {
@@ -155,7 +155,7 @@ generateModels().then(() => {
                     }
                     names.sort();
                     await fs.writeFile(
-                        './src/blocks/index.ts',
+                        `${path}/src/blocks/index.ts`,
                         `/**
  * Import blocks which should be included in SSR
  */
@@ -210,7 +210,7 @@ export default blocks;
 `,
                     );
                     await fs.writeFile(
-                        './src/blocks/server.ts',
+                        `${path}/src/blocks/server.ts`,
                         `/**
  * Import blocks which should be included in SSR
  */
