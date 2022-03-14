@@ -2,8 +2,7 @@
 const dotenv = require('dotenv');
 const SiteClient = require('datocms-client').SiteClient;
 const fs = require('fs');
-const { dirname } = require('path');
-const appDir = dirname(require.main.filename);
+const appDir = process.cwd();
 const { generateModels } = require('./generateModels');
 
 dotenv.config();
