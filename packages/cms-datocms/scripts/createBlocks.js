@@ -23,10 +23,10 @@ const toCamel = (s) => {
 generateModels().then(() => {
     const models = require(`${appDir}/src/models.json`);
     Promise.all([
-        fs.readFile('node_modules/@symbio/headless/dist/data/blockTemplate/Block.tsx.tpl'),
-        fs.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.tsx.tpl'),
-        fs.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.module.scss.tpl'),
-        fs.readFile('node_modules/@symbio/headless/dist/data/componentTemplate/Component.stories.tsx.tpl'),
+        fs.readFile('node_modules/@symbio/headless/data/blockTemplate/Block.tsx.tpl'),
+        fs.readFile('node_modules/@symbio/headless/data/componentTemplate/Component.tsx.tpl'),
+        fs.readFile('node_modules/@symbio/headless/data/componentTemplate/Component.module.scss.tpl'),
+        fs.readFile('node_modules/@symbio/headless/data/componentTemplate/Component.stories.tsx.tpl'),
     ]).then(([blockTemplate, componentTemplate, scssTemplate, storiesTemplate]) => {
         const createBlockTemplate = async (blockName, componentName, fields) => {
             const dir = `${path}/src/blocks/${blockName}`;
