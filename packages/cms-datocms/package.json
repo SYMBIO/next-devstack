@@ -1,6 +1,6 @@
 {
     "name": "@symbio/cms-datocms",
-    "version": "1.0.0-canary.112",
+    "version": "1.0.0-canary.113",
     "description": "SYMBIO Next.js Devstack",
     "repository": {
         "type": "git",
