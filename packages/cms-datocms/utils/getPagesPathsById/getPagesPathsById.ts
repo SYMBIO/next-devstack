@@ -27,7 +27,7 @@ export default async function getPagesPathsById(
             for (const locale of locales) {
                 const url = page._allUrlLocales?.find((ul: any) => ul?.locale === locale);
                 if (url) {
-                    paths.push(`${locale === defaultLocale ? '' : `/${locale}`}/${page.url.replace(/^homepage$/, '')}`);
+                    paths.push(`${locale === defaultLocale ? '' : `/${locale}`}/${url.replace(/^homepage$/, '')}`);
                 }
             }
         }
