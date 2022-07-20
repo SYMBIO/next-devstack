@@ -70,6 +70,7 @@ export default class DatoCMSProvider<
                 filter: (options as FindParams<TFind['variables']>).filter
                     ? { ...this.getFilterParams(), ...(options as FindParams<TFind['variables']>).filter }
                     : this.getFilterParams(),
+                locale,
             };
         }
 
